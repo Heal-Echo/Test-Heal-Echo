@@ -1,0 +1,492 @@
+/* ─── Font Faces ─── */
+@font-face { font-family: 'NotoSans'; font-weight: 400; src: url('../fonts/NotoSans-Regular.ttf') format('truetype'); }
+@font-face { font-family: 'NotoSans'; font-weight: 500; src: url('../fonts/NotoSans-Medium.ttf') format('truetype'); }
+@font-face { font-family: 'NotoSans'; font-weight: 600; src: url('../fonts/NotoSans-SemiBold.ttf') format('truetype'); }
+@font-face { font-family: 'NotoSans'; font-weight: 900; src: url('../fonts/NotoSans-Black.ttf') format('truetype'); }
+@font-face { font-family: 'PlayfairDisplay'; font-weight: 400; src: url('../fonts/PlayfairDisplay-Regular.ttf') format('truetype'); }
+@font-face { font-family: 'PlayfairDisplay'; font-weight: 900; src: url('../fonts/PlayfairDisplay-Black.ttf') format('truetype'); }
+
+:root {
+  --color-text: #000;
+  --color-bg: #fff;
+  --color-primary: #00D6F5;
+  --font-sans: 'NotoSans', sans-serif;
+  --font-serif: 'PlayfairDisplay', serif;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --color-text: #fff;
+    --color-bg: #000;
+  }
+}
+
+/* ─── 공통 기본 ─── */
+body {
+  margin: 0;
+  padding-top: 60px; /* 헤더 높이만큼 본문 아래로 */
+  font-family: var(--font-sans);
+  background-color: var(--color-bg);
+  color: var(--color-text);
+  line-height: 1.6;
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 16px;
+}
+
+/* ─── 헤더 & 네비게이션 ─── */
+.header {
+  background-color: var(--color-bg);
+  position: fixed;
+  top: 0; left: 0;
+  width: 100%;
+  z-index: 1000;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+.header-inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 60px;
+}
+.logo-link {
+  display: flex;
+  align-items: center;
+  text-decoration: none;
+}
+.logo-image {
+  width: 40px; height: 40px;
+  object-fit: cover;
+  border-radius: 50%;
+}
+.logo-text {
+  margin-left: 10px;
+  font-family: var(--font-serif);
+  font-weight: 900;
+  font-size: 1.25rem;
+}
+.nav-menu {
+  display: flex;
+  align-items: center;
+  gap: 0;
+}
+.nav-menu a {
+  padding: 8px 16px;
+  text-decoration: none;
+  color: var(--color-text);
+}
+.login-link {
+  border-radius: 36px;
+  padding: 0 13px;
+  background-color: var(--color-primary);
+  color: #000 !important; 
+  font-weight: 500;
+  font-size: 1rem;
+  font-family: var(--font-sans);
+}
+
+/* ─── 일기 페이지 본문 ─── */
+.auto-balance-frame {
+  display: flex;
+  flex-direction: column;
+  width: 700px;
+  align-items: center;
+  padding: 0 0 20px;
+  background-color: #fff;
+  margin: 0 auto;
+}
+
+.auto-balance-frame .frame {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 5px;
+  width: 100%;
+  margin-top: 98px;
+}
+
+.auto-balance-frame .div-wrapper {
+  display: flex;
+  width: 700px;
+  align-items: center;
+  justify-content: center;
+  padding: 5px 0px;
+  background-color: #fff;
+}
+
+.auto-balance-frame .text-wrapper {
+  font-family: "Noto Sans-Black", Helvetica;
+  font-weight: 900;
+  font-size: 24px;
+  text-align: center;
+  color: #000;
+  margin: -1px auto 0;
+  white-space: nowrap;
+}
+
+.auto-balance-frame .div {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 19px;
+  padding: 10px 20px;
+  width: 100%;
+  background-color: #fff;
+}
+
+.auto-balance-frame .text-wrapper-2 {
+  font-family: "Noto Sans-Black", Helvetica;
+  font-weight: 900;
+  font-size: 20px;
+  color: #000;
+}
+
+.auto-balance-frame .frame-wrapper {
+  display: flex;
+  height: 175px;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+  padding: 0 15px;
+  width: 100%;
+}
+
+.auto-balance-frame .element-wrapper {
+  display: flex;
+  width: 645px;
+  align-items: center;
+  padding: 7px 38px;
+  background-color: #fff;
+  border-radius: 20px;
+  box-shadow: 5px 5px 5px rgba(0,0,0,0.25);
+}
+
+.auto-balance-frame .element {
+  font-family: "Noto Sans-Medium", Helvetica;
+  font-weight: 500;
+  font-size: 14px;
+  color: #000;
+}
+
+.auto-balance-frame .frame-2 {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  padding: 0 16px;
+  width: 100%;
+  margin-bottom: -13px;
+}
+
+.auto-balance-frame .frame-3 {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 5px;
+  padding: 10px 16px;
+  width: 660px;
+  border: 1px solid #000;
+  border-radius: 10px;
+}
+
+.auto-balance-frame .frame-4 {
+  display: flex;
+  align-items: center;
+  justify-content: center; /* 중앙→왼쪽 정렬으로 변경 */
+  gap: 0px;
+  width: 100%;
+}
+
+.auto-balance-frame .icon-play {
+  width: 40px;
+  height: 40px;
+  object-fit: contain;
+  margin-right: 25px;
+}
+
+/* ─── Stop 아이콘 크기 ─── */
+.auto-balance-frame .icon-stop {
+  width: 40px;
+  height: 40px;
+  object-fit: contain;
+  margin-right: 50px;
+}
+
+/* ─── progress bar 기본 스타일 ─── */
+.auto-balance-frame .progress-bar {
+  width: 200px;    /* 원하는 너비 지정 */
+  height: 8px;     /* 바 높이 */
+  -webkit-appearance: none; /* 브라우저 기본 스타일 해제 */
+  appearance: none;
+  border: 1px solid #000;   /* 테두리 */
+  border-radius: 4px;
+  overflow: hidden;
+  background-color: #fff;
+}
+
+/* ─── progress 내부 채워진 부분 ─── */
+.auto-balance-frame .progress-bar::-webkit-progress-value {
+  background-color: var(--color-primary);
+}
+.auto-balance-frame .progress-bar::-moz-progress-bar {
+  background-color: var(--color-primary);
+}
+
+.auto-balance-frame .text-wrapper-3,
+.auto-balance-frame .text-wrapper-4,
+.auto-balance-frame .text-wrapper-5 {
+  font-family: "Noto Sans-Regular", Helvetica;
+  font-size: 14px;
+  letter-spacing: 4.9px;
+  color: #000;
+}
+
+/* 기존 .text-wrapper 규칙을 찾은 뒤, 아래 속성 추가 */
+.auto-balance-frame .text-wrapper {
+  font-family: "Noto Sans-Black", Helvetica;
+  font-weight: 900;
+  font-size: 24px;
+  text-align: center;
+  color: #000;
+  margin: -1px 0 0 -105px;
+
+  /* 아래 한 줄 속성 추가 */
+  white-space: nowrap;
+}
+
+
+.auto-balance-frame .frame-5 {
+  display: flex;
+  align-items: center;
+  gap: 40px;
+}
+
+.auto-balance-frame .previous {
+  width: 35px; height: 35px;
+  object-fit: cover;
+}
+
+.auto-balance-frame .frame-6 {
+  display: flex;                    /* 가로 정렬 */
+  flex-direction: column;
+  justify-content: center;          /* 중앙 정렬 */
+  align-items: center;
+  gap: 10px;                        /* 아이콘 ↔ 텍스트 간격 */
+  width: 100%;
+  padding: 7px 0;
+  background-color: #fff;
+  border-radius: 20px;
+}
+
+/* month-header: 이전 버튼 + 연·월 한 줄 중앙 정렬 */
+.auto-balance-frame .month-header {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;   /* 버튼 ↔ 텍스트 간격 */
+  width: 100%;
+}
+
+/* nav-icon(prev) 크기 및 클릭 커서 */
+.auto-balance-frame .nav-icon.prev {
+  width: 24px;
+  height: 24px;
+  cursor: pointer;
+}
+
+/* 이전/다음 아이콘 크기 및 클릭 가능 표시 */
+.auto-balance-frame .nav-icon {
+  width: 24px;
+  height: 24px;
+  cursor: pointer;
+}
+
+.auto-balance-frame .text-wrapper-6 {
+  font-family: "Noto Sans-Black", Helvetica;
+  font-weight: 900;
+  font-size: 16px;
+  color: #000;
+}
+
+.auto-balance-frame .frame-7 {
+  display: flex;
+  gap: 45px;
+  width: 636px;
+  margin: 0 -4px;
+}
+
+.auto-balance-frame .frame-8 {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  width: 636px;
+}
+
+.auto-balance-frame .frame-9 {
+  display: flex;
+  gap: 10px;
+  width: 639px;
+  margin-right: -3px;
+}
+
+.auto-balance-frame .p {
+  font-family: "Noto Sans-Regular", Helvetica;
+  font-size: 14px;
+  letter-spacing: 40.46px;
+  color: #000;
+}
+
+.auto-balance-frame .frame-10 {
+  display: flex;
+  gap: 49px;
+  width: 100%;
+}
+
+.auto-balance-frame .ellipse {
+  width: 45px; height: 45px;
+  border: 1px solid #000;
+  border-radius: 50%;
+  display: flex; 
+  justify-content: center;
+  align-items: center;
+  color: #000;
+}
+
+.auto-balance-frame .frame-11 {
+  display: inline-flex;
+  gap: 10px;
+  margin-right: -11px;
+}
+
+.auto-balance-frame .text-wrapper-7 {
+  font-family: "Noto Sans-Regular", Helvetica;
+  font-size: 14px;
+  letter-spacing: 24.92px;
+  color: #000;
+}
+
+.auto-balance-frame .frame-12 {
+  width: 660px; height: 496px;
+  border: 1px solid #000;
+  border-radius: 10px;
+}
+
+/* 주 단위 날짜 컨테이너 */
+.auto-balance-frame .calendar-week {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 20px;
+  width: 100%;
+}
+
+/* 날짜 한 칸(cell) */
+.auto-balance-frame .date-cell {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* 동그라미 */
+.auto-balance-frame .date-cell .ellipse {
+  width: 45px;
+  height: 45px;
+  border: 1px solid #000;
+  border-radius: 50%;
+}
+
+/* 날짜 숫자 */
+.auto-balance-frame .date-cell .date-number {
+  margin-top: 5px;
+  font-family: "Noto Sans-Regular", Helvetica;
+  font-size: 14px;
+  color: #000;
+}
+
+/* 오늘 날짜 표시(배경 컬러) */
+.auto-balance-frame .date-cell .ellipse.selected {
+  background-color: var(--color-primary);
+}
+
+/* 7열 그리드: 요일·원·숫자 세트 정렬 */
+.auto-balance-frame .calendar-grid {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  width: 100%;
+}
+.auto-balance-frame .date-column {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 5px;
+}
+.auto-balance-frame .day-label {
+  font-size: 14px;
+}
+.auto-balance-frame .date-column .ellipse {
+  width: 45px; height: 45px;
+  border: 1px solid #000;
+  border-radius: 50%;
+}
+.auto-balance-frame .date-column .ellipse.selected {
+  background-color: var(--color-primary);
+}
+.auto-balance-frame .date-number {
+  font-size: 14px;
+}
+
+/* ─── Diary Editor (Frame 12) ─── */
+.auto-balance-frame .frame-12 {
+  width: 660px;
+  height: 496px;
+  border: 1px solid #000;
+  border-radius: 10px;
+  padding: 12px;
+  box-sizing: border-box;
+  background: #fff;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.editor-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+#selectedDateLabel {
+  font-weight: 700;
+}
+
+.muted {
+  color: #6b7280;
+  margin-left: 8px;
+}
+
+#diaryEditor {
+  flex: 1;
+  width: 100%;
+  resize: none;
+  border: 1px solid #000;
+  border-radius: 8px;
+  padding: 12px;
+  font-size: 14px;
+  line-height: 1.6;
+  outline: none;
+}
+
+.btn-ghost {
+  background: transparent;
+  border: 1px solid #000;
+  border-radius: 20px;
+  padding: 6px 12px;
+  cursor: pointer;
+}
+
+.date-column .ellipse.clickable { cursor: pointer; }
+.date-column .ellipse.selected { background-color: var(--color-primary); }

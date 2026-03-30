@@ -1,0 +1,573 @@
+/* src/app/mypage/settings/subscription/cancel/cancel.module.css */
+
+.container {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  max-width: 480px;
+  margin: 0 auto;
+  background-color: #ffffff;
+  position: relative;
+}
+
+.main {
+  flex: 1;
+  padding: 0 0 24px;
+  box-sizing: border-box;
+}
+
+.tabPadding {
+  height: 72px;
+}
+
+/* ── 상단 네비 ── */
+.topBar {
+  display: flex;
+  align-items: center;
+  padding: 12px 16px;
+  gap: 8px;
+}
+
+.backBtn {
+  width: 36px;
+  height: 36px;
+  border: none;
+  background: none;
+  color: #374151;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  transition: background 0.15s ease;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.backBtn:hover {
+  background: #f3f4f6;
+}
+
+.pageTitle {
+  flex: 1;
+  font-size: 17px;
+  font-weight: 700;
+  color: #1f2937;
+  margin: 0;
+  text-align: center;
+}
+
+.topBarSpacer {
+  width: 36px;
+}
+
+/* ══════════════════════════════════════════
+   Step 1 — 해지 사유 선택
+   ══════════════════════════════════════════ */
+.step1Section {
+  padding: 24px 20px;
+}
+
+.stepTitle {
+  font-size: 20px;
+  font-weight: 800;
+  color: #1f2937;
+  margin: 0 0 6px;
+  letter-spacing: -0.3px;
+}
+
+.stepSub {
+  font-size: 13px;
+  color: #9ca3af;
+  margin: 0 0 24px;
+  line-height: 1.5;
+}
+
+.reasonList {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-bottom: 24px;
+}
+
+.reasonItem {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 14px 16px;
+  border: 1.5px solid #e5e7eb;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.reasonItem:hover {
+  border-color: #d1d5db;
+  background: #fafafa;
+}
+
+.reasonItemSelected {
+  border-color: #6366f1;
+  background: #f5f3ff;
+}
+
+.reasonRadio {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  border: 2px solid #d1d5db;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.15s ease;
+}
+
+.reasonRadioSelected {
+  border-color: #6366f1;
+}
+
+.reasonRadioDot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: #6366f1;
+}
+
+.reasonText {
+  font-size: 14px;
+  color: #374151;
+  line-height: 1.4;
+}
+
+/* 기타 자유 입력 */
+.otherInput {
+  width: 100%;
+  margin-top: 10px;
+  padding: 12px 14px;
+  border: 1.5px solid #e5e7eb;
+  border-radius: 10px;
+  font-size: 14px;
+  color: #374151;
+  outline: none;
+  transition: border-color 0.15s ease;
+  resize: vertical;
+  min-height: 60px;
+  font-family: inherit;
+}
+
+.otherInput:focus {
+  border-color: #6366f1;
+}
+
+.otherInput::placeholder {
+  color: #d1d5db;
+}
+
+.nextBtn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  padding: 14px 24px;
+  border-radius: 12px;
+  border: none;
+  background: #6366f1;
+  color: #ffffff;
+  font-size: 15px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.nextBtn:disabled {
+  background: #e5e7eb;
+  color: #9ca3af;
+  cursor: default;
+}
+
+.nextBtn:not(:disabled):hover {
+  background: #4f46e5;
+}
+
+/* ══════════════════════════════════════════
+   Step 2 — 사유별 맞춤 화면
+   ══════════════════════════════════════════ */
+.step2Section {
+  padding: 24px 20px;
+}
+
+.step2TopMsg {
+  font-size: 15px;
+  font-weight: 600;
+  color: #374151;
+  margin: 0 0 16px;
+  line-height: 1.6;
+}
+
+.step2Question {
+  font-size: 14px;
+  color: #4b5563;
+  margin: 0 0 10px;
+  line-height: 1.6;
+}
+
+.feedbackInput {
+  width: 100%;
+  padding: 12px 14px;
+  border: 1.5px solid #e5e7eb;
+  border-radius: 10px;
+  font-size: 14px;
+  color: #374151;
+  outline: none;
+  transition: border-color 0.15s ease;
+  resize: vertical;
+  min-height: 80px;
+  font-family: inherit;
+  margin-bottom: 20px;
+}
+
+.feedbackInput:focus {
+  border-color: #6366f1;
+}
+
+.feedbackInput::placeholder {
+  color: #d1d5db;
+}
+
+/* 메시지 카드 (no_time) */
+.messageCard {
+  background: #f9fafb;
+  border-radius: 12px;
+  padding: 20px 16px;
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+.messageCardText {
+  font-size: 14px;
+  color: #374151;
+  line-height: 1.7;
+  margin: 0;
+}
+
+.messageCardData {
+  font-size: 13px;
+  color: #6366f1;
+  font-weight: 600;
+  margin: 8px 0 0;
+}
+
+/* 잃게 되는 것 (just_trying, other) */
+.lossCard {
+  background: #f9fafb;
+  border: 1px solid #f3f4f6;
+  border-radius: 12px;
+  padding: 20px 16px;
+  margin-bottom: 20px;
+}
+
+.lossTitle {
+  font-size: 14px;
+  font-weight: 700;
+  color: #374151;
+  margin: 0 0 14px;
+  text-align: center;
+}
+
+.lossList {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.lossItem {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 13px;
+  color: #4b5563;
+  line-height: 1.4;
+}
+
+.lossIcon {
+  font-size: 16px;
+  flex-shrink: 0;
+  width: 22px;
+  text-align: center;
+}
+
+.lossEmpty {
+  font-size: 14px;
+  color: #9ca3af;
+  text-align: center;
+  padding: 8px 0;
+  line-height: 1.6;
+}
+
+/* CTA 버튼 영역 */
+.step2Cta {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-top: 8px;
+}
+
+.primaryBtn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  padding: 14px 24px;
+  border-radius: 12px;
+  border: none;
+  background: linear-gradient(135deg, #00d6f5, #8a2be2);
+  color: #ffffff;
+  font-size: 15px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  box-shadow: 0 4px 16px rgba(138, 43, 226, 0.3);
+  -webkit-tap-highlight-color: transparent;
+}
+
+.primaryBtn:hover {
+  box-shadow: 0 6px 24px rgba(138, 43, 226, 0.4);
+  transform: translateY(-1px);
+}
+
+.primaryBtn:active {
+  transform: scale(0.97);
+}
+
+.primaryBtn:disabled {
+  background: #e5e7eb;
+  color: #9ca3af;
+  box-shadow: none;
+  cursor: default;
+  transform: none;
+}
+
+.secondaryBtn {
+  display: block;
+  width: 100%;
+  padding: 12px;
+  border: none;
+  background: none;
+  color: #9ca3af;
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  text-align: center;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.secondaryBtn:hover {
+  color: #6b7280;
+}
+
+/* ══════════════════════════════════════════
+   Step 3 — 최종 확인
+   ══════════════════════════════════════════ */
+.step3Section {
+  padding: 24px 20px;
+}
+
+.confirmBox {
+  background: #fef2f2;
+  border: 1px solid #fecaca;
+  border-radius: 12px;
+  padding: 20px 16px;
+  margin-bottom: 20px;
+}
+
+.confirmText {
+  font-size: 14px;
+  color: #374151;
+  line-height: 1.7;
+  margin: 0;
+}
+
+.checkboxRow {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  margin-bottom: 24px;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.checkbox {
+  width: 20px;
+  height: 20px;
+  border: 2px solid #d1d5db;
+  border-radius: 4px;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.15s ease;
+  margin-top: 1px;
+}
+
+.checkboxChecked {
+  border-color: #ef4444;
+  background: #ef4444;
+}
+
+.checkboxMark {
+  color: #ffffff;
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.checkboxLabel {
+  font-size: 13px;
+  color: #6b7280;
+  line-height: 1.5;
+}
+
+.step3Cta {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.dangerBtn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  padding: 14px 24px;
+  border-radius: 12px;
+  border: none;
+  background: #ef4444;
+  color: #ffffff;
+  font-size: 15px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.dangerBtn:disabled {
+  background: #fecaca;
+  color: #f9a8a8;
+  cursor: default;
+}
+
+.dangerBtn:not(:disabled):hover {
+  background: #dc2626;
+}
+
+.dangerBtn:not(:disabled):active {
+  transform: scale(0.97);
+}
+
+/* ══════════════════════════════════════════
+   해지 완료 / 처리 중 / 오류
+   ══════════════════════════════════════════ */
+.statusSection {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 80px 20px;
+  text-align: center;
+}
+
+.spinner {
+  width: 36px;
+  height: 36px;
+  border: 3px solid #e5e7eb;
+  border-top-color: #6366f1;
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+  margin-bottom: 20px;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+.successIcon {
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #10b981, #059669);
+  color: #ffffff;
+  font-size: 28px;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 20px;
+}
+
+.errorIcon {
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #f87171, #ef4444);
+  color: #ffffff;
+  font-size: 28px;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 20px;
+}
+
+.statusTitle {
+  font-size: 18px;
+  font-weight: 700;
+  color: #1f2937;
+  margin: 0 0 8px;
+}
+
+.statusDesc {
+  font-size: 14px;
+  color: #6b7280;
+  margin: 0;
+  line-height: 1.6;
+}
+
+.statusSub {
+  font-size: 13px;
+  color: #9ca3af;
+  margin: 8px 0 0;
+}
+
+.statusCta {
+  margin-top: 24px;
+}
+
+.statusBtn {
+  padding: 12px 32px;
+  border-radius: 10px;
+  border: none;
+  background: linear-gradient(135deg, #00d6f5, #8a2be2);
+  color: #ffffff;
+  font-size: 14px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.statusBtn:hover {
+  transform: translateY(-1px);
+}
+
+.retryBtn {
+  padding: 12px 32px;
+  border-radius: 10px;
+  border: none;
+  background: #6366f1;
+  color: #ffffff;
+  font-size: 14px;
+  font-weight: 700;
+  cursor: pointer;
+  margin-top: 24px;
+}

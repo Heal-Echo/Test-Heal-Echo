@@ -1,0 +1,79 @@
+/* miraclereset.css (스코프 버전) */
+
+/* Join Today */
+.mr .join-today { margin-top: 100px; }
+.mr .join-today-text{
+  font-family:'NotoSans',sans-serif; font-weight:600; font-size:18px;
+  color:#FF69B4; text-align:center; margin:0;
+}
+
+/* 진행 솔루션 카드 */
+.mr .pill-title{
+  display:inline-block; padding:6px 14px; border-radius:999px;
+  background: var(--color-primary); color:#000; font-weight:900; margin-bottom:10px;
+  font-family: var(--font-serif);
+}
+.mr .surface-card{
+  width:min(900px, 90%); margin:16px auto 0; background: var(--surface);
+  border-radius:24px; border:1px solid var(--border); padding:20px; box-shadow: var(--shadow);
+}
+.mr .two-col{ display:grid; grid-template-columns:1.2fr .8fr; gap:8px; align-items:center; margin-top:2%; }
+.mr .two-col img{ border-radius:12px; box-shadow: var(--shadow); width:130%; height:auto; max-width:none; }
+@media(max-width:960px){ .mr .two-col{ grid-template-columns:1fr; } }
+.mr .list{ margin:0; padding-left:18px; }
+.mr .list li{ margin:6px 0; position:relative; }
+.mr .list li::before{ content:"✓"; color:var(--color-primary); font-weight:bold; margin-right:8px; }
+.mr .note{ text-align:center; color:#d12a2a; font-weight:800; margin-top:10px; }
+
+/* 프로그램 효과(캐러셀) */
+.mr section[aria-label="프로그램 효과"]{ padding-top: clamp(32px, 6vw, 72px); margin-top:0; }
+
+/* (섹션 공통 머리말 – 이 페이지에서만 사용) */
+.mr .section-head{ text-align:center; margin-bottom:20px; }
+.mr .section-head h2{ font-family:var(--font-serif); font-weight:900; font-size:clamp(22px,3vw,32px); margin:0 0 6px; }
+.mr .section-head p{ margin:0; color:#5b5b5b; }
+@media (prefers-color-scheme: dark){ .mr .section-head p{ color:#bdbdbd; } }
+
+/* 캐러셀 */
+.mr .he-carousel{ position:relative; }
+.mr .he-track{
+  display:flex; gap:16px; overflow-x:auto; scroll-snap-type:x mandatory; -webkit-overflow-scrolling:touch;
+  padding-bottom:6px; scrollbar-width:none;
+}
+.mr .he-track::-webkit-scrollbar{ display:none; }
+.mr .he-slide{ min-width: min(540px, 88vw); scroll-snap-align:start; }
+
+/* 카드 */
+.mr .he-result-card{
+  border:1px solid var(--border, rgba(0,0,0,0.08));
+  border-radius:16px; overflow:hidden; background: var(--color-bg, #fff); box-shadow: var(--shadow, 0 8px 24px rgba(0,0,0,.08));
+}
+@media (prefers-color-scheme: dark){ .mr .he-result-card{ border-color:rgba(255,255,255,.12); } }
+.mr .he-result-media img{ display:block; width:100%; height:auto; aspect-ratio:16/9; object-fit:cover; background:#fff; }
+.mr .he-result-body{ padding:14px; display:grid; gap:8px; }
+.mr .he-result-title{ margin:0; font-size:clamp(18px,1.8vw,20px); font-weight:700; }
+.mr .he-kpi{
+  display:block; width:100%; text-align:left; padding:8px 14px; border-radius:999px;
+  background:var(--color-primary,#00D6F5); color:#000; font-weight:900; font-size:14px; box-sizing:border-box; margin-top:4px;
+}
+.mr .he-result-desc{ margin:0; font-size:.95rem; opacity:.95; }
+.mr .he-source{ margin:.5rem 0 0; font-size:14px; color:#5b5b5b; }
+@media (prefers-color-scheme: dark){ .mr .he-source{ color:#bdbdbd; } }
+
+/* 화살표 */
+.mr .he-arrow{
+  position:absolute; top:50%; transform:translateY(-50%);
+  border:0; background:rgba(0,0,0,.4); color:#fff; width:36px; height:36px; border-radius:50%;
+  cursor:pointer; z-index:5;
+}
+.mr .he-arrow:hover{ background:rgba(0,0,0,.55); }
+.mr .he-arrow.prev{ left:6px; }
+.mr .he-arrow.next{ right:6px; }
+
+/* 포커스 & 비고 */
+.mr .he-track:focus-visible, .mr .he-arrow:focus-visible{ outline:2px solid var(--color-primary,#00D6F5); outline-offset:2px; }
+.mr .he-results-note{ margin:10px 0 0; text-align:center; font-size:13px; color:#5b5b5b; }
+@media (prefers-color-scheme: dark){ .mr .he-results-note{ color:#bdbdbd; } }
+
+/* 접근성 보조 */
+.mr .slider-viewport:focus-visible, .mr .slider-btn:focus-visible{ outline:2px solid var(--color-primary); outline-offset:2px; }

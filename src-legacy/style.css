@@ -1,0 +1,215 @@
+/* src/style.css (정리본) */
+
+/* ─── Font Faces ─── */
+@font-face { font-family: 'NotoSans'; font-weight: 400; src: url('../fonts/NotoSans-Regular.ttf') format('truetype'); }
+@font-face { font-family: 'NotoSans'; font-weight: 500; src: url('../fonts/NotoSans-Medium.ttf') format('truetype'); }
+@font-face { font-family: 'NotoSans'; font-weight: 600; src: url('../fonts/NotoSans-SemiBold.ttf') format('truetype'); }
+@font-face { font-family: 'NotoSans'; font-weight: 900; src: url('../fonts/NotoSans-Black.ttf') format('truetype'); }
+@font-face { font-family: 'PlayfairDisplay'; font-weight: 400; src: url('../fonts/PlayfairDisplay-Regular.ttf') format('truetype'); }
+@font-face { font-family: 'PlayfairDisplay'; font-weight: 900; src: url('../fonts/PlayfairDisplay-Black.ttf') format('truetype'); }
+
+/* ─── CSS Variables ─── */
+:root{
+  --color-text:#000; --color-bg:#fff;
+  --color-primary:#00D6F5; --color-secondary:#8A2BE2; --color-tertiary:#FF69B4;
+  --font-sans:'NotoSans',sans-serif; --font-serif:'PlayfairDisplay',serif;
+  --surface:#f7f7f9; --border:#e8e8ef; --shadow:0 8px 24px rgba(0,0,0,.08);
+}
+@media (prefers-color-scheme: dark){
+  :root{ --color-text:#fff; --color-bg:#000; --surface:#111214; --border:#24252a; --shadow:0 12px 28px rgba(0,0,0,.45); }
+}
+
+/* ─── Global ─── */
+body{ margin:0; padding:0; font-family:var(--font-sans); background:var(--color-bg); color:var(--color-text); line-height:1.6; }
+.container{ max-width:1200px; margin:0 auto; padding:0 16px; }
+
+/* 구분선 */
+.section-divider{
+  border:none; height:2px;
+  background:linear-gradient(90deg,transparent 0%,var(--color-primary) 20%,var(--color-primary) 80%,transparent 100%);
+  margin:60px auto; max-width:1000px; opacity:.6;
+}
+@media (prefers-color-scheme: dark){ .section-divider{ opacity:.8; } }
+
+/* ─── Header (공통 헤더는 header.css에 스타일이 있음. 여기 기본 토큰만) ─── */
+.btn{ display:inline-flex; align-items:center; justify-content:center; padding:10px 16px; border-radius:999px; font-weight:700; border:1px solid transparent; text-decoration:none; }
+.btn-primary{ background:var(--color-primary); color:#000; }
+.btn-ghost{ border:1px solid rgba(0,0,0,.08); color:var(--color-text); }
+@media (prefers-color-scheme: dark){ .btn-ghost{ border-color:rgba(255,255,255,.15); } }
+
+/* ─── Hero ─── */
+.hero{ background:linear-gradient(180deg,rgba(0,0,0,.02),rgba(0,0,0,0)); padding:clamp(48px,8vw,96px) 0; }
+.hero-grid{ display:grid; grid-template-columns:.95fr 1.05fr; gap:24px; align-items:center; }
+.eyebrow{ color:var(--color-tertiary); font-weight:800; letter-spacing:.02em; margin:0 0 6px; }
+.hero h1{ font-family:var(--font-serif); font-weight:900; font-size:clamp(28px,4vw,44px); line-height:1.15; margin:0 0 10px; }
+.hero p{ font-size:1rem; color:#5b5b5b; margin:0 0 14px; }
+@media (prefers-color-scheme: dark){ .hero p{ color:#bdbdbd; } }
+.hero-cta{ display:flex; gap:10px; flex-wrap:wrap; }
+.hero-img{ border-radius:16px; box-shadow:var(--shadow); }
+@media (max-width:980px){ .hero-grid{ grid-template-columns:1fr; } .hero-cta{ justify-content:flex-start; } }
+
+/* ─── Programs ─── */
+.programs{ padding:60px 0; }
+.section-title{ font-family:var(--font-serif); font-weight:900; font-size:2rem; text-align:center; margin-bottom:40px; }
+.program-list{ display:grid; grid-template-columns:repeat(auto-fit,minmax(240px,1fr)); gap:24px; }
+.program-card{ background:var(--color-bg); border:2px solid #fff; border-radius:8px; padding:0; text-align:center; font-weight:600; font-size:1rem; transition:transform .3s, border-color .3s; overflow:hidden; }
+.program-image{ position:relative; width:100%; height:100%; cursor:pointer; }
+.program-image img{ width:100%; height:auto; display:block; }
+.program-overlay{ position:absolute; top:0; left:0; right:0; padding:30px; background:linear-gradient(to bottom,rgba(0,0,0,.7) 0%,rgba(0,0,0,0) 100%); color:#fff; }
+.program-overlay h3{ margin:0; font-size:1.1rem; text-shadow:1px 1px 3px rgba(0,0,0,.5); white-space:nowrap; overflow:hidden; text-overflow:ellipsis; text-align:center; }
+.program-card:hover{ transform:scale(1.02); box-shadow:0 8px 20px rgba(0,0,0,.15); border-color:var(--color-primary); }
+.program-cta{ text-align:center; margin-top:54px; }
+.program-cta .btn{ display:inline-block; padding:12px 24px; font-size:1rem; font-weight:600; text-decoration:none; border-radius:4px; margin:0; }
+.btn-pink{ background:#FF69B4; color:#000; }
+
+/* 반응형 배치 */
+@media (min-width:600px) and (max-width:1023px){
+  .program-list{ grid-template-columns:repeat(2,1fr); column-gap:24px; justify-content:center; }
+  .program-card{ max-width:calc(240px * 1.3); width:100%; margin:0 auto; }
+}
+@media (min-width:1024px){
+  .program-list{ grid-template-columns:repeat(3,minmax(240px,1fr)); column-gap:24px; justify-content:center; }
+  .program-card{ max-width:calc(240px * 1.3); width:100%; margin:0 auto; }
+}
+@media (max-width:599px){
+  .program-list{ grid-template-columns:1fr; justify-content:center; }
+  .program-card{ max-width:calc(240px * 1.3); width:100%; margin:0 auto; }
+}
+
+/* ─── Empathy ─── */
+.empathy-section{ margin:40px 0; }
+.empathy-frame{
+  width:70%; max-width:900px; margin:0 auto;
+  border:2px solid #00D6F5; border-radius:24px; padding:clamp(24px,4vw,40px);
+  background:var(--color-bg); box-shadow:0 8px 20px rgba(0,0,0,.08);
+  display:flex; flex-direction:column; align-items:center; gap:clamp(48px,8vw,80px);
+}
+.empathy-item{ display:flex; flex-direction:column; align-items:center; text-align:center; gap:16px; width:100%; }
+.empathy-avatar{ width:clamp(80px,10vw,120px); height:clamp(80px,10vw,120px); border-radius:50%; overflow:hidden; border:3px solid #00D6F5; box-shadow:0 4px 12px rgba(0,0,0,.1); }
+.empathy-avatar img{ width:100%; height:100%; object-fit:cover; }
+.empathy-text{ font-family:var(--font-sans); font-size:clamp(16px,1.4vw,18px); line-height:1.6; color:var(--color-text); margin:0; text-align:center; }
+.strong-text{ font-family:'NotoSans',sans-serif; font-weight:900; font-size:28px; line-height:1; color:var(--color-text); white-space:pre-line; }
+.visually-hidden{ position:absolute !important; height:1px; width:1px; overflow:hidden; clip:rect(1px,1px,1px,1px); white-space:nowrap; }
+@media (max-width:768px){ .empathy-frame{ width:90%; max-width:none; padding:20px; gap:24px; } .strong-text{ font-size:16px; } }
+
+/* ─── Why Heal Echo ─── */
+.why-section{ margin:clamp(40px,6vw,80px) 0; scroll-margin-top:90px; }
+.why-head{ text-align:center; display:grid; gap:6px; margin-bottom:24px; }
+.why-head .section-title{ margin-bottom:4px; }
+.why-sub{ margin:0; font-size:1.05rem; opacity:.9; }
+.why-grid{ display:grid; grid-template-columns:1fr; gap:24px; align-items:center; padding:clamp(18px,3vw,28px); border:1px solid rgba(0,0,0,.08); border-radius:20px; background:linear-gradient(180deg,rgba(0,0,0,.03),rgba(0,0,0,0)); }
+@media (prefers-color-scheme: dark){ .why-grid{ border-color:rgba(255,255,255,.15); } }
+.why-text{ display:grid; gap:12px; }
+.why-list{ list-style:none; margin:0; padding:0; display:grid; gap:16px; }
+.why-item{ display:grid; gap:8px; }
+.why-point{ margin:0; font-size:clamp(18px,1.8vw,20px); font-weight:800; line-height:1.25; }
+.why-desc{ margin:0; font-size:.97rem; line-height:1.7; opacity:.95; }
+.why-media{ margin:0; padding:0; border-radius:16px; overflow:hidden; box-shadow:0 6px 16px rgba(0,0,0,.06); border:1px solid rgba(0,0,0,.06); background:var(--color-bg); }
+@media (prefers-color-scheme: dark){ .why-media{ border-color:rgba(255,255,255,.12); } }
+.why-media img{ display:block; width:100%; height:auto; aspect-ratio:4/3; object-fit:cover; }
+.why-point:first-child{ display:inline-block; padding:6px 14px; border-radius:999px; background:#00D6F5; color:#000; font-weight:800; width:fit-content; margin-bottom:16px; }
+.why-highlights{ margin-top:8px; display:grid; grid-template-columns:1fr; gap:12px; list-style:none; padding:0; }
+.highlight{ display:grid; grid-template-rows:auto auto auto; align-items:start; gap:6px; padding:16px 18px; border:1px solid rgba(0,0,0,.08); border-radius:16px; background:linear-gradient(180deg,rgba(0,0,0,.02),rgba(0,0,0,0)); box-shadow:0 6px 16px rgba(0,0,0,.05); transition:transform .18s ease, box-shadow .18s ease, border-color .18s ease; outline:none; }
+@media (prefers-color-scheme: dark){ .highlight{ border-color:rgba(255,255,255,.15); background:linear-gradient(180deg,rgba(255,255,255,.03),rgba(255,255,255,0)); box-shadow:0 8px 18px rgba(0,0,0,.35); } }
+.highlight:focus-visible,.highlight:hover{ transform:translateY(-2px); box-shadow:0 10px 22px rgba(0,0,0,.08); border-color:var(--color-primary); }
+.highlight-icon{ width:36px; height:36px; border-radius:999px; display:inline-flex; align-items:center; justify-content:center; background:var(--color-primary); color:#000; }
+.highlight-title{ font-weight:800; font-size:clamp(16px,1.6vw,18px); line-height:1.35; }
+@media (min-width:1024px){ .why-highlights{ grid-template-columns:repeat(3,1fr); gap:16px; } .highlight{ min-height:160px; padding:18px 20px; } }
+@media (min-width:600px) and (max-width:1023px){ .why-highlights{ grid-template-columns:repeat(2,1fr); } }
+
+/* ─── Member’s Benefit ─── */
+.benefit-section{ margin:clamp(40px,6vw,80px) 0; scroll-margin-top:90px; }
+.benefit-head{ text-align:center; display:grid; gap:6px; margin-bottom:24px; }
+.benefit-grid{ display:grid; grid-template-columns:1fr; gap:24px; align-items:center; padding:clamp(18px,3vw,28px); border:1px solid rgba(0,0,0,.08); border-radius:20px; background:linear-gradient(180deg,rgba(0,0,0,.03),rgba(0,0,0,0)); }
+@media (prefers-color-scheme: dark){ .benefit-grid{ border-color:rgba(255,255,255,.15); } }
+.benefit-media{ margin:0; padding:0; border-radius:16px; overflow:hidden; box-shadow:0 6px 16px rgba(0,0,0,.06); border:1px solid rgba(0,0,0,.06); background:var(--color-bg); }
+@media (prefers-color-scheme: dark){ .benefit-media{ border-color:rgba(255,255,255,.12); } }
+.benefit-media img{ display:block; width:100%; height:auto; aspect-ratio:4/3; object-fit:cover; transform:scaleX(-1); }
+.benefit-right{ display:grid; gap:12px; }
+.benefit-cards{ list-style:none; margin:0; padding:0; display:grid; grid-template-columns:1fr; gap:14px; }
+@media (min-width:1024px){ .benefit-cards{ grid-template-columns:repeat(3,1fr); } }
+@media (min-width:600px) and (max-width:1023px){ .benefit-cards{ grid-template-columns:repeat(2,1fr); } }
+.benefit-card{ display:grid; gap:8px; padding:16px 18px; border:1px solid rgba(0,0,0,.08); border-radius:16px; background:linear-gradient(180deg,rgba(0,0,0,.02),rgba(0,0,0,0)); box-shadow:0 6px 16px rgba(0,0,0,.05); transition:transform .18s ease, box-shadow .18s ease, border-color .18s ease; outline:none; }
+@media (prefers-color-scheme: dark){ .benefit-card{ border-color:rgba(255,255,255,.15); } }
+.benefit-card:hover,.benefit-card:focus-visible{ transform:translateY(-2px); box-shadow:0 10px 22px rgba(0,0,0,.08); border-color:var(--color-primary); }
+.benefit-card-top{ display:flex; align-items:center; gap:10px; }
+.benefit-icon{ width:34px; height:34px; border-radius:999px; display:inline-flex; align-items:center; justify-content:center; background:var(--color-primary); color:#000; flex-shrink:0; }
+.benefit-title{ margin:0; font-weight:800; font-size:clamp(16px,1.6vw,18px); line-height:1.35; }
+.benefit-desc{ margin:0; font-size:.95rem; opacity:.92; }
+.benefit-cards .benefit-card:nth-child(1) .benefit-icon{ background:var(--color-primary); color:#000; }
+.benefit-cards .benefit-card:nth-child(2) .benefit-icon{ background:var(--color-secondary); color:#fff; }
+.benefit-cards .benefit-card:nth-child(3) .benefit-icon{ background:var(--color-tertiary); color:#000; }
+.benefit-note{ margin:6px 0 0 0; font-size:.95rem; text-align:left; opacity:.9; }
+@media (max-width:1024px){ .benefit-grid{ grid-template-columns:1fr; } .benefit-media{ order:-1; } }
+
+/* ─── Bella ─── */
+.bella-section{ margin:clamp(40px,6vw,80px) 0; scroll-margin-top:90px; }
+.bella-top{ text-align:center; margin-bottom:24px; }
+.bella-top .eyebrow{ color:#FF69B4; font-size:1rem; font-weight:800; letter-spacing:.03em; margin:0; }
+.bella-grid{ display:grid; grid-template-columns:1.1fr .9fr; gap:24px; align-items:center; padding:clamp(18px,3vw,28px); border:1px solid rgba(0,0,0,.08); border-radius:20px; background:linear-gradient(180deg,rgba(0,0,0,.03),rgba(0,0,0,0)); }
+@media (prefers-color-scheme: dark){ .bella-grid{ border-color:rgba(255,255,255,.15); } }
+.bella-media{ margin:0; padding:0; border-radius:16px; overflow:hidden; box-shadow:0 6px 16px rgba(0,0,0,.06); border:1px solid rgba(0,0,0,.06); background:var(--color-bg); }
+@media (prefers-color-scheme: dark){ .bella-media{ border-color:rgba(255,255,255,.12); } }
+.bella-media img{ display:block; width:auto; height:auto; max-width:100%; }
+.bella-text{ display:grid; gap:12px; }
+.bella-text .section-title{ margin:20px 0 12px 0; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+.bella-lines{ display:inline-block; margin-left:auto; margin-right:auto; text-align:left; font-size:clamp(18px,1.8vw,20px); font-weight:800; line-height:1.5; white-space:pre-line; }
+@media (max-width:1024px){ .bella-grid{ grid-template-columns:1fr; } .bella-media{ order:-1; } }
+
+/* ─── Footer ─── */
+.footer{ padding:24px 0; text-align:center; font-size:.875rem; }
+.footer-content p{ margin:0; }
+
+/* Introduction (Video Only + Overlay Click Toggle, Safe) */
+.intro-section{
+  padding:64px 0;
+  background:#0f0f10;
+  color:#fff;
+  text-align:center;
+}
+
+
+/* 비디오 래퍼: 오버레이 배치 기준. 컨트롤이 잘리지 않도록 overflow:visible */
+.intro-video{
+  position: relative;
+  /* overflow:hidden;  ← 제거 */
+  background:#000;
+  max-width:900px;
+  margin:0 auto;
+}
+
+/* 비디오 자체에 라운드 적용 (컨테이너가 아니라 영상에 직접) */
+#introVideo{
+  cursor:pointer;
+  width:100%;
+  height:auto;
+  display:block;
+  border:none;
+  outline:none;
+  border-radius:16px;       /* ← 여기서 둥글게 */
+  overflow:hidden;          /* 일부 브라우저에서 경계 처리 보조 */
+}
+
+/* 중앙 작은 클릭 영역: 컨트롤을 가리지 않도록 가운데만 활성화 */
+.video-overlay-center{
+  position:absolute;
+  z-index:2;
+  /* 가운데 60% 영역만 클릭 받음 (좌우/상하 20% 여백) */
+  top:20%;
+  left:20%;
+  width:60%;
+  height:60%;
+  background:transparent;
+  border:0;
+  padding:0;
+  margin:0;
+  cursor:pointer;
+}
+
+/* 모바일에서 컨트롤이 더 커도 상단/하단은 여백이 있어 충돌 적음 */
+@media (max-width:480px){
+  .video-overlay-center{ top:22%; height:56%; }
+}
+
+
+

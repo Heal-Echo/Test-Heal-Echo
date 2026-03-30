@@ -1,0 +1,1030 @@
+/* =========================================================
+   LOGIN PAGE — 좌우 분할 레이아웃 (LEFT BRAND + RIGHT FORM)
+========================================================= */
+
+/* 페이지 전체 래퍼
+   ※ 100dvh: 모바일 키보드가 올라올 때 실제 화면 높이 반영
+   ※ 100vh 폴백: dvh 미지원 브라우저 대응
+   ※ align-items: flex-start → mainContent가 전체 높이까지 늘어나는 것 방지 */
+.loginPage {
+    min-height: 100vh;
+    min-height: 100dvh;
+    padding: 0;
+    background-color: var(--color-bg);
+    color: var(--color-text);
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    overflow-x: hidden;
+  }
+
+  /* 메인 컨텐츠: 좌우 분할 — stretch로 좌우 패널 높이 동기화
+     ※ 높이 기준 = 우측 폼 카드 (좌측에 min-height 없으므로 폼이 기준) */
+  .mainContent {
+    width: 100%;
+    max-width: 1080px;
+    margin-top: 64px; /* 헤더 높이만큼 */
+    display: flex;
+    align-items: stretch;
+    padding: 0 24px 12px;
+    box-sizing: border-box;
+    gap: 24px;
+  }
+
+  /* =========================================================
+     LEFT FRAME — 브랜드 비주얼 영역
+  ========================================================= */
+  /* 좌측 패널: 너비 45% 비율, 높이는 부모 stretch로 우측 폼과 동기화
+     ※ min-height 없음 — 높이 기준은 우측 폼 카드가 결정 */
+  .leftFrame {
+    flex: 0 0 45%;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    border-radius: 24px;
+    background: linear-gradient(
+      135deg,
+      rgba(0, 214, 245, 0.9) 0%,
+      rgba(138, 43, 226, 0.85) 50%,
+      rgba(255, 105, 180, 0.8) 100%
+    );
+  }
+
+  /* 배경 이미지 — Next.js Image fill 모드가 position: absolute + inset: 0 자동 적용
+     ※ object-fit · opacity · mix-blend-mode만 추가 지정 */
+  .leftBgImage {
+    object-fit: cover;
+    opacity: 0.35;
+    mix-blend-mode: overlay;
+  }
+
+  /* 브랜드 콘텐츠 오버레이 */
+  .leftContent {
+    position: relative;
+    z-index: 2;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 24px;
+    padding: 40px;
+    text-align: center;
+    max-width: 420px;
+  }
+
+  /* 로고 이미지 */
+  .leftLogo {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    object-fit: cover;
+    box-shadow: 0 4px 24px rgba(0, 0, 0, 0.2);
+    border: 3px solid rgba(255, 255, 255, 0.5);
+  }
+
+  /* 브랜드 이름 */
+  .leftBrand {
+    font-family: var(--font-serif, "PlayfairDisplay", serif);
+    font-size: 32px;
+    font-weight: 900;
+    color: #fff;
+    letter-spacing: 0.02em;
+    margin: 0;
+    text-shadow: 0 2px 12px rgba(0, 0, 0, 0.15);
+  }
+
+  /* 슬로건 */
+  .leftSlogan {
+    font-size: 17px;
+    font-weight: 500;
+    color: rgba(255, 255, 255, 0.92);
+    line-height: 1.7;
+    margin: 0;
+    text-shadow: 0 1px 8px rgba(0, 0, 0, 0.1);
+    word-break: keep-all;
+  }
+
+  /* 하단 장식선 */
+  .leftAccent {
+    width: 48px;
+    height: 3px;
+    border-radius: 3px;
+    background: rgba(255, 255, 255, 0.6);
+    margin-top: 8px;
+  }
+
+  /* =========================================================
+     RIGHT FRAME — 폼 영역
+  ========================================================= */
+  .rightFrame {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    padding: 0 32px;
+    background: var(--color-bg);
+  }
+
+  /* 카드 컨테이너 */
+  .rightFrameContainer {
+    width: 100%;
+    max-width: 481px;
+    background: #fff;
+    border-radius: 20px;
+    padding: clamp(6px, 2vw, 12px) clamp(12px, 4vw, 24px) clamp(20px, 5vw, 32px);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: clamp(16px, 4.5vw, 24px);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+    animation: viewFadeIn 0.25s ease;
+  }
+
+  @keyframes viewFadeIn {
+    from {
+      opacity: 0;
+      transform: translateY(12px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  /* 타이틀 (회원가입 / 로그인) — clamp: 480px 이하 24px ↔ 데스크탑 28px */
+  .bigTitle {
+    font-size: clamp(24px, 5.5vw, 28px);
+    font-weight: 700;
+    margin: 0;
+    color: #000;
+  }
+
+  /* 서브 타이틀 영역: "이미 회원이신가요? / 로그인" 등 */
+  /* clamp: 480px 이하 14px ↔ 데스크탑 18px */
+  .subtitleFrame {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    font-size: clamp(14px, 3.8vw, 18px);
+    padding: 0 4px;
+    box-sizing: border-box;
+  }
+
+  .subtitleLeft {
+    flex: 1;
+    text-align: left;
+    color: #000; /* 항상 검은색 */
+  }
+
+  .subtitleRight {
+    flex: 1;
+    text-align: right;
+    color: #D22424; /* 강조 색 */
+    cursor: pointer;
+    background: none;
+    border: none;
+    padding: 8px 4px;
+    font: inherit;
+    font-size: inherit;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  .subtitleRight:active {
+    color: #a81c1c;
+  }
+
+  /* 입력폼 공통 */
+  .emailLoginBox {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  /* clamp: 높이 50~55px, 글자 15~16px — 모바일↔데스크탑 유동 전환
+     scroll-margin-bottom: 모바일 키보드가 올라올 때 입력창이 가려지지 않도록 여백 확보 */
+  .emailInput {
+    width: 100%;
+    height: clamp(50px, 11vw, 55px);
+    padding: 0 16px;
+    border: 1px solid #D0D0D0;
+    border-radius: 16px;
+    font-size: clamp(15px, 3.3vw, 16px);
+    box-sizing: border-box;
+    outline: none;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+    scroll-margin-bottom: 120px;
+  }
+
+  .emailInput:focus {
+    border-color: var(--color-primary, #00D6F5);
+    box-shadow: 0 0 0 3px rgba(0, 214, 245, 0.15);
+  }
+
+  .emailInput::placeholder {
+    color: #A0A0A0;
+  }
+
+  /* 파란 CTA 버튼 (회원가입 / 로그인 공통) */
+  /* clamp: 높이 50~55px, 글자 18~20px — 모바일↔데스크탑 유동 전환
+     ※ color: #000 명시 — 밝은 배경(#00D6F5)에 검은 글자로 가독성 확보 (WCAG AA) */
+  .continueButton {
+    width: 100%;
+    height: clamp(50px, 11vw, 55px);
+    border-radius: 16px;
+    border: none;
+    background: #00D6F5;
+    color: #000;
+    font-size: clamp(18px, 4.2vw, 20px);
+    font-weight: 700;
+    cursor: pointer;
+    transition: background 0.2s ease, box-shadow 0.2s ease, transform 0.1s ease;
+  }
+
+  .continueButton:hover {
+    background: #00c2de;
+    box-shadow: 0 4px 14px rgba(0, 214, 245, 0.3);
+  }
+
+  .continueButton:active {
+    transform: translateY(1px);
+    box-shadow: none;
+    opacity: 0.85;
+  }
+
+  /* -------------------------
+     비밀번호 입력 래퍼 (토글 버튼 포함)
+  -------------------------- */
+  .passwordWrapper {
+    width: 100%;
+    position: relative;
+  }
+
+  .passwordWrapper .emailInput {
+    padding-right: 50px; /* 토글 버튼 공간 확보 */
+  }
+
+  .passwordToggle {
+    position: absolute;
+    top: 50%;
+    right: 4px;
+    transform: translateY(-50%);
+    background: none;
+    border: none;
+    width: 44px;
+    height: 44px;
+    padding: 0;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #999;
+    transition: color 0.2s ease;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  .passwordToggle:hover {
+    color: #555;
+  }
+
+  .passwordToggle svg {
+    width: 20px;
+    height: 20px;
+  }
+
+  /* -------------------------
+     비밀번호 유효성 체크리스트
+  -------------------------- */
+  .pwRules {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    padding: 0 4px;
+    margin-top: -8px; /* gap 20px 보정 — 비밀번호 필드에 밀착 */
+    animation: pwRulesReveal 0.2s ease-out;
+  }
+
+  @keyframes pwRulesReveal {
+    from {
+      opacity: 0;
+      transform: translateY(-4px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  .pwRulesFadeOut {
+    animation: pwRulesFadeOut 0.3s ease-out forwards;
+  }
+
+  @keyframes pwRulesFadeOut {
+    from {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    to {
+      opacity: 0;
+      transform: translateY(-4px);
+    }
+  }
+
+  .pwRule {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 13px;
+    color: #999;
+    transition: color 0.2s ease;
+  }
+
+  .pwRule svg {
+    width: 14px;
+    height: 14px;
+    flex-shrink: 0;
+  }
+
+  .pwRulePass {
+    color: #059669;
+  }
+
+  .pwRuleFail {
+    color: #D0D0D0;
+  }
+
+  /* 비밀번호 확인 불일치 */
+  .pwMismatch {
+    font-size: 13px;
+    color: #D22424;
+    margin: -8px 0 0 4px;
+    animation: pwRulesReveal 0.2s ease-out;
+  }
+
+  .inputMismatch {
+    border-color: #D22424 !important;
+  }
+
+  /* 비밀번호 찾기 링크 */
+  .forgotPassword {
+    font-size: 14px;
+    color: #D22424;
+    cursor: pointer;
+    align-self: flex-end;
+    margin-top: 4px;
+    padding: 10px 4px;
+    text-decoration: underline;
+    text-underline-offset: 2px;
+    transition: color 0.2s ease;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  .forgotPassword:hover {
+    color: #a81c1c;
+  }
+
+  .forgotPassword:active {
+    color: #a81c1c;
+  }
+
+  /* 에러 텍스트 (레거시 — 배너로 대체) */
+  .errorText {
+    color: #D22424;
+    font-size: 14px;
+    text-align: center;
+  }
+
+  /* -------------------------
+     로그인 인라인 에러 메시지 + 행동 유도 링크
+  -------------------------- */
+  .loginErrorBlock {
+    width: 100%;
+    margin-top: -8px;
+    padding: 0 4px;
+    animation: errorFadeIn 0.25s ease;
+  }
+
+  .loginErrorText {
+    margin: 0;
+    font-size: 14px;
+    color: #DC2626;
+    line-height: 1.5;
+  }
+
+  .loginErrorLinks {
+    display: flex;
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 0;
+    margin-top: 4px;
+  }
+
+  .loginErrorLink {
+    font-size: 13px;
+    color: #6B7280;
+    cursor: pointer;
+    text-decoration: underline;
+    text-underline-offset: 2px;
+    transition: color 0.2s ease;
+    padding: 6px 0;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  .loginErrorLink:hover {
+    color: #111827;
+  }
+
+  .loginErrorLink:active {
+    color: #111827;
+  }
+
+  .loginErrorDot {
+    display: none;
+  }
+
+  @keyframes errorFadeIn {
+    from {
+      opacity: 0;
+      transform: translateY(-4px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  /* 에러 상태 입력 필드 — 테두리 빨간색 */
+  .inputError {
+    border-color: #DC2626 !important;
+  }
+
+  .inputError:focus {
+    border-color: #DC2626 !important;
+    box-shadow: 0 0 0 3px rgba(220, 38, 38, 0.15) !important;
+  }
+
+  /* -------------------------
+     비밀번호 찾기: 소셜 가입 안내 블록
+  -------------------------- */
+  .forgotSocialBlock {
+    width: 100%;
+    margin-top: -8px;
+    padding: 16px;
+    background: #FFF7ED;
+    border: 1px solid #FED7AA;
+    border-radius: 12px;
+    box-sizing: border-box;
+    animation: errorFadeIn 0.25s ease;
+  }
+
+  .forgotSocialText {
+    margin: 0;
+    font-size: 14px;
+    color: #9A3412;
+    line-height: 1.6;
+    text-align: center;
+  }
+
+  .forgotSocialButtons {
+    display: flex;
+    justify-content: center;
+    margin-top: 16px;
+  }
+
+  /* 소셜 로그인 안내 버튼 (가로형: 아이콘 + 텍스트) */
+  .socialLoginBtn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    width: 100%;
+    max-width: 280px;
+    height: 48px;
+    border-radius: 12px;
+    border: none;
+    font-size: 15px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: transform 0.15s ease, box-shadow 0.2s ease;
+  }
+
+  .socialLoginBtn:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
+  }
+
+  .socialLoginBtn:active {
+    transform: translateY(0);
+    opacity: 0.7;
+  }
+
+  .socialLoginKakao {
+    background: #FEE500;
+    color: #000000;
+  }
+
+  .socialLoginNaver {
+    background: #03C75A;
+    color: #ffffff;
+  }
+
+  .socialLoginGoogle {
+    background: #ffffff;
+    border: 1px solid #E0E0E0;
+    color: #333333;
+  }
+
+  .socialLoginApple {
+    background: #000000;
+    color: #ffffff;
+  }
+
+  /* -------------------------
+     인라인 배너 (성공 / 에러)
+  -------------------------- */
+  .banner {
+    width: 100%;
+    padding: 14px 16px;
+    border-radius: 12px;
+    font-size: 14px;
+    font-weight: 500;
+    text-align: center;
+    box-sizing: border-box;
+    animation: bannerSlideIn 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    line-height: 1.5;
+  }
+
+  .bannerMessage {
+    flex: 1;
+  }
+
+  .bannerClose {
+    flex-shrink: 0;
+    background: none;
+    border: none;
+    font-size: 14px;
+    cursor: pointer;
+    color: inherit;
+    opacity: 0.6;
+    padding: 0 2px;
+    line-height: 1;
+    transition: opacity 0.2s ease;
+  }
+
+  .bannerClose:hover {
+    opacity: 1;
+  }
+
+  .bannerClose:active {
+    opacity: 0.4;
+  }
+
+  .bannerSuccess {
+    background: #ECFDF5;
+    color: #065F46;
+    border: 1px solid #A7F3D0;
+  }
+
+  .bannerError {
+    background: #FEF2F2;
+    color: #991B1B;
+    border: 1px solid #FECACA;
+  }
+
+  @keyframes bannerSlideIn {
+    from {
+      opacity: 0;
+      transform: translateY(-8px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  /* ── 동의 안내 말풍선 ── */
+  .consentBubble {
+    position: relative;
+    margin-bottom: 6px;
+    padding: 8px 14px;
+    border-radius: 8px;
+    font-size: 12.5px;
+    font-weight: 500;
+    letter-spacing: -0.01em;
+    color: #475569;
+    background: #f1f5f9;
+    width: fit-content;
+    opacity: 0;
+    transform: translateY(-4px);
+    animation: bubbleIn 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards,
+               bubbleOut 0.25s cubic-bezier(0.4, 0, 1, 1) 2.8s forwards;
+  }
+
+  /* 말풍선 꼬리 — 아래 체크박스를 가리킴 */
+  .consentBubble::after {
+    content: "";
+    position: absolute;
+    bottom: -5px;
+    left: 18px;
+    width: 10px;
+    height: 10px;
+    background: #f1f5f9;
+    border-radius: 2px;
+    transform: rotate(45deg);
+  }
+
+  @keyframes bubbleIn {
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  @keyframes bubbleOut {
+    to {
+      opacity: 0;
+      transform: translateY(2px);
+    }
+  }
+
+  /* 약관 텍스트 */
+  .termsText {
+    font-size: 12px;
+    text-align: center;
+    color: #888;
+    line-height: 1.6;
+    margin-top: 0;
+    word-break: keep-all;
+  }
+
+  .termsLink {
+    color: #555;
+    font-weight: 600;
+    text-decoration: underline;
+    text-underline-offset: 2px;
+    cursor: pointer;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  .termsLink:active {
+    color: #333;
+  }
+
+  /* -------------------------
+     약관 동의 체크박스 그룹
+  -------------------------- */
+  .consentGroup {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+  }
+
+  .consentLabel {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    cursor: pointer;
+    padding: 4px 0;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  .consentCheckbox {
+    width: 18px;
+    height: 18px;
+    accent-color: #6366f1;
+    cursor: pointer;
+    flex-shrink: 0;
+    margin-top: 1px;
+  }
+
+  .consentText {
+    font-size: 13px;
+    color: #555;
+    line-height: 1.5;
+    word-break: keep-all;
+  }
+
+  .consentBadge {
+    color: #6366f1;
+    font-weight: 700;
+  }
+
+  .consentBadgeOptional {
+    color: #9CA3AF;
+    font-weight: 600;
+  }
+
+  .consentViewLink {
+    color: #6366f1;
+    font-weight: 600;
+    text-decoration: underline;
+    text-underline-offset: 2px;
+    cursor: pointer;
+  }
+
+  .consentViewLink:active {
+    color: #4338ca;
+  }
+
+  /* 필수 동의 미체크 시 버튼 비활성화 */
+  .continueButton:disabled {
+    background: #E5E7EB;
+    color: #9CA3AF;
+    cursor: not-allowed;
+    box-shadow: none;
+  }
+
+  /* -------------------------
+     구분선: "또는" divider
+  -------------------------- */
+  .divider {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+  }
+
+  .dividerLine {
+    flex: 1;
+    height: 1px;
+    background: #E0E0E0;
+  }
+
+  .dividerText {
+    font-size: 13px;
+    color: #999;
+    white-space: nowrap;
+    letter-spacing: 0.02em;
+  }
+
+  /* -------------------------
+     소셜 로그인: 원형 아이콘 가로 배열 (통합)
+  -------------------------- */
+  .socialIcons {
+    display: flex;
+    gap: 20px;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .socialIconBtn {
+    width: 52px;
+    height: 52px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    border: none;
+    transition: transform 0.15s ease, box-shadow 0.2s ease;
+    box-sizing: border-box;
+  }
+
+  .socialIconBtn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
+  }
+
+  .socialIconBtn:active {
+    transform: translateY(0);
+    opacity: 0.7;
+  }
+
+  .socialIconBtn img {
+    width: 24px;
+    height: 24px;
+    object-fit: contain;
+  }
+
+  .socialKakao {
+    background: #FEE500;
+  }
+
+  .socialNaver {
+    background: #03C75A;
+  }
+
+  .socialGoogle {
+    background: #ffffff;
+    border: 1px solid #E0E0E0;
+  }
+
+  .socialApple {
+    background: #000000;
+  }
+
+  /* -------------------------
+     비밀번호 요구 사항 박스
+  -------------------------- */
+  .passwordRequirements {
+    width: 100%;
+    padding: 12px;
+    background: #fafafa;
+    border-radius: 8px;
+    border: 1px solid #ddd;
+    box-sizing: border-box;
+  }
+
+  .passwordRequirementsTitle {
+    font-size: 14px;
+    font-weight: 700;
+    margin-bottom: 8px;
+  }
+
+  .passwordRequirementsList {
+    padding: 0;
+    margin: 0;
+    list-style: none;
+  }
+
+  .passwordRequirementsItem {
+    font-size: 14px;
+    padding-left: 20px;
+    position: relative;
+    margin-bottom: 4px;
+  }
+
+  .passwordRequirementsItem.valid::before {
+    content: "✔";
+    position: absolute;
+    left: 0;
+    color: green;
+  }
+
+  .passwordRequirementsItem.invalid::before {
+    content: "✖";
+    position: absolute;
+    left: 0;
+    color: red;
+  }
+
+  /* =========================================================
+     반응형: 태블릿 (768px 이하) — 좌측 패널 숨기고 단일 컬럼
+  ========================================================= */
+  @media (max-width: 768px) {
+    /* 구조 변경: 좌우 분할 → 단일 컬럼
+       ※ margin-top 축소: sticky 헤더가 자리를 차지하므로 추가 여백 최소화 */
+    .mainContent {
+      flex-direction: column;
+      margin-top: 8px;
+      padding: 0;
+    }
+
+    .leftFrame {
+      display: none;
+    }
+
+    .rightFrame {
+      padding: 0 max(16px, env(safe-area-inset-right, 0px)) 0 max(16px, env(safe-area-inset-left, 0px));
+      padding-bottom: calc(60px + env(safe-area-inset-bottom, 0px)); /* 키보드 + 홈바 여백 */
+      align-items: flex-start;
+    }
+
+    .rightFrameContainer {
+      box-shadow: none;
+      border-radius: 0;
+      max-width: 100%;
+    }
+
+    /* ※ bigTitle · subtitleFrame · emailInput · continueButton 크기는
+       clamp()가 자동 처리하므로 별도 오버라이드 불필요 */
+
+    /* 소셜 아이콘 터치 영역 확보 */
+    .socialIconBtn {
+      width: 48px;
+      height: 48px;
+      min-width: 48px;
+      min-height: 48px;
+    }
+
+    .socialIcons {
+      gap: 16px;
+    }
+  }
+
+  /* =========================================================
+     반응형: 소형 모바일 (480px 이하) — 더 촘촘하게
+     ※ globals.css · landing과 동일한 브레이크포인트 체계
+  ========================================================= */
+  @media (max-width: 480px) {
+    .rightFrame {
+      padding: 0 max(12px, env(safe-area-inset-right, 0px)) 0 max(12px, env(safe-area-inset-left, 0px));
+      padding-bottom: calc(48px + env(safe-area-inset-bottom, 0px));
+    }
+
+    /* ※ rightFrameContainer 패딩·gap, subtitleFrame 크기는 clamp() 자동 처리 */
+
+    .emailLoginBox {
+      gap: 16px;
+    }
+
+    .socialIcons {
+      gap: 12px;
+    }
+
+    .socialIconBtn {
+      width: 44px;
+      height: 44px;
+      min-width: 44px;
+      min-height: 44px;
+    }
+  }
+
+  /* =========================================================
+     반응형: 태블릿 (769px ~ 1024px) — 좌측 패널 좁게
+  ========================================================= */
+  @media (min-width: 769px) and (max-width: 1024px) {
+    .mainContent {
+      padding: 24px 16px;
+      gap: 24px;
+    }
+
+    .leftFrame {
+      flex: 0 0 38%;
+    }
+
+    .leftBrand {
+      font-size: 26px;
+    }
+
+    .leftSlogan {
+      font-size: 15px;
+    }
+
+    .leftLogo {
+      width: 64px;
+      height: 64px;
+    }
+
+    .rightFrame {
+      padding: 20px 20px;
+    }
+  }
+
+  /* =========================================================
+     터치 기기: hover 끈적임 방지
+     ※ 마우스가 없는 기기(스마트폰·태블릿)에서 hover 효과 비활성화
+     ※ globals.css · landing과 동일한 패턴
+  ========================================================= */
+  @media (hover: none) {
+    .continueButton:hover {
+      background: #00D6F5;
+      box-shadow: none;
+    }
+
+    .socialLoginBtn:hover,
+    .socialIconBtn:hover {
+      transform: none;
+      box-shadow: none;
+    }
+
+    .passwordToggle:hover {
+      color: #999;
+    }
+
+    .forgotPassword:hover {
+      color: #D22424;
+    }
+
+    .loginErrorLink:hover {
+      color: #1d4ed8;
+    }
+
+    .bannerClose:hover {
+      opacity: 0.7;
+    }
+  }
+
+  /* =========================================================
+     접근성: 움직임 줄이기 설정 대응
+     ※ OS에서 "움직임 줄이기"를 켠 사용자 — 애니메이션 비활성화
+  ========================================================= */
+  @media (prefers-reduced-motion: reduce) {
+    .rightFrameContainer {
+      animation: none;
+    }
+
+    .loginError,
+    .errorSection {
+      animation: none;
+    }
+
+    .bannerNotification {
+      animation: none;
+    }
+
+    .consentTooltipBubble {
+      animation: none;
+    }
+
+    .pwRules,
+    .pwMismatch {
+      animation: none;
+    }
+  }

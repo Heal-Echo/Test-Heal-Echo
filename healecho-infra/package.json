@@ -1,0 +1,30 @@
+{
+    "name": "healecho-infra",
+    "version": "0.1.0",
+    "private": true,
+    "scripts": {
+        "build": "tsc",
+        "watch": "tsc -w",
+        "cdk:bootstrap": "cdk bootstrap",
+        "cdk:deploy": "cdk deploy --require-approval never",
+        "cdk:diff": "cdk diff",
+        "cdk:destroy": "cdk destroy"
+    },
+    "devDependencies": {
+        "@types/aws-lambda": "^8.10.137",
+        "@types/aws-sdk": "^0.0.42",
+        "aws-cdk": "^2.1031.2",
+        "aws-cdk-lib": "2.154.1",
+        "constructs": "10.3.0",
+        "esbuild": "^0.21.5",
+        "typescript": "^5.4.5"
+    },
+    "dependencies": {
+        "@aws-cdk/aws-apigatewayv2": "^1.203.0",
+        "@aws-cdk/aws-apigatewayv2-alpha": "^2.114.1-alpha.0",
+        "@aws-cdk/aws-apigatewayv2-authorizers-alpha": "^2.114.1-alpha.0",
+        "@aws-cdk/aws-apigatewayv2-integrations-alpha": "^2.114.1-alpha.0",
+        "aws-sdk": "^2.1692.0",
+        "dotenv": "^16.4.5"
+    }
+}

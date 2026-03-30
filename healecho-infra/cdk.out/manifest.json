@@ -1,0 +1,1931 @@
+{
+  "version": "36.3.0",
+  "artifacts": {
+    "HealechoStack.assets": {
+      "type": "cdk:asset-manifest",
+      "properties": {
+        "file": "HealechoStack.assets.json",
+        "requiresBootstrapStackVersion": 6,
+        "bootstrapStackVersionSsmParameter": "/cdk-bootstrap/hnb659fds/version"
+      }
+    },
+    "HealechoStack": {
+      "type": "aws:cloudformation:stack",
+      "environment": "aws://513213802410/ap-northeast-2",
+      "properties": {
+        "templateFile": "HealechoStack.template.json",
+        "terminationProtection": false,
+        "validateOnSynth": false,
+        "assumeRoleArn": "arn:${AWS::Partition}:iam::513213802410:role/cdk-hnb659fds-deploy-role-513213802410-ap-northeast-2",
+        "cloudFormationExecutionRoleArn": "arn:${AWS::Partition}:iam::513213802410:role/cdk-hnb659fds-cfn-exec-role-513213802410-ap-northeast-2",
+        "stackTemplateAssetObjectUrl": "s3://cdk-hnb659fds-assets-513213802410-ap-northeast-2/d0c3218f4298b002d65c7f29f16f5bf327703fdf9699a5a5dcf0943abb4a1504.json",
+        "requiresBootstrapStackVersion": 6,
+        "bootstrapStackVersionSsmParameter": "/cdk-bootstrap/hnb659fds/version",
+        "additionalDependencies": [
+          "HealechoStack.assets"
+        ],
+        "lookupRole": {
+          "arn": "arn:${AWS::Partition}:iam::513213802410:role/cdk-hnb659fds-lookup-role-513213802410-ap-northeast-2",
+          "requiresBootstrapStackVersion": 8,
+          "bootstrapStackVersionSsmParameter": "/cdk-bootstrap/hnb659fds/version"
+        }
+      },
+      "dependencies": [
+        "HealechoStack.assets"
+      ],
+      "metadata": {
+        "/HealechoStack/SiteBucket/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "SiteBucket397A1860"
+          }
+        ],
+        "/HealechoStack/SiteBucket/Policy/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "SiteBucketPolicy3AC1D0F8"
+          }
+        ],
+        "/HealechoStack/SiteBucket/AutoDeleteObjectsCustomResource/Default": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "SiteBucketAutoDeleteObjectsCustomResource9585E968"
+          }
+        ],
+        "/HealechoStack/Custom::S3AutoDeleteObjectsCustomResourceProvider": [
+          {
+            "type": "aws:cdk:is-custom-resource-handler-customResourceProvider",
+            "data": true
+          }
+        ],
+        "/HealechoStack/Custom::S3AutoDeleteObjectsCustomResourceProvider/Role": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "CustomS3AutoDeleteObjectsCustomResourceProviderRole3B1BD092"
+          }
+        ],
+        "/HealechoStack/Custom::S3AutoDeleteObjectsCustomResourceProvider/Handler": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "CustomS3AutoDeleteObjectsCustomResourceProviderHandler9D90184F"
+          }
+        ],
+        "/HealechoStack/VideoBucket/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "VideoBucket6ED8E1AF"
+          }
+        ],
+        "/HealechoStack/VideoBucket/Policy/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "VideoBucketPolicyDE50723C"
+          }
+        ],
+        "/HealechoStack/VideoBucket/AutoDeleteObjectsCustomResource/Default": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "VideoBucketAutoDeleteObjectsCustomResource5F365B42"
+          }
+        ],
+        "/HealechoStack/OAI/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "OAIE1EFC67F"
+          }
+        ],
+        "/HealechoStack/WebDistribution/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "WebDistribution59C46482"
+          }
+        ],
+        "/HealechoStack/ItemsTable/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ItemsTable5AAC2C46"
+          }
+        ],
+        "/HealechoStack/BalanceVideosTable/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "BalanceVideosTableC09FAEEC"
+          }
+        ],
+        "/HealechoStack/SubscriptionsTable/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "SubscriptionsTable40965A9D"
+          }
+        ],
+        "/HealechoStack/PaymentsTable/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "PaymentsTable48A42630"
+          }
+        ],
+        "/HealechoStack/UsersTable/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "UsersTable9725E9C8"
+          }
+        ],
+        "/HealechoStack/WatchRecordsTable/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "WatchRecordsTableAE91DA73"
+          }
+        ],
+        "/HealechoStack/WeeklyHabitContentTable/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "WeeklyHabitContentTable5E83F3C2"
+          }
+        ],
+        "/HealechoStack/UserHabitTrackingTable/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "UserHabitTrackingTable7C6744FD"
+          }
+        ],
+        "/HealechoStack/SleepHabitTable/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "SleepHabitTableD8537285"
+          }
+        ],
+        "/HealechoStack/UserPool/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "UserPool6BA7E5F2"
+          }
+        ],
+        "/HealechoStack/UserPoolClient/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "UserPoolClient2F5918F7"
+          }
+        ],
+        "/HealechoStack/HealechoHttpApi/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "HealechoHttpApiBBC56DC2"
+          }
+        ],
+        "/HealechoStack/HealechoHttpApi/DefaultStage/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "HealechoHttpApiDefaultStageF1329EC5"
+          }
+        ],
+        "/HealechoStack/HealechoHttpApi/POST--balance--videos--{program}--{weekNumber}--multipart--initiate/MpInit/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "HealechoHttpApiPOSTbalancevideosprogramweekNumbermultipartinitiateMpInitAAD20885"
+          }
+        ],
+        "/HealechoStack/HealechoHttpApi/POST--balance--videos--{program}--{weekNumber}--multipart--initiate/MpInit-Permission": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "HealechoHttpApiPOSTbalancevideosprogramweekNumbermultipartinitiateMpInitPermission4F3241EB"
+          }
+        ],
+        "/HealechoStack/HealechoHttpApi/POST--balance--videos--{program}--{weekNumber}--multipart--initiate/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "HealechoHttpApiPOSTbalancevideosprogramweekNumbermultipartinitiateBD15710A"
+          }
+        ],
+        "/HealechoStack/HealechoHttpApi/HealechoAuthorizer/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "HealechoHttpApiHealechoAuthorizer724ECFAA"
+          }
+        ],
+        "/HealechoStack/HealechoHttpApi/POST--balance--videos--{program}--{weekNumber}--multipart--part/MpPart/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "HealechoHttpApiPOSTbalancevideosprogramweekNumbermultipartpartMpPart98387B68"
+          }
+        ],
+        "/HealechoStack/HealechoHttpApi/POST--balance--videos--{program}--{weekNumber}--multipart--part/MpPart-Permission": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "HealechoHttpApiPOSTbalancevideosprogramweekNumbermultipartpartMpPartPermission6648B8D3"
+          }
+        ],
+        "/HealechoStack/HealechoHttpApi/POST--balance--videos--{program}--{weekNumber}--multipart--part/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "HealechoHttpApiPOSTbalancevideosprogramweekNumbermultipartpart66A29F7B"
+          }
+        ],
+        "/HealechoStack/HealechoHttpApi/POST--balance--videos--{program}--{weekNumber}--multipart--complete/MpComplete/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "HealechoHttpApiPOSTbalancevideosprogramweekNumbermultipartcompleteMpComplete5338EDFC"
+          }
+        ],
+        "/HealechoStack/HealechoHttpApi/POST--balance--videos--{program}--{weekNumber}--multipart--complete/MpComplete-Permission": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "HealechoHttpApiPOSTbalancevideosprogramweekNumbermultipartcompleteMpCompletePermission6F8DB400"
+          }
+        ],
+        "/HealechoStack/HealechoHttpApi/POST--balance--videos--{program}--{weekNumber}--multipart--complete/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "HealechoHttpApiPOSTbalancevideosprogramweekNumbermultipartcomplete57E8B555"
+          }
+        ],
+        "/HealechoStack/HealechoHttpApi/GET--balance--videos--{program}/BalanceList/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "HealechoHttpApiGETbalancevideosprogramBalanceList655CFD23"
+          }
+        ],
+        "/HealechoStack/HealechoHttpApi/GET--balance--videos--{program}/BalanceList-Permission": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "HealechoHttpApiGETbalancevideosprogramBalanceListPermission5F734B09"
+          }
+        ],
+        "/HealechoStack/HealechoHttpApi/GET--balance--videos--{program}/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "HealechoHttpApiGETbalancevideosprogram18FF40B8"
+          }
+        ],
+        "/HealechoStack/HealechoHttpApi/POST--balance--videos--{program}--{weekNumber}--complete/BalanceCompleteUploadIntegration/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "HealechoHttpApiPOSTbalancevideosprogramweekNumbercompleteBalanceCompleteUploadIntegration99DB9D9D"
+          }
+        ],
+        "/HealechoStack/HealechoHttpApi/POST--balance--videos--{program}--{weekNumber}--complete/BalanceCompleteUploadIntegration-Permission": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "HealechoHttpApiPOSTbalancevideosprogramweekNumbercompleteBalanceCompleteUploadIntegrationPermissionC2A4FF90"
+          }
+        ],
+        "/HealechoStack/HealechoHttpApi/POST--balance--videos--{program}--{weekNumber}--complete/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "HealechoHttpApiPOSTbalancevideosprogramweekNumbercomplete39208D26"
+          }
+        ],
+        "/HealechoStack/HealechoHttpApi/GET--admin--users/ListUsers/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "HealechoHttpApiGETadminusersListUsers64D0BA10"
+          }
+        ],
+        "/HealechoStack/HealechoHttpApi/GET--admin--users/ListUsers-Permission": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "HealechoHttpApiGETadminusersListUsersPermissionE25DF2CD"
+          }
+        ],
+        "/HealechoStack/HealechoHttpApi/GET--admin--users/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "HealechoHttpApiGETadminusersB966B95F"
+          }
+        ],
+        "/HealechoStack/HealechoHttpApi/GET--admin--users--{userId}/GetUser/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "HealechoHttpApiGETadminusersuserIdGetUser0AE1EFD7"
+          }
+        ],
+        "/HealechoStack/HealechoHttpApi/GET--admin--users--{userId}/GetUser-Permission": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "HealechoHttpApiGETadminusersuserIdGetUserPermission3F558069"
+          }
+        ],
+        "/HealechoStack/HealechoHttpApi/GET--admin--users--{userId}/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "HealechoHttpApiGETadminusersuserIdB98D2ABB"
+          }
+        ],
+        "/HealechoStack/HealechoHttpApi/PATCH--admin--users--{userId}/UpdateUser/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "HealechoHttpApiPATCHadminusersuserIdUpdateUser60A933B4"
+          }
+        ],
+        "/HealechoStack/HealechoHttpApi/PATCH--admin--users--{userId}/UpdateUser-Permission": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "HealechoHttpApiPATCHadminusersuserIdUpdateUserPermission1BC26B52"
+          }
+        ],
+        "/HealechoStack/HealechoHttpApi/PATCH--admin--users--{userId}/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "HealechoHttpApiPATCHadminusersuserIdDA13769C"
+          }
+        ],
+        "/HealechoStack/HealechoHttpApi/GET--admin--users--{userId}--watch-records/GetUserWatchRecords/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "HealechoHttpApiGETadminusersuserIdwatchrecordsGetUserWatchRecordsBF7902D0"
+          }
+        ],
+        "/HealechoStack/HealechoHttpApi/GET--admin--users--{userId}--watch-records/GetUserWatchRecords-Permission": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "HealechoHttpApiGETadminusersuserIdwatchrecordsGetUserWatchRecordsPermissionEDE40B3C"
+          }
+        ],
+        "/HealechoStack/HealechoHttpApi/GET--admin--users--{userId}--watch-records/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "HealechoHttpApiGETadminusersuserIdwatchrecords9FA501BD"
+          }
+        ],
+        "/HealechoStack/HealechoHttpApi/GET--public--videos/PublicVideos/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "HealechoHttpApiGETpublicvideosPublicVideosDB43995B"
+          }
+        ],
+        "/HealechoStack/HealechoHttpApi/GET--public--videos/PublicVideos-Permission": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "HealechoHttpApiGETpublicvideosPublicVideosPermission3951CB10"
+          }
+        ],
+        "/HealechoStack/HealechoHttpApi/GET--public--videos/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "HealechoHttpApiGETpublicvideos98CC06C5"
+          }
+        ],
+        "/HealechoStack/HealechoHttpApi/GET--admin--weekly-habit--{program}/AdminWeeklyHabitList/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "HealechoHttpApiGETadminweeklyhabitprogramAdminWeeklyHabitListF65AD156"
+          }
+        ],
+        "/HealechoStack/HealechoHttpApi/GET--admin--weekly-habit--{program}/AdminWeeklyHabitList-Permission": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "HealechoHttpApiGETadminweeklyhabitprogramAdminWeeklyHabitListPermissionB48B1118"
+          }
+        ],
+        "/HealechoStack/HealechoHttpApi/GET--admin--weekly-habit--{program}/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "HealechoHttpApiGETadminweeklyhabitprogram1CFA24F1"
+          }
+        ],
+        "/HealechoStack/HealechoHttpApi/POST--admin--weekly-habit--{program}--{weekNumber}/AdminWeeklyHabitCreate/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "HealechoHttpApiPOSTadminweeklyhabitprogramweekNumberAdminWeeklyHabitCreate98D8FA2A"
+          }
+        ],
+        "/HealechoStack/HealechoHttpApi/POST--admin--weekly-habit--{program}--{weekNumber}/AdminWeeklyHabitCreate-Permission": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "HealechoHttpApiPOSTadminweeklyhabitprogramweekNumberAdminWeeklyHabitCreatePermission69D5C661"
+          }
+        ],
+        "/HealechoStack/HealechoHttpApi/POST--admin--weekly-habit--{program}--{weekNumber}/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "HealechoHttpApiPOSTadminweeklyhabitprogramweekNumberE8D6784E"
+          }
+        ],
+        "/HealechoStack/HealechoHttpApi/GET--admin--weekly-habit--{program}--{weekNumber}/AdminWeeklyHabitGet/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "HealechoHttpApiGETadminweeklyhabitprogramweekNumberAdminWeeklyHabitGetC101E0AB"
+          }
+        ],
+        "/HealechoStack/HealechoHttpApi/GET--admin--weekly-habit--{program}--{weekNumber}/AdminWeeklyHabitGet-Permission": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "HealechoHttpApiGETadminweeklyhabitprogramweekNumberAdminWeeklyHabitGetPermission04269264"
+          }
+        ],
+        "/HealechoStack/HealechoHttpApi/GET--admin--weekly-habit--{program}--{weekNumber}/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "HealechoHttpApiGETadminweeklyhabitprogramweekNumberD3F89A61"
+          }
+        ],
+        "/HealechoStack/HealechoHttpApi/PUT--admin--weekly-habit--{program}--{weekNumber}/AdminWeeklyHabitUpdate/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "HealechoHttpApiPUTadminweeklyhabitprogramweekNumberAdminWeeklyHabitUpdateF7EACFED"
+          }
+        ],
+        "/HealechoStack/HealechoHttpApi/PUT--admin--weekly-habit--{program}--{weekNumber}/AdminWeeklyHabitUpdate-Permission": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "HealechoHttpApiPUTadminweeklyhabitprogramweekNumberAdminWeeklyHabitUpdatePermission6691FE75"
+          }
+        ],
+        "/HealechoStack/HealechoHttpApi/PUT--admin--weekly-habit--{program}--{weekNumber}/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "HealechoHttpApiPUTadminweeklyhabitprogramweekNumber38354F49"
+          }
+        ],
+        "/HealechoStack/HealechoHttpApi/DELETE--admin--weekly-habit--{program}--{weekNumber}/AdminWeeklyHabitDelete/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "HealechoHttpApiDELETEadminweeklyhabitprogramweekNumberAdminWeeklyHabitDeleteE78BC6D4"
+          }
+        ],
+        "/HealechoStack/HealechoHttpApi/DELETE--admin--weekly-habit--{program}--{weekNumber}/AdminWeeklyHabitDelete-Permission": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "HealechoHttpApiDELETEadminweeklyhabitprogramweekNumberAdminWeeklyHabitDeletePermissionBC369185"
+          }
+        ],
+        "/HealechoStack/HealechoHttpApi/DELETE--admin--weekly-habit--{program}--{weekNumber}/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "HealechoHttpApiDELETEadminweeklyhabitprogramweekNumber266401B2"
+          }
+        ],
+        "/HealechoStack/HealechoHttpApi/POST--weekly-habit--videos--{program}--{weekNumber}--multipart--initiate/WeeklyHabitMpInit/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "HealechoHttpApiPOSTweeklyhabitvideosprogramweekNumbermultipartinitiateWeeklyHabitMpInitAF9686B7"
+          }
+        ],
+        "/HealechoStack/HealechoHttpApi/POST--weekly-habit--videos--{program}--{weekNumber}--multipart--initiate/WeeklyHabitMpInit-Permission": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "HealechoHttpApiPOSTweeklyhabitvideosprogramweekNumbermultipartinitiateWeeklyHabitMpInitPermissionE0E5262E"
+          }
+        ],
+        "/HealechoStack/HealechoHttpApi/POST--weekly-habit--videos--{program}--{weekNumber}--multipart--initiate/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "HealechoHttpApiPOSTweeklyhabitvideosprogramweekNumbermultipartinitiate9D7E478A"
+          }
+        ],
+        "/HealechoStack/HealechoHttpApi/POST--weekly-habit--videos--{program}--{weekNumber}--multipart--part/WeeklyHabitMpPart/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "HealechoHttpApiPOSTweeklyhabitvideosprogramweekNumbermultipartpartWeeklyHabitMpPartEC217DF7"
+          }
+        ],
+        "/HealechoStack/HealechoHttpApi/POST--weekly-habit--videos--{program}--{weekNumber}--multipart--part/WeeklyHabitMpPart-Permission": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "HealechoHttpApiPOSTweeklyhabitvideosprogramweekNumbermultipartpartWeeklyHabitMpPartPermission51685AFE"
+          }
+        ],
+        "/HealechoStack/HealechoHttpApi/POST--weekly-habit--videos--{program}--{weekNumber}--multipart--part/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "HealechoHttpApiPOSTweeklyhabitvideosprogramweekNumbermultipartpartB74C38EE"
+          }
+        ],
+        "/HealechoStack/HealechoHttpApi/POST--weekly-habit--videos--{program}--{weekNumber}--multipart--complete/WeeklyHabitMpComplete/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "HealechoHttpApiPOSTweeklyhabitvideosprogramweekNumbermultipartcompleteWeeklyHabitMpCompleteBCCD2E26"
+          }
+        ],
+        "/HealechoStack/HealechoHttpApi/POST--weekly-habit--videos--{program}--{weekNumber}--multipart--complete/WeeklyHabitMpComplete-Permission": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "HealechoHttpApiPOSTweeklyhabitvideosprogramweekNumbermultipartcompleteWeeklyHabitMpCompletePermissionDB2B8532"
+          }
+        ],
+        "/HealechoStack/HealechoHttpApi/POST--weekly-habit--videos--{program}--{weekNumber}--multipart--complete/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "HealechoHttpApiPOSTweeklyhabitvideosprogramweekNumbermultipartcomplete05779450"
+          }
+        ],
+        "/HealechoStack/HealechoHttpApi/GET--public--weekly-habit--{program}--{weekNumber}/PublicWeeklyHabit/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "HealechoHttpApiGETpublicweeklyhabitprogramweekNumberPublicWeeklyHabitEC25977B"
+          }
+        ],
+        "/HealechoStack/HealechoHttpApi/GET--public--weekly-habit--{program}--{weekNumber}/PublicWeeklyHabit-Permission": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "HealechoHttpApiGETpublicweeklyhabitprogramweekNumberPublicWeeklyHabitPermission65EECB23"
+          }
+        ],
+        "/HealechoStack/HealechoHttpApi/GET--public--weekly-habit--{program}--{weekNumber}/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "HealechoHttpApiGETpublicweeklyhabitprogramweekNumber2E68E6FF"
+          }
+        ],
+        "/HealechoStack/HealechoHttpApi/POST--user--habit-tracking/UserHabitTrackingPost/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "HealechoHttpApiPOSTuserhabittrackingUserHabitTrackingPostF4A04AC8"
+          }
+        ],
+        "/HealechoStack/HealechoHttpApi/POST--user--habit-tracking/UserHabitTrackingPost-Permission": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "HealechoHttpApiPOSTuserhabittrackingUserHabitTrackingPostPermissionD56FAD4E"
+          }
+        ],
+        "/HealechoStack/HealechoHttpApi/POST--user--habit-tracking/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "HealechoHttpApiPOSTuserhabittracking630AA38A"
+          }
+        ],
+        "/HealechoStack/HealechoHttpApi/GET--user--habit-tracking--{weekNumber}/UserHabitTrackingGet/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "HealechoHttpApiGETuserhabittrackingweekNumberUserHabitTrackingGet8DC4EBE7"
+          }
+        ],
+        "/HealechoStack/HealechoHttpApi/GET--user--habit-tracking--{weekNumber}/UserHabitTrackingGet-Permission": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "HealechoHttpApiGETuserhabittrackingweekNumberUserHabitTrackingGetPermissionD5F0ED27"
+          }
+        ],
+        "/HealechoStack/HealechoHttpApi/GET--user--habit-tracking--{weekNumber}/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "HealechoHttpApiGETuserhabittrackingweekNumber054D0F32"
+          }
+        ],
+        "/HealechoStack/HealechoHttpApi/GET--admin--sleep-habit--{program}/AdminSleepHabitList/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "HealechoHttpApiGETadminsleephabitprogramAdminSleepHabitListC613927C"
+          }
+        ],
+        "/HealechoStack/HealechoHttpApi/GET--admin--sleep-habit--{program}/AdminSleepHabitList-Permission": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "HealechoHttpApiGETadminsleephabitprogramAdminSleepHabitListPermission462F8173"
+          }
+        ],
+        "/HealechoStack/HealechoHttpApi/GET--admin--sleep-habit--{program}/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "HealechoHttpApiGETadminsleephabitprogram32E82BB9"
+          }
+        ],
+        "/HealechoStack/HealechoHttpApi/GET--admin--sleep-habit--{program}--{weekNumber}/AdminSleepHabitGet/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "HealechoHttpApiGETadminsleephabitprogramweekNumberAdminSleepHabitGetED45A07E"
+          }
+        ],
+        "/HealechoStack/HealechoHttpApi/GET--admin--sleep-habit--{program}--{weekNumber}/AdminSleepHabitGet-Permission": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "HealechoHttpApiGETadminsleephabitprogramweekNumberAdminSleepHabitGetPermission3777AB6B"
+          }
+        ],
+        "/HealechoStack/HealechoHttpApi/GET--admin--sleep-habit--{program}--{weekNumber}/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "HealechoHttpApiGETadminsleephabitprogramweekNumberBCBAB219"
+          }
+        ],
+        "/HealechoStack/HealechoHttpApi/PUT--admin--sleep-habit--{program}--{weekNumber}/AdminSleepHabitPut/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "HealechoHttpApiPUTadminsleephabitprogramweekNumberAdminSleepHabitPut079F526F"
+          }
+        ],
+        "/HealechoStack/HealechoHttpApi/PUT--admin--sleep-habit--{program}--{weekNumber}/AdminSleepHabitPut-Permission": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "HealechoHttpApiPUTadminsleephabitprogramweekNumberAdminSleepHabitPutPermissionA96A39C8"
+          }
+        ],
+        "/HealechoStack/HealechoHttpApi/PUT--admin--sleep-habit--{program}--{weekNumber}/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "HealechoHttpApiPUTadminsleephabitprogramweekNumber2F90EB51"
+          }
+        ],
+        "/HealechoStack/HealechoHttpApi/DELETE--admin--sleep-habit--{program}--{weekNumber}/AdminSleepHabitDelete/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "HealechoHttpApiDELETEadminsleephabitprogramweekNumberAdminSleepHabitDelete401AD994"
+          }
+        ],
+        "/HealechoStack/HealechoHttpApi/DELETE--admin--sleep-habit--{program}--{weekNumber}/AdminSleepHabitDelete-Permission": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "HealechoHttpApiDELETEadminsleephabitprogramweekNumberAdminSleepHabitDeletePermissionFA3BFE23"
+          }
+        ],
+        "/HealechoStack/HealechoHttpApi/DELETE--admin--sleep-habit--{program}--{weekNumber}/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "HealechoHttpApiDELETEadminsleephabitprogramweekNumber1882B1C7"
+          }
+        ],
+        "/HealechoStack/HealechoHttpApi/GET--public--sleep-habit--{program}--{weekNumber}/PublicSleepHabit/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "HealechoHttpApiGETpublicsleephabitprogramweekNumberPublicSleepHabit081D25D2"
+          }
+        ],
+        "/HealechoStack/HealechoHttpApi/GET--public--sleep-habit--{program}--{weekNumber}/PublicSleepHabit-Permission": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "HealechoHttpApiGETpublicsleephabitprogramweekNumberPublicSleepHabitPermission78BDD103"
+          }
+        ],
+        "/HealechoStack/HealechoHttpApi/GET--public--sleep-habit--{program}--{weekNumber}/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "HealechoHttpApiGETpublicsleephabitprogramweekNumber725A57E1"
+          }
+        ],
+        "/HealechoStack/HealechoHttpApi/POST--user--psqi-result/UserPSQIResultPost/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "HealechoHttpApiPOSTuserpsqiresultUserPSQIResultPost3844E193"
+          }
+        ],
+        "/HealechoStack/HealechoHttpApi/POST--user--psqi-result/UserPSQIResultPost-Permission": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "HealechoHttpApiPOSTuserpsqiresultUserPSQIResultPostPermission69A7C0F2"
+          }
+        ],
+        "/HealechoStack/HealechoHttpApi/POST--user--psqi-result/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "HealechoHttpApiPOSTuserpsqiresult88823B35"
+          }
+        ],
+        "/HealechoStack/HealechoHttpApi/GET--user--psqi-result/UserPSQIResultGet/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "HealechoHttpApiGETuserpsqiresultUserPSQIResultGetCC8F37B8"
+          }
+        ],
+        "/HealechoStack/HealechoHttpApi/GET--user--psqi-result/UserPSQIResultGet-Permission": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "HealechoHttpApiGETuserpsqiresultUserPSQIResultGetPermissionFCB05E7E"
+          }
+        ],
+        "/HealechoStack/HealechoHttpApi/GET--user--psqi-result/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "HealechoHttpApiGETuserpsqiresult3F0FC0EC"
+          }
+        ],
+        "/HealechoStack/HealechoHttpApi/POST--user--selfcheck-result/UserSelfCheckResultPost/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "HealechoHttpApiPOSTuserselfcheckresultUserSelfCheckResultPost2ACD9772"
+          }
+        ],
+        "/HealechoStack/HealechoHttpApi/POST--user--selfcheck-result/UserSelfCheckResultPost-Permission": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "HealechoHttpApiPOSTuserselfcheckresultUserSelfCheckResultPostPermissionE3FE4B78"
+          }
+        ],
+        "/HealechoStack/HealechoHttpApi/POST--user--selfcheck-result/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "HealechoHttpApiPOSTuserselfcheckresult52BEC9E5"
+          }
+        ],
+        "/HealechoStack/HealechoHttpApi/GET--user--selfcheck-result/UserSelfCheckResultGet/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "HealechoHttpApiGETuserselfcheckresultUserSelfCheckResultGetE81A3993"
+          }
+        ],
+        "/HealechoStack/HealechoHttpApi/GET--user--selfcheck-result/UserSelfCheckResultGet-Permission": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "HealechoHttpApiGETuserselfcheckresultUserSelfCheckResultGetPermission22CC7DDB"
+          }
+        ],
+        "/HealechoStack/HealechoHttpApi/GET--user--selfcheck-result/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "HealechoHttpApiGETuserselfcheckresult277F6F0E"
+          }
+        ],
+        "/HealechoStack/HealechoHttpApi/POST--user--gift-cycles/UserGiftCyclePost/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "HealechoHttpApiPOSTusergiftcyclesUserGiftCyclePostC2CFAA0B"
+          }
+        ],
+        "/HealechoStack/HealechoHttpApi/POST--user--gift-cycles/UserGiftCyclePost-Permission": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "HealechoHttpApiPOSTusergiftcyclesUserGiftCyclePostPermission71208A65"
+          }
+        ],
+        "/HealechoStack/HealechoHttpApi/POST--user--gift-cycles/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "HealechoHttpApiPOSTusergiftcycles6BC5D7C0"
+          }
+        ],
+        "/HealechoStack/HealechoHttpApi/GET--user--gift-cycles/UserGiftCycleGet/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "HealechoHttpApiGETusergiftcyclesUserGiftCycleGet26BEB648"
+          }
+        ],
+        "/HealechoStack/HealechoHttpApi/GET--user--gift-cycles/UserGiftCycleGet-Permission": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "HealechoHttpApiGETusergiftcyclesUserGiftCycleGetPermission24555637"
+          }
+        ],
+        "/HealechoStack/HealechoHttpApi/GET--user--gift-cycles/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "HealechoHttpApiGETusergiftcycles45AF2429"
+          }
+        ],
+        "/HealechoStack/HealechoHttpApi/POST--user--watch-records/UserWatchRecordPost/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "HealechoHttpApiPOSTuserwatchrecordsUserWatchRecordPost6076FE84"
+          }
+        ],
+        "/HealechoStack/HealechoHttpApi/POST--user--watch-records/UserWatchRecordPost-Permission": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "HealechoHttpApiPOSTuserwatchrecordsUserWatchRecordPostPermission9C2CDDC7"
+          }
+        ],
+        "/HealechoStack/HealechoHttpApi/POST--user--watch-records/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "HealechoHttpApiPOSTuserwatchrecords32CFC0AB"
+          }
+        ],
+        "/HealechoStack/HealechoHttpApi/GET--user--watch-records/UserWatchRecordGet/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "HealechoHttpApiGETuserwatchrecordsUserWatchRecordGetD14BBC9A"
+          }
+        ],
+        "/HealechoStack/HealechoHttpApi/GET--user--watch-records/UserWatchRecordGet-Permission": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "HealechoHttpApiGETuserwatchrecordsUserWatchRecordGetPermission724D2001"
+          }
+        ],
+        "/HealechoStack/HealechoHttpApi/GET--user--watch-records/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "HealechoHttpApiGETuserwatchrecordsFE7BF99D"
+          }
+        ],
+        "/HealechoStack/HealechoHttpApi/POST--user--practice-record/UserPracticeRecordPost/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "HealechoHttpApiPOSTuserpracticerecordUserPracticeRecordPost21786DD4"
+          }
+        ],
+        "/HealechoStack/HealechoHttpApi/POST--user--practice-record/UserPracticeRecordPost-Permission": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "HealechoHttpApiPOSTuserpracticerecordUserPracticeRecordPostPermission9112F93A"
+          }
+        ],
+        "/HealechoStack/HealechoHttpApi/POST--user--practice-record/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "HealechoHttpApiPOSTuserpracticerecord4A557294"
+          }
+        ],
+        "/HealechoStack/HealechoHttpApi/GET--user--practice-record/UserPracticeRecordGet/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "HealechoHttpApiGETuserpracticerecordUserPracticeRecordGet8E91A07E"
+          }
+        ],
+        "/HealechoStack/HealechoHttpApi/GET--user--practice-record/UserPracticeRecordGet-Permission": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "HealechoHttpApiGETuserpracticerecordUserPracticeRecordGetPermissionC9E2C841"
+          }
+        ],
+        "/HealechoStack/HealechoHttpApi/GET--user--practice-record/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "HealechoHttpApiGETuserpracticerecord89D7D5A8"
+          }
+        ],
+        "/HealechoStack/HealechoHttpApi/POST--user--sleep-log/UserSleepLogPost/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "HealechoHttpApiPOSTusersleeplogUserSleepLogPost507701E9"
+          }
+        ],
+        "/HealechoStack/HealechoHttpApi/POST--user--sleep-log/UserSleepLogPost-Permission": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "HealechoHttpApiPOSTusersleeplogUserSleepLogPostPermission7E9A4530"
+          }
+        ],
+        "/HealechoStack/HealechoHttpApi/POST--user--sleep-log/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "HealechoHttpApiPOSTusersleeplog3F1FBC45"
+          }
+        ],
+        "/HealechoStack/HealechoHttpApi/GET--user--sleep-log/UserSleepLogGet/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "HealechoHttpApiGETusersleeplogUserSleepLogGet27315652"
+          }
+        ],
+        "/HealechoStack/HealechoHttpApi/GET--user--sleep-log/UserSleepLogGet-Permission": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "HealechoHttpApiGETusersleeplogUserSleepLogGetPermission2A5B7499"
+          }
+        ],
+        "/HealechoStack/HealechoHttpApi/GET--user--sleep-log/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "HealechoHttpApiGETusersleeplog0FB7A38B"
+          }
+        ],
+        "/HealechoStack/HealechoHttpApi/POST--user--sleep-log--config/UserSleepLogConfigPost/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "HealechoHttpApiPOSTusersleeplogconfigUserSleepLogConfigPost6C4369E9"
+          }
+        ],
+        "/HealechoStack/HealechoHttpApi/POST--user--sleep-log--config/UserSleepLogConfigPost-Permission": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "HealechoHttpApiPOSTusersleeplogconfigUserSleepLogConfigPostPermission0660C5FE"
+          }
+        ],
+        "/HealechoStack/HealechoHttpApi/POST--user--sleep-log--config/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "HealechoHttpApiPOSTusersleeplogconfigBEC84E10"
+          }
+        ],
+        "/HealechoStack/HealechoHttpApi/GET--user--sleep-log--config/UserSleepLogConfigGet/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "HealechoHttpApiGETusersleeplogconfigUserSleepLogConfigGet837F7989"
+          }
+        ],
+        "/HealechoStack/HealechoHttpApi/GET--user--sleep-log--config/UserSleepLogConfigGet-Permission": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "HealechoHttpApiGETusersleeplogconfigUserSleepLogConfigGetPermissionF5B1EC3B"
+          }
+        ],
+        "/HealechoStack/HealechoHttpApi/GET--user--sleep-log--config/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "HealechoHttpApiGETusersleeplogconfigD3B7D9A0"
+          }
+        ],
+        "/HealechoStack/HealechoHttpApi/GET--user--preferences/UserPreferencesGet/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "HealechoHttpApiGETuserpreferencesUserPreferencesGet1242777D"
+          }
+        ],
+        "/HealechoStack/HealechoHttpApi/GET--user--preferences/UserPreferencesGet-Permission": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "HealechoHttpApiGETuserpreferencesUserPreferencesGetPermissionEC27E8F5"
+          }
+        ],
+        "/HealechoStack/HealechoHttpApi/GET--user--preferences/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "HealechoHttpApiGETuserpreferences7CC74E73"
+          }
+        ],
+        "/HealechoStack/HealechoHttpApi/PUT--user--preferences/UserPreferencesPut/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "HealechoHttpApiPUTuserpreferencesUserPreferencesPut5C91D1F6"
+          }
+        ],
+        "/HealechoStack/HealechoHttpApi/PUT--user--preferences/UserPreferencesPut-Permission": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "HealechoHttpApiPUTuserpreferencesUserPreferencesPutPermission0580CE1D"
+          }
+        ],
+        "/HealechoStack/HealechoHttpApi/PUT--user--preferences/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "HealechoHttpApiPUTuserpreferences230D7530"
+          }
+        ],
+        "/HealechoStack/HealechoHttpApi/DELETE--admin--users--{userId}/AdminDeleteUser/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "HealechoHttpApiDELETEadminusersuserIdAdminDeleteUser47AE149F"
+          }
+        ],
+        "/HealechoStack/HealechoHttpApi/DELETE--admin--users--{userId}/AdminDeleteUser-Permission": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "HealechoHttpApiDELETEadminusersuserIdAdminDeleteUserPermission45FD0628"
+          }
+        ],
+        "/HealechoStack/HealechoHttpApi/DELETE--admin--users--{userId}/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "HealechoHttpApiDELETEadminusersuserId27E342E7"
+          }
+        ],
+        "/HealechoStack/HealechoHttpApi/GET--user--subscription/UserSubscriptionGet/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "HealechoHttpApiGETusersubscriptionUserSubscriptionGetE9602B36"
+          }
+        ],
+        "/HealechoStack/HealechoHttpApi/GET--user--subscription/UserSubscriptionGet-Permission": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "HealechoHttpApiGETusersubscriptionUserSubscriptionGetPermission060D77AC"
+          }
+        ],
+        "/HealechoStack/HealechoHttpApi/GET--user--subscription/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "HealechoHttpApiGETusersubscription5A213D17"
+          }
+        ],
+        "/HealechoStack/HealechoHttpApi/PUT--user--subscription/UserSubscriptionPut/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "HealechoHttpApiPUTusersubscriptionUserSubscriptionPut4CD9876C"
+          }
+        ],
+        "/HealechoStack/HealechoHttpApi/PUT--user--subscription/UserSubscriptionPut-Permission": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "HealechoHttpApiPUTusersubscriptionUserSubscriptionPutPermission1D5102C1"
+          }
+        ],
+        "/HealechoStack/HealechoHttpApi/PUT--user--subscription/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "HealechoHttpApiPUTusersubscription11A3F312"
+          }
+        ],
+        "/HealechoStack/HealechoHttpApi/POST--user--withdraw/UserWithdraw/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "HealechoHttpApiPOSTuserwithdrawUserWithdraw82906D0E"
+          }
+        ],
+        "/HealechoStack/HealechoHttpApi/POST--user--withdraw/UserWithdraw-Permission": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "HealechoHttpApiPOSTuserwithdrawUserWithdrawPermission0602AEDF"
+          }
+        ],
+        "/HealechoStack/HealechoHttpApi/POST--user--withdraw/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "HealechoHttpApiPOSTuserwithdraw70D0B9CE"
+          }
+        ],
+        "/HealechoStack/HealechoHttpApi/POST--user--billing--issue-key/BillingIssueKey/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "HealechoHttpApiPOSTuserbillingissuekeyBillingIssueKey2C7C47D4"
+          }
+        ],
+        "/HealechoStack/HealechoHttpApi/POST--user--billing--issue-key/BillingIssueKey-Permission": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "HealechoHttpApiPOSTuserbillingissuekeyBillingIssueKeyPermissionF687799D"
+          }
+        ],
+        "/HealechoStack/HealechoHttpApi/POST--user--billing--issue-key/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "HealechoHttpApiPOSTuserbillingissuekeyAEE56685"
+          }
+        ],
+        "/HealechoStack/HealechoHttpApi/POST--user--billing--update-key/BillingUpdateKey/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "HealechoHttpApiPOSTuserbillingupdatekeyBillingUpdateKey2D6C675A"
+          }
+        ],
+        "/HealechoStack/HealechoHttpApi/POST--user--billing--update-key/BillingUpdateKey-Permission": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "HealechoHttpApiPOSTuserbillingupdatekeyBillingUpdateKeyPermission49996C67"
+          }
+        ],
+        "/HealechoStack/HealechoHttpApi/POST--user--billing--update-key/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "HealechoHttpApiPOSTuserbillingupdatekeyC5D29BC0"
+          }
+        ],
+        "/HealechoStack/HealechoHttpApi/POST--user--billing--cancel/BillingCancel/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "HealechoHttpApiPOSTuserbillingcancelBillingCancel0A79101E"
+          }
+        ],
+        "/HealechoStack/HealechoHttpApi/POST--user--billing--cancel/BillingCancel-Permission": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "HealechoHttpApiPOSTuserbillingcancelBillingCancelPermission168BD476"
+          }
+        ],
+        "/HealechoStack/HealechoHttpApi/POST--user--billing--cancel/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "HealechoHttpApiPOSTuserbillingcancel3E3C6F6E"
+          }
+        ],
+        "/HealechoStack/HealechoHttpApi/GET--user--billing--info/BillingInfo/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "HealechoHttpApiGETuserbillinginfoBillingInfoD75BC51D"
+          }
+        ],
+        "/HealechoStack/HealechoHttpApi/GET--user--billing--info/BillingInfo-Permission": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "HealechoHttpApiGETuserbillinginfoBillingInfoPermission2335E05D"
+          }
+        ],
+        "/HealechoStack/HealechoHttpApi/GET--user--billing--info/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "HealechoHttpApiGETuserbillinginfo7E8934F8"
+          }
+        ],
+        "/HealechoStack/HealechoHttpApi/PUT--user--profile/UserProfilePut/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "HealechoHttpApiPUTuserprofileUserProfilePut1A07F84F"
+          }
+        ],
+        "/HealechoStack/HealechoHttpApi/PUT--user--profile/UserProfilePut-Permission": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "HealechoHttpApiPUTuserprofileUserProfilePutPermission21C0D5A2"
+          }
+        ],
+        "/HealechoStack/HealechoHttpApi/PUT--user--profile/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "HealechoHttpApiPUTuserprofile06620A5C"
+          }
+        ],
+        "/HealechoStack/HealechoHttpApi/GET--user--profile/UserProfileGet/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "HealechoHttpApiGETuserprofileUserProfileGet12030F70"
+          }
+        ],
+        "/HealechoStack/HealechoHttpApi/GET--user--profile/UserProfileGet-Permission": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "HealechoHttpApiGETuserprofileUserProfileGetPermission596DFDDD"
+          }
+        ],
+        "/HealechoStack/HealechoHttpApi/GET--user--profile/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "HealechoHttpApiGETuserprofile9DD017C9"
+          }
+        ],
+        "/HealechoStack/HealechoHttpApi/POST--user--record-login/UserRecordLogin/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "HealechoHttpApiPOSTuserrecordloginUserRecordLoginA3B74C9C"
+          }
+        ],
+        "/HealechoStack/HealechoHttpApi/POST--user--record-login/UserRecordLogin-Permission": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "HealechoHttpApiPOSTuserrecordloginUserRecordLoginPermission4026D9BD"
+          }
+        ],
+        "/HealechoStack/HealechoHttpApi/POST--user--record-login/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "HealechoHttpApiPOSTuserrecordlogin61CEC662"
+          }
+        ],
+        "/HealechoStack/HealechoHttpApi/GET--admin--dashboard-stats/AdminDashboardStats/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "HealechoHttpApiGETadmindashboardstatsAdminDashboardStatsE97F2951"
+          }
+        ],
+        "/HealechoStack/HealechoHttpApi/GET--admin--dashboard-stats/AdminDashboardStats-Permission": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "HealechoHttpApiGETadmindashboardstatsAdminDashboardStatsPermission060D083B"
+          }
+        ],
+        "/HealechoStack/HealechoHttpApi/GET--admin--dashboard-stats/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "HealechoHttpApiGETadmindashboardstats73E8C0C8"
+          }
+        ],
+        "/HealechoStack/AdminBalanceMultipartInitiateLambda/ServiceRole/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "AdminBalanceMultipartInitiateLambdaServiceRole2CEBECD4"
+          }
+        ],
+        "/HealechoStack/AdminBalanceMultipartInitiateLambda/ServiceRole/DefaultPolicy/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "AdminBalanceMultipartInitiateLambdaServiceRoleDefaultPolicyFAF772B9"
+          }
+        ],
+        "/HealechoStack/AdminBalanceMultipartInitiateLambda/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "AdminBalanceMultipartInitiateLambda9DEDB0E4"
+          }
+        ],
+        "/HealechoStack/AdminBalanceMultipartPartLambda/ServiceRole/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "AdminBalanceMultipartPartLambdaServiceRole263FAF85"
+          }
+        ],
+        "/HealechoStack/AdminBalanceMultipartPartLambda/ServiceRole/DefaultPolicy/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "AdminBalanceMultipartPartLambdaServiceRoleDefaultPolicy607EC48F"
+          }
+        ],
+        "/HealechoStack/AdminBalanceMultipartPartLambda/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "AdminBalanceMultipartPartLambda2AE328E7"
+          }
+        ],
+        "/HealechoStack/AdminBalanceMultipartCompleteLambda/ServiceRole/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "AdminBalanceMultipartCompleteLambdaServiceRoleA9E24372"
+          }
+        ],
+        "/HealechoStack/AdminBalanceMultipartCompleteLambda/ServiceRole/DefaultPolicy/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "AdminBalanceMultipartCompleteLambdaServiceRoleDefaultPolicyA9959DCD"
+          }
+        ],
+        "/HealechoStack/AdminBalanceMultipartCompleteLambda/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "AdminBalanceMultipartCompleteLambdaB06EA05D"
+          }
+        ],
+        "/HealechoStack/AdminBalanceListVideosLambda/ServiceRole/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "AdminBalanceListVideosLambdaServiceRole1A443507"
+          }
+        ],
+        "/HealechoStack/AdminBalanceListVideosLambda/ServiceRole/DefaultPolicy/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "AdminBalanceListVideosLambdaServiceRoleDefaultPolicy9651CD2A"
+          }
+        ],
+        "/HealechoStack/AdminBalanceListVideosLambda/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "AdminBalanceListVideosLambda04133A5E"
+          }
+        ],
+        "/HealechoStack/AdminBalanceCompleteUploadLambda/ServiceRole/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "AdminBalanceCompleteUploadLambdaServiceRole6ABB4A74"
+          }
+        ],
+        "/HealechoStack/AdminBalanceCompleteUploadLambda/ServiceRole/DefaultPolicy/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "AdminBalanceCompleteUploadLambdaServiceRoleDefaultPolicy62EC1DC0"
+          }
+        ],
+        "/HealechoStack/AdminBalanceCompleteUploadLambda/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "AdminBalanceCompleteUploadLambda4C34C3B5"
+          }
+        ],
+        "/HealechoStack/AdminListUsersLambda/ServiceRole/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "AdminListUsersLambdaServiceRoleDB7EB496"
+          }
+        ],
+        "/HealechoStack/AdminListUsersLambda/ServiceRole/DefaultPolicy/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "AdminListUsersLambdaServiceRoleDefaultPolicyE3BDD59D"
+          }
+        ],
+        "/HealechoStack/AdminListUsersLambda/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "AdminListUsersLambda03DBF9E6"
+          }
+        ],
+        "/HealechoStack/AdminGetUserLambda/ServiceRole/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "AdminGetUserLambdaServiceRoleCFD00596"
+          }
+        ],
+        "/HealechoStack/AdminGetUserLambda/ServiceRole/DefaultPolicy/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "AdminGetUserLambdaServiceRoleDefaultPolicy058B7D3D"
+          }
+        ],
+        "/HealechoStack/AdminGetUserLambda/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "AdminGetUserLambdaD3A0B7A5"
+          }
+        ],
+        "/HealechoStack/AdminUpdateUserLambda/ServiceRole/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "AdminUpdateUserLambdaServiceRoleBDC213DA"
+          }
+        ],
+        "/HealechoStack/AdminUpdateUserLambda/ServiceRole/DefaultPolicy/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "AdminUpdateUserLambdaServiceRoleDefaultPolicy2E1723AC"
+          }
+        ],
+        "/HealechoStack/AdminUpdateUserLambda/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "AdminUpdateUserLambda7C76FDA8"
+          }
+        ],
+        "/HealechoStack/AdminGetUserWatchRecordsLambda/ServiceRole/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "AdminGetUserWatchRecordsLambdaServiceRoleB3BD6C9F"
+          }
+        ],
+        "/HealechoStack/AdminGetUserWatchRecordsLambda/ServiceRole/DefaultPolicy/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "AdminGetUserWatchRecordsLambdaServiceRoleDefaultPolicy701CB2E2"
+          }
+        ],
+        "/HealechoStack/AdminGetUserWatchRecordsLambda/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "AdminGetUserWatchRecordsLambdaAE0BED40"
+          }
+        ],
+        "/HealechoStack/PublicGetVideosLambda/ServiceRole/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "PublicGetVideosLambdaServiceRole44EB3449"
+          }
+        ],
+        "/HealechoStack/PublicGetVideosLambda/ServiceRole/DefaultPolicy/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "PublicGetVideosLambdaServiceRoleDefaultPolicyF0A2314C"
+          }
+        ],
+        "/HealechoStack/PublicGetVideosLambda/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "PublicGetVideosLambda26DE1076"
+          }
+        ],
+        "/HealechoStack/AdminWeeklyHabitContentLambda/ServiceRole/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "AdminWeeklyHabitContentLambdaServiceRoleFA78CAD0"
+          }
+        ],
+        "/HealechoStack/AdminWeeklyHabitContentLambda/ServiceRole/DefaultPolicy/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "AdminWeeklyHabitContentLambdaServiceRoleDefaultPolicy5A98EE79"
+          }
+        ],
+        "/HealechoStack/AdminWeeklyHabitContentLambda/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "AdminWeeklyHabitContentLambdaB1E7ADB1"
+          }
+        ],
+        "/HealechoStack/PublicWeeklyHabitContentLambda/ServiceRole/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "PublicWeeklyHabitContentLambdaServiceRole5B8BAEE5"
+          }
+        ],
+        "/HealechoStack/PublicWeeklyHabitContentLambda/ServiceRole/DefaultPolicy/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "PublicWeeklyHabitContentLambdaServiceRoleDefaultPolicy92F1729E"
+          }
+        ],
+        "/HealechoStack/PublicWeeklyHabitContentLambda/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "PublicWeeklyHabitContentLambda83B275CE"
+          }
+        ],
+        "/HealechoStack/UserHabitTrackingLambda/ServiceRole/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "UserHabitTrackingLambdaServiceRoleFEA1EBC0"
+          }
+        ],
+        "/HealechoStack/UserHabitTrackingLambda/ServiceRole/DefaultPolicy/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "UserHabitTrackingLambdaServiceRoleDefaultPolicy5E564B42"
+          }
+        ],
+        "/HealechoStack/UserHabitTrackingLambda/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "UserHabitTrackingLambdaCDE7F8B3"
+          }
+        ],
+        "/HealechoStack/WeeklyHabitMultipartInitiateLambda/ServiceRole/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "WeeklyHabitMultipartInitiateLambdaServiceRole850104C8"
+          }
+        ],
+        "/HealechoStack/WeeklyHabitMultipartInitiateLambda/ServiceRole/DefaultPolicy/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "WeeklyHabitMultipartInitiateLambdaServiceRoleDefaultPolicyE29BC76F"
+          }
+        ],
+        "/HealechoStack/WeeklyHabitMultipartInitiateLambda/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "WeeklyHabitMultipartInitiateLambda149BD6CD"
+          }
+        ],
+        "/HealechoStack/WeeklyHabitMultipartPartLambda/ServiceRole/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "WeeklyHabitMultipartPartLambdaServiceRole9B5D897F"
+          }
+        ],
+        "/HealechoStack/WeeklyHabitMultipartPartLambda/ServiceRole/DefaultPolicy/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "WeeklyHabitMultipartPartLambdaServiceRoleDefaultPolicyE85624A1"
+          }
+        ],
+        "/HealechoStack/WeeklyHabitMultipartPartLambda/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "WeeklyHabitMultipartPartLambdaD73858B1"
+          }
+        ],
+        "/HealechoStack/WeeklyHabitMultipartCompleteLambda/ServiceRole/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "WeeklyHabitMultipartCompleteLambdaServiceRole4AC3B845"
+          }
+        ],
+        "/HealechoStack/WeeklyHabitMultipartCompleteLambda/ServiceRole/DefaultPolicy/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "WeeklyHabitMultipartCompleteLambdaServiceRoleDefaultPolicy575BE369"
+          }
+        ],
+        "/HealechoStack/WeeklyHabitMultipartCompleteLambda/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "WeeklyHabitMultipartCompleteLambda5C32A587"
+          }
+        ],
+        "/HealechoStack/AdminSleepHabitLambda/ServiceRole/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "AdminSleepHabitLambdaServiceRoleF94E25D2"
+          }
+        ],
+        "/HealechoStack/AdminSleepHabitLambda/ServiceRole/DefaultPolicy/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "AdminSleepHabitLambdaServiceRoleDefaultPolicy9A723EED"
+          }
+        ],
+        "/HealechoStack/AdminSleepHabitLambda/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "AdminSleepHabitLambda24A161E5"
+          }
+        ],
+        "/HealechoStack/PublicSleepHabitLambda/ServiceRole/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "PublicSleepHabitLambdaServiceRoleDC39A46D"
+          }
+        ],
+        "/HealechoStack/PublicSleepHabitLambda/ServiceRole/DefaultPolicy/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "PublicSleepHabitLambdaServiceRoleDefaultPolicy83895E3D"
+          }
+        ],
+        "/HealechoStack/PublicSleepHabitLambda/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "PublicSleepHabitLambda5CBAF8EB"
+          }
+        ],
+        "/HealechoStack/PSQIResultsTable/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "PSQIResultsTable7946855A"
+          }
+        ],
+        "/HealechoStack/UserPSQIResultLambda/ServiceRole/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "UserPSQIResultLambdaServiceRoleB527352B"
+          }
+        ],
+        "/HealechoStack/UserPSQIResultLambda/ServiceRole/DefaultPolicy/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "UserPSQIResultLambdaServiceRoleDefaultPolicyC54E0AB3"
+          }
+        ],
+        "/HealechoStack/UserPSQIResultLambda/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "UserPSQIResultLambdaE8C9CDD1"
+          }
+        ],
+        "/HealechoStack/SelfCheckResultsTable/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "SelfCheckResultsTableFA1CBE82"
+          }
+        ],
+        "/HealechoStack/UserSelfCheckResultLambda/ServiceRole/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "UserSelfCheckResultLambdaServiceRoleF7CE30C2"
+          }
+        ],
+        "/HealechoStack/UserSelfCheckResultLambda/ServiceRole/DefaultPolicy/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "UserSelfCheckResultLambdaServiceRoleDefaultPolicyBF6AA094"
+          }
+        ],
+        "/HealechoStack/UserSelfCheckResultLambda/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "UserSelfCheckResultLambdaBB4C739D"
+          }
+        ],
+        "/HealechoStack/GiftCyclesTable/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "GiftCyclesTable573D8678"
+          }
+        ],
+        "/HealechoStack/UserGiftCycleLambda/ServiceRole/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "UserGiftCycleLambdaServiceRole78D9EFBC"
+          }
+        ],
+        "/HealechoStack/UserGiftCycleLambda/ServiceRole/DefaultPolicy/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "UserGiftCycleLambdaServiceRoleDefaultPolicy124DDCB4"
+          }
+        ],
+        "/HealechoStack/UserGiftCycleLambda/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "UserGiftCycleLambdaD289461C"
+          }
+        ],
+        "/HealechoStack/UserWatchRecordLambda/ServiceRole/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "UserWatchRecordLambdaServiceRoleDD02FE56"
+          }
+        ],
+        "/HealechoStack/UserWatchRecordLambda/ServiceRole/DefaultPolicy/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "UserWatchRecordLambdaServiceRoleDefaultPolicy44070D4E"
+          }
+        ],
+        "/HealechoStack/UserWatchRecordLambda/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "UserWatchRecordLambdaF048624F"
+          }
+        ],
+        "/HealechoStack/PracticeRecordsTable/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "PracticeRecordsTable5BAFBC5C"
+          }
+        ],
+        "/HealechoStack/UserPracticeRecordLambda/ServiceRole/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "UserPracticeRecordLambdaServiceRoleA62A317F"
+          }
+        ],
+        "/HealechoStack/UserPracticeRecordLambda/ServiceRole/DefaultPolicy/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "UserPracticeRecordLambdaServiceRoleDefaultPolicyE52C045C"
+          }
+        ],
+        "/HealechoStack/UserPracticeRecordLambda/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "UserPracticeRecordLambda97737F87"
+          }
+        ],
+        "/HealechoStack/UserSleepLogTable/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "UserSleepLogTable6554EABD"
+          }
+        ],
+        "/HealechoStack/UserSleepLogLambda/ServiceRole/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "UserSleepLogLambdaServiceRole53CA2117"
+          }
+        ],
+        "/HealechoStack/UserSleepLogLambda/ServiceRole/DefaultPolicy/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "UserSleepLogLambdaServiceRoleDefaultPolicyD4CB816C"
+          }
+        ],
+        "/HealechoStack/UserSleepLogLambda/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "UserSleepLogLambdaDFA5567A"
+          }
+        ],
+        "/HealechoStack/UserPreferencesTable/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "UserPreferencesTableA0B50479"
+          }
+        ],
+        "/HealechoStack/UserPreferencesLambda/ServiceRole/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "UserPreferencesLambdaServiceRole22791672"
+          }
+        ],
+        "/HealechoStack/UserPreferencesLambda/ServiceRole/DefaultPolicy/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "UserPreferencesLambdaServiceRoleDefaultPolicyA309F2D2"
+          }
+        ],
+        "/HealechoStack/UserPreferencesLambda/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "UserPreferencesLambdaD0E3D94A"
+          }
+        ],
+        "/HealechoStack/AdminDeleteUserLambda/ServiceRole/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "AdminDeleteUserLambdaServiceRoleC18F314C"
+          }
+        ],
+        "/HealechoStack/AdminDeleteUserLambda/ServiceRole/DefaultPolicy/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "AdminDeleteUserLambdaServiceRoleDefaultPolicy566DF9ED"
+          }
+        ],
+        "/HealechoStack/AdminDeleteUserLambda/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "AdminDeleteUserLambdaC5F1465F"
+          }
+        ],
+        "/HealechoStack/UserSubscriptionLambda/ServiceRole/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "UserSubscriptionLambdaServiceRoleEC788996"
+          }
+        ],
+        "/HealechoStack/UserSubscriptionLambda/ServiceRole/DefaultPolicy/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "UserSubscriptionLambdaServiceRoleDefaultPolicy046AF12B"
+          }
+        ],
+        "/HealechoStack/UserSubscriptionLambda/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "UserSubscriptionLambda838584DB"
+          }
+        ],
+        "/HealechoStack/BillingIssueKeyLambda/ServiceRole/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "BillingIssueKeyLambdaServiceRole628CA000"
+          }
+        ],
+        "/HealechoStack/BillingIssueKeyLambda/ServiceRole/DefaultPolicy/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "BillingIssueKeyLambdaServiceRoleDefaultPolicy312FF893"
+          }
+        ],
+        "/HealechoStack/BillingIssueKeyLambda/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "BillingIssueKeyLambdaAF3249E6"
+          }
+        ],
+        "/HealechoStack/BillingUpdateKeyLambda/ServiceRole/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "BillingUpdateKeyLambdaServiceRoleCC42D2B8"
+          }
+        ],
+        "/HealechoStack/BillingUpdateKeyLambda/ServiceRole/DefaultPolicy/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "BillingUpdateKeyLambdaServiceRoleDefaultPolicyFD942582"
+          }
+        ],
+        "/HealechoStack/BillingUpdateKeyLambda/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "BillingUpdateKeyLambda322D4E9D"
+          }
+        ],
+        "/HealechoStack/BillingChargeLambda/ServiceRole/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "BillingChargeLambdaServiceRole2A56B716"
+          }
+        ],
+        "/HealechoStack/BillingChargeLambda/ServiceRole/DefaultPolicy/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "BillingChargeLambdaServiceRoleDefaultPolicy7D7ACB72"
+          }
+        ],
+        "/HealechoStack/BillingChargeLambda/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "BillingChargeLambdaB166495E"
+          }
+        ],
+        "/HealechoStack/BillingCancelLambda/ServiceRole/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "BillingCancelLambdaServiceRole89EEC84B"
+          }
+        ],
+        "/HealechoStack/BillingCancelLambda/ServiceRole/DefaultPolicy/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "BillingCancelLambdaServiceRoleDefaultPolicyF9CBC7A7"
+          }
+        ],
+        "/HealechoStack/BillingCancelLambda/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "BillingCancelLambda8735CAE9"
+          }
+        ],
+        "/HealechoStack/BillingChargeSchedulerLambda/ServiceRole/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "BillingChargeSchedulerLambdaServiceRoleF0D5CA36"
+          }
+        ],
+        "/HealechoStack/BillingChargeSchedulerLambda/ServiceRole/DefaultPolicy/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "BillingChargeSchedulerLambdaServiceRoleDefaultPolicyFE96CD4A"
+          }
+        ],
+        "/HealechoStack/BillingChargeSchedulerLambda/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "BillingChargeSchedulerLambdaF951C0CE"
+          }
+        ],
+        "/HealechoStack/TrialExpiryChargeRule/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "TrialExpiryChargeRuleEFA0066F"
+          }
+        ],
+        "/HealechoStack/TrialExpiryChargeRule/AllowEventRuleHealechoStackBillingChargeSchedulerLambda0E16DCD9": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "TrialExpiryChargeRuleAllowEventRuleHealechoStackBillingChargeSchedulerLambda0E16DCD907663A9B"
+          }
+        ],
+        "/HealechoStack/UserWithdrawLambda/ServiceRole/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "UserWithdrawLambdaServiceRoleEB330578"
+          }
+        ],
+        "/HealechoStack/UserWithdrawLambda/ServiceRole/DefaultPolicy/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "UserWithdrawLambdaServiceRoleDefaultPolicyC3C8B7E1"
+          }
+        ],
+        "/HealechoStack/UserWithdrawLambda/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "UserWithdrawLambda0A641524"
+          }
+        ],
+        "/HealechoStack/AccountCleanupSchedulerLambda/ServiceRole/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "AccountCleanupSchedulerLambdaServiceRole2C79A9CC"
+          }
+        ],
+        "/HealechoStack/AccountCleanupSchedulerLambda/ServiceRole/DefaultPolicy/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "AccountCleanupSchedulerLambdaServiceRoleDefaultPolicy0ACA2D77"
+          }
+        ],
+        "/HealechoStack/AccountCleanupSchedulerLambda/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "AccountCleanupSchedulerLambda4991EE32"
+          }
+        ],
+        "/HealechoStack/AccountCleanupRule/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "AccountCleanupRule283AD384"
+          }
+        ],
+        "/HealechoStack/AccountCleanupRule/AllowEventRuleHealechoStackAccountCleanupSchedulerLambdaDF059F52": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "AccountCleanupRuleAllowEventRuleHealechoStackAccountCleanupSchedulerLambdaDF059F522C3F1017"
+          }
+        ],
+        "/HealechoStack/BillingInfoLambda/ServiceRole/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "BillingInfoLambdaServiceRole446FE0A9"
+          }
+        ],
+        "/HealechoStack/BillingInfoLambda/ServiceRole/DefaultPolicy/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "BillingInfoLambdaServiceRoleDefaultPolicy189B63D8"
+          }
+        ],
+        "/HealechoStack/BillingInfoLambda/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "BillingInfoLambda37092CF8"
+          }
+        ],
+        "/HealechoStack/UserProfileLambda/ServiceRole/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "UserProfileLambdaServiceRole547774DA"
+          }
+        ],
+        "/HealechoStack/UserProfileLambda/ServiceRole/DefaultPolicy/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "UserProfileLambdaServiceRoleDefaultPolicy1B0C7D8D"
+          }
+        ],
+        "/HealechoStack/UserProfileLambda/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "UserProfileLambda2C03C5A4"
+          }
+        ],
+        "/HealechoStack/AdminDashboardStatsLambda/ServiceRole/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "AdminDashboardStatsLambdaServiceRoleC25477C6"
+          }
+        ],
+        "/HealechoStack/AdminDashboardStatsLambda/ServiceRole/DefaultPolicy/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "AdminDashboardStatsLambdaServiceRoleDefaultPolicy2ACFB7BA"
+          }
+        ],
+        "/HealechoStack/AdminDashboardStatsLambda/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "AdminDashboardStatsLambda12DAD8EC"
+          }
+        ],
+        "/HealechoStack/HttpApiUrl": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "HttpApiUrl"
+          }
+        ],
+        "/HealechoStack/CognitoDomainUrl": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "CognitoDomainUrl"
+          }
+        ],
+        "/HealechoStack/UserPoolClientId": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "UserPoolClientId"
+          }
+        ],
+        "/HealechoStack/CDKMetadata/Default": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "CDKMetadata"
+          }
+        ],
+        "/HealechoStack/BootstrapVersion": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "BootstrapVersion"
+          }
+        ],
+        "/HealechoStack/CheckBootstrapVersion": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "CheckBootstrapVersion"
+          }
+        ]
+      },
+      "displayName": "HealechoStack"
+    },
+    "Tree": {
+      "type": "cdk:tree",
+      "properties": {
+        "file": "tree.json"
+      }
+    }
+  }
+}

@@ -1,0 +1,338 @@
+/* ===========================
+   가격 페이지 — Heal Echo 브랜드 팔레트
+=========================== */
+
+.page {
+  min-height: 100vh;
+  background: #f7f8fc;
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 48px 20px 80px;
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+/* === Header === */
+.pricingHeader {
+  text-align: center;
+  margin-bottom: 40px;
+}
+
+.pricingTitle {
+  font-size: 28px;
+  font-weight: 800;
+  color: #1a1a2e;
+  line-height: 1.45;
+  margin: 0;
+}
+
+.pricingTitleAccent {
+  background: linear-gradient(135deg, #00d6f5, #8a2be2);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* === Main Card === */
+.mainCard {
+  max-width: 480px;
+  width: 100%;
+  background: #fff;
+  border-radius: 20px;
+  padding: 36px 32px 32px;
+  border: 2px solid #e5e7eb;
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.06);
+}
+
+/* === Feature Section === */
+.featuresSection {
+  margin-bottom: 28px;
+}
+
+.sectionLabel {
+  display: block;
+  font-size: 11px;
+  font-weight: 700;
+  color: #8a2be2;
+  letter-spacing: 0.5px;
+  padding: 4px 0;
+}
+
+.featureList {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.featureItem {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  font-size: 14px;
+  color: #4b5563;
+  padding: 7px 0;
+  line-height: 1.5;
+}
+
+.featureIcon {
+  flex-shrink: 0;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 11px;
+  margin-top: 1px;
+  background: #ecfdf5;
+  color: #059669;
+}
+
+.sectionDivider {
+  border: none;
+  border-top: 1px dashed #e5e7eb;
+  margin: 14px 0;
+}
+
+/* === Price Comparison === */
+.priceComparison {
+  display: flex;
+  gap: 12px;
+  margin-top: 4px;
+}
+
+.priceOption {
+  flex: 1;
+  border: 2px solid #e5e7eb;
+  border-radius: 14px;
+  padding: 20px 16px;
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  position: relative;
+  background: #fafafa;
+}
+
+.priceOption:hover {
+  border-color: #c4b5fd;
+  background: #fafaff;
+}
+
+.priceOptionSelected {
+  border-color: #8a2be2;
+  background: #f5f3ff;
+  box-shadow: 0 0 0 1px #8a2be2;
+}
+
+.optionLabel {
+  font-size: 13px;
+  font-weight: 700;
+  color: #374151;
+  margin-bottom: 10px;
+}
+
+.optionOriginal {
+  text-decoration: line-through;
+  color: #d1d5db;
+  font-size: 14px;
+  font-weight: 500;
+  margin-bottom: 2px;
+}
+
+.optionPrice {
+  font-size: 32px;
+  font-weight: 800;
+  color: #1a1a2e;
+  letter-spacing: -0.5px;
+}
+
+.optionUnit {
+  font-size: 14px;
+  font-weight: 500;
+  color: #6b7280;
+}
+
+.optionDetail {
+  font-size: 12px;
+  color: #9ca3af;
+  margin-top: 6px;
+  line-height: 1.4;
+}
+
+.optionDetailSub {
+  font-size: 12px;
+  color: #9ca3af;
+  margin-top: 4px;
+}
+
+/* === Discount Badge === */
+.discountBadge {
+  display: inline-block;
+  background: linear-gradient(135deg, #00d6f5, #8a2be2);
+  color: #fff;
+  font-size: 11px;
+  font-weight: 800;
+  padding: 4px 10px;
+  border-radius: 6px;
+  margin-top: 8px;
+  letter-spacing: 0.3px;
+  animation: pulse 2s ease-in-out infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { box-shadow: 0 2px 8px rgba(138, 43, 226, 0.2); }
+  50% { box-shadow: 0 2px 14px rgba(138, 43, 226, 0.45); }
+}
+
+/* === Recommend Badge === */
+.recommendBadge {
+  position: absolute;
+  top: -11px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: linear-gradient(135deg, #00d6f5, #8a2be2);
+  color: #fff;
+  font-size: 10px;
+  font-weight: 700;
+  padding: 3px 12px;
+  border-radius: 10px;
+  white-space: nowrap;
+  box-shadow: 0 2px 8px rgba(138, 43, 226, 0.3);
+}
+
+/* === CTA Button === */
+.ctaSection {
+  margin-top: 20px;
+}
+
+.ctaBtn {
+  display: block;
+  width: 100%;
+  padding: 16px;
+  border: none;
+  border-radius: 12px;
+  font-size: 16px;
+  font-weight: 700;
+  font-family: inherit;
+  cursor: pointer;
+  text-align: center;
+  transition: all 0.2s;
+  background: linear-gradient(135deg, #00d6f5, #8a2be2);
+  color: #fff;
+  box-shadow: 0 4px 16px rgba(138, 43, 226, 0.3);
+}
+
+.ctaBtn:hover {
+  box-shadow: 0 6px 24px rgba(138, 43, 226, 0.4);
+  transform: translateY(-1px);
+}
+
+/* === Daily Cost === */
+.dailyCost {
+  text-align: center;
+  margin-top: 20px;
+  padding: 14px 16px;
+  background: #fff;
+  border-radius: 12px;
+  max-width: 480px;
+  width: 100%;
+  font-size: 14px;
+  color: #6b7280;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.dailyCostAccent {
+  color: #8a2be2;
+  font-weight: 700;
+}
+
+/* === Guarantee === */
+.guarantee {
+  text-align: center;
+  margin-top: 14px;
+  font-size: 13px;
+  color: #9ca3af;
+}
+
+.guaranteeCheck {
+  color: #059669;
+  font-weight: 600;
+}
+
+/* === Refund Policy === */
+.refundSection {
+  max-width: 480px;
+  width: 100%;
+  margin-top: 40px;
+  padding: 24px 28px;
+  background: #fff;
+  border-radius: 16px;
+  border: 1px solid #e5e7eb;
+}
+
+.refundTitle {
+  font-size: 14px;
+  font-weight: 700;
+  color: #1a1a2e;
+  margin: 0 0 12px;
+}
+
+.refundList {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.refundItem {
+  font-size: 13px;
+  color: #6b7280;
+  line-height: 1.6;
+  padding: 3px 0;
+  padding-left: 16px;
+  position: relative;
+}
+
+.refundItem::before {
+  content: "·";
+  position: absolute;
+  left: 4px;
+  font-weight: 700;
+  color: #d1d5db;
+}
+
+/* === Responsive === */
+@media (max-width: 480px) {
+  .container {
+    padding: 32px 16px 60px;
+  }
+
+  .mainCard {
+    padding: 28px 20px 24px;
+  }
+
+  .pricingTitle {
+    font-size: 24px;
+  }
+
+  .optionPrice {
+    font-size: 26px;
+  }
+
+  .priceComparison {
+    gap: 8px;
+  }
+
+  .priceOption {
+    padding: 16px 12px;
+  }
+
+  .refundSection {
+    padding: 20px 20px;
+  }
+}

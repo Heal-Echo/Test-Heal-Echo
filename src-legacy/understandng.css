@@ -1,0 +1,249 @@
+ /* ─── Font Faces (index.html과 동일하게) ─── */
+ @font-face { font-family: 'NotoSans'; font-weight: 400; src: url('../fonts/NotoSans-Regular.ttf') format('truetype'); }
+ @font-face { font-family: 'NotoSans'; font-weight: 500; src: url('../fonts/NotoSans-Medium.ttf') format('truetype'); }
+ @font-face { font-family: 'NotoSans'; font-weight: 600; src: url('../fonts/NotoSans-SemiBold.ttf') format('truetype'); }
+ @font-face { font-family: 'NotoSans'; font-weight: 900; src: url('../fonts/NotoSans-Black.ttf') format('truetype'); }
+ @font-face { font-family: 'PlayfairDisplay'; font-weight: 400; src: url('../fonts/PlayfairDisplay-Regular.ttf') format('truetype'); }
+ @font-face { font-family: 'PlayfairDisplay'; font-weight: 900; src: url('../fonts/PlayfairDisplay-Black.ttf') format('truetype'); }
+ 
+ :root {
+   --color-text: #000000;
+   --color-bg: #ffffff;
+   --color-primary: #00D6F5;
+   --font-sans: 'NotoSans', sans-serif;
+   --font-serif: 'PlayfairDisplay', serif;
+ }
+ @media (prefers-color-scheme: dark) {
+   :root { --color-text: #fff; --color-bg: #000; }
+ }
+ 
+ /* ─── 공통 기본 ─── */
+ body {
+   margin: 0;
+   padding: 0;
+   font-family: var(--font-sans);
+   background-color: var(--color-bg);
+   color: var(--color-text);
+   line-height: 1.6;
+ }
+ .container {
+   max-width: 1200px;
+   margin: 0 auto;
+   padding: 0 16px;
+ }
+ 
+ /* ─── 헤더 & 네비게이션 ─── */
+ .header {
+   background-color: var(--color-bg);
+   position: fixed;
+   top: 0;
+   left: 0;
+   width: 100%;
+   z-index: 1000;
+   box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+ }
+ .header-inner {
+   display: flex;
+   align-items: center;
+   justify-content: space-between;
+   height: 60px;
+ }
+ .logo-link {
+   display: flex;
+   align-items: center;
+   text-decoration: none;
+ }
+ .logo-image {
+   width: 40px;
+   height: 40px;
+   object-fit: cover;
+   border-radius: 50%;
+ }
+ .logo-text {
+   margin-left: 10px;
+   font-family: var(--font-serif);
+   font-weight: 900;
+   font-size: 1.25rem;
+   color: var(--color-text);
+ }
+
+
+/* ─── 메인 콘텐츠 ─── */
+.main-content {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding-top: 260px; /* 헤더 높이만큼 여백 */
+  }
+  .main-title {
+    font-size: 1.25rem;
+    font-weight: 600;
+    margin-bottom: 148px;
+  }
+  
+  /* ─── 버튼 그룹 ─── */
+  .button-group {
+    display: flex;
+    gap: 32px;
+  }
+  .circle-button {
+    width: 56px;
+    height: 56px;
+    border: none;
+    border-radius: 512px;
+    background-color: #1c1c1c;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+  }
+  .circle-button img {
+    width: 28px;
+    height: 28px;
+    object-fit: contain;
+  }
+
+  /* ─── 설정 팝업 오버레이 ─── */
+.settings-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.3);
+  display: none;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+}
+
+.settings-popup {
+  width: 700px;
+  height: 900px;
+  background-color: white;
+  border-radius: 30px;
+  padding: 40px 20px;
+  box-sizing: border-box;
+  position: relative;
+  text-align: center;
+}
+
+/* 닫기 버튼 */
+.close-button {
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+.close-button img {
+  width: 40px;
+  height: 40px;
+}
+
+.settings-title {
+  font-size: 1.1rem;
+  font-weight: bold;
+  margin-top: 40px;
+  margin-bottom: 80px;
+}
+
+/* 아이콘 버튼 */
+.settings-icons {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 40px;
+}
+
+/* 설정 레이아웃 정렬 */
+.settings-row {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 20px;
+  margin-bottom: 48px;
+  position: relative;
+}
+
+.setting-icon {
+  width: 56px;
+  height: 56px;
+  border-radius: 512px;
+  background-color: #1c1c1c;
+  padding: 14px;
+  object-fit: contain;
+}
+
+/* 볼륨 슬라이더 */
+.volume-slider {
+  width: 300px;
+}
+
+/* 시간 선택 프레임 */
+.time-options {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+.time-options span {
+  background-color: #ffffff;
+  color: #000000;
+  padding: 6px 12px;
+  border-radius: 12px;
+  font-size: 0.95rem;
+  cursor: pointer;
+  user-select: none;
+  border: 1px solid #ccc;
+  transition: all 0.2s ease;
+}
+
+.time-options span.selected {
+  background-color: #000000;
+  color: #ffffff;
+  border: 1px solid #ffffff;
+}
+
+
+/* 내레이션 토글 */
+.narration-wrapper {
+  position: relative;
+  cursor: pointer;
+  width: 56px;
+  height: 56px;
+}
+
+.narration-icon {
+  width: 56px;
+  height: 56px;
+  border-radius: 512px;
+  background-color: #1c1c1c;
+  padding: 14px;
+  object-fit: contain;
+}
+
+.narration-line {
+  content: "";
+  display: none;
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 2px;
+  height: 100%;
+  transform: rotate(-45deg);
+  background-color: red;
+  z-index: 2;
+}
+
+.narration-wrapper.off .narration-line {
+  display: block;
+}
+
+/* 아이콘 들여쓰기 (좌측 여백 100px) */
+.settings-row {
+  padding-left: 100px;
+}

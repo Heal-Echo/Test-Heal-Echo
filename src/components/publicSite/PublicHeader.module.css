@@ -1,0 +1,553 @@
+/* ===========================
+   PublicHeader — 깔끔한 브랜드 헤더
+=========================== */
+.header {
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  background: var(--color-bg);
+  border-bottom: 1px solid var(--border);
+}
+
+.inner {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 24px;
+  height: 64px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+/* ===========================
+   로고
+=========================== */
+.logoWrap {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  text-decoration: none;
+  flex-shrink: 0;
+}
+
+.logoImg {
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.brand {
+  font-family: "PlayfairDisplay", serif;
+  font-weight: 900;
+  font-size: 18px;
+  color: var(--color-text);
+}
+
+/* ===========================
+   데스크톱 네비게이션
+=========================== */
+.nav {
+  display: flex;
+  align-items: center;
+  gap: 36px;
+}
+
+.navLink {
+  position: relative;
+  background: none;
+  border: none;
+  padding: 4px 0;
+  cursor: pointer;
+  text-decoration: none;
+  color: var(--color-text);
+  font-weight: 600;
+  font-size: 15px;
+  font-family: inherit;
+  letter-spacing: -0.01em;
+  transition: color 0.2s ease;
+}
+
+.navLink::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: -2px;
+  width: 0;
+  height: 2px;
+  border-radius: 2px;
+  background: linear-gradient(90deg, var(--color-primary, #00d6f5), #8a2be2);
+  transition: width 0.25s ease;
+}
+
+.navLink:hover::after {
+  width: 100%;
+}
+
+/* Coming Soon 상태의 nav 링크 */
+.navLinkSoon {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 6px;
+}
+
+.soonBadge {
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.03em;
+  padding: 2px 6px;
+  border-radius: 999px;
+  background: linear-gradient(135deg, #ff69b4, #8a2be2);
+  color: #fff;
+  white-space: nowrap;
+  position: relative;
+  top: -1px;
+  line-height: 1;
+}
+
+/* ===========================
+   데스크톱 액션 버튼
+=========================== */
+.actions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-shrink: 0;
+}
+
+/* 가격 텍스트 링크 — 액션 영역 내 독립 배치, 로그인과 시각 분리 */
+.pricingLink {
+  padding: 4px 0;
+  text-decoration: none;
+  color: var(--color-text);
+  font-weight: 600;
+  font-size: 14px;
+  transition: color 0.2s ease;
+  margin-right: 16px;
+  position: relative;
+}
+
+.pricingLink::after {
+  content: "";
+  position: absolute;
+  right: -10px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 1px;
+  height: 16px;
+  background: rgba(0, 0, 0, 0.12);
+}
+
+.pricingLink:hover {
+  color: var(--color-primary);
+}
+
+.loginBtn {
+  padding: 8px 18px;
+  border-radius: 999px;
+  font-weight: 600;
+  font-size: 14px;
+  text-decoration: none;
+  color: var(--color-text);
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  transition: border-color 0.2s ease, background 0.2s ease;
+}
+
+.loginBtn:hover {
+  border-color: var(--color-primary);
+  background: rgba(0, 214, 245, 0.04);
+}
+
+@media (prefers-color-scheme: dark) {
+  .pricingLink::after {
+    background: rgba(255, 255, 255, 0.15);
+  }
+  .loginBtn {
+    border-color: rgba(255, 255, 255, 0.15);
+  }
+  .loginBtn:hover {
+    border-color: var(--color-primary);
+    background: rgba(0, 214, 245, 0.06);
+  }
+}
+
+.freeBtn {
+  padding: 8px 18px;
+  border-radius: 999px;
+  font-weight: 700;
+  font-size: 14px;
+  text-decoration: none;
+  color: #000;
+  background: var(--color-primary);
+  transition: box-shadow 0.2s ease, transform 0.15s ease;
+}
+
+.freeBtn:hover {
+  box-shadow: 0 4px 14px rgba(0, 214, 245, 0.3);
+  transform: translateY(-1px);
+}
+
+/* ===========================
+   햄버거 (모바일 전용)
+=========================== */
+.hamburger {
+  display: none;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 5px;
+  width: 40px;
+  height: 40px;
+  background: none;
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  border-radius: 10px;
+  cursor: pointer;
+  padding: 0;
+  flex-shrink: 0;
+  transition: border-color 0.2s ease, background 0.2s ease;
+}
+
+.hamburger:hover {
+  border-color: var(--color-primary);
+  background: rgba(0, 214, 245, 0.04);
+}
+
+.hamburger span {
+  display: block;
+  width: 18px;
+  height: 2px;
+  border-radius: 2px;
+  background: var(--color-text);
+  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.2s ease, width 0.3s ease;
+}
+
+/* 햄버거 → X 변환 */
+.hamburgerOpen {
+  border-color: var(--color-primary);
+}
+
+.hamburgerOpen span:nth-child(1) {
+  transform: translateY(7px) rotate(45deg);
+}
+.hamburgerOpen span:nth-child(2) {
+  opacity: 0;
+  width: 0;
+}
+.hamburgerOpen span:nth-child(3) {
+  transform: translateY(-7px) rotate(-45deg);
+}
+
+@media (prefers-color-scheme: dark) {
+  .hamburger {
+    border-color: rgba(255, 255, 255, 0.1);
+  }
+  .hamburger:hover {
+    border-color: var(--color-primary);
+    background: rgba(0, 214, 245, 0.06);
+  }
+}
+
+/* ===========================
+   모바일 패널 (기본: 숨김)
+=========================== */
+.mobileBackdrop {
+  display: none;
+}
+
+.mobilePanel {
+  display: none;
+}
+
+/* ===========================
+   반응형: 768px 이하
+=========================== */
+@media (max-width: 768px) {
+  .inner {
+    padding: 0 16px;
+  }
+
+  .nav {
+    display: none;
+  }
+  .actions {
+    display: none;
+  }
+
+  .hamburger {
+    display: flex;
+  }
+
+  /* 백드롭 */
+  .mobileBackdrop {
+    display: block;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.25);
+    z-index: 998;
+    animation: backdropIn 0.25s ease;
+  }
+
+  /* 드롭다운 패널 — 헤더 아래 전체 폭 */
+  .mobilePanel {
+    display: block;
+    position: fixed;
+    top: 64px;
+    left: 0;
+    right: 0;
+    z-index: 999;
+    background: var(--color-bg);
+    border-bottom: 1px solid var(--border);
+    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.1);
+    padding: 0 20px 24px;
+    max-height: 0;
+    overflow: hidden;
+    opacity: 0;
+    transition:
+      max-height 0.35s cubic-bezier(0.4, 0, 0.2, 1),
+      opacity 0.25s ease,
+      padding 0.35s ease;
+  }
+
+  .mobilePanelOpen {
+    max-height: 420px;
+    opacity: 1;
+    padding: 20px 20px 24px;
+  }
+
+  /* 상단 그라데이션 라인 */
+  .mobilePanelLine {
+    width: 100%;
+    height: 2px;
+    border-radius: 2px;
+    background: linear-gradient(90deg, #00d6f5, #8a2be2, #ff69b4);
+    margin-bottom: 20px;
+  }
+
+  /* 네비 항목 */
+  .mobileNav {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin-bottom: 20px;
+  }
+
+  .mobileNavItem {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    width: 100%;
+    padding: 14px 16px;
+    background: linear-gradient(
+      135deg,
+      rgba(0, 214, 245, 0.03) 0%,
+      rgba(138, 43, 226, 0.03) 100%
+    );
+    border: 1px solid rgba(0, 0, 0, 0.05);
+    border-radius: 14px;
+    cursor: pointer;
+    text-decoration: none;
+    color: var(--color-text);
+    font-family: inherit;
+    text-align: left;
+    transition: border-color 0.2s ease, background 0.2s ease, transform 0.15s ease;
+  }
+
+  .mobileNavItem:hover {
+    border-color: rgba(0, 214, 245, 0.2);
+    background: linear-gradient(
+      135deg,
+      rgba(0, 214, 245, 0.06) 0%,
+      rgba(138, 43, 226, 0.04) 100%
+    );
+    transform: translateX(2px);
+  }
+
+  .mobileNavIcon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    border-radius: 12px;
+    background: linear-gradient(135deg, #00d6f5, #8a2be2);
+    color: #fff;
+    flex-shrink: 0;
+    box-shadow: 0 2px 8px rgba(0, 214, 245, 0.2);
+  }
+
+  .mobileNavText {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    flex: 1;
+    min-width: 0;
+  }
+
+  .mobileNavTitle {
+    font-weight: 700;
+    font-size: 15px;
+    line-height: 1.3;
+  }
+
+  .mobileNavDesc {
+    font-size: 12px;
+    color: #888;
+    line-height: 1.3;
+  }
+
+  .mobileNavArrow {
+    display: flex;
+    align-items: center;
+    color: #ccc;
+    flex-shrink: 0;
+    transition: color 0.2s ease;
+  }
+
+  .mobileNavItem:hover .mobileNavArrow {
+    color: var(--color-primary);
+  }
+
+  /* Coming Soon 태그 */
+  .comingSoonTag {
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    padding: 3px 8px;
+    border-radius: 999px;
+    background: linear-gradient(135deg, #ff69b4, #8a2be2);
+    color: #fff;
+    white-space: nowrap;
+  }
+
+  /* 가격 링크 — 솔루션 메뉴와 분리, 당당하게 노출 */
+  .mobilePricingLink {
+    display: block;
+    text-align: center;
+    padding: 12px 0;
+    margin-bottom: 14px;
+    text-decoration: none;
+    color: var(--color-text);
+    font-weight: 600;
+    font-size: 14px;
+    border-top: 1px solid rgba(0, 0, 0, 0.06);
+    padding-top: 18px;
+    transition: color 0.2s ease;
+  }
+
+  .mobilePricingLink:hover {
+    color: var(--color-primary);
+  }
+
+  /* 버튼 그룹 */
+  .mobileBtnGroup {
+    display: flex;
+    gap: 10px;
+  }
+
+  .mobileLoginBtn {
+    flex: 1;
+    display: block;
+    padding: 13px 0;
+    border-radius: 12px;
+    font-weight: 600;
+    font-size: 14px;
+    text-decoration: none;
+    text-align: center;
+    color: var(--color-text);
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    transition: border-color 0.2s ease;
+  }
+
+  .mobileLoginBtn:hover {
+    border-color: var(--color-primary);
+  }
+
+  .mobileFreeBtn {
+    flex: 2;
+    display: block;
+    padding: 13px 0;
+    border-radius: 12px;
+    font-weight: 700;
+    font-size: 14px;
+    text-decoration: none;
+    text-align: center;
+    color: #000;
+    background: var(--color-primary);
+    box-shadow: 0 2px 10px rgba(0, 214, 245, 0.2);
+    transition: box-shadow 0.2s ease, transform 0.15s ease;
+  }
+
+  .mobileFreeBtn:hover {
+    box-shadow: 0 4px 16px rgba(0, 214, 245, 0.3);
+    transform: translateY(-1px);
+  }
+}
+
+/* 다크 모드 모바일 */
+@media (max-width: 768px) and (prefers-color-scheme: dark) {
+  .mobilePanel {
+    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.35);
+  }
+  .mobileNavItem {
+    border-color: rgba(255, 255, 255, 0.06);
+    background: linear-gradient(
+      135deg,
+      rgba(0, 214, 245, 0.05) 0%,
+      rgba(138, 43, 226, 0.04) 100%
+    );
+  }
+  .mobileNavItem:hover {
+    border-color: rgba(0, 214, 245, 0.25);
+    background: linear-gradient(
+      135deg,
+      rgba(0, 214, 245, 0.08) 0%,
+      rgba(138, 43, 226, 0.06) 100%
+    );
+  }
+  .mobileNavDesc {
+    color: #666;
+  }
+  .mobileNavArrow {
+    color: #555;
+  }
+  .mobilePricingLink {
+    border-top-color: rgba(255, 255, 255, 0.08);
+  }
+  .mobileLoginBtn {
+    border-color: rgba(255, 255, 255, 0.12);
+  }
+  .mobileLoginBtn:hover {
+    border-color: var(--color-primary);
+  }
+  .mobileBackdrop {
+    background: rgba(0, 0, 0, 0.45);
+  }
+}
+
+/* ===========================
+   중간 크기 (769~960)
+=========================== */
+@media (min-width: 769px) and (max-width: 960px) {
+  .nav {
+    gap: 24px;
+  }
+  .navLink {
+    font-size: 14px;
+  }
+  .pricingLink {
+    font-size: 13px;
+    margin-right: 12px;
+  }
+  .loginBtn,
+  .freeBtn {
+    padding: 7px 14px;
+    font-size: 13px;
+  }
+}
+
+@keyframes backdropIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}

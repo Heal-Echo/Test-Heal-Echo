@@ -1,0 +1,1008 @@
+/* src/app/mypage/wellness-record/wellness-record.module.css */
+
+/* ══════════════════════════════════════════
+   레이아웃
+   ══════════════════════════════════════════ */
+.container {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  max-width: 480px;
+  margin: 0 auto;
+  background-color: #f8f9fa;
+  position: relative;
+}
+
+.main {
+  flex: 1;
+  padding: 0 0 24px;
+  box-sizing: border-box;
+}
+
+.tabPadding {
+  height: 72px;
+}
+
+/* ══════════════════════════════════════════
+   페이지 히어로
+   ══════════════════════════════════════════ */
+.heroSection {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  padding: 28px 20px 32px;
+  color: #ffffff;
+}
+
+.heroTitle {
+  font-size: 22px;
+  font-weight: 800;
+  margin: 0 0 6px;
+  letter-spacing: -0.5px;
+}
+
+.heroSub {
+  font-size: 13px;
+  font-weight: 400;
+  margin: 0;
+  opacity: 0.85;
+  line-height: 1.5;
+}
+
+/* ══════════════════════════════════════════
+   공통 섹션 카드
+   ══════════════════════════════════════════ */
+.sectionCard {
+  background: #ffffff;
+  border-radius: 16px;
+  margin: 12px 16px 0;
+  padding: 20px 16px;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.04);
+}
+
+.sectionHeader {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 16px;
+}
+
+.sectionEmoji {
+  font-size: 18px;
+  line-height: 1;
+}
+
+.sectionTitle {
+  font-size: 16px;
+  font-weight: 700;
+  color: #1f2937;
+  margin: 0;
+  letter-spacing: -0.3px;
+}
+
+.sectionSub {
+  font-size: 12px;
+  color: #9ca3af;
+  font-weight: 400;
+  margin-left: auto;
+}
+
+/* 빈 상태 */
+.emptyState {
+  text-align: center;
+  padding: 24px 0;
+}
+
+.emptyIcon {
+  font-size: 32px;
+  margin-bottom: 8px;
+}
+
+.emptyText {
+  font-size: 13px;
+  color: #9ca3af;
+  margin: 0 0 4px;
+  line-height: 1.6;
+}
+
+.emptyHint {
+  font-size: 12px;
+  color: #d1d5db;
+  margin: 0;
+}
+
+.emptyCta {
+  display: inline-block;
+  margin-top: 12px;
+  padding: 8px 20px;
+  border-radius: 8px;
+  border: 1px solid #e5e7eb;
+  background: #ffffff;
+  color: #6b7280;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.emptyCta:hover {
+  background: #f9fafb;
+  border-color: #d1d5db;
+}
+
+/* ══════════════════════════════════════════
+   ❶ 종합 웰니스 스코어 (레이더 차트)
+   ══════════════════════════════════════════ */
+.scoreSection {
+  background: #ffffff;
+  border-radius: 16px;
+  margin: -20px 16px 0;
+  padding: 20px 12px 16px;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.06);
+  position: relative;
+  z-index: 1;
+}
+
+.radarWrap {
+  display: flex;
+  justify-content: center;
+}
+
+.radarSvg {
+  width: 100%;
+  max-width: 260px;
+  height: auto;
+}
+
+.radarFooter {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-top: 8px;
+  padding-top: 12px;
+  border-top: 1px solid #f3f4f6;
+}
+
+.radarOverall {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+  padding: 0 12px;
+  flex-shrink: 0;
+}
+
+.radarOverallNum {
+  font-size: 32px;
+  font-weight: 800;
+  line-height: 1;
+}
+
+.radarOverallLabel {
+  font-size: 11px;
+  color: #9ca3af;
+  font-weight: 500;
+}
+
+.radarLegend {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.radarLegendItem {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.radarLegendIcon {
+  font-size: 14px;
+  width: 18px;
+  text-align: center;
+}
+
+.radarLegendLabel {
+  font-size: 12px;
+  color: #6b7280;
+  flex: 1;
+}
+
+.radarLegendValue {
+  font-size: 13px;
+  font-weight: 700;
+  min-width: 24px;
+  text-align: right;
+}
+
+.scoreDetail {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.scoreItem {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.scoreItemIcon {
+  font-size: 14px;
+  width: 20px;
+  text-align: center;
+}
+
+.scoreItemLabel {
+  font-size: 12px;
+  color: #6b7280;
+  flex: 1;
+}
+
+.scoreItemBar {
+  width: 60px;
+  height: 6px;
+  border-radius: 3px;
+  background: #f3f4f6;
+  overflow: hidden;
+}
+
+.scoreItemFill {
+  height: 100%;
+  border-radius: 3px;
+  transition: width 0.6s ease;
+}
+
+.scoreItemValue {
+  font-size: 12px;
+  font-weight: 700;
+  width: 28px;
+  text-align: right;
+}
+
+/* ══════════════════════════════════════════
+   ❷ 변화 하이라이트
+   ══════════════════════════════════════════ */
+.highlightGrid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+
+.highlightCard {
+  background: #f9fafb;
+  border-radius: 12px;
+  padding: 14px 12px;
+  text-align: center;
+}
+
+.highlightLabel {
+  font-size: 11px;
+  color: #9ca3af;
+  margin: 0 0 8px;
+  font-weight: 500;
+}
+
+.highlightValueRow {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+}
+
+.highlightBefore {
+  font-size: 18px;
+  font-weight: 700;
+  color: #d1d5db;
+}
+
+.highlightArrow {
+  font-size: 12px;
+  color: #9ca3af;
+}
+
+.highlightAfter {
+  font-size: 18px;
+  font-weight: 800;
+}
+
+.highlightChange {
+  font-size: 11px;
+  font-weight: 600;
+  margin-top: 4px;
+}
+
+/* ══════════════════════════════════════════
+   ❸ 주간 리포트 카드
+   ══════════════════════════════════════════ */
+.weeklyGrid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+}
+
+.weeklyItem {
+  background: #f9fafb;
+  border-radius: 10px;
+  padding: 14px 12px;
+  text-align: center;
+}
+
+.weeklyItemIcon {
+  font-size: 20px;
+  margin-bottom: 4px;
+}
+
+.weeklyItemValue {
+  font-size: 20px;
+  font-weight: 800;
+  color: #1f2937;
+}
+
+.weeklyItemUnit {
+  font-size: 12px;
+  font-weight: 400;
+  color: #6b7280;
+}
+
+.weeklyItemLabel {
+  font-size: 11px;
+  color: #9ca3af;
+  margin-top: 2px;
+}
+
+/* ══════════════════════════════════════════
+   ❹ 통합 실천 달력
+   ══════════════════════════════════════════ */
+.calendarNav {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  margin-bottom: 12px;
+}
+
+.calendarNavBtn {
+  width: 28px;
+  height: 28px;
+  border: none;
+  background: #f3f4f6;
+  border-radius: 50%;
+  font-size: 16px;
+  color: #6b7280;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.15s ease;
+}
+
+.calendarNavBtn:hover {
+  background: #e5e7eb;
+}
+
+.calendarMonth {
+  font-size: 14px;
+  font-weight: 700;
+  color: #1f2937;
+  min-width: 100px;
+  text-align: center;
+}
+
+.calendarWeekdays {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  margin-bottom: 4px;
+}
+
+.weekdayCell {
+  text-align: center;
+  font-size: 11px;
+  color: #9ca3af;
+  font-weight: 500;
+  padding: 4px 0;
+}
+
+.calendarGrid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 2px 0;
+}
+
+.dayCell {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 4px 0;
+  min-height: 40px;
+}
+
+.dayNumber {
+  font-size: 13px;
+  color: #374151;
+  width: 28px;
+  height: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+}
+
+.dayToday {
+  background: #ede9fe;
+  color: #7c3aed;
+  font-weight: 700;
+}
+
+.dotRow {
+  display: flex;
+  gap: 3px;
+  margin-top: 2px;
+}
+
+.dotWellness {
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: #6366f1;
+}
+
+.dotHabit {
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: #22c55e;
+}
+
+.dotPlay {
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: #a855f7;
+}
+
+.calendarLegend {
+  display: flex;
+  justify-content: center;
+  gap: 16px;
+  margin-top: 12px;
+  padding-top: 12px;
+  border-top: 1px solid #f3f4f6;
+}
+
+.legendItem {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.legendDotWellness {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #6366f1;
+}
+
+.legendDotHabit {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #22c55e;
+}
+
+.legendDotPlay {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #a855f7;
+}
+
+.legendText {
+  font-size: 11px;
+  color: #6b7280;
+}
+
+/* ══════════════════════════════════════════
+   ❺ 자율신경 밸런스 추이
+   ══════════════════════════════════════════ */
+.scLatest {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 16px;
+}
+
+.scScoreWrap {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+}
+
+.scScoreCircle {
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  border: 3px solid #10b981;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.scScoreNum {
+  font-size: 20px;
+  font-weight: 800;
+  line-height: 1;
+}
+
+.scScoreMax {
+  font-size: 10px;
+  color: #9ca3af;
+}
+
+.scGradeRow {
+  display: flex;
+  gap: 4px;
+}
+
+.scGradeBadge {
+  font-size: 10px;
+  font-weight: 700;
+  color: #ffffff;
+  padding: 2px 6px;
+  border-radius: 4px;
+}
+
+.scQualityBadge {
+  font-size: 10px;
+  font-weight: 600;
+  color: #ffffff;
+  padding: 2px 8px;
+  border-radius: 4px;
+}
+
+.scLatestInfo {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.scLatestDate {
+  font-size: 11px;
+  color: #9ca3af;
+}
+
+.scShortLabel {
+  font-size: 13px;
+  font-weight: 600;
+  line-height: 1.4;
+}
+
+.scTrend {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.scTrendArrow {
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.scTrendText {
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.scChartWrap {
+  margin-top: 8px;
+}
+
+.scChart {
+  width: 100%;
+  height: auto;
+}
+
+.scChartLegend {
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+  margin-top: 6px;
+}
+
+.scChartLegendGood {
+  font-size: 10px;
+  color: #10b981;
+}
+
+.scChartLegendNormal {
+  font-size: 10px;
+  color: #f59e0b;
+}
+
+.scChartLegendBad {
+  font-size: 10px;
+  color: #ef4444;
+}
+
+/* ══════════════════════════════════════════
+   ❻ 수면 품질 추이 (PSQI)
+   ══════════════════════════════════════════ */
+.psqiLatest {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 16px;
+}
+
+.psqiScoreWrap {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+}
+
+.psqiScoreCircle {
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  border: 3px solid #6366f1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.psqiScoreNum {
+  font-size: 20px;
+  font-weight: 800;
+  line-height: 1;
+}
+
+.psqiScoreMax {
+  font-size: 10px;
+  color: #9ca3af;
+}
+
+.psqiGradeRow {
+  display: flex;
+  gap: 4px;
+}
+
+.psqiGradeBadge {
+  font-size: 10px;
+  font-weight: 700;
+  color: #ffffff;
+  padding: 2px 6px;
+  border-radius: 4px;
+}
+
+.psqiQualityBadge {
+  font-size: 10px;
+  font-weight: 600;
+  color: #ffffff;
+  padding: 2px 8px;
+  border-radius: 4px;
+}
+
+.psqiLatestInfo {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.psqiLatestDate {
+  font-size: 11px;
+  color: #9ca3af;
+}
+
+.psqiGapText {
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.psqiTrend {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.psqiTrendArrow {
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.psqiTrendText {
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.psqiChartWrap {
+  margin-top: 8px;
+}
+
+.psqiChart {
+  width: 100%;
+  height: auto;
+}
+
+.psqiChartLegend {
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+  margin-top: 6px;
+}
+
+.psqiChartLegendGood {
+  font-size: 10px;
+  color: #10b981;
+}
+
+.psqiChartLegendNormal {
+  font-size: 10px;
+  color: #f59e0b;
+}
+
+.psqiChartLegendBad {
+  font-size: 10px;
+  color: #ef4444;
+}
+
+/* ══════════════════════════════════════════
+   ❼ 수면 상세 그래프
+   ══════════════════════════════════════════ */
+.sleepChartNav {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  margin-bottom: 12px;
+}
+
+.sleepChartNavBtn {
+  width: 26px;
+  height: 26px;
+  border: none;
+  background: #f3f4f6;
+  border-radius: 50%;
+  font-size: 14px;
+  color: #6b7280;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.sleepChartNavBtn:disabled {
+  opacity: 0.3;
+  cursor: default;
+}
+
+.sleepChartMonth {
+  font-size: 13px;
+  font-weight: 600;
+  color: #374151;
+  min-width: 90px;
+  text-align: center;
+}
+
+.sleepChartSvg {
+  width: 100%;
+  height: auto;
+}
+
+.sleepChartLegend {
+  display: flex;
+  justify-content: center;
+  gap: 16px;
+  margin-top: 8px;
+}
+
+.sleepLegendItem {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 11px;
+  color: #6b7280;
+}
+
+.sleepLegendDot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+}
+
+/* ══════════════════════════════════════════
+   ❽ 위클리 솔루션 실천 현황
+   ══════════════════════════════════════════ */
+.solutionStats {
+  display: flex;
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
+.solutionStat {
+  flex: 1;
+  background: #f9fafb;
+  border-radius: 10px;
+  padding: 14px 8px;
+  text-align: center;
+}
+
+.solutionStatValue {
+  font-size: 22px;
+  font-weight: 800;
+  color: #6366f1;
+}
+
+.solutionStatUnit {
+  font-size: 11px;
+  color: #6b7280;
+}
+
+.solutionStatLabel {
+  font-size: 11px;
+  color: #9ca3af;
+  margin-top: 2px;
+}
+
+.solutionWeekProgress {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.weekDot {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  border: 2px solid #e5e7eb;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 10px;
+  font-weight: 600;
+  color: #d1d5db;
+  transition: all 0.2s ease;
+}
+
+.weekDotComplete {
+  border-color: #6366f1;
+  background: #6366f1;
+  color: #ffffff;
+}
+
+.weekDotCurrent {
+  border-color: #6366f1;
+  color: #6366f1;
+}
+
+/* ══════════════════════════════════════════
+   ❾ 식습관 실천 그래프
+   ══════════════════════════════════════════ */
+.habitChartSvg {
+  width: 100%;
+  height: auto;
+}
+
+.habitChartLegend {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 10px;
+  margin-top: 8px;
+}
+
+.habitLegendItem {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.habitLegendDot {
+  width: 8px;
+  height: 8px;
+  border-radius: 2px;
+}
+
+.habitLegendText {
+  font-size: 10px;
+  color: #6b7280;
+}
+
+/* ══════════════════════════════════════════
+   ❿ 이해의 바다 실천 현황
+   ══════════════════════════════════════════ */
+.seaStats {
+  display: flex;
+  gap: 12px;
+}
+
+.seaStat {
+  flex: 1;
+  background: #f9fafb;
+  border-radius: 10px;
+  padding: 14px 8px;
+  text-align: center;
+}
+
+.seaStatValue {
+  font-size: 22px;
+  font-weight: 800;
+  color: #a855f7;
+}
+
+.seaStatUnit {
+  font-size: 11px;
+  color: #6b7280;
+}
+
+.seaStatLabel {
+  font-size: 11px;
+  color: #9ca3af;
+  margin-top: 2px;
+}
+
+/* ══════════════════════════════════════════
+   로딩 상태
+   ══════════════════════════════════════════ */
+.loadingWrap {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 80px 0;
+  gap: 12px;
+}
+
+.loadingSpinner {
+  width: 32px;
+  height: 32px;
+  border: 3px solid #e5e7eb;
+  border-top-color: #6366f1;
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+.loadingText {
+  font-size: 13px;
+  color: #9ca3af;
+}
+
+/* ══════════════════════════════════════════
+   반응형
+   ══════════════════════════════════════════ */
+@media (max-width: 360px) {
+  .sectionCard {
+    margin: 10px 12px 0;
+    padding: 16px 12px;
+  }
+
+  .scoreSection {
+    margin: -20px 12px 0;
+    padding: 20px 12px;
+  }
+
+  .heroSection {
+    padding: 24px 16px 28px;
+  }
+
+  .heroTitle {
+    font-size: 20px;
+  }
+
+  .scoreRow {
+    gap: 16px;
+  }
+
+  .highlightGrid {
+    gap: 8px;
+  }
+}

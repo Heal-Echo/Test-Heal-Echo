@@ -1,0 +1,363 @@
+/* src/app/wellness/balance/player/player.module.css */
+
+/* ===========================
+   Player Page 전체 컨테이너
+   - Balance 페이지와 동일한 최대 폭/패딩 정책 유지
+=========================== */
+.container {
+  width: 100%;
+  min-height: 100vh;
+  min-height: 100dvh;
+  background: #fafafa;
+  max-width: 720px;
+  margin: 0 auto;
+  padding-left: var(--container-padding, 16px);
+  padding-right: var(--container-padding, 16px);
+  padding-bottom: 90px;
+}
+
+/* ===========================
+   본문 영역
+=========================== */
+.main {
+  padding: 16px;
+}
+
+/* ===========================
+   영상 제목
+=========================== */
+.title {
+  font-size: 20px;
+  font-weight: 700;
+  margin-bottom: 16px;
+  color: #1a1a1a;
+  letter-spacing: -0.02em;
+}
+
+/* ===========================
+   상태/에러 메시지
+=========================== */
+.message {
+  font-size: 14px;
+  color: #666;
+  margin-top: 24px;
+}
+
+.error {
+  font-size: 14px;
+  color: #d32f2f;
+  margin-top: 24px;
+}
+
+/* ===========================
+   영상 영역 래퍼
+   - 비율 유지, 둥근 모서리
+=========================== */
+.videoWrapper {
+  width: 100%;
+  border-radius: 16px;
+  overflow: hidden;
+  background: #000;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.15);
+}
+
+/* ===========================
+   실제 video 태그
+=========================== */
+.video {
+  width: 100%;
+  height: auto;
+  display: block;
+  background: #000;
+}
+
+/* ===========================
+   결제 유도 팝업 (4분 미리보기 종료 시)
+=========================== */
+.paywallOverlay {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0, 0, 0, 0.6);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+  padding: 24px;
+}
+
+.paywallCard {
+  width: 100%;
+  max-width: 360px;
+  background: #ffffff;
+  border-radius: 24px;
+  padding: 36px 28px 28px;
+  text-align: center;
+  box-shadow: 0 16px 48px rgba(0, 0, 0, 0.2);
+  animation: paywallSlideUp 0.3s ease-out;
+}
+
+@keyframes paywallSlideUp {
+  from {
+    opacity: 0;
+    transform: translateY(24px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.paywallIcon {
+  font-size: 40px;
+  margin-bottom: 12px;
+}
+
+.paywallTitle {
+  font-size: 20px;
+  font-weight: 700;
+  color: #111827;
+  margin-bottom: 10px;
+}
+
+.paywallDesc {
+  font-size: 14px;
+  color: #6b7280;
+  line-height: 1.6;
+  margin-bottom: 28px;
+}
+
+.paywallPrimaryBtn {
+  display: block;
+  width: 100%;
+  padding: 14px 0;
+  border: none;
+  border-radius: 14px;
+  background: linear-gradient(135deg, #6366f1, #818cf8);
+  color: #ffffff;
+  font-size: 16px;
+  font-weight: 700;
+  cursor: pointer;
+  margin-bottom: 10px;
+  transition: opacity 0.15s ease;
+  box-shadow: 0 4px 12px rgba(99, 102, 241, 0.3);
+  /* 터치 기기에서 최소 48px 터치 타겟 보장 */
+  min-height: 48px;
+}
+
+/* 데스크탑에서만 hover 효과 */
+@media (hover: hover) and (pointer: fine) {
+  .paywallPrimaryBtn:hover {
+    opacity: 0.9;
+  }
+}
+
+.paywallPrimaryBtn:active {
+  opacity: 0.8;
+}
+
+.paywallSecondaryBtn {
+  display: block;
+  width: 100%;
+  padding: 12px 0;
+  border: none;
+  border-radius: 14px;
+  background: transparent;
+  color: #9ca3af;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: color 0.15s ease;
+  /* 터치 기기에서 최소 48px 터치 타겟 보장 */
+  min-height: 48px;
+}
+
+/* 데스크탑에서만 hover 효과 */
+@media (hover: hover) and (pointer: fine) {
+  .paywallSecondaryBtn:hover {
+    color: #6b7280;
+  }
+}
+
+/* ===========================
+   하단 탭바 공간 확보
+=========================== */
+.tabPadding {
+  height: 80px;
+}
+
+/* ===========================
+   반응형: 태블릿 (641px ~ 1024px)
+   - 컨테이너 960px 확장
+   - 비디오 래퍼/제목 크기 확대
+   - 결제 팝업 여유 있게 표시
+=========================== */
+@media (min-width: 641px) and (max-width: 1024px) {
+  .container {
+    max-width: var(--container-max-width-tablet, 960px);
+  }
+
+  .main {
+    padding: 24px;
+  }
+
+  .title {
+    font-size: 24px;
+    margin-bottom: 20px;
+  }
+
+  .videoWrapper {
+    border-radius: 20px;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+  }
+
+  .message,
+  .error {
+    font-size: 15px;
+  }
+
+  .paywallCard {
+    max-width: 400px;
+    padding: 40px 32px 32px;
+  }
+
+  .paywallTitle {
+    font-size: 22px;
+  }
+
+  .paywallDesc {
+    font-size: 15px;
+  }
+
+  .tabPadding {
+    height: 90px;
+  }
+}
+
+/* ===========================
+   반응형: 소형 모바일 (≤ 480px)
+   - 영상이 화면 가장자리까지 넓게 보이도록 조정
+   - 결제 팝업 크기 축소
+=========================== */
+@media (max-width: 480px) {
+  .main {
+    padding: 12px 0;
+  }
+
+  .title {
+    font-size: 18px;
+    margin-bottom: 12px;
+    padding: 0 var(--container-padding, 16px);
+  }
+
+  .videoWrapper {
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  }
+
+  .message,
+  .error {
+    font-size: 13px;
+    padding: 0 var(--container-padding, 16px);
+  }
+
+  .paywallOverlay {
+    padding: 16px;
+  }
+
+  .paywallCard {
+    max-width: 320px;
+    padding: 28px 20px 20px;
+    border-radius: 20px;
+  }
+
+  .paywallIcon {
+    font-size: 36px;
+    margin-bottom: 8px;
+  }
+
+  .paywallTitle {
+    font-size: 18px;
+    margin-bottom: 8px;
+  }
+
+  .paywallDesc {
+    font-size: 13px;
+    margin-bottom: 24px;
+  }
+
+  .paywallPrimaryBtn {
+    font-size: 15px;
+    padding: 13px 0;
+  }
+
+  .paywallSecondaryBtn {
+    font-size: 13px;
+  }
+}
+
+/* ===========================
+   반응형: 초소형 모바일 (≤ 360px)
+   - 최소한의 여백으로 영상 공간 최대화
+   - 팝업 더 컴팩트하게
+=========================== */
+@media (max-width: 360px) {
+  .main {
+    padding: 8px 0;
+  }
+
+  .title {
+    font-size: 16px;
+    margin-bottom: 10px;
+    padding: 0 var(--container-padding, 12px);
+  }
+
+  .videoWrapper {
+    border-radius: 10px;
+  }
+
+  .message,
+  .error {
+    font-size: 12px;
+    padding: 0 var(--container-padding, 12px);
+  }
+
+  .paywallOverlay {
+    padding: 12px;
+  }
+
+  .paywallCard {
+    max-width: 290px;
+    padding: 24px 16px 16px;
+    border-radius: 18px;
+  }
+
+  .paywallIcon {
+    font-size: 32px;
+  }
+
+  .paywallTitle {
+    font-size: 16px;
+  }
+
+  .paywallDesc {
+    font-size: 12px;
+    margin-bottom: 20px;
+  }
+
+  .paywallPrimaryBtn {
+    font-size: 14px;
+    padding: 12px 0;
+    border-radius: 12px;
+  }
+
+  .paywallSecondaryBtn {
+    font-size: 12px;
+    padding: 10px 0;
+  }
+
+  .tabPadding {
+    height: 70px;
+  }
+}

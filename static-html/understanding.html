@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>기적의 오토 밸런스 테스트</title>
+ 
+  <!-- ① 리셋 CSS -->
+  <link rel="stylesheet" href="./reset.css" />
+  <link rel="stylesheet" href="./reset.prefixed.css" />
+    <!-- ② 공통 스타일 (헤더 등 전체 레이아웃) -->
+    <link rel="stylesheet" href="./src/style.css">
+  <!-- ② 페이지 전용 스타일 -->
+  <link rel="stylesheet" href="./src/understandng.css" />
+
+</head>
+<body>
+
+  <div id="site-header" data-header-src="./partials/header.html"></div>
+
+
+   <!-- ─── 메인 컨텐츠 ─── -->
+   <main class="main-content">
+    <h1 class="main-title">이해의 바다에서 나를 듣다</h1>
+
+    <div class="button-group">
+      <button class="circle-button">
+        <img src="./assets/images/m_setting.png" alt="설정" />
+      </button>
+      <button class="circle-button" id="play-button">
+        <img src="./assets/images/play.png" alt="재생" />
+      </button>
+      
+      <button class="circle-button">
+        <img src="./assets/images/stop.png" alt="정지" />
+      </button>
+    </div>
+
+<!-- ─── 설정 팝업 ─── -->
+<div class="settings-overlay" id="settingsOverlay">
+  <div class="settings-popup">
+    <button class="close-button" id="closeSettings">
+      <img src="./assets/images/X.png" alt="닫기" />
+    </button>
+    <h2 class="settings-title">이해의 바다에서 나를 듣다</h2>
+    
+    <!-- 설정 항목 그룹 -->
+    <div class="settings-row">
+      <img src="./assets/images/volume.png" class="setting-icon" alt="볼륨" />
+      <input type="range" min="0" max="100" value="50" class="volume-slider" />
+    </div>
+
+    <div class="settings-row">
+      <img src="./assets/images/singingbowl.png" class="setting-icon" alt="싱잉볼" />
+      <div class="time-options">
+        <span>1분</span>
+        <span>2분</span>
+        <span>5분</span>
+        <span>10분</span>
+        <span>15분</span>
+        <span>30분</span>
+      </div>
+    </div>
+
+    <div class="settings-row">
+      <div class="narration-wrapper" id="narrationToggle">
+        <img src="./assets/images/narration.png" class="setting-icon narration-icon" alt="내레이션" />
+        <div class="narration-line"></div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+
+
+  </main>
+  <script>
+    // ▶ 재생/정지 버튼 토글
+    const playButton = document.getElementById("play-button");
+    const playImage = playButton.querySelector("img");
+  
+    let isPlaying = false;
+  
+    playButton.addEventListener("click", () => {
+      if (!isPlaying) {
+        playImage.src = "./assets/images/tstop.png";
+        isPlaying = true;
+      } else {
+        playImage.src = "./assets/images/play.png";
+        isPlaying = false;
+      }
+    });
+  
+    // ⚙️ 설정 팝업 열고 닫기
+    const settingsButton = document.querySelector(".button-group button:first-child");
+    const settingsOverlay = document.getElementById("settingsOverlay");
+    const closeSettings = document.getElementById("closeSettings");
+  
+    settingsButton.addEventListener("click", () => {
+      settingsOverlay.style.display = "flex";
+    });
+  
+    closeSettings.addEventListener("click", () => {
+      settingsOverlay.style.display = "none";
+    });
+  
+    // 🔇 내레이션 on/off 토글
+    const narrationToggle = document.getElementById("narrationToggle");
+  
+    narrationToggle.addEventListener("click", () => {
+      narrationToggle.classList.toggle("off");
+    });
+
+    // 🕒 싱잉볼 시간 선택 - 클릭 시 스타일 변경
+const timeOptions = document.querySelectorAll(".time-options span");
+
+timeOptions.forEach(option => {
+  option.addEventListener("click", () => {
+    timeOptions.forEach(opt => opt.classList.remove("selected")); // 다른 항목 비활성화
+    option.classList.add("selected"); // 현재 항목 활성화
+  });
+});
+
+  </script> 
+  <script src="./src/header.js" defer></script>
+
+</body>
+</html>

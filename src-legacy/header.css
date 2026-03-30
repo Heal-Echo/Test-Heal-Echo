@@ -1,0 +1,134 @@
+/* /partials/header.css  (사이트 어디서든 안전하게 쓰려고 he- 네임스페이스 사용) */
+
+:root {
+  --he-text: #000;
+  --he-bg: #fff;
+  --he-primary: #00D6F5;
+  --he-border: rgba(0,0,0,.08);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --he-text: #fff;
+    --he-bg: #000;
+    --he-border: rgba(255,255,255,.15);
+  }
+}
+
+.he-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 16px;
+}
+
+.he-header {
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  background: var(--he-bg);
+  border-bottom: 1px solid var(--he-border);
+  backdrop-filter: saturate(150%) blur(4px);
+}
+
+/* 상단 바 */
+.he-header-inner{
+  height: 64px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:12px;
+}
+
+/* 로고 */
+.he-logo-wrap{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  text-decoration:none;
+  color:inherit;
+}
+.he-logo-wrap img{
+  width:40px; height:40px; border-radius:50%; object-fit:cover;
+}
+.he-brand{
+  font-family: "PlayfairDisplay", serif;
+  font-weight: 900;
+  font-size: 18px;
+}
+
+/* 데스크톱 네비 */
+.he-nav{
+  display:flex; align-items:center; gap:22px;
+}
+.he-nav a{
+  text-decoration:none; color:var(--he-text); font-weight:600;
+  position:relative; padding:6px 2px;
+}
+.he-nav a.is-active::after{
+  content:""; position:absolute; left:0; right:0; bottom:-6px; height:2px;
+  background: var(--he-primary);
+}
+
+/* 액션 버튼 */
+.he-actions{ display:flex; align-items:center; gap:12px; }
+.he-btn{
+  display:inline-flex; align-items:center; justify-content:center;
+  padding:10px 16px; border-radius:999px; font-weight:700; border:1px solid transparent; text-decoration:none;
+}
+.he-btn-primary{ background:var(--he-primary); color:#000; }
+.he-btn-ghost{ border:1px solid var(--he-border); color:var(--he-text); }
+
+/* 모바일: 햄버거 버튼 */
+.he-menu-btn{
+  display:none;
+  background:none; border:1px solid var(--he-border);
+  padding:6px 10px; border-radius:8px; font-size:18px; line-height:1; color:var(--he-text);
+}
+
+/* 모바일 드로어 */
+.he-mobile{ border-top:1px solid var(--he-border); background:var(--he-bg); }
+.he-mobile-nav{ display:grid; gap:10px; padding:12px 16px; }
+.he-mobile-nav a{ text-decoration:none; color:var(--he-text); font-weight:600; }
+.he-mobile-nav .he-btn{ justify-self:start; }
+
+/* 반응형 */
+@media (max-width: 880px){
+  .he-nav, .he-actions{ display:none; }
+  .he-menu-btn{ display:inline-block; }
+}
+
+/* 살짝 효과 */
+.he-nav a:hover{ opacity:.85; }
+
+/* src/header.css 맨 아래 추가 */
+.header .container { padding: 0 16px !important; }
+.header .header-inner { height: 64px !important; gap: 12px !important; }
+
+/* ===== 공통 헤더 보정(실제 마크업용) — src/header.css 맨 아래에 추가 ===== */
+.header {
+  position: sticky !important;
+  top: 0 !important;
+  z-index: 3000 !important;      /* 로그인 페이지의 오버레이/모달보다 위로 */
+  background: var(--he-bg, #fff) !important;
+  border-bottom: 1px solid var(--he-border, rgba(0,0,0,.08)) !important;
+}
+
+.header .container {
+  max-width: 1200px !important;
+  margin: 0 auto !important;
+  padding: 0 16px !important;
+}
+
+.header .header-inner {
+  height: 64px !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+  gap: 12px !important;
+}
+
+/* 페이지 전용 CSS가 .container, .btn 등에 걸쳐 있어도 헤더 내부만은 보호 */
+.header .nav a,
+.header .actions .btn {
+  line-height: 1 !important;
+}

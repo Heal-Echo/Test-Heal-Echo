@@ -1,0 +1,305 @@
+/* miraclereset.module.css – Next.js 변환 */
+
+.pageWrapper {
+  width: 100%;
+  background: var(--color-bg);
+  color: var(--color-text);
+  overflow-x: hidden;
+  font-family: var(--font-sans);
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 16px;
+}
+
+/* ─── Join Today ─── */
+.joinToday {
+  margin-top: 100px;
+}
+
+.joinTodayText {
+  font-family: "NotoSans", sans-serif;
+  font-weight: 600;
+  font-size: 18px;
+  color: #ff69b4;
+  text-align: center;
+  margin: 0;
+}
+
+/* ─── 진행 솔루션 카드 ─── */
+.pillTitle {
+  display: inline-block;
+  padding: 6px 14px;
+  border-radius: 999px;
+  background: var(--color-primary);
+  color: #000;
+  font-weight: 900;
+  margin-bottom: 10px;
+  font-family: var(--font-serif);
+}
+
+.surfaceCard {
+  width: min(900px, 90%);
+  margin: 16px auto 0;
+  background: var(--surface);
+  border-radius: 24px;
+  border: 1px solid var(--border);
+  padding: 20px;
+  box-shadow: var(--shadow);
+}
+
+.cardHighlight {
+  text-align: center;
+  color: var(--color-primary);
+  margin: 0 0 12px;
+}
+
+.twoCol {
+  display: grid;
+  grid-template-columns: 1.2fr 0.8fr;
+  gap: 8px;
+  align-items: center;
+  margin-top: 2%;
+}
+
+.twoColImg {
+  border-radius: 12px;
+  box-shadow: var(--shadow);
+  width: 130% !important;
+  height: auto !important;
+  max-width: none !important;
+}
+
+@media (max-width: 960px) {
+  .twoCol {
+    grid-template-columns: 1fr;
+  }
+}
+
+.list {
+  margin: 0;
+  padding-left: 18px;
+  list-style: none;
+}
+
+.list li {
+  margin: 6px 0;
+  position: relative;
+}
+
+.list li::before {
+  content: "✓";
+  color: var(--color-primary);
+  font-weight: bold;
+  margin-right: 8px;
+}
+
+.note {
+  text-align: center;
+  color: #d12a2a;
+  font-weight: 800;
+  margin-top: 10px;
+}
+
+/* ─── 프로그램 효과 (캐러셀) ─── */
+.effectSection {
+  padding-top: clamp(32px, 6vw, 72px);
+  margin-top: 0;
+}
+
+.sectionHead {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.sectionHead h2 {
+  font-family: var(--font-serif);
+  font-weight: 900;
+  font-size: clamp(22px, 3vw, 32px);
+  margin: 0 0 6px;
+}
+
+.sectionHead p {
+  margin: 0;
+  color: #5b5b5b;
+}
+
+@media (prefers-color-scheme: dark) {
+  .sectionHead p {
+    color: #bdbdbd;
+  }
+}
+
+/* 캐러셀 */
+.carousel {
+  position: relative;
+}
+
+.track {
+  display: flex;
+  gap: 16px;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  -webkit-overflow-scrolling: touch;
+  padding-bottom: 6px;
+  scrollbar-width: none;
+}
+
+.track::-webkit-scrollbar {
+  display: none;
+}
+
+.slide {
+  min-width: min(540px, 88vw);
+  scroll-snap-align: start;
+}
+
+/* 카드 */
+.resultCard {
+  border: 1px solid var(--border, rgba(0, 0, 0, 0.08));
+  border-radius: 16px;
+  overflow: hidden;
+  background: var(--color-bg, #fff);
+  box-shadow: var(--shadow, 0 8px 24px rgba(0, 0, 0, 0.08));
+}
+
+@media (prefers-color-scheme: dark) {
+  .resultCard {
+    border-color: rgba(255, 255, 255, 0.12);
+  }
+}
+
+.resultMedia img {
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 16 / 9;
+  object-fit: cover;
+  background: #fff;
+}
+
+.resultBody {
+  padding: 14px;
+  display: grid;
+  gap: 8px;
+}
+
+.resultTitle {
+  margin: 0;
+  font-size: clamp(18px, 1.8vw, 20px);
+  font-weight: 700;
+}
+
+.kpi {
+  display: block;
+  width: 100%;
+  text-align: left;
+  padding: 8px 14px;
+  border-radius: 999px;
+  background: var(--color-primary, #00d6f5);
+  color: #000;
+  font-weight: 900;
+  font-size: 14px;
+  box-sizing: border-box;
+  margin-top: 4px;
+}
+
+.resultDesc {
+  margin: 0;
+  font-size: 0.95rem;
+  opacity: 0.95;
+}
+
+.detailToggle {
+  margin-top: 4px;
+}
+
+.detailBtn {
+  background: none;
+  border: none;
+  color: var(--color-primary);
+  font-weight: 600;
+  cursor: pointer;
+  padding: 0;
+  font-size: 0.9rem;
+}
+
+.detailBtn:hover {
+  text-decoration: underline;
+}
+
+.source {
+  margin: 0.5rem 0 0;
+  font-size: 14px;
+  color: #5b5b5b;
+}
+
+@media (prefers-color-scheme: dark) {
+  .source {
+    color: #bdbdbd;
+  }
+}
+
+/* 화살표 */
+.arrow {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  border: 0;
+  background: rgba(0, 0, 0, 0.4);
+  color: #fff;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  cursor: pointer;
+  z-index: 5;
+  font-size: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.arrow:hover {
+  background: rgba(0, 0, 0, 0.55);
+}
+
+.arrowPrev {
+  left: 6px;
+}
+
+.arrowNext {
+  right: 6px;
+}
+
+/* 포커스 */
+.track:focus-visible,
+.arrow:focus-visible {
+  outline: 2px solid var(--color-primary, #00d6f5);
+  outline-offset: 2px;
+}
+
+.resultsNote {
+  margin: 10px 0 0;
+  text-align: center;
+  font-size: 13px;
+  color: #5b5b5b;
+}
+
+@media (prefers-color-scheme: dark) {
+  .resultsNote {
+    color: #bdbdbd;
+  }
+}
+
+/* ─── Footer ─── */
+.footer {
+  padding: 24px 0;
+  text-align: center;
+  font-size: 0.875rem;
+}
+
+.footerContent p {
+  margin: 0;
+}

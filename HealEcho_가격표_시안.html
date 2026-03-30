@@ -1,0 +1,423 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Heal Echo - 가격표 시안</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;600;700;800&display=swap');
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'Noto Sans KR', -apple-system, sans-serif;
+    background: #F7F8FC;
+    color: #1a1a2e;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 40px 20px 60px;
+  }
+
+  /* === Design Note === */
+  .design-note {
+    background: #FFF3CD;
+    border: 1px solid #FFECB5;
+    border-radius: 12px;
+    padding: 16px 24px;
+    max-width: 480px;
+    width: 100%;
+    margin-bottom: 32px;
+    font-size: 13px;
+    color: #664D03;
+    line-height: 1.7;
+  }
+  .design-note strong { color: #5A4203; }
+
+  /* === Header === */
+  .pricing-header {
+    text-align: center;
+    margin-bottom: 36px;
+    max-width: 480px;
+  }
+  .pricing-header h1 {
+    font-size: 28px;
+    font-weight: 800;
+    color: #1a1a2e;
+    line-height: 1.4;
+    margin-bottom: 12px;
+  }
+  .pricing-header h1 span { color: #6366F1; }
+
+  /* === Main Card === */
+  .main-card {
+    max-width: 460px;
+    width: 100%;
+    background: white;
+    border-radius: 20px;
+    padding: 36px 32px 32px;
+    border: 2px solid #E5E7EB;
+    box-shadow: 0 4px 24px rgba(0,0,0,0.06);
+  }
+
+  /* === Feature List (Top) === */
+  .features-section {
+    margin-bottom: 28px;
+  }
+  .features-section .section-title {
+    font-size: 15px;
+    font-weight: 700;
+    color: #1a1a2e;
+    margin-bottom: 16px;
+  }
+  .features {
+    list-style: none;
+  }
+  .features li {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    font-size: 14px;
+    color: #4B5563;
+    padding: 7px 0;
+    line-height: 1.5;
+  }
+  .features li .icon {
+    flex-shrink: 0;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 11px;
+    margin-top: 1px;
+    background: #ECFDF5;
+    color: #059669;
+  }
+  .features li.sub-item {
+    padding: 2px 0 2px 30px;
+    font-size: 12px;
+    color: #9CA3AF;
+    gap: 6px;
+  }
+  .features li.sub-item::before {
+    content: '\00B7';
+    font-size: 14px;
+    font-weight: 700;
+    color: #D1D5DB;
+    flex-shrink: 0;
+  }
+  .features li.sub-item .icon {
+    display: none;
+  }
+  .features .section-divider {
+    border: none;
+    border-top: 1px dashed #E5E7EB;
+    margin: 12px 0;
+  }
+  .features .section-label {
+    font-size: 11px;
+    font-weight: 700;
+    color: #6366F1;
+    letter-spacing: 0.5px;
+    padding: 4px 0;
+    display: block;
+  }
+
+  /* === Price Comparison (Bottom) === */
+  .price-comparison {
+    display: flex;
+    gap: 12px;
+    margin-top: 4px;
+  }
+
+  .price-option {
+    flex: 1;
+    border: 2px solid #E5E7EB;
+    border-radius: 14px;
+    padding: 20px 16px;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    position: relative;
+    background: #FAFAFA;
+  }
+  .price-option:hover {
+    border-color: #C7D2FE;
+    background: #FAFAFF;
+  }
+  .price-option.selected {
+    border-color: #6366F1;
+    background: #F5F3FF;
+    box-shadow: 0 0 0 1px #6366F1;
+  }
+
+  .price-option .option-label {
+    font-size: 13px;
+    font-weight: 700;
+    color: #374151;
+    margin-bottom: 10px;
+  }
+  .price-option .option-price {
+    font-size: 32px;
+    font-weight: 800;
+    color: #1a1a2e;
+    letter-spacing: -0.5px;
+  }
+  .price-option .option-unit {
+    font-size: 14px;
+    font-weight: 500;
+    color: #6B7280;
+  }
+  .price-option .option-detail {
+    font-size: 12px;
+    color: #9CA3AF;
+    margin-top: 6px;
+    line-height: 1.4;
+  }
+
+  /* Annual-specific */
+  .price-option.annual .option-original {
+    text-decoration: line-through;
+    color: #D1D5DB;
+    font-size: 14px;
+    font-weight: 500;
+    margin-bottom: 2px;
+  }
+  .price-option.annual .discount-badge {
+    display: inline-block;
+    background: linear-gradient(135deg, #6366F1, #8B5CF6);
+    color: white;
+    font-size: 11px;
+    font-weight: 800;
+    padding: 4px 10px;
+    border-radius: 6px;
+    margin-top: 8px;
+    letter-spacing: 0.3px;
+    animation: pulse 2s ease-in-out infinite;
+  }
+  @keyframes pulse {
+    0%, 100% { box-shadow: 0 2px 8px rgba(99, 102, 241, 0.2); }
+    50% { box-shadow: 0 2px 14px rgba(99, 102, 241, 0.45); }
+  }
+
+  /* Recommend badge */
+  .recommend-badge {
+    position: absolute;
+    top: -11px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: linear-gradient(135deg, #6366F1, #8B5CF6);
+    color: white;
+    font-size: 10px;
+    font-weight: 700;
+    padding: 3px 12px;
+    border-radius: 10px;
+    white-space: nowrap;
+    box-shadow: 0 2px 8px rgba(99, 102, 241, 0.3);
+  }
+
+  /* Monthly-specific */
+  .price-option.monthly .option-detail-sub {
+    font-size: 12px;
+    color: #9CA3AF;
+    margin-top: 4px;
+  }
+
+  /* === CTA Button === */
+  .cta-section {
+    margin-top: 20px;
+  }
+  .cta-btn {
+    display: block;
+    width: 100%;
+    padding: 16px;
+    border: none;
+    border-radius: 12px;
+    font-size: 16px;
+    font-weight: 700;
+    font-family: 'Noto Sans KR', sans-serif;
+    cursor: pointer;
+    text-align: center;
+    transition: all 0.2s;
+    background: linear-gradient(135deg, #6366F1, #7C3AED);
+    color: white;
+    box-shadow: 0 4px 16px rgba(99, 102, 241, 0.3);
+  }
+  .cta-btn:hover {
+    box-shadow: 0 6px 24px rgba(99, 102, 241, 0.4);
+    transform: translateY(-1px);
+  }
+
+  /* === Daily Cost === */
+  .daily-cost {
+    text-align: center;
+    margin-top: 20px;
+    padding: 14px 16px;
+    background: white;
+    border-radius: 12px;
+    max-width: 460px;
+    width: 100%;
+    font-size: 14px;
+    color: #6B7280;
+    min-height: 48px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .daily-cost strong {
+    color: #6366F1;
+    font-weight: 700;
+  }
+
+  /* === Guarantee === */
+  .guarantee {
+    text-align: center;
+    margin-top: 14px;
+    font-size: 13px;
+    color: #9CA3AF;
+  }
+  .guarantee span { color: #059669; font-weight: 600; }
+
+  /* === Responsive === */
+  @media (max-width: 480px) {
+    .main-card { padding: 28px 20px 24px; }
+    .price-option .option-price { font-size: 26px; }
+    .pricing-header h1 { font-size: 24px; }
+    .price-comparison { gap: 8px; }
+    .price-option { padding: 16px 12px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- 디자인 노트 -->
+<div class="design-note">
+  <strong>디자인 시안 노트 (내부 검토용)</strong><br>
+  혜택을 먼저 보여주고, 하단에 가격 2개를 나란히 비교하는 구조입니다.<br>
+  <strong>핵심:</strong> 기능은 공통 → 가격 선택만 남김 → 의사결정 단순화
+</div>
+
+<!-- Header -->
+<div class="pricing-header">
+  <h1>7일간 무료로 경험하고,<br><span>결정하세요.</span></h1>
+</div>
+
+<!-- Main Card -->
+<div class="main-card">
+
+  <!-- 1. Features First -->
+  <div class="features-section">
+    <ul class="features">
+      <span class="section-label">맞춤형 웰니스 솔루션</span>
+      <li>
+        <span class="icon">&#10003;</span>
+        <span>솔루션별 맞춤 요가 클래스</span>
+      </li>
+      <li>
+        <span class="icon">&#10003;</span>
+        <span>현대과학과 아유르베다 기반 생활 습관 설계</span>
+      </li>
+      <li>
+        <span class="icon">&#10003;</span>
+        <span>마음을 위한 명상 세션</span>
+      </li>
+      <hr class="section-divider">
+      <span class="section-label">프로그램 진행에 따라 제공</span>
+      <li>
+        <span class="icon">&#10003;</span>
+        <span>피츠버그 대학의 수면 분석 검사 : 연 12회 제공</span>
+      </li>
+      <li>
+        <span class="icon">&#10003;</span>
+        <span>체질별 추천 음식 : 연 1회 제공</span>
+      </li>
+      <li>
+        <span class="icon">&#10003;</span>
+        <span>인도 아유르베다 도샤 체크를 통한 변화 분석 : 연 4회 제공</span>
+      </li>
+      <li>
+        <span class="icon">&#10003;</span>
+        <span>솔루션별 맞춤 자가 체크 : 연 12회 (예 : 자율신경 자가 체크)</span>
+      </li>
+      <li>
+        <span class="icon">&#10003;</span>
+        <span>나의 변화를 알 수 있는 항목별 변화 추이 리포트</span>
+      </li>
+    </ul>
+  </div>
+
+  <!-- 2. Price Comparison (Bottom) -->
+  <div class="price-comparison">
+
+    <!-- Monthly -->
+    <div class="price-option monthly" id="option-monthly" onclick="selectPlan('monthly')">
+      <div class="option-label">월간</div>
+      <div>
+        <span class="option-price">56,000</span>
+        <span class="option-unit">원/월</span>
+      </div>
+      <div class="option-detail">매월 자동 결제</div>
+      <div class="option-detail-sub">언제든 해지 가능</div>
+    </div>
+
+    <!-- Annual -->
+    <div class="price-option annual selected" id="option-annual" onclick="selectPlan('annual')">
+      <div class="recommend-badge">추천</div>
+      <div class="option-label">연간</div>
+      <div class="option-original">56,000원</div>
+      <div>
+        <span class="option-price">36,000</span>
+        <span class="option-unit">원/월</span>
+      </div>
+      <div class="option-detail"></div>
+      <div class="discount-badge">런칭 특가 35% 할인</div>
+    </div>
+
+  </div>
+
+  <!-- CTA -->
+  <div class="cta-section">
+    <button class="cta-btn" id="cta-btn">연간 플랜 시작하기</button>
+  </div>
+
+</div>
+
+<!-- Daily Cost -->
+<div class="daily-cost" id="daily-cost">
+  <p><strong>하루 1,183원</strong>, 연간 플랜으로 시작하세요.</p>
+</div>
+
+<!-- Guarantee -->
+<div class="guarantee">
+  <span>&#x2714;</span> 7일 무료 체험 중 언제든 취소 가능
+</div>
+
+<script>
+  let currentPlan = 'annual';
+
+  function selectPlan(plan) {
+    currentPlan = plan;
+
+    // Toggle selected state
+    document.getElementById('option-monthly').classList.toggle('selected', plan === 'monthly');
+    document.getElementById('option-annual').classList.toggle('selected', plan === 'annual');
+
+    // Update CTA text
+    const ctaBtn = document.getElementById('cta-btn');
+    const dailyCost = document.getElementById('daily-cost');
+
+    if (plan === 'annual') {
+      ctaBtn.textContent = '연간 플랜 시작하기';
+      dailyCost.innerHTML = '<p><strong>하루 1,183원</strong>, 연간 플랜으로 시작하세요.</p>';
+    } else {
+      ctaBtn.textContent = '월간 플랜 시작하기';
+      dailyCost.innerHTML = '<p>언제든 해지 가능</p>';
+    }
+  }
+</script>
+
+</body>
+</html>

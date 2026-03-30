@@ -1,0 +1,618 @@
+/* ===========================================
+   이해의 바다 (Sea of Understanding)
+   명상 세션 페이지 스타일
+   =========================================== */
+
+/* ── 전체 컨테이너 (home과 동일 가로폭, 세로16:가로9 비율) ── */
+.container {
+  width: 100%;
+  max-width: 720px;
+  aspect-ratio: 9 / 16;
+  margin: 0 auto;
+  background: #0f1724;
+  overflow-y: auto;
+  overflow-x: hidden;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+}
+
+/* ── 본문 (이미지 배경 + 콘텐츠 오버레이) ── */
+.main {
+  flex: 1;
+  min-height: 0;
+  position: relative;
+  overflow: hidden;
+  cursor: grab;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+.main:active {
+  cursor: grabbing;
+}
+
+/* ── 페이지 타이틀 ── */
+.pageTitle {
+  text-align: center;
+  padding: 28px 0 20px;
+}
+
+.titleText {
+  font-size: 24px;
+  font-weight: 700;
+  color: #ffffff;
+  margin: 0;
+  letter-spacing: 1px;
+  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.6);
+}
+
+.titleSub {
+  font-size: 14px;
+  color: rgba(255, 255, 255, 0.55);
+  margin: 10px 0 0 0;
+  line-height: 1.5;
+  text-shadow: 0 1px 6px rgba(0, 0, 0, 0.5);
+}
+
+/* ===========================================
+   이미지 스와이프 영역
+   =========================================== */
+/* ── 이미지 배경 레이어 (프레임 전체) ── */
+.imageArea {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
+
+.imageSlider {
+  display: flex;
+  width: 100%;
+  height: 100%;
+  will-change: transform;
+}
+
+.imageSlide {
+  position: relative;
+  min-width: 100%;
+  height: 100%;
+  flex-shrink: 0;
+}
+
+.sessionImage {
+  object-fit: cover;
+  pointer-events: none;
+}
+
+/* ===========================================
+   콘텐츠 오버레이 레이어
+   =========================================== */
+.contentLayer {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 0 16px;
+  pointer-events: none;
+  box-sizing: border-box;
+}
+
+.contentSpacer {
+  flex: 1;
+  pointer-events: none;
+}
+
+.dots,
+.playerArea {
+  pointer-events: auto;
+}
+
+/* ===========================================
+   닷 인디케이터
+   =========================================== */
+.dots {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  padding: 22px 0;
+}
+
+.dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.25);
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  transition: all 0.35s ease;
+}
+
+.dot:hover {
+  background: rgba(255, 255, 255, 0.5);
+}
+
+.dotActive {
+  background: #ffffff;
+  width: 28px;
+  border-radius: 4px;
+  box-shadow: 0 0 8px rgba(255, 255, 255, 0.3);
+}
+
+/* ===========================================
+   오디오 플레이어 영역
+   =========================================== */
+.playerArea {
+  width: 90%;
+  padding: 20px 24px 28px;
+  background: rgba(255, 255, 255, 0.06);
+  border-radius: 24px;
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+/* ── 프로그레스 바 ── */
+.progressGroup {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-bottom: 20px;
+}
+
+.time {
+  font-size: 12px;
+  color: rgba(255, 255, 255, 0.5);
+  min-width: 36px;
+  text-align: center;
+  font-variant-numeric: tabular-nums;
+}
+
+.progressBar {
+  flex: 1;
+  -webkit-appearance: none;
+  appearance: none;
+  height: 4px;
+  border-radius: 2px;
+  background: rgba(255, 255, 255, 0.15);
+  outline: none;
+  cursor: pointer;
+  transition: height 0.15s ease;
+}
+
+.progressBar:hover {
+  height: 6px;
+}
+
+.progressBar::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: #ffffff;
+  cursor: pointer;
+  box-shadow: 0 0 6px rgba(255, 255, 255, 0.3);
+  transition: transform 0.15s ease;
+}
+
+.progressBar::-webkit-slider-thumb:hover {
+  transform: scale(1.2);
+}
+
+.progressBar::-moz-range-thumb {
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: #ffffff;
+  cursor: pointer;
+  border: none;
+  box-shadow: 0 0 6px rgba(255, 255, 255, 0.3);
+}
+
+.progressBar::-moz-range-track {
+  height: 4px;
+  border-radius: 2px;
+  background: transparent;
+}
+
+/* ===========================================
+   추가 오디오 컨트롤 (내레이션 + 싱잉볼)
+   =========================================== */
+.extraControls {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  margin-bottom: 20px;
+  padding: 0 4px;
+}
+
+/* ── 오디오 토글 버튼 공통 ── */
+.audioToggleBtn {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 14px;
+  border-radius: 20px;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  cursor: pointer;
+  transition: all 0.25s ease;
+  font-size: 0;
+  line-height: 1;
+}
+
+.audioToggleLabel {
+  font-size: 12px;
+  font-weight: 500;
+  white-space: nowrap;
+  letter-spacing: 0.3px;
+}
+
+/* 활성 상태 (소리 켜짐) */
+.audioToggleOn {
+  background: rgba(255, 255, 255, 0.12);
+  color: #ffffff;
+  border-color: rgba(255, 255, 255, 0.3);
+  box-shadow: 0 0 12px rgba(255, 255, 255, 0.06);
+}
+
+.audioToggleOn:hover {
+  background: rgba(255, 255, 255, 0.18);
+  border-color: rgba(255, 255, 255, 0.4);
+}
+
+/* 비활성 상태 (음소거) */
+.audioToggleOff {
+  background: rgba(255, 255, 255, 0.04);
+  color: rgba(255, 255, 255, 0.35);
+  border-color: rgba(255, 255, 255, 0.08);
+}
+
+.audioToggleOff:hover {
+  background: rgba(255, 255, 255, 0.08);
+  color: rgba(255, 255, 255, 0.55);
+}
+
+.audioToggleBtn:active {
+  transform: scale(0.95);
+}
+
+/* ── 싱잉볼 그룹 (버튼 + 간격 설정) ── */
+.bowlGroup {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+/* ── 간격 표시 버튼 ── */
+.intervalWrapper {
+  position: relative;
+}
+
+.intervalDisplay {
+  padding: 6px 10px;
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  color: rgba(255, 255, 255, 0.7);
+  font-size: 11px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  white-space: nowrap;
+}
+
+.intervalDisplay:hover {
+  background: rgba(255, 255, 255, 0.14);
+  color: #ffffff;
+}
+
+/* ── 간격 선택 팝업 ── */
+.intervalPicker {
+  position: absolute;
+  bottom: calc(100% + 10px);
+  left: 50%;
+  transform: translateX(-50%);
+  background: rgba(20, 28, 44, 0.96);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 16px;
+  padding: 14px 16px;
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.5);
+  z-index: 100;
+  min-width: 200px;
+  animation: fadeInUp 0.2s ease;
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateX(-50%) translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+  }
+}
+
+.intervalPickerTitle {
+  font-size: 12px;
+  color: rgba(255, 255, 255, 0.5);
+  margin: 0 0 10px 0;
+  text-align: center;
+  font-weight: 500;
+  letter-spacing: 0.5px;
+}
+
+.intervalOptions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  justify-content: center;
+}
+
+.intervalOption {
+  padding: 6px 12px;
+  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: rgba(255, 255, 255, 0.6);
+  font-size: 12px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.intervalOption:hover {
+  background: rgba(255, 255, 255, 0.12);
+  color: #ffffff;
+  border-color: rgba(255, 255, 255, 0.25);
+}
+
+.intervalOptionActive {
+  background: rgba(255, 255, 255, 0.18);
+  color: #ffffff;
+  border-color: rgba(255, 255, 255, 0.4);
+  box-shadow: 0 0 8px rgba(255, 255, 255, 0.08);
+}
+
+/* ===========================================
+   메인 컨트롤 버튼
+   =========================================== */
+.controls {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 28px;
+}
+
+.controlBtn {
+  background: none;
+  border: none;
+  color: rgba(255, 255, 255, 0.6);
+  cursor: pointer;
+  padding: 10px;
+  border-radius: 50%;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.controlBtn:hover {
+  color: #ffffff;
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.controlBtn:active {
+  transform: scale(0.92);
+}
+
+.playBtn {
+  width: 68px;
+  height: 68px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.12);
+  border: 2px solid rgba(255, 255, 255, 0.25);
+  color: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.25s ease;
+}
+
+.playBtn:hover {
+  background: rgba(255, 255, 255, 0.22);
+  border-color: rgba(255, 255, 255, 0.45);
+  box-shadow: 0 0 20px rgba(255, 255, 255, 0.1);
+}
+
+.playBtn:active {
+  transform: scale(0.94);
+}
+
+/* ── 볼륨 ── */
+.volumeGroup {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.muteBtn {
+  background: none;
+  border: none;
+  padding: 4px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  transition: background 0.2s ease;
+}
+
+.muteBtn:hover {
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.volumeIcon {
+  color: rgba(255, 255, 255, 0.6);
+  flex-shrink: 0;
+}
+
+.volumeBar {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 80px;
+  height: 4px;
+  border-radius: 2px;
+  background: rgba(255, 255, 255, 0.15);
+  outline: none;
+  cursor: pointer;
+}
+
+.volumeBar::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: #ffffff;
+  cursor: pointer;
+  box-shadow: 0 0 4px rgba(255, 255, 255, 0.3);
+}
+
+.volumeBar::-moz-range-thumb {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: #ffffff;
+  cursor: pointer;
+  border: none;
+}
+
+.volumeBar::-moz-range-track {
+  height: 4px;
+  border-radius: 2px;
+  background: transparent;
+}
+
+/* ── 하단 탭 여백 ── */
+.tabPadding {
+  height: 80px;
+}
+
+/* ===========================================
+   반응형
+   =========================================== */
+@media (max-width: 480px) {
+  .playerArea {
+    padding: 16px 18px 24px;
+    border-radius: 20px;
+  }
+
+  .extraControls {
+    gap: 10px;
+    margin-bottom: 16px;
+  }
+
+  .audioToggleBtn {
+    padding: 6px 10px;
+    gap: 4px;
+  }
+
+  .audioToggleLabel {
+    font-size: 11px;
+  }
+
+  .controls {
+    gap: 18px;
+  }
+
+  .playBtn {
+    width: 60px;
+    height: 60px;
+  }
+
+  .volumeBar {
+    width: 60px;
+  }
+
+  .progressGroup {
+    gap: 10px;
+  }
+
+  .intervalPicker {
+    min-width: 180px;
+    padding: 12px 14px;
+  }
+
+  .intervalOption {
+    padding: 5px 10px;
+    font-size: 11px;
+  }
+}
+
+@media (max-width: 360px) {
+  .pageTitle {
+    padding: 20px 0 14px;
+  }
+
+  .titleText {
+    font-size: 20px;
+  }
+
+  .titleSub {
+    font-size: 13px;
+  }
+
+  .extraControls {
+    gap: 8px;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  .audioToggleBtn {
+    padding: 5px 8px;
+  }
+
+  .audioToggleLabel {
+    font-size: 10px;
+  }
+
+  .controls {
+    gap: 14px;
+  }
+
+  .playBtn {
+    width: 54px;
+    height: 54px;
+  }
+
+  .playBtn svg {
+    width: 24px;
+    height: 24px;
+  }
+
+  .volumeBar {
+    width: 50px;
+  }
+
+  .bowlGroup {
+    gap: 4px;
+  }
+
+  .intervalDisplay {
+    padding: 4px 8px;
+    font-size: 10px;
+  }
+}

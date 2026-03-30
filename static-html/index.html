@@ -1,0 +1,305 @@
+<!-- index.html (정리본) -->
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Heal Echo</title>
+
+    <!-- 공통 CSS -->
+    <link rel="stylesheet" href="./src/reset.css" />
+    <link rel="stylesheet" href="./reset.prefixed.css" />
+    <link rel="stylesheet" href="./src/style.css" />
+
+    <!-- 공통 헤더 CSS (항상 마지막) -->
+    <link rel="stylesheet" href="./src/header.css" />
+  </head>
+  <body>
+    <!-- 공통 헤더 자동 로드 -->
+    <div id="site-header"></div>
+    <script src="./partials/header.js"></script>
+
+    <!-- Hero -->
+    <section class="hero" aria-label="첫 화면">
+      <div class="container hero-grid">
+        <div>
+          <p class="eyebrow">Body & Mind & Soul</p>
+          <h1>나에게 건네는 <br> 15분 치유 선물</h1>
+          <p>그냥 요가가 아닙니다. 당신의 삶에 맞춘 ‘맞춤 웰니스 솔루션’입니다.</p>
+          <div class="hero-cta">
+            <a class="btn btn-primary" href="balancetest.html">Heal Echo 7일 무료 체험</a>
+            <a class="btn btn-ghost" href="#programs">웰니스 솔루션 보기</a>
+          </div>
+        </div>
+        <div>
+          <img class="hero-img" src="./assets/images/wellness.png" alt="웰니스 히어로 이미지" />
+        </div>
+      </div>
+    </section>
+
+    <!-- Programs -->
+    <section id="programs" class="programs">
+      <div class="container">
+        <h2 class="section-title">하루 15분 '맞춤 웰니스 솔루션', 힐에코가 함께 합니다!</h2>
+        <div class="program-list">
+          <a href="miraclereset.html" class="program-card-link">
+            <div class="program-card">
+              <div class="program-image">
+                <img src="./assets/images/balance reset.png" alt="기적의 오토 밸런스">
+                <div class="program-overlay">
+                  <h3>15분, 기적의 오토 밸런스</h3>
+                </div>
+              </div>
+            </div>
+          </a>
+          
+          <div class="program-card">
+            <div class="program-image">
+              <img src="./assets/images/woman condition.png" alt="우먼즈 컨디션 힐링" />
+              <div class="program-overlay"><h3>15분, 우먼즈 위스퍼</h3></div>
+            </div>
+          </div>
+          <div class="program-card">
+            <div class="program-image">
+              <img src="./assets/images/healing mind.png" alt="힐링 마인드" />
+              <div class="program-overlay"><h3>15분, 힐링 마인드</h3></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="program-cta">
+          <a href="#" class="btn btn-pink">Heal Echo 7일 무료 체험</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- 구분선 -->
+    <hr class="section-divider" />
+
+    <!-- Why Heal Echo -->
+    <section id="why-healecho" class="why-section" aria-label="Why Heal Echo">
+      <div class="container">
+        <div class="why-head">
+          <p class="eyebrow" style="color:#FF69B4;">Why Heal Echo</p>
+          <h2 class="section-title">왜 힐에코의 '맞춤 웰니스' 솔루션인가?</h2>
+          <p class="why-sub">‘그냥 요가’가 아닙니다. 당신의 삶에 맞춘 <strong>'맞춤 웰니스 솔루션'</strong>입니다.</p>
+        </div>
+
+        <div class="why-grid">
+          <div class="why-text">
+            <ol class="why-list">
+              <li class="why-item">
+                <h3 class="why-point">맞춤 웰니스 솔루션</h3>
+                <h3 class="why-point">당신에게 필요한 것은 <strong>‘맞춤 웰니스 솔루션’</strong> 입니다.</h3>
+              </li>
+            </ol>
+
+            <!-- 핵심 포인트 카드 -->
+            <ul class="why-highlights" role="list" aria-label="힐에코 웰니스 솔루션의 핵심 포인트">
+              <li class="highlight" role="listitem" tabindex="0" aria-label="전통 하타 요가 × 현대 테라피 요가">
+                <span class="highlight-icon" aria-hidden="true">
+                  <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true">
+                    <path d="M12 2a2.5 2.5 0 1 1 0 5 2.5 2.5 0 0 1 0-5Zm-6.5 17a1 1 0 0 1 0-2h4l2-3-3-2a1 1 0 1 1 1.1-1.66l2.4 1.6 2.4-1.6A1 1 0 0 1 16.5 12l-3 2 2 3h4a1 1 0 1 1 0 2H5.5Z" fill="currentColor"/>
+                  </svg>
+                </span>
+                <span class="highlight-title">전통 하타 요가 × 현대 테라피 요가</span>
+                <span style="color:var(--muted)">안전하고 효과적인 아사나로 몸과 마음의 치유</span>
+              </li>
+
+              <li class="highlight" role="listitem" tabindex="0" aria-label="아유르베다 × 현대 과학">
+                <span class="highlight-icon" aria-hidden="true">
+                  <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true">
+                    <path d="M12 3a9 9 0 1 0 9 9h-9V3Zm0 2v7H5a7 7 0 0 1 7-7Zm7 9a7 7 0 0 1-7 7v-7h7Z" fill="currentColor"/>
+                  </svg>
+                </span>
+                <span class="highlight-title">아유르베다 × 현대 과학</span>
+                <span style="color:var(--muted)">과학에 근거한 생활 루틴</span>
+              </li>
+
+              <li class="highlight" role="listitem" tabindex="0" aria-label="최적의 맞춤 솔루션">
+                <span class="highlight-icon" aria-hidden="true">
+                  <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true">
+                    <path d="M9.2 16.2 4.9 11.9a1.25 1.25 0 1 1 1.77-1.77l2.53 2.53 6.14-6.14a1.25 1.25 0 1 1 1.77 1.77l-7.9 7.91a1.25 1.25 0 0 1-1.8 0Z" fill="currentColor"/>
+                  </svg>
+                </span>
+                <span class="highlight-title">최적의 맞춤 솔루션</span>
+                <span style="color:var(--muted)">나에게 꼭 맞는 15분 루틴</span>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Member’s Benefit -->
+    <section id="member-benefit" class="benefit-section" aria-label="Member's Benefit">
+      <div class="container">
+        <div class="benefit-head">
+          <p class="eyebrow" style="color:#FF69B4;">Member's Benefit</p>
+          <h2 class="section-title">나에게 건네는 15분 치유 선물, 위클리 솔루션</h2>
+        </div>
+
+        <div class="benefit-grid">
+          <div class="benefit-right">
+            <ul class="benefit-cards" role="list" aria-label="멤버 혜택 3가지">
+              <li class="benefit-card" role="listitem" tabindex="0" aria-label="요가 아사나">
+                <div class="benefit-card-top">
+                  <span class="benefit-icon" aria-hidden="true">
+                    <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true">
+                      <path d="M12 2a2.5 2.5 0 1 1 0 5 2.5 2.5 0 0 1 0-5Zm-6.5 17a1 1 0 0 1 0-2h4l2-3-3-2a1 1 0 1 1 1.1-1.66l2.4 1.6 2.4-1.6A1 1 0 0 1 16.5 12l-3 2 2 3h4a1 1 0 1 1 0 2H5.5Z" fill="currentColor"/>
+                    </svg>
+                  </span>
+                  <h3 class="benefit-title">요가 아사나</h3>
+                </div>
+                <p class="benefit-desc">라이프 스타일별 <strong>가장 효과적인</strong> 웰니스 솔루션 제공</p>
+              </li>
+
+              <li class="benefit-card" role="listitem" tabindex="0" aria-label="수면•식습관 등 생활 루틴">
+                <div class="benefit-card-top">
+                  <span class="benefit-icon" aria-hidden="true">
+                    <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true">
+                      <path d="M3 6h18v2H3V6Zm2 4h14a2 2 0 0 1 2 2v6H3v-6a2 2 0 0 1 2-2Zm7 2a3 3 0 1 0 0 6 3 3 0 0 0 0-6Z" fill="currentColor"/>
+                    </svg>
+                  </span>
+                  <h3 class="benefit-title">수면•식습관 등 생활 루틴</h3>
+                </div>
+                <p class="benefit-desc">따라하기 쉬운 생활습관 형성</p>
+              </li>
+
+              <li class="benefit-card" role="listitem" tabindex="0" aria-label="이해의 바다">
+                <div class="benefit-card-top">
+                  <span class="benefit-icon" aria-hidden="true">
+                    <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true">
+                      <path d="M3 15c2 0 2-2 4-2s2 2 4 2 2-2 4-2 2 2 4 2v2c-2 0-2 2-4 2s-2-2-4-2-2 2-4 2-2-2-4-2v-2Z" fill="currentColor"/>
+                    </svg>
+                  </span>
+                  <h3 class="benefit-title">이해의 바다</h3>
+                </div>
+                <p class="benefit-desc">나를 이해하는 시간</p>
+              </li>
+            </ul>
+
+            <p class="benefit-note">
+              ※ 하루 15분, 일주일에 세 번만 따라하면 다음 주 위클리 솔루션이 열립니다. <br />
+              ※ 솔루션들은 <strong>단계별로 차근차근 오픈</strong>되어 매우 따라하기 쉽습니다.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Bella -->
+    <section id="bella" class="bella-section" aria-label="Bella’s Story">
+      <div class="container">
+        <div class="bella-top">
+          <p class="eyebrow">WELLNESS DIRECTOR, BELLA</p>
+        </div>
+
+        <div class="bella-grid">
+          <div class="bella-text">
+            <h2 class="section-title">힐에코의 하루 15분, 위클리 솔루션</h2>
+            <p class="bella-lines">
+              병원과 운동에 1억 이상 쓴<br />
+              웰니스 디렉터 벨라가<br />
+              가장 효과적인 방법만 모아 설계한<br />
+              맞춤 웰니스 솔루션! <br />
+              위클리 솔루션은 <br /> 
+              하루 15분, 일주일마다 제공됩니다.<br />
+            </p>
+          </div>
+
+          <figure class="bella-media">
+            <img src="./assets/images/benefit.jpg" alt="웰니스 디렉터 벨라" />
+          </figure>
+        </div>
+      </div>
+    </section>
+
+<!-- Introduction (AutoPlay + Center Overlay, Safe) -->
+<section id="introduction" class="intro-section" aria-label="Introduction">
+  <div class="container">
+    <div class="intro-video">
+      <video id="introVideo"
+             autoplay muted controls preload="metadata"
+             playsinline webkit-playsinline
+             poster="https://d1j0n15k0o40gi.cloudfront.net/thumbnails/featured/Introduction.png">
+        <source src="https://d1j0n15k0o40gi.cloudfront.net/videos/featured/Introduction.mp4" type="video/mp4" />
+        브라우저가 HTML5 비디오를 지원하지 않습니다.
+      </video>
+
+      <!-- 가운데 작은 클릭 토글 전용 버튼(컨트롤을 가리지 않음) -->
+      <button type="button" class="video-overlay-center" aria-label="재생/일시정지 전환"></button>
+    </div>
+  </div>
+</section>
+
+
+
+    <!-- Empathy -->
+    <section class="empathy-section" aria-label="Wellbeing Invitation">
+      <div class="container">
+        <div class="empathy-frame" role="group" aria-labelledby="empathyTitle">
+          <h3 id="empathyTitle" class="visually-hidden">웰빙을 위한 제안</h3>
+
+          <div class="empathy-item">
+            <div class="empathy-avatar">
+              <img src="./assets/images/sadness.png" alt="스트레스로 지친 표정" />
+            </div>
+            <p class="empathy-text strong-text">
+              나도 모르게 시작된<br />
+              몸과 마음의 불균형을<br />
+              언제까지 견디기만 할 건가요?
+            </p>
+          </div>
+
+          <div class="empathy-item">
+            <div class="empathy-avatar">
+              <img src="./assets/images/smile.png" alt="편안하게 미소짓는 표정" />
+            </div>
+            <p class="empathy-text strong-text">
+              당신은 지금 당장<br />
+              편안한 몸과 마음을<br />
+              되찾을 권리가 있습니다.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+      <div class="container footer-content">
+        <p>&copy; 2025 Heal Echo. All rights reserved.</p>
+      </div>
+    </footer>
+
+    <script>
+      (function () {
+        const v = document.getElementById('introVideo');
+        const overlay = document.querySelector('.video-overlay-center');
+        if (!v || !overlay) return;
+      
+        // 자동재생 시도 (에러 무시)
+        if (v.autoplay) v.play().catch(() => {});
+      
+        // 중앙부 작은 오버레이 클릭으로만 토글
+        overlay.addEventListener('click', () => {
+          if (v.paused) v.play(); else v.pause();
+        });
+      
+        // 스페이스바 접근성
+        v.setAttribute('tabindex', '0');
+        v.addEventListener('keydown', (e) => {
+          if (e.code === 'Space') {
+            e.preventDefault();
+            if (v.paused) v.play(); else v.pause();
+          }
+        });
+      
+        // iOS 인라인 재생 안전장치
+        v.setAttribute('playsinline', '');
+        v.setAttribute('webkit-playsinline', '');
+      })();
+      </script>
+  </body>
+</html>

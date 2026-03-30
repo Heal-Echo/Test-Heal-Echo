@@ -1,0 +1,18 @@
+node_modules
+.next/
+.env
+.env.local
+.env.*.local
+.DS_Store
+.claude/
+*.lock.*.xlsx#
+.~lock.*
+tsconfig.tsbuildinfo
+
+# Large media files (exceed GitHub 100MB limit)
+*.mp4
+public/assets/sea-of-understanding/audio/Nature_Sound.mp3
+public/assets/sea-of-understanding/audio/campfire.mp3
+public/assets/sea-of-understanding/audio/deep_water_bubble.mp3
+public/assets/sea-of-understanding/audio/meditation_music.mp3
+public/assets/sea-of-understanding/audio/rain.mp3

@@ -1,0 +1,2067 @@
+/* src/components/weekly-habit/PSQITest.module.css */
+
+/* ── 컨테이너 ── */
+.container {
+  width: 100%;
+}
+
+/* ── 헤더 ── */
+.header {
+  margin-bottom: 24px;
+  text-align: center;
+}
+
+.title {
+  font-size: 20px;
+  font-weight: 700;
+  color: #1e1b4b;
+  margin-bottom: 4px;
+}
+
+.subtitle {
+  font-size: 12px;
+  font-weight: 500;
+  color: #818cf8;
+  margin-bottom: 12px;
+  letter-spacing: 0.3px;
+}
+
+.instruction {
+  font-size: 13px;
+  color: #6b7280;
+  line-height: 1.5;
+  background: #f5f3ff;
+  padding: 12px 16px;
+  border-radius: 12px;
+  border: 1px solid #e0e7ff;
+}
+
+/* ── 섹션 ── */
+.section {
+  margin-bottom: 24px;
+  padding: 20px 16px;
+  background: #ffffff;
+  border-radius: 16px;
+  box-shadow: 0 1px 8px rgba(0, 0, 0, 0.04);
+  border: 1px solid #f3f4f6;
+}
+
+.sectionTitle {
+  font-size: 15px;
+  font-weight: 700;
+  color: #1f2937;
+  margin-bottom: 16px;
+  line-height: 1.5;
+}
+
+/* ── 질문 그룹 (Q1~Q4) ── */
+.questionGroup {
+  margin-bottom: 20px;
+}
+
+.questionGroup:last-child {
+  margin-bottom: 0;
+}
+
+.questionLabel {
+  display: block;
+  font-size: 14px;
+  font-weight: 600;
+  color: #374151;
+  margin-bottom: 10px;
+  line-height: 1.5;
+}
+
+.questionHint {
+  display: block;
+  font-size: 12px;
+  font-weight: 400;
+  color: #9ca3af;
+  margin-top: 4px;
+}
+
+/* ── 입력 필드 ── */
+.timeInput {
+  width: 100%;
+  max-width: 200px;
+  padding: 12px 14px;
+  border: 2px solid #e5e7eb;
+  border-radius: 12px;
+  font-size: 16px;
+  color: #1f2937;
+  background: #fafafa;
+  transition: border-color 0.15s ease, background 0.15s ease;
+  -webkit-appearance: none;
+}
+
+.timeInput:focus {
+  outline: none;
+  border-color: #6366f1;
+  background: #ffffff;
+  box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
+}
+
+.inputRow {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.numberInput {
+  width: 100px;
+  padding: 12px 14px;
+  border: 2px solid #e5e7eb;
+  border-radius: 12px;
+  font-size: 16px;
+  color: #1f2937;
+  background: #fafafa;
+  transition: border-color 0.15s ease, background 0.15s ease;
+  -webkit-appearance: none;
+  -moz-appearance: textfield;
+}
+
+.numberInput:focus {
+  outline: none;
+  border-color: #6366f1;
+  background: #ffffff;
+  box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
+}
+
+.inputUnit {
+  font-size: 14px;
+  color: #6b7280;
+  font-weight: 500;
+}
+
+/* ── 시간 선택 (시/분 셀렉트) ── */
+.timeSelectRow {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.timeSelect {
+  flex: 1;
+  max-width: 160px;
+  padding: 12px 14px;
+  border: 2px solid #e5e7eb;
+  border-radius: 12px;
+  font-size: 15px;
+  color: #1f2937;
+  background: #fafafa;
+  transition: border-color 0.15s ease, background 0.15s ease;
+  -webkit-appearance: none;
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%239ca3af' fill='none' stroke-width='2' stroke-linecap='round'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 12px center;
+  padding-right: 32px;
+  cursor: pointer;
+}
+
+.timeSelect:focus {
+  outline: none;
+  border-color: #6366f1;
+  background-color: #ffffff;
+  box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
+}
+
+.timeSeparator {
+  font-size: 18px;
+  font-weight: 700;
+  color: #9ca3af;
+}
+
+/* ── 빈도 질문 ── */
+.freqQuestion {
+  margin-bottom: 16px;
+  padding-bottom: 16px;
+  border-bottom: 1px solid #f3f4f6;
+}
+
+.freqQuestion:last-child {
+  margin-bottom: 0;
+  padding-bottom: 0;
+  border-bottom: none;
+}
+
+.freqLabel {
+  display: block;
+  font-size: 14px;
+  font-weight: 500;
+  color: #374151;
+  margin-bottom: 10px;
+  line-height: 1.4;
+}
+
+/* ── 라디오 그룹 ── */
+.radioGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.radioOption {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 11px 14px;
+  border-radius: 12px;
+  border: 2px solid #e5e7eb;
+  background: #fafafa;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.radioOption:hover {
+  border-color: #c7d2fe;
+  background: #f5f3ff;
+}
+
+.radioOption:active {
+  background: #ede9fe;
+}
+
+.radioOptionSelected {
+  border-color: #6366f1;
+  background: #eef2ff;
+}
+
+.radioOptionSelected:hover {
+  border-color: #6366f1;
+  background: #eef2ff;
+}
+
+.radioInput {
+  position: absolute;
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.radioMark {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  border: 2px solid #d1d5db;
+  flex-shrink: 0;
+  transition: all 0.15s ease;
+}
+
+.radioOptionSelected .radioMark {
+  border-color: #6366f1;
+  background: #6366f1;
+}
+
+.radioOptionSelected .radioMark::after {
+  content: "";
+  display: block;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #ffffff;
+}
+
+.radioText {
+  font-size: 14px;
+  color: #374151;
+  font-weight: 500;
+  line-height: 1.3;
+}
+
+.radioOptionSelected .radioText {
+  color: #4338ca;
+  font-weight: 600;
+}
+
+/* ── 제출 영역 ── */
+.submitSection {
+  margin-top: 8px;
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+.submitBtn {
+  width: 100%;
+  padding: 16px 0;
+  border-radius: 14px;
+  border: none;
+  background: linear-gradient(135deg, #6366f1, #818cf8);
+  color: #ffffff;
+  font-size: 16px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  box-shadow: 0 4px 16px rgba(99, 102, 241, 0.3);
+}
+
+.submitBtn:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 6px 20px rgba(99, 102, 241, 0.4);
+}
+
+.submitBtn:active {
+  transform: translateY(0);
+}
+
+.submitBtnDisabled {
+  background: #d1d5db;
+  box-shadow: none;
+  cursor: not-allowed;
+}
+
+.submitBtnDisabled:hover {
+  transform: none;
+  box-shadow: none;
+}
+
+.submitHint {
+  font-size: 12px;
+  color: #9ca3af;
+  margin-top: 10px;
+}
+
+.skipBtn {
+  display: inline-block;
+  margin-top: 16px;
+  padding: 0;
+  border: none;
+  background: transparent;
+  color: #9ca3af;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  transition: color 0.15s ease;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.skipBtn:hover {
+  color: #6b7280;
+}
+
+/* ── 결과 카드 ── */
+.resultCard {
+  background: #ffffff;
+  border-radius: 20px;
+  padding: 32px 20px;
+  text-align: center;
+  box-shadow: 0 2px 16px rgba(99, 102, 241, 0.08);
+  border: 1px solid #e0e7ff;
+}
+
+.resultTitle {
+  font-size: 18px;
+  font-weight: 700;
+  color: #1e1b4b;
+  margin-bottom: 24px;
+}
+
+.scoreCircle {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  border: 4px solid;
+  margin: 0 auto 16px;
+  background: #fafafa;
+}
+
+.scoreNumber {
+  font-size: 40px;
+  font-weight: 800;
+  line-height: 1;
+}
+
+.scoreMax {
+  font-size: 14px;
+  color: #9ca3af;
+  font-weight: 500;
+  margin-top: 2px;
+}
+
+.gradeRow {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  margin-bottom: 16px;
+}
+
+.gradeBadge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
+  color: #ffffff;
+  font-size: 18px;
+  font-weight: 800;
+  letter-spacing: -0.5px;
+}
+
+.qualityBadge {
+  display: inline-block;
+  padding: 6px 20px;
+  border-radius: 999px;
+  color: #ffffff;
+  font-size: 14px;
+  font-weight: 700;
+}
+
+.resultDesc {
+  font-size: 14px;
+  color: #6b7280;
+  line-height: 1.6;
+  margin-bottom: 24px;
+  padding: 0 8px;
+}
+
+/* ── 퍼센트 원형 ── */
+.percentCircle {
+  display: flex;
+  align-items: baseline;
+  justify-content: center;
+  width: 130px;
+  height: 130px;
+  border-radius: 50%;
+  border: 5px solid;
+  margin: 0 auto 16px;
+  background: #fafafa;
+  gap: 2px;
+}
+
+.percentNumber {
+  font-size: 48px;
+  font-weight: 800;
+  line-height: 130px;
+}
+
+.percentUnit {
+  font-size: 20px;
+  font-weight: 700;
+  line-height: 130px;
+}
+
+/* ── 동기부여 문구 ── */
+.motivationText {
+  font-size: 14px;
+  color: #4b5563;
+  line-height: 1.7;
+  margin-bottom: 20px;
+  padding: 0 8px;
+}
+
+/* ── 상세 점수 토글 ── */
+.detailToggle {
+  margin-top: 4px;
+}
+
+.detailSummary {
+  font-size: 13px;
+  font-weight: 600;
+  color: #6366f1;
+  cursor: pointer;
+  padding: 10px 0;
+  list-style: none;
+  text-align: center;
+}
+
+.detailSummary::-webkit-details-marker {
+  display: none;
+}
+
+.detailSummary::before {
+  content: "▸ ";
+}
+
+details[open] > .detailSummary::before {
+  content: "▾ ";
+}
+
+.detailContent {
+  padding-top: 12px;
+  border-top: 1px solid #f3f4f6;
+}
+
+.rawScoreRow {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  margin-bottom: 12px;
+}
+
+.rawScoreLabel {
+  font-size: 13px;
+  font-weight: 600;
+  color: #6b7280;
+}
+
+.rawScoreValue {
+  font-size: 18px;
+  font-weight: 800;
+  color: #1e1b4b;
+}
+
+.rawScoreMax {
+  font-size: 12px;
+  font-weight: 500;
+  color: #9ca3af;
+}
+
+/* ── 2단계: 자율신경 증상 공감 섹션 ── */
+.symptomSection {
+  margin-top: 16px;
+  padding: 28px 20px;
+  background: linear-gradient(135deg, #fefce8, #fff7ed);
+  border-radius: 20px;
+  text-align: center;
+  border: 1px solid #fde68a;
+}
+
+.symptomIntro {
+  font-size: 15px;
+  font-weight: 700;
+  color: #92400e;
+  line-height: 1.6;
+  margin-bottom: 20px;
+}
+
+.symptomGrid {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.symptomChip {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  padding: 14px 8px;
+  background: rgba(255, 255, 255, 0.7);
+  border-radius: 14px;
+  border: 1px solid rgba(251, 191, 36, 0.2);
+}
+
+.symptomIcon {
+  font-size: 28px;
+  line-height: 1;
+}
+
+.symptomText {
+  font-size: 12px;
+  font-weight: 600;
+  color: #78350f;
+  white-space: nowrap;
+}
+
+.symptomConnect {
+  font-size: 14px;
+  color: #92400e;
+  line-height: 1.7;
+  margin-bottom: 16px;
+}
+
+.symptomConnect strong {
+  color: #78350f;
+}
+
+.symptomKeyMsg {
+  font-size: 16px;
+  font-weight: 800;
+  color: #1e1b4b;
+  padding: 14px 20px;
+  background: rgba(255, 255, 255, 0.8);
+  border-radius: 12px;
+  border: 2px solid #6366f1;
+}
+
+.symptomKeyMsg strong {
+  color: #6366f1;
+}
+
+/* ── 3단계: 순환 다이어그램 + CTA ── */
+.cycleSection {
+  margin-top: 16px;
+  margin-bottom: 16px;
+}
+
+.cycleBox {
+  padding: 20px 16px;
+  border-radius: 16px;
+  margin-bottom: 12px;
+  text-align: center;
+}
+
+.cycleBad {
+  background: #fef2f2;
+  border: 1px solid #fecaca;
+}
+
+.cycleGood {
+  background: #ecfdf5;
+  border: 1px solid #a7f3d0;
+}
+
+.cycleLabel {
+  display: block;
+  font-size: 12px;
+  font-weight: 700;
+  margin-bottom: 12px;
+  letter-spacing: 0.5px;
+}
+
+.cycleBad .cycleLabel {
+  color: #dc2626;
+}
+
+.cycleGood .cycleLabel {
+  color: #059669;
+}
+
+.cycleFlow {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.cycleStep {
+  font-size: 13px;
+  font-weight: 600;
+  padding: 6px 12px;
+  border-radius: 20px;
+  white-space: nowrap;
+}
+
+.cycleBad .cycleStep {
+  background: #fee2e2;
+  color: #991b1b;
+}
+
+.cycleGood .cycleStep {
+  background: #d1fae5;
+  color: #065f46;
+}
+
+.cycleArrow {
+  font-size: 14px;
+  font-weight: 700;
+}
+
+.cycleBad .cycleArrow {
+  color: #ef4444;
+}
+
+.cycleGood .cycleArrow {
+  color: #10b981;
+}
+
+.cycleArrowDown {
+  font-size: 18px;
+  font-weight: 700;
+}
+
+.cycleBad .cycleArrowDown {
+  color: #ef4444;
+}
+
+.cycleGood .cycleArrowDown {
+  color: #10b981;
+}
+
+.ctaArea {
+  text-align: center;
+  padding: 24px 16px;
+  background: linear-gradient(135deg, #eef2ff, #e0e7ff);
+  border-radius: 20px;
+  border: 1px solid #c7d2fe;
+  margin-bottom: 12px;
+}
+
+.ctaText {
+  font-size: 15px;
+  font-weight: 600;
+  color: #312e81;
+  line-height: 1.7;
+  margin-bottom: 20px;
+  white-space: pre-line;
+}
+
+.ctaBtn {
+  width: 100%;
+  padding: 16px 0;
+  border-radius: 14px;
+  border: none;
+  background: linear-gradient(135deg, #6366f1, #818cf8);
+  color: #ffffff;
+  font-size: 16px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  box-shadow: 0 4px 16px rgba(99, 102, 241, 0.3);
+}
+
+.ctaBtn:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 6px 20px rgba(99, 102, 241, 0.4);
+}
+
+.ctaBtn:active {
+  transform: translateY(0);
+}
+
+/* ── Step 2: 미니 점수 카드 ── */
+.miniScoreCard {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  width: 100%;
+  padding: 14px 16px;
+  background: #ffffff;
+  border-radius: 16px;
+  border: 1px solid #e0e7ff;
+  box-shadow: 0 1px 6px rgba(99, 102, 241, 0.06);
+  cursor: pointer;
+  transition: all 0.15s ease;
+  margin-bottom: 16px;
+  text-align: left;
+}
+
+.miniScoreCard:hover {
+  border-color: #c7d2fe;
+  box-shadow: 0 2px 12px rgba(99, 102, 241, 0.12);
+}
+
+.miniScoreCircle {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  border: 3px solid;
+  flex-shrink: 0;
+  background: #fafafa;
+}
+
+.miniScoreNum {
+  font-size: 14px;
+  font-weight: 800;
+}
+
+.miniScoreInfo {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  flex: 1;
+}
+
+.miniScoreLabel {
+  font-size: 13px;
+  font-weight: 600;
+  color: #374151;
+}
+
+.miniScoreGradeRow {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-top: 2px;
+}
+
+.miniScoreGrade {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 22px;
+  height: 22px;
+  border-radius: 5px;
+  color: #ffffff;
+  font-size: 12px;
+  font-weight: 800;
+}
+
+.miniScoreGap {
+  font-size: 11px;
+  font-weight: 600;
+}
+
+.miniScoreArrow {
+  font-size: 20px;
+  color: #9ca3af;
+  flex-shrink: 0;
+}
+
+/* ── Step 2: 카테고리 탭 ── */
+.tabBar {
+  display: flex;
+  gap: 4px;
+  padding: 4px;
+  background: #f3f4f6;
+  border-radius: 14px;
+  margin-bottom: 16px;
+}
+
+.tab {
+  flex: 1;
+  padding: 10px 0;
+  border-radius: 11px;
+  border: none;
+  background: transparent;
+  font-size: 13px;
+  font-weight: 600;
+  color: #9ca3af;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.tabActive {
+  background: #ffffff;
+  color: #4338ca;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.08);
+}
+
+/* ── Coming Soon 카드 ── */
+.comingSoonCard {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 48px 20px;
+  background: #ffffff;
+  border-radius: 20px;
+  border: 1px solid #f3f4f6;
+  box-shadow: 0 1px 8px rgba(0, 0, 0, 0.04);
+  text-align: center;
+}
+
+.comingSoonIcon {
+  font-size: 40px;
+  margin-bottom: 16px;
+}
+
+.comingSoonText {
+  font-size: 15px;
+  font-weight: 600;
+  color: #6b7280;
+}
+
+/* ── Step 2: 트래커 카드 ── */
+.trackerCard {
+  background: #ffffff;
+  border-radius: 20px;
+  padding: 24px 20px;
+  box-shadow: 0 1px 8px rgba(0, 0, 0, 0.04);
+  border: 1px solid #f3f4f6;
+  margin-bottom: 16px;
+}
+
+.trackerHeader {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 12px;
+}
+
+.trackerTitle {
+  font-size: 16px;
+  font-weight: 700;
+  color: #1e1b4b;
+  margin-bottom: 0;
+  text-align: center;
+}
+
+.editIconBtn {
+  position: absolute;
+  right: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
+  border: 1px solid #e5e7eb;
+  background: #fafafa;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.editIconBtn:hover {
+  background: #f5f3ff;
+  border-color: #c7d2fe;
+}
+
+.editIconBtn svg path {
+  transition: stroke 0.15s ease;
+}
+
+.editIconBtn:hover svg path {
+  stroke: #6366f1;
+}
+
+.lockedBadge {
+  position: absolute;
+  right: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  opacity: 0.5;
+}
+
+.editModeBtn {
+  position: absolute;
+  right: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding: 4px 10px;
+  border: none;
+  border-radius: 6px;
+  background: transparent;
+  cursor: pointer;
+  font-size: 12px;
+  color: #6b7280;
+  transition: background 0.15s, color 0.15s;
+}
+.editModeBtn:hover {
+  background: #f3f4f6;
+  color: #4f46e5;
+}
+.editModeBtn span {
+  line-height: 1;
+}
+
+.editDoneBtn {
+  position: absolute;
+  right: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  padding: 6px 14px;
+  border-radius: 8px;
+  border: none;
+  background: #6366f1;
+  color: #ffffff;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.editDoneBtn:hover {
+  background: #4f46e5;
+}
+
+/* ── 날짜 네비게이션 ── */
+.dateNav {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  margin-bottom: 20px;
+}
+
+.dateNavBtn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
+  border: 1px solid #e5e7eb;
+  background: #fafafa;
+  font-size: 18px;
+  font-weight: 600;
+  color: #374151;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.dateNavBtn:hover {
+  border-color: #6366f1;
+  background: #f5f3ff;
+}
+
+.dateNavBtnDisabled {
+  color: #d1d5db;
+  cursor: not-allowed;
+}
+
+.dateNavBtnDisabled:hover {
+  border-color: #e5e7eb;
+  background: #fafafa;
+}
+
+.dateNavLabel {
+  font-size: 14px;
+  font-weight: 600;
+  color: #374151;
+  min-width: 120px;
+  text-align: center;
+}
+
+/* ── 잠금된 값 표시 ── */
+.lockedValue {
+  font-size: 15px;
+  font-weight: 600;
+  color: #1e1b4b;
+  padding: 10px 14px;
+  background: #f9fafb;
+  border-radius: 12px;
+  border: 1px solid #f3f4f6;
+}
+
+/* ── 입력 완료 버튼 ── */
+.lockBtn {
+  width: 100%;
+  margin-top: 20px;
+  padding: 14px 0;
+  border-radius: 14px;
+  border: none;
+  background: linear-gradient(135deg, #6366f1, #818cf8);
+  color: #ffffff;
+  font-size: 15px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  box-shadow: 0 4px 16px rgba(99, 102, 241, 0.3);
+}
+
+.lockBtn:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 6px 20px rgba(99, 102, 241, 0.4);
+}
+
+.lockBtn:active {
+  transform: translateY(0);
+}
+
+.trackerDate {
+  font-size: 12px;
+  color: #9ca3af;
+  margin-bottom: 20px;
+}
+
+/* ── 수면 기록 필드 ── */
+.sleepFields {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+.sleepField {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 16px 0;
+  border-bottom: 1px solid #f3f4f6;
+}
+
+.sleepField:last-child {
+  border-bottom: none;
+  padding-bottom: 0;
+}
+
+.sleepField:first-child {
+  padding-top: 0;
+}
+
+.sleepFieldLabel {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 14px;
+  font-weight: 700;
+  color: #1e1b4b;
+  letter-spacing: -0.01em;
+}
+
+.fieldIcon {
+  font-size: 16px;
+  line-height: 1;
+  flex-shrink: 0;
+}
+
+.wakeCountRow {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.wakeCountBtn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 12px;
+  border: 2px solid #e5e7eb;
+  background: #fafafa;
+  font-size: 20px;
+  font-weight: 600;
+  color: #374151;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.wakeCountBtn:hover {
+  border-color: #6366f1;
+  background: #f5f3ff;
+}
+
+.wakeCountBtn:active {
+  background: #eef2ff;
+}
+
+.wakeCountBtn:disabled {
+  opacity: 0.3;
+  cursor: default;
+}
+
+.wakeCountNum {
+  font-size: 18px;
+  font-weight: 700;
+  color: #1e1b4b;
+  min-width: 40px;
+  text-align: center;
+}
+
+.dreamLabelRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.dreamEditBtn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+  background: #fafafa;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.dreamEditBtn:hover {
+  background: #f3f4f6;
+  border-color: #c7d2fe;
+}
+
+.dreamToggle {
+  display: flex;
+  gap: 8px;
+}
+
+.dreamBtn {
+  flex: 1;
+  padding: 10px 0;
+  border-radius: 12px;
+  border: 2px solid #e5e7eb;
+  background: #fafafa;
+  font-size: 14px;
+  font-weight: 600;
+  color: #6b7280;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.dreamBtn:hover {
+  border-color: #c7d2fe;
+}
+
+.dreamBtnActive {
+  border-color: #6366f1;
+  background: #eef2ff;
+  color: #4338ca;
+}
+
+/* ── 스트릭 배지 ── */
+.streakBadge {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 14px;
+  background: linear-gradient(135deg, #fffbeb, #fef3c7);
+  border-radius: 12px;
+  border: 1px solid #fde68a;
+  margin-bottom: 12px;
+}
+
+.streakFire {
+  font-size: 18px;
+  line-height: 1;
+}
+
+.streakText {
+  font-size: 13px;
+  font-weight: 700;
+  color: #92400e;
+}
+
+/* ── Habit Tracker ── */
+.habitList {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  margin-top: 16px;
+}
+
+.habitItem {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 14px 16px;
+  border-radius: 0;
+  border: 1px solid #e5e7eb;
+  border-bottom: none;
+  background: #fafafa;
+  cursor: pointer;
+  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+  -webkit-tap-highlight-color: transparent;
+}
+
+.habitItem:first-child {
+  border-radius: 12px 12px 0 0;
+}
+
+.habitItem:last-child {
+  border-radius: 0 0 12px 12px;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.habitItem:hover {
+  border-color: #c7d2fe;
+}
+
+/* 체크된 행: 부드러운 배경 전환 */
+.habitItem:has(.habitChecked) {
+  background: #f0fdf4;
+  border-color: #bbf7d0;
+}
+
+.habitItem:first-child:has(.habitChecked) {
+  border-color: #bbf7d0;
+}
+
+.habitItem:last-child:has(.habitChecked) {
+  border-color: #bbf7d0;
+  border-bottom: 1px solid #bbf7d0;
+}
+
+/* 관리자 등록 습관: 연한 보라 배경 */
+.habitItemAdmin {
+  background: #f5f3ff;
+  border-color: #e9e5ff;
+}
+
+.habitItemAdmin:hover {
+  border-color: #c4b5fd;
+}
+
+.habitItemAdmin:has(.habitChecked) {
+  background: #ecfdf5;
+  border-color: #bbf7d0;
+}
+
+.habitItemLocked {
+  cursor: default;
+  background: #f9fafb;
+  border-color: #f3f4f6;
+}
+
+.habitItemLocked:hover {
+  border-color: #f3f4f6;
+}
+
+.habitCheckbox {
+  position: absolute;
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.habitCheckMark {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  border: 2px solid #d1d5db;
+  flex-shrink: 0;
+  font-size: 14px;
+  font-weight: 700;
+  color: transparent;
+  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+@keyframes checkPop {
+  0% { transform: scale(1); }
+  40% { transform: scale(1.25); }
+  100% { transform: scale(1); }
+}
+
+.habitChecked {
+  border-color: #22c55e;
+  background: #22c55e;
+  color: #ffffff;
+  box-shadow: 0 2px 8px rgba(34, 197, 94, 0.3);
+  animation: checkPop 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.habitText {
+  flex: 1;
+  font-size: 14px;
+  font-weight: 500;
+  color: #374151;
+  line-height: 1.4;
+  transition: all 0.25s ease;
+}
+
+.habitTextChecked {
+  color: #16a34a;
+  font-weight: 600;
+}
+
+.habitRemoveBtn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  border: none;
+  background: transparent;
+  font-size: 18px;
+  color: #d1d5db;
+  cursor: pointer;
+  flex-shrink: 0;
+  transition: all 0.15s ease;
+}
+
+.habitRemoveBtn:hover {
+  background: #fef2f2;
+  color: #ef4444;
+}
+
+/* ── 새 항목 추가 ── */
+.addHabitBtn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  border-radius: 8px;
+  border: 1.5px solid #d1d5db;
+  background: #ffffff;
+  font-size: 18px;
+  font-weight: 400;
+  line-height: 1;
+  color: #6366f1;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  position: absolute;
+  right: 0;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.addHabitBtn:hover {
+  border-color: #6366f1;
+  background: #f5f3ff;
+}
+
+.addHabitRow {
+  display: flex;
+  gap: 8px;
+  margin-top: 12px;
+  align-items: center;
+}
+
+.addHabitInput {
+  flex: 1;
+  padding: 10px 14px;
+  border: 2px solid #6366f1;
+  border-radius: 12px;
+  font-size: 14px;
+  color: #1f2937;
+  background: #ffffff;
+  outline: none;
+}
+
+.addHabitInput:focus {
+  box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
+}
+
+.addHabitConfirm {
+  padding: 10px 16px;
+  border-radius: 12px;
+  border: none;
+  background: #6366f1;
+  color: #ffffff;
+  font-size: 13px;
+  font-weight: 700;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.addHabitCancel {
+  padding: 10px 12px;
+  border-radius: 12px;
+  border: 2px solid #e5e7eb;
+  background: #ffffff;
+  color: #6b7280;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+/* ── 결과 화면 → 수면 기록 돌아가기 ── */
+.backToTrackerBtn {
+  width: 100%;
+  margin-top: 12px;
+  padding: 14px 0;
+  border-radius: 14px;
+  border: 2px solid #e0e7ff;
+  background: #ffffff;
+  color: #6366f1;
+  font-size: 15px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.backToTrackerBtn:hover {
+  background: #f5f3ff;
+  border-color: #c7d2fe;
+}
+
+/* ── 구성 요소 그리드 ── */
+.componentGrid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+  margin-bottom: 16px;
+}
+
+.componentItem {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 14px;
+  border-radius: 12px;
+  background: #f5f3ff;
+  border: 1px solid #e0e7ff;
+}
+
+.componentName {
+  font-size: 12px;
+  font-weight: 600;
+  color: #4338ca;
+}
+
+.componentScore {
+  font-size: 16px;
+  font-weight: 800;
+  color: #1e1b4b;
+}
+
+.componentMax {
+  font-size: 11px;
+  font-weight: 500;
+  color: #9ca3af;
+}
+
+/* ── 수면 효율 ── */
+.efficiencyRow {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  padding: 12px;
+  border-radius: 12px;
+  background: #ecfdf5;
+  border: 1px solid #a7f3d0;
+  margin-bottom: 20px;
+}
+
+.efficiencyLabel {
+  font-size: 13px;
+  font-weight: 600;
+  color: #047857;
+}
+
+.efficiencyValue {
+  font-size: 18px;
+  font-weight: 800;
+  color: #059669;
+}
+
+/* ── 다시 검사 버튼 ── */
+.resetBtn {
+  width: 100%;
+  padding: 14px 0;
+  border-radius: 14px;
+  border: 2px solid #e0e7ff;
+  background: #ffffff;
+  color: #6366f1;
+  font-size: 15px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.resetBtn:hover {
+  background: #f5f3ff;
+  border-color: #c7d2fe;
+}
+
+.resetBtn:active {
+  background: #eef2ff;
+}
+
+/* ── 모바일 반응형 ── */
+@media (max-width: 480px) {
+  .title {
+    font-size: 18px;
+  }
+
+  .section {
+    padding: 16px 14px;
+    border-radius: 14px;
+  }
+
+  .sectionTitle {
+    font-size: 14px;
+  }
+
+  .questionLabel {
+    font-size: 13px;
+  }
+
+  .radioOption {
+    padding: 10px 12px;
+    border-radius: 10px;
+  }
+
+  .radioText {
+    font-size: 13px;
+  }
+
+  .componentGrid {
+    grid-template-columns: 1fr;
+    gap: 6px;
+  }
+
+  .scoreCircle {
+    width: 100px;
+    height: 100px;
+  }
+
+  .scoreNumber {
+    font-size: 34px;
+  }
+
+  .percentCircle {
+    width: 110px;
+    height: 110px;
+  }
+
+  .percentNumber {
+    font-size: 40px;
+    line-height: 110px;
+  }
+
+  .percentUnit {
+    font-size: 17px;
+    line-height: 110px;
+  }
+
+  .symptomGrid {
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 8px;
+  }
+
+  .symptomIcon {
+    font-size: 24px;
+  }
+
+  .symptomText {
+    font-size: 11px;
+  }
+
+  .cycleStep {
+    font-size: 12px;
+    padding: 5px 10px;
+  }
+}
+
+@media (max-width: 375px) {
+  .title {
+    font-size: 17px;
+  }
+
+  .section {
+    padding: 14px 12px;
+  }
+
+  .sectionTitle {
+    font-size: 13px;
+  }
+
+  .radioOption {
+    padding: 9px 10px;
+    gap: 8px;
+  }
+
+  .radioText {
+    font-size: 12px;
+  }
+
+  .radioMark {
+    width: 18px;
+    height: 18px;
+  }
+
+  .symptomSection {
+    padding: 24px 16px;
+  }
+
+  .symptomGrid {
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+  }
+
+  .symptomChip {
+    padding: 12px 6px;
+  }
+}
+
+@media (max-width: 320px) {
+  .section {
+    padding: 12px 10px;
+  }
+
+  .freqLabel {
+    font-size: 12px;
+  }
+
+  .radioText {
+    font-size: 11px;
+  }
+
+  .componentName {
+    font-size: 11px;
+  }
+}
+
+/* ── 낮잠 기록 ── */
+.napToggleRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.napToggle {
+  position: relative;
+  width: 44px;
+  height: 24px;
+  border-radius: 12px;
+  border: none;
+  background: #e5e7eb;
+  cursor: pointer;
+  transition: background 0.2s ease;
+  padding: 0;
+}
+
+.napToggleOn {
+  background: #6366f1;
+}
+
+.napToggleThumb {
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: #ffffff;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.15);
+  transition: transform 0.2s ease;
+}
+
+.napToggleOn .napToggleThumb {
+  transform: translateX(20px);
+}
+
+.napTimeFields {
+  display: flex;
+  gap: 12px;
+  margin-top: 10px;
+}
+
+.napTimeField {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.napTimeLabel {
+  font-size: 11px;
+  font-weight: 600;
+  color: #9ca3af;
+}
+
+/* ── 오늘 아침 나는 (감정 태그) ── */
+.sleepMoodSection {
+  margin-top: 20px;
+  padding-top: 20px;
+  border-top: 1px solid #f3f4f6;
+}
+
+.sleepMoodLabel {
+  display: block;
+  font-size: 14px;
+  font-weight: 700;
+  color: #1e1b4b;
+  margin-bottom: 14px;
+  text-align: center;
+}
+
+.sleepMoodTags {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 8px;
+}
+
+.sleepMoodTag {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  padding: 14px 4px 12px;
+  border-radius: 16px;
+  border: 1.5px solid #f3f4f6;
+  background: #fafafa;
+  cursor: pointer;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  -webkit-tap-highlight-color: transparent;
+}
+
+.sleepMoodTag:hover {
+  border-color: #e0e7ff;
+  background: #f5f3ff;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(99, 102, 241, 0.1);
+}
+
+.sleepMoodTag:active {
+  transform: scale(0.95);
+}
+
+.sleepMoodTagActive {
+  border-color: #6366f1;
+  background: linear-gradient(135deg, #eef2ff, #e0e7ff);
+  box-shadow: 0 2px 8px rgba(99, 102, 241, 0.2);
+}
+
+.sleepMoodTagActive .sleepMoodEmoji {
+  transform: scale(1.15);
+}
+
+.sleepMoodTagActive .sleepMoodText {
+  color: #4338ca;
+}
+
+.sleepMoodTagLocked {
+  cursor: default;
+  opacity: 0.6;
+}
+
+.sleepMoodTagLocked:hover {
+  border-color: #f3f4f6;
+  background: #fafafa;
+  transform: none;
+  box-shadow: none;
+}
+
+.sleepMoodTagLocked.sleepMoodTagActive {
+  opacity: 1;
+}
+
+.sleepMoodTagLocked.sleepMoodTagActive:hover {
+  border-color: #6366f1;
+  background: linear-gradient(135deg, #eef2ff, #e0e7ff);
+  box-shadow: 0 2px 8px rgba(99, 102, 241, 0.2);
+}
+
+/* ── 감정 선택 후 CBT 메시지 ── */
+.sleepMoodMessage {
+  margin-top: 16px;
+  padding: 16px 18px;
+  background: linear-gradient(135deg, #f5f3ff, #eef2ff);
+  border-radius: 14px;
+  border: 1px solid #e0e7ff;
+  animation: moodMsgFadeIn 0.4s ease;
+}
+
+@keyframes moodMsgFadeIn {
+  from { opacity: 0; transform: translateY(-6px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.sleepMoodMessage p {
+  font-size: 13px;
+  font-weight: 500;
+  color: #4338ca;
+  line-height: 1.7;
+  margin: 0;
+}
+
+.sleepMoodMessage p + p {
+  margin-top: 4px;
+}
+
+.sleepMoodMessageFirst {
+  font-weight: 700;
+  font-size: 14px;
+  color: #312e81;
+}
+
+/* ── PSQI 완료 팝업 (첫 1회) ── */
+.psqiPopupOverlay {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+  animation: psqiOverlayIn 0.3s ease;
+  padding: 20px;
+}
+
+@keyframes psqiOverlayIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.psqiPopup {
+  background: #ffffff;
+  border-radius: 24px;
+  padding: 36px 28px 28px;
+  max-width: 340px;
+  width: 100%;
+  text-align: center;
+  box-shadow: 0 20px 60px rgba(99, 102, 241, 0.2), 0 4px 16px rgba(0, 0, 0, 0.08);
+  animation: psqiPopupIn 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+@keyframes psqiPopupIn {
+  from { opacity: 0; transform: scale(0.85) translateY(20px); }
+  to { opacity: 1; transform: scale(1) translateY(0); }
+}
+
+.psqiPopupIcon {
+  font-size: 48px;
+  line-height: 1;
+  margin-bottom: 16px;
+}
+
+.psqiPopupTitle {
+  font-size: 18px;
+  font-weight: 800;
+  color: #1e1b4b;
+  margin: 0 0 16px;
+}
+
+.psqiPopupDesc {
+  font-size: 15px;
+  font-weight: 500;
+  color: #4b5563;
+  line-height: 1.7;
+  margin: 0 0 8px;
+}
+
+.psqiPopupDesc strong {
+  color: #4338ca;
+  font-weight: 800;
+}
+
+.psqiPopupSub {
+  font-size: 13px;
+  font-weight: 500;
+  color: #9ca3af;
+  line-height: 1.6;
+  margin: 0 0 24px;
+}
+
+.psqiPopupBtn {
+  width: 100%;
+  padding: 14px 0;
+  border-radius: 14px;
+  border: none;
+  background: linear-gradient(135deg, #6366f1, #818cf8);
+  color: #ffffff;
+  font-size: 15px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  box-shadow: 0 4px 16px rgba(99, 102, 241, 0.3);
+}
+
+.psqiPopupBtn:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 6px 20px rgba(99, 102, 241, 0.4);
+}
+
+.psqiPopupBtn:active {
+  transform: translateY(0);
+}
+
+.sleepMoodEmoji {
+  font-size: 28px;
+  line-height: 1;
+  flex-shrink: 0;
+  transition: transform 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.sleepMoodText {
+  font-size: 11px;
+  font-weight: 600;
+  color: #6b7280;
+  text-align: center;
+  line-height: 1.3;
+  word-break: keep-all;
+  transition: color 0.2s ease;
+}
+
+@media (max-width: 360px) {
+  .sleepMoodTags {
+    grid-template-columns: repeat(4, 1fr);
+    gap: 6px;
+  }
+
+  .sleepMoodTag {
+    padding: 10px 2px 8px;
+    border-radius: 12px;
+  }
+
+  .sleepMoodEmoji {
+    font-size: 24px;
+  }
+
+  .sleepMoodText {
+    font-size: 10px;
+  }
+}
+
+@media (max-width: 320px) {
+  .sleepMoodTag {
+    padding: 8px 2px 6px;
+  }
+
+  .sleepMoodEmoji {
+    font-size: 22px;
+  }
+
+  .sleepMoodText {
+    font-size: 9px;
+  }
+}
+
+/* ── 수면 영향 자유 기록 (5주차~) ── */
+.sleepNoteSection {
+  margin-top: 16px;
+  padding-top: 16px;
+  border-top: 1px solid #f3f4f6;
+}
+
+.sleepNoteLabel {
+  display: block;
+  font-size: 13px;
+  font-weight: 700;
+  color: #374151;
+  margin-bottom: 8px;
+}
+
+.sleepNoteInput {
+  width: 100%;
+  padding: 10px 14px;
+  border: 1.5px solid #e5e7eb;
+  border-radius: 12px;
+  font-size: 13px;
+  font-family: inherit;
+  color: #1f2937;
+  background: #fafafa;
+  resize: none;
+  outline: none;
+  transition: border-color 0.15s ease;
+  box-sizing: border-box;
+}
+
+.sleepNoteInput::placeholder {
+  color: #9ca3af;
+}
+
+.sleepNoteInput:focus {
+  border-color: #6366f1;
+  background: #ffffff;
+  box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.08);
+}
+
+.sleepNoteLockedText {
+  font-size: 13px;
+  color: #6b7280;
+  line-height: 1.5;
+  margin: 0;
+  padding: 8px 0;
+}
+
+@media (max-width: 360px) {
+  .sleepMoodTags {
+    grid-template-columns: 1fr 1fr;
+    gap: 6px;
+  }
+
+  .sleepMoodTag {
+    padding: 8px 10px;
+  }
+
+  .sleepMoodEmoji {
+    font-size: 16px;
+  }
+
+  .sleepMoodText {
+    font-size: 12px;
+  }
+}

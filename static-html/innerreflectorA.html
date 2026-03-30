@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Heal Echo 일기 서비스</title>
+  <link rel="stylesheet" href="reset.css" />
+  <link rel="stylesheet" href="reset.prefixed.css" />
+    <!-- ② 공통 스타일 (헤더 등 전체 레이아웃) -->
+    <link rel="stylesheet" href="./src/style.css">
+  <link rel="stylesheet" href="./src/innerreflectorA.css" />
+  <style>
+    /* 페이지 잠금용 오버레이 */
+    .lock-overlay{position:fixed;inset:60px 0 0 0;display:none;align-items:center;justify-content:center;background:rgba(255,255,255,.85);backdrop-filter:saturate(120%) blur(2px);z-index:999}
+    .lock-overlay.show{display:flex}
+    .lock-box{border:1px solid #000;border-radius:12px;padding:18px 20px;background:#fff;box-shadow:0 2px 10px rgba(0,0,0,.08);font-size:14px}
+    .lock-box b{display:block;font-size:16px;margin-bottom:6px}
+    .btn{display:inline-flex;align-items:center;gap:6px;border:1px solid #000;border-radius:999px;padding:8px 14px;background:#00D6F5;color:#000;cursor:pointer}
+    .btn.alt{background:#fff}
+    .hidden{display:none}
+  </style>
+</head>
+<body>
+  <!-- 로그인 안 되어 있으면 로그인 페이지로 보내되, 돌아올 주소(returnTo)를 같이 보냅니다 -->
+<script>
+  (function () {
+    // 로그인 토큰이 있으면 통과
+    const token = sessionStorage.getItem('id_token');
+    const exp   = Number(sessionStorage.getItem('expires_at') || 0);
+    const loggedIn = !!token && Date.now() < exp - 10_000; // 만료 10초 전 여유
+
+    if (loggedIn) return;
+
+    // 현재 페이지(일기 페이지)의 경로를 returnTo에 담아서 login.html로 이동
+    const here = location.pathname + location.search + location.hash;
+    // login.html이 같은 폴더에 있다면 그대로 두세요. 경로가 다르면 맞게 고쳐 넣으시면 됩니다.
+    location.replace('login.html?returnTo=' + encodeURIComponent(here));
+  })();
+</script>
+
+<div id="site-header" data-header-src="./partials/header.html"></div>
+
+
+  <!-- 로그인 필요 시 화면 잠금 -->
+  <div id="lockOverlay" class="lock-overlay">
+    <div class="lock-box">
+      <b>로그인 후 이용해 주세요</b>
+      Heal Echo 일기는 로그인한 사용자만 작성·저장할 수 있습니다.
+      <div style="margin-top:12px;display:flex;gap:8px;justify-content:center">
+        <button id="goLogin" class="btn">로그인</button>
+        <button id="goSignUp" class="btn alt">회원가입</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- 본문 -->
+  <main>
+    <div class="auto-balance-frame">
+      <div class="frame">
+        <div class="div-wrapper"><div class="text-wrapper">기적의 오토 밸런스</div></div>
+      </div>
+      <div class="div"><div class="text-wrapper-2">이너 리플렉터</div></div>
+      <div class="frame-wrapper">
+        <div class="element-wrapper">
+          <p class="element">
+            이해의 바다 전, 또는 후에  약 5분 정도 하루를 돌아보세요. <br />
+            너무 많은 생각은 필요하지 않습니다. <br />
+            하루동안 경험했던 감정을 최대한 빠르게 훑어보는 느낌으로 적습니다. <br />
+            중요한 것은 자신의 감정에 대해 ‘좋다, 싫다, 옳다, 그르다'는 판단을 내려놓고 알아차리는 것입니다.<br />
+            이후, 30일의 데이터가 쌓이면 다이어리를 다시 읽어보며 자신의 감정을 점검해보세요. <br />
+            그 속엔 반복된 감정 솔루션들이 있습니다.
+          </p>
+        </div>
+      </div>
+
+      <!-- 컨트롤 -->
+      <div class="frame-2">
+        <div class="frame-3">
+          <div class="frame-4">
+            <img id="playStopBtn" src="assets/images/play.png" alt="Play/Stop" class="icon-play" />
+            <img src="assets/images/stop.png" alt="Stop" class="icon-stop" />
+            <progress class="progress-bar" value="30" max="100"></progress>
+          </div>
+        </div>
+
+        <!-- 달력 -->
+        <div class="frame-3">
+          <div class="frame-6">
+            <div class="month-header">
+              <img src="assets/images/navigate_previous.svg" alt="이전" class="nav-icon prev" />
+              <div id="currentMonthLabel" class="text-wrapper-6"></div>
+            </div>
+            <div class="frame-7"><div class="frame-8"><div class="calendar-grid" id="calendarGrid"></div></div></div>
+          </div>
+        </div>
+
+        <!-- 에디터 -->
+        <div class="frame-12">
+          <div class="editor-wrap">
+            <div class="editor-header">
+              <span id="selectedDateLabel">날짜 로딩중...</span>
+              <span id="saveStatus" class="save-status" data-state="idle">대기</span>
+            </div>
+            <textarea id="diaryEditor" placeholder="오늘의 감정을 빠르게 훑듯 적어보세요..." rows="16" disabled></textarea>
+            <div class="editor-footer"><span id="charCount">0자</span></div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </main>
+
+  <!-- 플레이 토글 -->
+  <script>
+    const btnPlay = document.getElementById('playStopBtn');
+    let isStopped = false;
+    btnPlay.addEventListener('click', () => {
+      isStopped = !isStopped;
+      btnPlay.src = isStopped ? 'assets/images/tstop.png' : 'assets/images/play.png';
+      btnPlay.alt = isStopped ? 'Stop' : 'Play';
+    });
+  </script>
+
+  <!-- 주간 캘린더 렌더링 -->
+  <script>
+    let weekOffsetDays = 0;
+    let selectedDate = new Date();
+    const labelsKR = ['월','화','수','목','금','토','일'];
+    function startOfWeek(d){const dt=new Date(d);const idx=(dt.getDay()+6)%7;dt.setHours(0,0,0,0);dt.setDate(dt.getDate()-idx);return dt}
+    function addDays(d,n){const dt=new Date(d);dt.setDate(dt.getDate()+n);return dt}
+    function fmtKey(d){const y=d.getFullYear();const m=String(d.getMonth()+1).padStart(2,'0');const day=String(d.getDate()).padStart(2,'0');return `${y}-${m}-${day}`}
+    function fmtKR(d){const yoil='일월화수목금토'[d.getDay()];return `${d.getFullYear()}년 ${d.getMonth()+1}월 ${d.getDate()}일 (${yoil})`}
+    function renderCalendarWeek(){
+      const today=new Date();
+      const base=addDays(today,weekOffsetDays);
+      const start=startOfWeek(base);
+      const container=document.getElementById('calendarGrid');
+      container.innerHTML='';
+      for(let i=0;i<7;i++){
+        const date=addDays(start,i);
+        const col=document.createElement('div');
+        col.className='date-column';
+        col.dataset.date=date.toISOString();
+        const lbl=document.createElement('div');
+        lbl.className='day-label';
+        lbl.textContent=labelsKR[i];
+        const circle=document.createElement('div');
+        circle.className='ellipse';
+        if(fmtKey(date)===fmtKey(selectedDate))circle.classList.add('selected');
+        circle.textContent=date.getDate();
+        col.append(lbl,circle);
+        container.append(col);
+      }
+      document.getElementById('currentMonthLabel').textContent=`${start.getFullYear()}년 ${start.getMonth()+1}월`;
+      container.querySelectorAll('.date-column').forEach(col=>{
+        col.addEventListener('click',async()=>{selectedDate=new Date(col.dataset.date);renderCalendarWeek();await loadDiary(selectedDate);});
+      })
+    }
+    document.addEventListener('DOMContentLoaded',()=>{
+      selectedDate=new Date();
+      renderCalendarWeek();
+      const prevBtn=document.querySelector('.nav-icon.prev');
+      if(prevBtn){prevBtn.addEventListener('click',()=>{weekOffsetDays-=7;renderCalendarWeek();});}
+    });
+  </script>
+
+  <!-- AWS SDK v2 -->
+  <script src="https://sdk.amazonaws.com/js/aws-sdk-2.1482.0.min.js"></script>
+
+  <!-- 인증 + S3 저장/불러오기 -->
+  <script>
+    /*********** 1) 환경 변수: 본인 값으로 교체 ***********/
+    const AWS_REGION = 'ap-northeast-2';
+    const USER_POOL_ID = 'ap-northeast-2_JfTOlfbrI'; // 예: ap-northeast-2_abcdEfghi
+    const USER_POOL_CLIENT_ID = '68631ah8h1tqq1b477cuaapp7l';
+    const COGNITO_DOMAIN = 'https://ap-northeast-2jftolfbri.auth.ap-northeast-2.amazoncognito.com'; // 사용자풀 도메인
+    const REDIRECT_URI = 'http://localhost:5500/index.html'; // 배포 URL로 교체 권장
+    const IDENTITY_POOL_ID = 'ap-northeast-2:20cbf9af-9a52-4b32-bdd9-7e237b0a8b64';
+    const S3_BUCKET = 'healecho-diary-prod';
+    const S3_PREFIX = 'diaries';
+    /*****************************************************/
+
+    AWS.config.update({ region: AWS_REGION });
+
+    // --- 토큰 파싱/보관 ---
+    const tokenStore = {
+      get idToken(){ return sessionStorage.getItem('id_token'); },
+      set idToken(v){ v?sessionStorage.setItem('id_token', v):sessionStorage.removeItem('id_token'); },
+      get expiresAt(){ const v=sessionStorage.getItem('expires_at'); return v?Number(v):0; },
+      set expiresAt(ts){ sessionStorage.setItem('expires_at', String(ts||0)); },
+      clear(){ this.idToken=null; this.expiresAt=0; }
+    };
+
+    function parseHashTokens(){
+    if(!location.hash.startsWith('#')) return;
+    const params = new URLSearchParams(location.hash.slice(1));
+    const idt = params.get('id_token');
+    const exp = params.get('expires_in');
+    if(idt){
+      tokenStore.idToken = idt;
+      tokenStore.expiresAt = Date.now() + (Number(exp||3600)*1000);
+    }
+    // 주소 깔끔히
+    history.replaceState({}, document.title, location.pathname + location.search);
+  }
+    
+
+    // --- 로그인/로그아웃 URL ---
+    function hostedUiLoginUrl(path /* 'login' | 'signup' */){
+    const base = `https://ap-northeast-2jftolfbri.auth.ap-northeast-2.amazoncognito.com/${path}`;
+    const q = new URLSearchParams({
+      client_id: '68631ah8h1tqq1b477cuaapp7l',
+      response_type: 'token',
+      scope: 'openid profile email',
+      redirect_uri: 'http://localhost:5500/index.html'
+    });
+    return `${base}?${q.toString()}`;
+  }
+
+  function hostedUiLogoutUrl(){
+    const base = `https://ap-northeast-2jftolfbri.auth.ap-northeast-2.amazoncognito.com/logout`;
+    const q = new URLSearchParams({
+      client_id: '68631ah8h1tqq1b477cuaapp7l',
+      logout_uri: 'http://localhost:5500/index.html'
+    });
+    return `${base}?${q.toString()}`;
+  }
+
+    // --- UI 제어 ---
+    const overlay = document.getElementById('lockOverlay');
+    const editor = document.getElementById('diaryEditor');
+    const saveStatusEl = document.getElementById('saveStatus');
+    const dateLabelEl = document.getElementById('selectedDateLabel');
+    const charCountEl = document.getElementById('charCount');
+   
+
+    function setLocked(locked){
+      overlay.classList.toggle('show', locked);
+      editor.disabled = locked;
+    }
+    function setSaveStatus(state, msg){
+      saveStatusEl.dataset.state = state;
+      saveStatusEl.textContent = msg || (
+        state==='saving' ? '저장 중…' :
+        state==='saved' ? '저장됨' :
+        state==='offline'? '오프라인(로컬 저장됨)' :
+        state==='error' ? '오류' :
+        state==='loaded'? '불러옴' :
+        state==='empty' ? '새 일기' : '대기'
+      );
+    }
+    function updateCharCount(){ charCountEl.textContent = `${editor.value.length}자`; }
+
+    // --- AWS 인증 자격 교환 (User Pool → Identity Pool) ---
+    let identityId = null;
+    function ensureAwsCreds(){
+      return new Promise((resolve,reject)=>{
+        const token = tokenStore.idToken;
+        const notExpired = token && Date.now() < tokenStore.expiresAt - 30_000; // 30초 여유
+        if(!notExpired){ return reject(new Error('NO_LOGIN')); }
+        AWS.config.credentials = new AWS.CognitoIdentityCredentials({
+          IdentityPoolId: IDENTITY_POOL_ID,
+          Logins: { [`cognito-idp.${AWS_REGION}.amazonaws.com/${USER_POOL_ID}`]: token }
+        });
+        AWS.config.credentials.get(err=>{
+          if(err){ return reject(err); }
+          identityId = AWS.config.credentials.identityId;
+          resolve(identityId);
+        });
+      });
+    }
+
+    // --- S3 클라이언트 ---
+    const s3 = new AWS.S3({ apiVersion:'2006-03-01' });
+    function localKey(d){ return `diary:${fmtKey(d)}`; }
+
+    // 선택 날짜의 일기 불러오기
+    async function loadDiary(date){
+      dateLabelEl.textContent = fmtKR(date);
+      // 1) 로컬 우선
+      const cached = localStorage.getItem(localKey(date));
+      editor.value = cached ?? '';
+      updateCharCount();
+      // 2) S3 → 덮어쓰기
+      try{
+        await ensureAwsCreds();
+        const Key = `${S3_PREFIX}/${identityId}/${fmtKey(date)}.txt`;
+        const resp = await s3.getObject({ Bucket:S3_BUCKET, Key }).promise();
+        let text='';
+        if(resp.Body instanceof Blob){ text = await resp.Body.text(); }
+        else if(resp.Body && resp.Body.byteLength!==undefined){ text = new TextDecoder('utf-8').decode(new Uint8Array(resp.Body)); }
+        else if(typeof resp.Body === 'string'){ text = resp.Body; }
+        editor.value = text || '';
+        localStorage.setItem(localKey(date), editor.value);
+        setSaveStatus('loaded');
+        updateCharCount();
+      }catch(e){
+        if(e && (e.code==='NoSuchKey' || e.statusCode===404)) setSaveStatus('empty');
+        else setSaveStatus('offline');
+      }
+    }
+
+    // 자동 저장 (디바운스)
+    function debounce(fn, delay=1200){ let t; return (...args)=>{ clearTimeout(t); t=setTimeout(()=>fn(...args), delay); } }
+    async function saveDiary(){
+      const d = selectedDate;
+      const content = editor.value;
+      localStorage.setItem(localKey(d), content);
+      setSaveStatus('saving');
+      try{
+        await ensureAwsCreds();
+        const Key = `${S3_PREFIX}/${identityId}/${fmtKey(d)}.txt`;
+        await s3.putObject({ Bucket:S3_BUCKET, Key, Body:content, ContentType:'text/plain; charset=utf-8', CacheControl:'no-cache' }).promise();
+        setSaveStatus('saved');
+      }catch(e){ setSaveStatus(navigator.onLine?'error':'offline'); }
+    }
+    const debouncedSave = debounce(saveDiary, 1200);
+
+    // --- 초기화 ---
+    document.addEventListener('DOMContentLoaded', async ()=>{
+    parseHashTokens();
+
+    const isLoggedIn = !!(tokenStore.idToken && Date.now()<tokenStore.expiresAt);
+    const goLogin = document.getElementById('goLogin');
+    const goSignUp = document.getElementById('goSignUp');
+
+    function toLoginPage(){ 
+  location.assign('login.html?returnTo=' + encodeURIComponent(location.href));
+}
+
+    function toSignupPage(){
+      location.assign(`login.html?mode=signup&returnTo=${encodeURIComponent(location.href)}`);
+    }
+    function doLogout(){
+      tokenStore.clear();
+      location.assign(hostedUiLogoutUrl());
+    }
+
+   
+
+    editor.addEventListener('input', ()=>{ updateCharCount(); debouncedSave(); });
+  });
+  </script>
+</body>
+</html>

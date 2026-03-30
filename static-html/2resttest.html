@@ -1,0 +1,245 @@
+<!-- 2resttest.html -->
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>헤더 적용 테스트</title>
+  <!-- CSS 파일 경로가 같은 폴더에 있다고 가정 -->
+  <link rel="stylesheet" href="./src/2resttest.css" />
+</head>
+<body>
+  <!-- ─── 헤더 & 네비게이션 ─── -->
+  <header class="header">
+    <div class="container header-inner">
+        <a href="#" class="logo-link">
+            <img
+              src="./assets/images/Logo_HealEcho.png"
+              alt="Heal Echo Logo"
+              class="logo-image"
+              style="
+                width: 40px;
+                height: 40px;
+                object-fit: cover;
+                border-radius: 50%;
+                display: block;
+              "
+            />
+            <span class="logo-text">Heal Echo</span>
+          </a>
+          
+      <nav class="nav-menu">
+        <a href="#" class="login-link">로그인</a>
+      </nav>
+    </div>
+  </header>
+
+  <div class="big-title-frame">
+    <h1 class="big-title">기적의 오토 밸런스 테스트</h1>
+    <div class="page-number">2/5</div><!-- 여기에 페이지 본문을 추가하세요 -->
+
+    <!-- ——— 전체 질문 예시 시작 ——— -->
+<section class="survey">
+    <!-- ─── 질문 & 평가 항목 ─── -->
+    <div class="question-block">
+        <p class="question-text">
+          1) 평소에도 늘 몸이 긴장되어 있고, 더 긴장하면 두통•위장 장애•턱 근육 통증•어깨 결림이 있다.
+        </p>
+        <div class="ratings">
+          <label class="rating-option">
+            <input type="radio" name="q1" value="1" />
+            <img src="./assets/images/1.svg" alt="전혀 없음" class="rating-image" />
+            <span class="rating-text">전혀 없음</span>
+          </label>
+          <label class="rating-option">
+            <input type="radio" name="q1" value="2" />
+            <img src="./assets/images/2.svg" alt="약간의 불편함" class="rating-image" />
+            <span class="rating-text">약간의 불편함</span>
+          </label>
+          <label class="rating-option">
+            <input type="radio" name="q1" value="3" />
+            <img src="./assets/images/3.svg" alt="주의가 필요한 정보" class="rating-image" />
+            <span class="rating-text">주의가 필요한 정도</span>
+          </label>
+          <label class="rating-option">
+            <input type="radio" name="q1" value="4" />
+            <img src="./assets/images/4.svg" alt="견디기 힘듦" class="rating-image" />
+            <span class="rating-text">견디기 힘듦</span>
+          </label>
+          <label class="rating-option">
+            <input type="radio" name="q1" value="5" />
+            <img src="./assets/images/5.svg" alt="매우 심함" class="rating-image" />
+            <span class="rating-text">매우 심함</span>
+          </label>
+        </div>
+      </div>
+       <!-- 질문 2 -->
+  <div class="question-block">
+    <p class="question-text">
+      2) 교통 사고 • 낙상 등 강한 외상 이후 목•허리가 꾸준히 뻣뻣하거나 통증이 있다.
+    </p>
+    <div class="ratings">
+      <label class="rating-option">
+        <input type="radio" name="q2" value="1" />
+        <img src="./assets/images/1.svg" alt="전혀 없음" class="rating-image" />
+        <span class="rating-text">전혀 없음</span>
+      </label>
+      <label class="rating-option">
+        <input type="radio" name="q2" value="2" />
+        <img src="./assets/images/2.svg" alt="약간의 불편함" class="rating-image" />
+        <span class="rating-text">약간의 불편함</span>
+      </label>
+      <label class="rating-option">
+        <input type="radio" name="q2" value="3" />
+        <img src="./assets/images/3.svg" alt="주의가 필요한 정보" class="rating-image" />
+        <span class="rating-text">주의가 필요한 정도</span>
+      </label>
+      <label class="rating-option">
+        <input type="radio" name="q2" value="4" />
+        <img src="./assets/images/4.svg" alt="견디기 힘듦" class="rating-image" />
+        <span class="rating-text">견디기 힘듦</span>
+      </label>
+      <label class="rating-option">
+        <input type="radio" name="q2" value="5" />
+        <img src="./assets/images/5.svg" alt="매우 심함" class="rating-image" />
+        <span class="rating-text">매우 심함</span>
+      </label>
+    </div>
+  </div>
+
+  <!-- 질문 3 -->
+  <div class="question-block">
+    <p class="question-text">
+      3) 몸은 안 좋은데 병원 검사에서 이유를 찾지 못하겠다.
+    </p>
+    <div class="ratings">
+      <label class="rating-option">
+        <input type="radio" name="q3" value="1" />
+        <img src="./assets/images/1.svg" alt="전혀 없음" class="rating-image" />
+        <span class="rating-text">전혀 없음</span>
+      </label>
+      <label class="rating-option">
+        <input type="radio" name="q3" value="2" />
+        <img src="./assets/images/2.svg" alt="약간의 불편함" class="rating-image" />
+        <span class="rating-text">약간의 불편함</span>
+      </label>
+      <label class="rating-option">
+        <input type="radio" name="q3" value="3" />
+        <img src="./assets/images/3.svg" alt="주의가 필요한 정보" class="rating-image" />
+        <span class="rating-text">주의가 필요한 정도</span>
+      </label>
+      <label class="rating-option">
+        <input type="radio" name="q3" value="4" />
+        <img src="./assets/images/4.svg" alt="견디기 힘듦" class="rating-image" />
+        <span class="rating-text">견디기 힘듦</span>
+      </label>
+      <label class="rating-option">
+        <input type="radio" name="q3" value="5" />
+        <img src="./assets/images/5.svg" alt="매우 심함" class="rating-image" />
+        <span class="rating-text">매우 심함</span>
+      </label>
+    </div>
+  </div>
+
+  <!-- 질문 4 -->
+  <div class="question-block">
+    <p class="question-text">
+      4) 하루 6시간 이상 앉아 있거나, 어깨가 앞으로 말려 있거나, 목이 앞 쪽으로 빠져 있다.
+    </p>
+    <div class="ratings">
+      <label class="rating-option">
+        <input type="radio" name="q4" value="1" />
+        <img src="./assets/images/1.svg" alt="전혀 없음" class="rating-image" />
+        <span class="rating-text">전혀 없음</span>
+      </label>
+      <label class="rating-option">
+        <input type="radio" name="q4" value="2" />
+        <img src="./assets/images/2.svg" alt="약간의 불편함" class="rating-image" />
+        <span class="rating-text">약간의 불편함</span>
+      </label>
+      <label class="rating-option">
+        <input type="radio" name="q4" value="3" />
+        <img src="./assets/images/3.svg" alt="주의가 필요한 정보" class="rating-image" />
+        <span class="rating-text">주의가 필요한 정도</span>
+      </label>
+      <label class="rating-option">
+        <input type="radio" name="q4" value="4" />
+        <img src="./assets/images/4.svg" alt="견디기 힘듦" class="rating-image" />
+        <span class="rating-text">견디기 힘듦</span>
+      </label>
+      <label class="rating-option">
+        <input type="radio" name="q4" value="5" />
+        <img src="./assets/images/5.svg" alt="매우 심함" class="rating-image" />
+        <span class="rating-text">매우 심함</span>
+      </label>
+    </div>
+  </div>
+
+  <!-- 질문 5 -->
+  <div class="question-block">
+    <p class="question-text">
+      5) 진정한 '휴식'이나 '쉼'이 어렵고, '휴식'을 하면서도 충분히 이완하지 못한다.
+    </p>
+    <div class="ratings">
+      <label class="rating-option">
+        <input type="radio" name="q5" value="1" />
+        <img src="./assets/images/1.svg" alt="전혀 없음" class="rating-image" />
+        <span class="rating-text">전혀 없음</span>
+      </label>
+      <label class="rating-option">
+        <input type="radio" name="q5" value="2" />
+        <img src="./assets/images/2.svg" alt="약간의 불편함" class="rating-image" />
+        <span class="rating-text">약간의 불편함</span>
+      </label>
+      <label class="rating-option">
+        <input type="radio" name="q5" value="3" />
+        <img src="./assets/images/3.svg" alt="주의가 필요한 정보" class="rating-image" />
+        <span class="rating-text">주의가 필요한 정도</span>
+      </label>
+      <label class="rating-option">
+        <input type="radio" name="q5" value="4" />
+        <img src="./assets/images/4.svg" alt="견디기 힘듦" class="rating-image" />
+        <span class="rating-text">견디기 힘듦</span>
+      </label>
+      <label class="rating-option">
+        <input type="radio" name="q5" value="5" />
+        <img src="./assets/images/5.svg" alt="매우 심함" class="rating-image" />
+        <span class="rating-text">매우 심함</span>
+      </label>
+    </div>
+  </div>
+
+</section>
+      <!-- ──────────────────────────── -->
+    </div><!-- .big-title-frame 닫는 태그 -->
+  
+    <script>
+      document.addEventListener('DOMContentLoaded', function() {
+        // 모든 질문 블록 선택
+        const questionBlocks = document.querySelectorAll('.question-block');
+  
+        // 각 블록 안의 라디오 버튼 변경 감지
+        questionBlocks.forEach(block => {
+          block.addEventListener('change', checkAllAnswered);
+        });
+  
+        function checkAllAnswered() {
+          // 모든 질문 블록마다 하나씩 답이 선택되었는지 확인
+          const allDone = Array.from(questionBlocks).every(block =>
+            block.querySelector('input[type="radio"]:checked')
+          );
+          if (allDone) {
+            // 1초(1000ms) 후에 다음 페이지로 이동
+            setTimeout(() => {
+              window.location.href = '3resttest.html';
+            }, 1000);
+          }
+        }
+      });
+    </script>
+    <!-- 여기까지 추가 -->
+  
+
+</body>
+</html>
+

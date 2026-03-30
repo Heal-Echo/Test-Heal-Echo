@@ -1,0 +1,220 @@
+/* 2resttest.css */
+
+/* ─── 변수 및 폰트 선언 ─── */
+@font-face {
+    font-family: 'NotoSans';
+    font-weight: 400;
+    src: url('../fonts/NotoSans-Regular.ttf') format('truetype');
+  }
+  @font-face {
+    font-family: 'NotoSans';
+    font-weight: 500;
+    src: url('../fonts/NotoSans-Medium.ttf') format('truetype');
+  }
+  @font-face {
+    font-family: 'NotoSans';
+    font-weight: 600;
+    src: url('../fonts/NotoSans-SemiBold.ttf') format('truetype');
+  }
+  @font-face {
+    font-family: 'NotoSans';
+    font-weight: 900;
+    src: url('../fonts/NotoSans-Black.ttf') format('truetype');
+  }
+  @font-face {
+    font-family: 'PlayfairDisplay';
+    font-weight: 400;
+    src: url('../fonts/PlayfairDisplay-Regular.ttf') format('truetype');
+  }
+  @font-face {
+    font-family: 'PlayfairDisplay';
+    font-weight: 900;
+    src: url('../fonts/PlayfairDisplay-Black.ttf') format('truetype');
+  }
+  
+  :root {
+    --color-text: #000000;
+    --color-bg: #ffffff;
+    --color-primary: #00D6F5;
+    --font-sans: 'NotoSans', sans-serif;
+    --font-serif: 'PlayfairDisplay', serif;
+  }
+  
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --color-text: #ffffff;
+      --color-bg: #000000;
+    }
+  }
+  
+  /* ─── 공통 레이아웃 ─── */
+  body {
+    margin: 0;
+    padding: 0;
+    font-family: var(--font-sans);
+    background-color: var(--color-bg);
+    color: var(--color-text);
+  }
+  .container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 16px;
+  }
+  
+  /* ─── 헤더 & 네비게이션 ─── */
+  .header {
+    background-color: var(--color-bg);
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 1000;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  }
+  .header-inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 60px;
+  }
+  
+  .logo-link {
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+  }
+
+  .logo-image {
+    display: block;
+    width: 40px;
+    height: 40px;
+    object-fit: cover;
+    border-radius: 50%;
+  }
+  .logo-text {
+    margin-left: 10px;
+    font-family: var(--font-serif);
+    font-weight: 900;
+    font-size: 1.25rem;
+    color: var(--color-text);
+  }
+  
+  .nav-menu,
+  .menu-actions {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+  }
+  
+  .login-link {
+    border-radius: 36px;
+    padding: 0 13px;
+    background-color: var(--color-primary);
+    color: #000 !important;
+    font-weight: 500;
+    text-decoration: none;
+    font-family: var(--font-sans);
+    font-size: 1rem;
+  }
+  
+  .nav-menu {
+    gap: 0;
+  }
+  .nav-menu a {
+    padding: 8px 16px;
+    text-decoration: none;
+    color: var(--color-text);
+  }
+  
+  .big-title-frame {
+    position: relative;
+    width: 100%;
+    max-width: 700px;
+    margin: 0 auto;
+    /* header 높이(60px) 아래로 80px 떨어뜨리기 */
+    margin-top: calc(60px + 80px);
+    text-align: center;
+    height: 700px;
+  }
+  .big-title-frame .big-title {
+    font-size: 2rem;
+    font-weight: 900;
+    margin-bottom: 8px;
+  }
+  .big-title-frame .page-number {
+    font-size: 1rem;
+    color: #666;
+    margin-bottom: 16px;
+  }
+
+  /* ─── 질문 & 평가 스타일 ─── */
+  .question-block {
+    margin-top: 24px;
+    text-align: left;
+    overflow-x: visible;
+  }
+  .question-text {
+    font-size: 1.125rem;
+    line-height: 1.5;
+    margin-bottom: 16px;
+    text-align: center;
+  }
+  .ratings {
+    display: flex;
+    justify-content: space-between;
+    gap: 12px;
+    padding: 0;                      /* padding 대신 아래 마진으로 처리 */
+    width: 100%;                     /* 컨테이너 너비 꽉 채우기 */
+    overflow-x: visible;
+  }
+  .rating-option {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    cursor: pointer;
+  }
+  .rating-option input {
+    /* 라디오 버튼 자체는 숨기고 레이블 클릭으로 제어 */
+    position: absolute;
+    opacity: 0;
+    width: 0;
+    height: 0;
+  }
+  .rating-image {
+    width: 32px;
+    height: 32px;
+    object-fit: contain;
+    object-position: center center;
+    margin-bottom: 6px;
+    transition: transform 0.1s, box-shadow 0.1s;
+  }
+  .rating-option input:checked + .rating-image {
+    /* 선택된 이미지를 강조 */
+    transform: scale(1.1);
+    box-shadow: 0 0 0 3px var(--color-primary);
+    border-radius: 8px;
+  }
+  .rating-text {
+    font-size: 0.875rem;
+    text-align: center;
+  }
+  
+  .rating-option:last-child {
+    margin-right: 12px;  /* 오른쪽도 동일하게 */
+  }
+
+  /* ─── 질문 블록 간 세로 간격 ─── */
+  .question-block + .question-block {
+    margin-top: 56px;
+  }
+
+/* ─── 질문 블록 사이에 가로 중앙 정렬된 라인 추가 ─── */
+  .question-block + .question-block::before {
+    content: "";
+    display: block;
+    width: 60%;                /* 라인 길이 (원하는 %로 조정) */
+    height: 1px;               /* 라인 두께 */
+    background-color: #ccc;    /* 라인 색상 */
+    margin: 0 auto 56px;       /* 위여백 0, 자동 중앙정렬, 아래여백 56px */
+  }
+

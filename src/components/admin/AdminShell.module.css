@@ -1,0 +1,90 @@
+.layout {
+    display: grid;
+    grid-template-columns: 240px 1fr;
+    grid-template-rows: 64px 1fr;
+    grid-template-areas:
+      "sidebar header"
+      "sidebar main";
+    height: 100vh;
+    background: #0f0f14;
+    color: white;
+  }
+  
+  /* 헤더 */
+  .header {
+    grid-area: header;
+    background: #16161d;
+    border-bottom: 1px solid #26262f;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 20px;
+  }
+  
+  /* 사이드바 */
+  .sidebar {
+    grid-area: sidebar;
+    background: #141419;
+    border-right: 1px solid #26262f;
+    padding: 20px 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+  }
+  
+  .sidebarTitle {
+    font-size: 14px;
+    opacity: 0.7;
+    margin-bottom: 10px;
+  }
+  
+  .menuItem {
+    padding: 10px 14px;
+    border-radius: 8px;
+    font-size: 14px;
+    cursor: pointer;
+    color: #d6d6e1;
+    transition: background 0.2s;
+  }
+  
+  .menuItem:hover {
+    background: #1f1f27;
+  }
+  
+  .menuActive {
+    background: #262632;
+    color: white;
+  }
+  
+  /* 메인 영역 */
+  .main {
+    grid-area: main;
+    padding: 24px 28px;
+    overflow-y: auto;
+  }
+  
+  /* 로고 */
+  .logoWrap {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  
+  .logoText {
+    font-weight: 700;
+    font-size: 18px;
+  }
+  
+  /* 로그인/로그아웃 버튼 */
+  .authButton {
+    padding: 6px 14px;
+    border-radius: 6px;
+    background: #262632;
+    cursor: pointer;
+    font-size: 13px;
+  }
+  
+  .authButton:hover {
+    background: #30303a;
+  }
+  

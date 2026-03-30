@@ -1,0 +1,466 @@
+/* Player Page 전체 컨테이너
+   - Balance 페이지와 동일한 최대 폭/패딩 정책 유지
+*/
+.container {
+    width: 100%;
+    min-height: 100vh;
+    background: #fafafa;
+    max-width: 720px;
+    margin: 0 auto;
+    padding-left: 16px;
+    padding-right: 16px;
+    padding-bottom: 90px;
+  }
+  
+  /* 본문 영역 */
+  .main {
+    padding: 16px;
+  }
+  
+  /* 영상 제목 */
+  .title {
+    font-size: 20px;
+    font-weight: 700;
+    margin-bottom: 16px;
+  }
+  
+  /* 상태 메시지 */
+  .message {
+    font-size: 14px;
+    color: #666;
+    margin-top: 24px;
+  }
+  
+  /* 에러 메시지 */
+  .error {
+    font-size: 14px;
+    color: #d32f2f;
+    margin-top: 24px;
+  }
+  
+  /* 영상 영역 래퍼
+     - 모바일에서 꽉 차게
+     - 비율 유지
+  */
+  .videoWrapper {
+    width: 100%;
+    border-radius: 16px;
+    overflow: hidden;
+    background: #000;
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.15);
+  }
+  
+  /* 실제 video 태그 */
+  .video {
+    width: 100%;
+    height: auto;
+    display: block;
+    background: #000;
+  }
+  
+  /* ───────────────────────────────────
+     결제 유도 팝업 (4분 미리보기 종료 시)
+     ─────────────────────────────────── */
+  .paywallOverlay {
+    position: fixed;
+    inset: 0;
+    z-index: 9999;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(0, 0, 0, 0.6);
+    backdrop-filter: blur(4px);
+    padding: 24px;
+  }
+
+  .paywallCard {
+    width: 100%;
+    max-width: 360px;
+    background: #ffffff;
+    border-radius: 24px;
+    padding: 36px 28px 28px;
+    text-align: center;
+    box-shadow: 0 16px 48px rgba(0, 0, 0, 0.2);
+    animation: paywallSlideUp 0.3s ease-out;
+  }
+
+  @keyframes paywallSlideUp {
+    from {
+      opacity: 0;
+      transform: translateY(24px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  .paywallIcon {
+    font-size: 40px;
+    margin-bottom: 12px;
+  }
+
+  .paywallTitle {
+    font-size: 20px;
+    font-weight: 700;
+    color: #111827;
+    margin-bottom: 10px;
+  }
+
+  .paywallDesc {
+    font-size: 14px;
+    color: #6b7280;
+    line-height: 1.6;
+    margin-bottom: 28px;
+  }
+
+  .paywallPrimaryBtn {
+    display: block;
+    width: 100%;
+    padding: 14px 0;
+    border: none;
+    border-radius: 14px;
+    background: linear-gradient(135deg, #6366f1, #818cf8);
+    color: #ffffff;
+    font-size: 16px;
+    font-weight: 700;
+    cursor: pointer;
+    margin-bottom: 10px;
+    transition: opacity 0.15s ease;
+    box-shadow: 0 4px 12px rgba(99, 102, 241, 0.3);
+  }
+
+  .paywallPrimaryBtn:hover {
+    opacity: 0.9;
+  }
+
+  .paywallPrimaryBtn:active {
+    opacity: 0.8;
+  }
+
+  .paywallSecondaryBtn {
+    display: block;
+    width: 100%;
+    padding: 12px 0;
+    border: none;
+    border-radius: 14px;
+    background: transparent;
+    color: #9ca3af;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: color 0.15s ease;
+  }
+
+  .paywallSecondaryBtn:hover {
+    color: #6b7280;
+  }
+
+  /* ─── 영상 시청 후 자가 체크 유도 프롬프트 ─── */
+  .postVideoPrompt {
+    margin-top: 24px;
+    background: linear-gradient(135deg, #f8f4ff, #f0e8ff);
+    border-radius: 20px;
+    padding: 28px 20px;
+    text-align: center;
+    animation: promptFadeIn 0.5s ease;
+  }
+
+  @keyframes promptFadeIn {
+    from { opacity: 0; transform: translateY(16px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .postVideoEmoji {
+    font-size: 36px;
+    margin: 0 0 12px;
+  }
+
+  .postVideoTitle {
+    font-size: 18px;
+    font-weight: 700;
+    color: #1a1a1a;
+    margin: 0 0 8px;
+  }
+
+  .postVideoDesc {
+    font-size: 14px;
+    color: #666;
+    line-height: 1.5;
+    margin: 0 0 20px;
+  }
+
+  .postVideoCheckBtn {
+    display: block;
+    width: 100%;
+    padding: 14px;
+    border-radius: 12px;
+    border: none;
+    background: #8a2be2;
+    color: #fff;
+    font-size: 16px;
+    font-weight: 700;
+    cursor: pointer;
+    margin-bottom: 10px;
+    transition: opacity 0.2s;
+  }
+
+  .postVideoCheckBtn:active {
+    opacity: 0.8;
+  }
+
+  .postVideoSkipBtn {
+    display: block;
+    width: 100%;
+    padding: 12px;
+    border: none;
+    background: transparent;
+    color: #aaa;
+    font-size: 13px;
+    cursor: pointer;
+  }
+
+  /* ─── 자가 체크 설문 오버레이 ─── */
+  .selfCheckOverlay {
+    position: fixed;
+    inset: 0;
+    z-index: 10010;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(0, 0, 0, 0.55);
+    backdrop-filter: blur(4px);
+    padding: 24px 16px;
+  }
+
+  .selfCheckModal {
+    width: 100%;
+    max-width: 440px;
+    max-height: calc(100vh - 48px);
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+    background: #faf9f6;
+    border-radius: 20px;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.25);
+  }
+
+  /* ─── 무료 체험 CTA 카드 (영상 아래) ─── */
+  .trialCTACard {
+    margin-top: 24px;
+    background: linear-gradient(135deg, #eef7f0, #e0f2e5);
+    border-radius: 20px;
+    padding: 28px 20px;
+    text-align: center;
+    animation: promptFadeIn 0.5s ease;
+  }
+
+  .trialCTAEmoji {
+    font-size: 36px;
+    margin: 0 0 12px;
+  }
+
+  .trialCTATitle {
+    font-size: 18px;
+    font-weight: 700;
+    color: #1a1a1a;
+    margin: 0 0 8px;
+  }
+
+  .trialCTADesc {
+    font-size: 14px;
+    color: #555;
+    line-height: 1.6;
+    margin: 0 0 20px;
+  }
+
+  .trialCTAPrimaryBtn {
+    display: block;
+    width: 100%;
+    padding: 14px;
+    border-radius: 12px;
+    border: none;
+    background: linear-gradient(135deg, #6b9e78, #4a8a5a);
+    color: #fff;
+    font-size: 16px;
+    font-weight: 700;
+    cursor: pointer;
+    margin-bottom: 10px;
+    transition: opacity 0.2s;
+    box-shadow: 0 4px 12px rgba(107, 158, 120, 0.3);
+  }
+
+  .trialCTAPrimaryBtn:active {
+    opacity: 0.8;
+  }
+
+  .trialCTASecondaryBtn {
+    display: block;
+    width: 100%;
+    padding: 12px;
+    border: none;
+    background: transparent;
+    color: #aaa;
+    font-size: 13px;
+    cursor: pointer;
+  }
+
+  /* ─── #5 재방문 스티키 배너 ─── */
+  .stickyBanner {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    padding: 12px 16px;
+    background: linear-gradient(135deg, #eef7f0, #e0f2e5);
+    border-bottom: 1px solid rgba(107, 158, 120, 0.15);
+    animation: stickySlideDown 0.4s ease;
+  }
+
+  @keyframes stickySlideDown {
+    from { opacity: 0; transform: translateY(-100%); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .stickyBannerText {
+    flex: 1;
+    font-size: 13px;
+    color: #2d5a3a;
+    line-height: 1.4;
+    margin: 0;
+  }
+
+  .stickyBannerBtns {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-shrink: 0;
+  }
+
+  .stickyBannerBtn {
+    padding: 8px 14px;
+    border: none;
+    border-radius: 10px;
+    background: linear-gradient(135deg, #6b9e78, #4a8a5a);
+    color: #fff;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    white-space: nowrap;
+    transition: opacity 0.2s;
+  }
+
+  .stickyBannerBtn:active {
+    opacity: 0.8;
+  }
+
+  .stickyBannerClose {
+    width: 28px;
+    height: 28px;
+    border: none;
+    border-radius: 50%;
+    background: rgba(0, 0, 0, 0.06);
+    color: #999;
+    font-size: 14px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.2s;
+  }
+
+  .stickyBannerClose:active {
+    background: rgba(0, 0, 0, 0.12);
+  }
+
+  /* ─── #6 이탈 시 바텀 시트 ─── */
+  .exitSheetBackdrop {
+    position: fixed;
+    inset: 0;
+    z-index: 10000;
+    background: rgba(0, 0, 0, 0.4);
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+    animation: exitBackdropFadeIn 0.25s ease;
+  }
+
+  @keyframes exitBackdropFadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+
+  .exitSheet {
+    width: 100%;
+    max-width: 480px;
+    background: #fff;
+    border-radius: 20px 20px 0 0;
+    padding: 20px 24px 32px;
+    text-align: center;
+    animation: exitSheetSlideUp 0.35s ease;
+  }
+
+  @keyframes exitSheetSlideUp {
+    from { transform: translateY(100%); }
+    to { transform: translateY(0); }
+  }
+
+  .exitSheetHandle {
+    width: 40px;
+    height: 4px;
+    border-radius: 2px;
+    background: #ddd;
+    margin: 0 auto 16px;
+  }
+
+  .exitSheetTitle {
+    font-size: 17px;
+    font-weight: 700;
+    color: #1a1a1a;
+    margin: 0 0 8px;
+  }
+
+  .exitSheetDesc {
+    font-size: 14px;
+    color: #666;
+    line-height: 1.5;
+    margin: 0 0 20px;
+  }
+
+  .exitSheetPrimaryBtn {
+    display: block;
+    width: 100%;
+    padding: 14px;
+    border-radius: 12px;
+    border: none;
+    background: linear-gradient(135deg, #6b9e78, #4a8a5a);
+    color: #fff;
+    font-size: 16px;
+    font-weight: 700;
+    cursor: pointer;
+    margin-bottom: 10px;
+    transition: opacity 0.2s;
+    box-shadow: 0 4px 12px rgba(107, 158, 120, 0.3);
+  }
+
+  .exitSheetPrimaryBtn:active {
+    opacity: 0.8;
+  }
+
+  .exitSheetSecondaryBtn {
+    display: block;
+    width: 100%;
+    padding: 12px;
+    border: none;
+    background: transparent;
+    color: #aaa;
+    font-size: 13px;
+    cursor: pointer;
+  }
+
+  /* 하단 탭바 공간 확보 */
+  .tabPadding {
+    height: 80px;
+  }

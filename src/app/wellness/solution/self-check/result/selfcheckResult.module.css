@@ -1,0 +1,367 @@
+/* src/app/wellness/solution/self-check/result/selfcheckResult.module.css */
+
+.container {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  max-width: 720px;
+  margin: 0 auto;
+  background: #faf9f6;
+}
+
+.main {
+  flex: 1;
+  padding: 0 20px 40px;
+}
+
+/* ── 상단 바 ── */
+.topBar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px 0;
+  position: sticky;
+  top: 0;
+  background: #faf9f6;
+  z-index: 10;
+}
+
+.backBtn {
+  width: 36px;
+  height: 36px;
+  border: none;
+  background: transparent;
+  color: #374151;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 10px;
+  transition: background 0.15s ease;
+  flex-shrink: 0;
+}
+
+.backBtn:hover {
+  background: #f3f4f6;
+}
+
+.pageTitle {
+  flex: 1;
+  text-align: center;
+  font-size: 17px;
+  font-weight: 700;
+  color: #1e1b4b;
+  margin: 0;
+}
+
+.topBarSpacer {
+  width: 36px;
+  flex-shrink: 0;
+}
+
+.loadingText {
+  color: #9ca3af;
+  text-align: center;
+  padding: 40px 0;
+  font-size: 14px;
+}
+
+/* ── 메인 점수 카드 ── */
+.scoreCard {
+  background: #fff;
+  border-radius: 20px;
+  padding: 32px 24px;
+  text-align: center;
+  border: 1.5px solid #e8e5e0;
+  margin-bottom: 20px;
+}
+
+.scoreCardTitle {
+  font-size: 14px;
+  font-weight: 600;
+  color: #6b7280;
+  margin-bottom: 20px;
+  letter-spacing: 0.5px;
+}
+
+.scoreCircle {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  border: 4px solid;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 2px;
+  margin: 0 auto 20px;
+}
+
+.scoreCircleNum {
+  font-size: 40px;
+  font-weight: 800;
+  line-height: 1;
+}
+
+.scoreCircleUnit {
+  font-size: 16px;
+  font-weight: 600;
+  opacity: 0.7;
+  align-self: flex-end;
+  padding-bottom: 4px;
+}
+
+.gradeRow {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+.gradeBadge {
+  color: #fff;
+  font-size: 13px;
+  font-weight: 800;
+  padding: 3px 10px;
+  border-radius: 6px;
+  line-height: 1.4;
+}
+
+.gradeLabel {
+  color: #fff;
+  font-size: 13px;
+  font-weight: 600;
+  padding: 3px 12px;
+  border-radius: 6px;
+  line-height: 1.4;
+}
+
+.motivation {
+  margin-top: 20px;
+  font-size: 14px;
+  color: #374151;
+  line-height: 1.7;
+  text-align: center;
+  font-weight: 500;
+}
+
+/* ── 영역별 바 차트 섹션 ── */
+.barSection {
+  background: #fff;
+  border-radius: 20px;
+  padding: 24px 20px;
+  border: 1.5px solid #e8e5e0;
+  margin-bottom: 20px;
+}
+
+.barTitle {
+  font-size: 15px;
+  font-weight: 700;
+  color: #111827;
+  margin-bottom: 18px;
+}
+
+.barList {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.barRow {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.barLeft {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-width: 90px;
+}
+
+.barIcon {
+  font-size: 16px;
+  min-width: 22px;
+  text-align: center;
+}
+
+.barLabel {
+  font-size: 13px;
+  color: #374151;
+  font-weight: 500;
+}
+
+.barTrack {
+  flex: 1;
+  height: 10px;
+  background: #f3f0eb;
+  border-radius: 5px;
+  overflow: hidden;
+}
+
+.barFill {
+  height: 100%;
+  border-radius: 5px;
+  transition: width 0.8s ease;
+}
+
+.barValue {
+  font-size: 13px;
+  font-weight: 700;
+  color: #374151;
+  min-width: 36px;
+  text-align: right;
+}
+
+.barNote {
+  margin-top: 16px;
+  padding-top: 14px;
+  border-top: 1px solid #f0ede8;
+  font-size: 13px;
+  font-weight: 600;
+  color: #8a2be2;
+  text-align: center;
+}
+
+/* ── 영역별 아이콘 그리드 ── */
+.iconIntro {
+  font-size: 14px;
+  font-weight: 600;
+  color: #374151;
+  text-align: center;
+  margin-bottom: 18px;
+  line-height: 1.5;
+}
+
+.iconGrid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px 12px;
+}
+
+.iconItem {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  padding: 14px 4px 10px;
+  border-radius: 14px;
+  background: #faf9f6;
+}
+
+.iconEmoji {
+  font-size: 28px;
+  line-height: 1;
+}
+
+.iconName {
+  font-size: 12px;
+  font-weight: 600;
+  color: #374151;
+  text-align: center;
+  line-height: 1.3;
+}
+
+.iconStatus {
+  font-size: 11px;
+  font-weight: 700;
+  padding: 2px 10px;
+  border-radius: 999px;
+  line-height: 1.4;
+}
+
+/* 3단계 상태 색상 */
+.tierStable {
+  color: #059669;
+  background: #ecfdf5;
+}
+
+.tierCaution {
+  color: #d97706;
+  background: #fffbeb;
+}
+
+.tierRecover {
+  color: #dc2626;
+  background: #fef2f2;
+}
+
+/* ── 시작하기 버튼 ── */
+.startBtn {
+  display: block;
+  width: 100%;
+  margin-top: 20px;
+  padding: 14px 0;
+  border-radius: 12px;
+  border: none;
+  background: #8a2be2;
+  color: #fff;
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: opacity 0.2s ease;
+}
+
+.startBtn:hover {
+  opacity: 0.9;
+}
+
+.startBtn:active {
+  opacity: 0.8;
+}
+
+/* ── 희망 메시지 ── */
+.hopeCard {
+  background: linear-gradient(135deg, #f0fdf4, #dcfce7);
+  border-radius: 16px;
+  padding: 24px 20px;
+  text-align: center;
+  margin-bottom: 24px;
+  border: 1px solid #bbf7d0;
+}
+
+.hopeEmoji {
+  font-size: 28px;
+  margin-bottom: 10px;
+}
+
+.hopeText {
+  font-size: 14px;
+  color: #166534;
+  line-height: 1.7;
+  font-weight: 500;
+  margin: 0;
+}
+
+/* ── 확인 버튼 ── */
+.ctaSection {
+  text-align: center;
+}
+
+.closeBtn {
+  display: inline-block;
+  width: 100%;
+  padding: 14px 0;
+  border-radius: 12px;
+  border: none;
+  background: #8a2be2;
+  color: #fff;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: opacity 0.2s ease;
+}
+
+.closeBtn:hover {
+  opacity: 0.9;
+}
+
+.closeBtn:active {
+  opacity: 0.8;
+}
+
+/* ── 하단 탭 패딩 ── */
+.tabPadding {
+  height: calc(70px + env(safe-area-inset-bottom, 0px));
+  flex-shrink: 0;
+}

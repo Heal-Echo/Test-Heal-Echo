@@ -1,0 +1,159 @@
+ /* ─── Font Faces (index.html과 동일하게) ─── */
+@font-face { font-family: 'NotoSans'; font-weight: 400; src: url('../fonts/NotoSans-Regular.ttf') format('truetype'); }
+@font-face { font-family: 'NotoSans'; font-weight: 500; src: url('../fonts/NotoSans-Medium.ttf') format('truetype'); }
+@font-face { font-family: 'NotoSans'; font-weight: 600; src: url('../fonts/NotoSans-SemiBold.ttf') format('truetype'); }
+@font-face { font-family: 'NotoSans'; font-weight: 900; src: url('../fonts/NotoSans-Black.ttf') format('truetype'); }
+@font-face { font-family: 'PlayfairDisplay'; font-weight: 400; src: url('../fonts/PlayfairDisplay-Regular.ttf') format('truetype'); }
+@font-face { font-family: 'PlayfairDisplay'; font-weight: 900; src: url('../fonts/PlayfairDisplay-Black.ttf') format('truetype'); }
+
+:root {
+  --color-text: #000000;
+  --color-bg: #ffffff;
+  --color-primary: #00D6F5;
+  --font-sans: 'NotoSans', sans-serif;
+  --font-serif: 'PlayfairDisplay', serif;
+}
+@media (prefers-color-scheme: dark) {
+  :root { --color-text: #fff; --color-bg: #000; }
+}
+
+/* ─── 공통 기본 ─── */
+body {
+  margin: 0;
+  padding: 0;
+  font-family: var(--font-sans);
+  background-color: var(--color-bg);
+  color: var(--color-text);
+  line-height: 1.6;
+}
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 16px;
+}
+
+/* ─── 헤더 & 네비게이션 ─── */
+.header {
+  background-color: var(--color-bg);
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 1000;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+.header-inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 60px;
+}
+.logo-link {
+  display: flex;
+  align-items: center;
+  text-decoration: none;
+}
+.logo-image {
+  width: 40px;
+  height: 40px;
+  object-fit: cover;
+  border-radius: 50%;
+}
+.logo-text {
+  margin-left: 10px;
+  font-family: var(--font-serif);
+  font-weight: 900;
+  font-size: 1.25rem;
+  color: var(--color-text);
+}
+.menu-actions,
+.nav-menu {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+.login-link {
+  border-radius: 36px;
+  padding: 0 13px;
+  background-color: var(--color-primary);
+  color: #000;
+  font-weight: 500;
+  text-decoration: none;
+  font-family: var(--font-sans);
+  font-size: 1rem;
+}
+
+.nav-menu {
+  gap: 0;
+}
+.nav-menu a {
+  padding: 8px 16px;
+}
+
+/* ─── Big Title Frame ─── */
+.big-title-frame {
+  position: relative;
+  width: 100%;
+  max-width: 700px;
+  margin: 0 auto;
+  /* header 높이(60px) 아래로 80px 떨어뜨리기 */
+  margin-top: calc(60px + 80px);
+  text-align: center;
+  height: 700px;
+}
+.big-title-frame .big-title {
+  font-size: 2rem;
+  font-weight: 900;
+  margin-bottom: 8px;
+}
+.big-title-frame .page-number {
+  font-size: 1rem;
+  color: #666;
+  margin-bottom: 16px;
+}
+.big-title-frame .main-text {
+  font-size: 0.875rem;
+  text-align: center;
+  margin-bottom: 16px;
+}
+.big-title-frame .main-text p {
+  margin: 4px 0;
+  line-height: 1.4;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+}
+
+/* V 아이콘 대체용 */
+.big-title-frame .logo-icon {
+  width: 1em;
+  height: auto;
+  vertical-align: middle;
+  margin-right: 0.25em;
+  filter: invert(0);
+}
+
+.big-title-frame .agreement {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+.big-title-frame input[type="checkbox"] {
+  width: 16px;
+  height: 16px;
+  cursor: pointer;
+}
+.big-title-frame label {
+  cursor: pointer;
+  font-size: 0.875rem;
+}
+
+/* 다크 모드일 때만 적용 */
+@media (prefers-color-scheme: dark) {
+  .big-title-frame .logo-icon {
+    /* 검정 → 흰색으로 반전 */
+    filter: invert(1);
+  }
+}

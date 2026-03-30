@@ -1,0 +1,664 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Heal Echo – 로그인</title>
+
+    <!-- 공통 CSS -->
+    <link rel="stylesheet" href="./src/reset.css">
+    <link rel="stylesheet" href="./reset.prefixed.css">
+    <link rel="stylesheet" href="./src/style.css">
+
+    <!-- 페이지 전용 -->
+    <link rel="stylesheet" href="./src/login.css">
+
+    <!-- ✅ 공통 헤더 CSS (항상 맨 마지막!) -->
+    <link rel="stylesheet" href="./src/header.css?v=1">
+  </head>
+
+  <body>
+    <!-- ✅ 공통 헤더 자동 로드 -->
+    <div id="site-header"></div>
+    <script src="./js/site-header-loader.js" defer></script>
+
+    <!-- ✅ 로그인 페이지 전용 영역 -->
+    <main class="login-page">
+      <!-- 여기에 기존 로그인 페이지의 모든 콘텐츠(예: .main-content 등)를 넣으세요 -->
+
+
+
+  <!-- 왼쪽 프레임: 솔루션 리스트 -->
+  <div class="left-frame">
+    <div class="solutions-frame">
+    <ul class="solutions-list">
+      <!-- 1번 -->
+      <li class="solution-item">
+        <a href="autosolution_cover.html" class="solution-link">
+          <div class="solution-wrapper">
+            <div class="text-frame">
+              <div class="solution-text">
+                삶의 활력을 찾는<br />
+                <strong>15분, 기적의 오토 밸런스</strong>
+              </div>
+            </div>
+            <img
+              src="./assets/images/balance reset.png"
+              alt="삶의 활력을 찾는 15분 기적의 오토 밸런스"
+              class="solution-image"
+            />
+          </div>
+        </a>
+      </li>
+      <!-- 2번 -->
+      <li class="solution-item">
+        <a href="#" class="solution-link">
+          <div class="solution-wrapper">
+            <div class="text-frame">
+              <div class="solution-text">
+                여성 건강의 핵심을 지키는<br />
+                <strong>15분, 우먼즈 위스퍼</strong>
+              </div>
+            </div>
+            <img
+              src="./assets/images/woman condition.png"
+              alt="여성 건강의 핵심을 지키는 15분 우먼즈 위스퍼"
+              class="solution-image"
+            />
+          </div>
+        </a>
+      </li>
+      <!-- 3번 -->
+      <li class="solution-item">
+        <a href="#" class="solution-link">
+          <div class="solution-wrapper">
+            <div class="text-frame">
+              <div class="solution-text">
+                마음의 균형을 유지하는<br />
+                <strong>15분, 힐링 마인드</strong>
+              </div>
+            </div>
+            <img
+              src="./assets/images/healing mind.png"
+              alt="마음의 균형을 유지하는 15분 힐링 마인드"
+              class="solution-image"
+            />
+          </div>
+        </a>
+      </li>
+      <!-- 4번 -->
+      <li class="solution-item">
+        <a href="#" class="solution-link">
+          <div class="solution-wrapper">
+            <div class="text-frame">
+              <div class="solution-text">
+                듣는 것만으로도 힐링되는<br />
+                <strong>스피리추얼 스토리</strong>
+              </div>
+            </div>
+            <img
+              src="./assets/images/spiritual story.png"
+              alt="듣는 것만으로도 힐링되는 스피리추얼 스토리"
+              class="solution-image"
+            />
+          </div>
+        </a>
+      </li>
+    </ul>
+    </div>
+  </div>
+  <!-- 오른쪽 프레임: 나중에 콘텐츠 추가 -->
+  <div class="right-frame">
+
+      <div class="right-frame-container" id="signup-container">
+        <!-- 1) Big-title -->
+        <h1 class="big-title">회원 가입</h1>
+  
+        <!-- 2) Sub-title frame -->
+        <div class="subtitle-frame">
+          <span class="subtitle-left">이미 회원이신가요?</span>
+          <a href="#" id="show-login" class="subtitle-right">로그인</a>
+        </div>
+  
+         <form id="signupForm" class="email-login-box">
+             <input
+               type="text"
+               id="familyName"
+               class="email-input"
+               placeholder="성 (필수)"
+               required
+             />
+             <input
+               type="text"
+               id="givenName"
+               class="email-input"
+               placeholder="이름 (필수)"
+               required
+             />
+             <input
+               type="email"
+               id="email"
+               class="email-input"
+               placeholder="이메일 주소 (필수)"
+               required
+             />
+             <input
+               type="password"
+               id="password"
+               class="email-input"
+               placeholder="비밀번호 (필수, 8자 이상)"
+               minlength="8"
+               required
+             />
+
+             <!-- ▼ 아래 코드를 비밀번호 입력 필드 바로 아래에 삽입 ▼ -->
+<div id="password-requirements" class="password-requirements" style="display: none;">
+  <p>비밀번호 요구 사항:</p>
+  <ul>
+    <li id="req-length"  class="invalid">8자 이상</li>
+    <li id="req-uppercase" class="invalid">대문자 1개 이상</li>
+    <li id="req-lowercase" class="invalid">소문자 1개 이상</li>
+    <li id="req-number"   class="invalid">숫자 1개 이상</li>
+    <li id="req-special"  class="invalid">특수문자 1개 이상</li>
+  </ul>
+</div>
+<!-- ▲ 삽입 끝 ▲ -->
+
+             
+             <input
+               type="password"
+               id="passwordConfirm"
+               class="email-input"
+               placeholder="비밀번호 확인 (필수)"
+               minlength="8"
+               required
+             />
+             <button
+               type="submit"
+               id="signupButton"
+               class="continue-button"
+             >
+               회원가입
+             </button>
+           </form>
+
+<!-- ▽ 인증 코드 입력 폼 (초기 숨김) ▽ -->
+<div id="confirm-container" class="email-login-box" style="display: none; margin-top: 20px;">
+  <input
+    type="text"
+    id="confirmationCode"
+    class="email-input"
+    placeholder="인증 코드 입력 (필수)"
+    required
+  />
+  <button
+    type="button"
+    id="confirmButton"
+    class="continue-button"
+  >
+    인증 확인
+  </button>
+</div>
+<!-- △ 인증 코드 입력 폼 끝 △ -->
+
+
+
+        <!-- 5) 소셜 로그인 -->
+        <div class="social-login">
+          <!-- assets/images 폴더에 아래 파일명을 갖는 이미지(로고)를 넣어주세요 -->
+          <a href="#" class="social-btn kakao" id="kakaoBtn">
+            <img src="./assets/images/kakao-logo.png" alt="카카오톡 로그인">
+          </a>
+          <a href="#" class="social-btn" id="naverBtn"><img src="./assets/images/naver-logo.png" alt="네이버 로그인"></a>
+          <a href="#" class="social-btn" id="googleBtn"><img src="./assets/images/google-logo.png" alt="구글 로그인"></a>
+          <a href="#" class="social-btn" id="appleBtn"><img src="./assets/images/apple-logo.png" alt="애플 로그인"></a>
+        </div>
+  
+        <!-- 6) 약관 텍스트 -->
+        <p class="terms-text">
+          회원가입을 클릭하면 Heal Echo의 약관과 개인정보처리방침에 동의한 것으로 간주됩니다.
+        </p>
+      </div>
+
+        <!-- ── 로그인 폼 컨테이너 (초기엔 숨김) ── -->
+  <div class="right-frame-container" id="login-container" style="display: none;">
+    <!-- 1) Big-title -->
+    <h1 class="big-title">로그인</h1>
+
+    <!-- 2) Sub-title frame -->
+    <div class="subtitle-frame">
+      <span class="subtitle-left">처음 오셨나요?</span>
+      <!-- 회원가입 뷰로 토글할 링크 -->
+      <a href="#" id="show-signup" class="subtitle-right">회원가입</a>
+    </div>
+
+    <div class="email-login-box">
+      <input type="email"    id="loginEmail"    class="email-input" placeholder="이메일 주소">
+      <input type="password" id="loginPassword" class="email-input" placeholder="비밀번호">
+    </div>
+
+    <a href="#" id="show-forgot" class="forgot-password">비밀번호를 잊어버리셨나요?</a>
+
+
+    <button class="continue-button" id="loginButton">로그인</button>
+
+    <div class="social-login login-social">
+      <a href="#" class="social-btn kakao"><img src="./assets/images/kakao_wide.png" alt="카카오톡 로그인"></a>
+      <a href="#" class="social-btn naver"><img src="./assets/images/naver_wide.png" alt="네이버 로그인"></a>
+      <a href="#" class="social-btn google"><img src="./assets/images/google_wide.svg" alt="구글 로그인"></a>
+      <a href="#" class="social-btn apple"><img src="./assets/images/appleid_wide.png" alt="애플 로그인"></a>
+    </div>
+  </div>
+
+<!-- 비밀번호 재설정 1단계: 이메일 입력 -->
+<div class="right-frame-container" id="forgot-step1-container" style="display: none;">
+  <h1 class="big-title">비밀번호 재설정</h1>
+  <div class="subtitle-frame">
+    <span class="subtitle-left">가입한 이메일 주소를 입력하세요</span>
+    <a href="#" id="back-to-login" class="subtitle-right">로그인으로 돌아가기</a>
+  </div>
+
+  <div class="email-login-box">
+    <input type="email" id="forgotEmail" class="email-input" placeholder="이메일 주소 (가입 시 사용)" required>
+  </div>
+
+  <button class="continue-button" id="sendResetCodeButton">인증코드 받기</button>
+  <p class="terms-text">계정이 존재하지 않아도 같은 안내가 표시됩니다.</p>
+</div>
+
+<!-- 비밀번호 재설정 2단계: 코드 + 새 비밀번호 입력 -->
+<div class="right-frame-container" id="forgot-step2-container" style="display: none;">
+  <h1 class="big-title">새 비밀번호 설정</h1>
+
+  <div class="email-login-box">
+    <input type="text" id="resetCode" class="email-input" placeholder="이메일로 받은 인증코드 (6자리)" required>
+    <input type="password" id="newPassword" class="email-input" placeholder="새 비밀번호 (8자 이상)" minlength="8" required>
+    <input type="password" id="newPasswordConfirm" class="email-input" placeholder="새 비밀번호 확인" minlength="8" required>
+  </div>
+
+  <button class="continue-button" id="confirmResetButton">비밀번호 재설정</button>
+  <button type="button" id="resendResetCodeButton" class="forgot-password" style="margin-top:10px;">
+    인증코드 다시 받기
+  </button>
+</div>
+
+
+
+</div>
+
+
+
+</main>
+<!-- ─── 메인 콘텐츠 끝 ─── -->
+
+<!-- ⑥ AWS SDK for JavaScript -->
+<script src="https://sdk.amazonaws.com/js/aws-sdk-2.283.1.min.js"></script>
+<script>
+  AWS.config.region = 'ap-northeast-2';
+</script>
+
+<!-- ⑦ Cognito Identity JS SDK (위에서 바꾼 URL) -->
+<script src="https://cdn.jsdelivr.net/npm/amazon-cognito-identity-js@6.2.0/dist/amazon-cognito-identity.min.js"></script>
+
+
+<!-- ⑧ 여러분의 회원가입 로직 -->
+<script src="./src/signup.js"></script>
+
+
+
+  <!-- 뷰 토글 스크립트 -->
+  <script>
+    const signupContainer = document.getElementById('signup-container');
+    const loginContainer  = document.getElementById('login-container');
+    document.getElementById('show-login').addEventListener('click', e => {
+      e.preventDefault();
+      signupContainer.style.display = 'none';
+      loginContainer.style.display  = 'flex';
+    });
+    document.getElementById('show-signup').addEventListener('click', e => {
+      e.preventDefault();
+      loginContainer.style.display  = 'none';
+      signupContainer.style.display = 'flex';
+    });
+  </script>
+
+<!-- 옵션 B: 커스텀 UI용 Cognito 연동 전체 로직 -->
+<script>
+  /********* ① Cognito 설정 (★값 교체) *********/
+  const REGION = 'ap-northeast-2';
+  const USER_POOL_ID  = 'ap-northeast-2_68VMdEqHX';         // ★ 교체
+  const APP_CLIENT_ID = '3dgbll5fnagbru09gcil8nvhof';       // ★ 교체
+
+  const userPool = new AmazonCognitoIdentity.CognitoUserPool({
+    UserPoolId: USER_POOL_ID,
+    ClientId: APP_CLIENT_ID
+  });
+
+  /********* ② returnTo 처리 & 안전 리다이렉트 (개선판) *********/
+function getReturnTo() {
+  const url = new URL(location.href);
+
+  // 1) 가장 우선: 쿼리스트링(returnTo)
+  const qp = url.searchParams.get('returnTo');
+  if (qp) return qp;
+
+  // 2) 다음 우선: 세션에 기록한 '직전 페이지'
+  const saved = sessionStorage.getItem('last_url');
+  if (saved && !/\/login\.html?$/.test(saved)) return saved;
+
+  // 3) 마지막: 같은 오리진의 referrer
+  try {
+    const ref = new URL(document.referrer, location.origin);
+    if (ref.origin === location.origin && !/\/login\.html?$/.test(ref.pathname)) {
+      return ref.pathname + ref.search + ref.hash;
+    }
+  } catch (e) {}
+
+  // 4) 아무 것도 없으면 홈
+  return 'index.html';
+}
+
+function safeRedirect(urlStr) {
+  try {
+    const u = new URL(urlStr, location.origin);
+    if (u.origin === location.origin) {
+      location.replace(u.href);
+      return;
+    }
+  } catch (e) {}
+  location.replace('index.html'); // 최후의 안전장치
+}
+
+
+  /********* ③ 토큰 저장(만료시각 포함) *********/
+  function storeIdToken(idToken){
+    sessionStorage.setItem('id_token', idToken);
+    try {
+      const payload = JSON.parse(atob(idToken.split('.')[1]));
+      if (payload && payload.exp) {
+        sessionStorage.setItem('expires_at', String(payload.exp * 1000));
+      }
+    } catch(e) {
+      // exp 파싱 실패 시 1시간으로 가정
+      sessionStorage.setItem('expires_at', String(Date.now() + 3600*1000));
+    }
+  }
+
+  /********* ④ 비밀번호 요구사항 실시간 표시 *********/
+  (function setupPasswordHints(){
+    const pw = document.getElementById('password');
+    const box = document.getElementById('password-requirements');
+    if (!pw || !box) return;
+
+    const reqs = {
+      length:    v => v.length >= 8,
+      uppercase: v => /[A-Z]/.test(v),
+      lowercase: v => /[a-z]/.test(v),
+      number:    v => /\d/.test(v),
+      special:   v => /[^A-Za-z0-9]/.test(v),
+    };
+    pw.addEventListener('focus', ()=> box.style.display = 'block');
+    pw.addEventListener('input', ()=>{
+      const v = pw.value;
+      document.getElementById('req-length').className    = reqs.length(v)    ? 'valid' : 'invalid';
+      document.getElementById('req-uppercase').className = reqs.uppercase(v) ? 'valid' : 'invalid';
+      document.getElementById('req-lowercase').className = reqs.lowercase(v) ? 'valid' : 'invalid';
+      document.getElementById('req-number').className    = reqs.number(v)    ? 'valid' : 'invalid';
+      document.getElementById('req-special').className   = reqs.special(v)   ? 'valid' : 'invalid';
+    });
+  })();
+
+  /********* ⑤ 회원가입 *********/
+  const signupForm = document.getElementById('signupForm');
+  if (signupForm) {
+    signupForm.addEventListener('submit', function(e){
+      e.preventDefault();
+
+      const familyName = document.getElementById('familyName').value.trim();
+      const givenName  = document.getElementById('givenName').value.trim();
+      const email      = document.getElementById('email').value.trim();
+      const password   = document.getElementById('password').value;
+      const confirmPw  = document.getElementById('passwordConfirm').value;
+
+      if (password !== confirmPw) {
+        alert('비밀번호와 확인이 일치하지 않습니다.');
+        return;
+      }
+
+      const attr = [
+        new AmazonCognitoIdentity.CognitoUserAttribute({ Name: 'email',       Value: email }),
+        new AmazonCognitoIdentity.CognitoUserAttribute({ Name: 'given_name',  Value: givenName }),
+        new AmazonCognitoIdentity.CognitoUserAttribute({ Name: 'family_name', Value: familyName })
+      ];
+
+      userPool.signUp(email, password, attr, null, function(err, result){
+        if (err) {
+          alert('회원가입 실패: ' + (err.message || JSON.stringify(err)));
+          return;
+        }
+        alert('회원가입 성공! 이메일의 인증코드를 입력해 주세요.');
+        document.getElementById('confirm-container').style.display = 'block';
+      });
+    });
+  }
+
+  /********* ⑥ 인증코드 확인 *********/
+  const confirmBtn = document.getElementById('confirmButton');
+  if (confirmBtn) {
+    confirmBtn.addEventListener('click', function(){
+      const email = document.getElementById('email').value.trim();
+      const code  = document.getElementById('confirmationCode').value.trim();
+
+      const cognitoUser = new AmazonCognitoIdentity.CognitoUser({ Username: email, Pool: userPool });
+      cognitoUser.confirmRegistration(code, true, function(err, result){
+        if (err) {
+          alert('인증 실패: ' + (err.message || JSON.stringify(err)));
+          return;
+        }
+        alert('인증 완료! 이제 로그인해 주세요.');
+        // 인증 완료 후 로그인 탭으로 자동 전환(원하시면 주석 해제):
+        // document.getElementById('signup-container').style.display = 'none';
+        // document.getElementById('login-container').style.display  = 'flex';
+      });
+    });
+  }
+
+  /********* ⑦ 로그인 *********/
+  const loginBtn = document.getElementById('loginButton');
+  if (loginBtn) {
+    loginBtn.addEventListener('click', function(){
+      const email    = document.getElementById('loginEmail').value.trim();
+      const password = document.getElementById('loginPassword').value;
+
+      const authDetails = new AmazonCognitoIdentity.AuthenticationDetails({
+        Username: email,
+        Password: password
+      });
+      const cognitoUser = new AmazonCognitoIdentity.CognitoUser({ Username: email, Pool: userPool });
+
+      cognitoUser.authenticateUser(authDetails, {
+        onSuccess: function (result) {
+          const idToken = result.getIdToken().getJwtToken();
+          storeIdToken(idToken);
+
+          const returnTo = getReturnTo();
+          safeRedirect(returnTo);  // ← 로그인 시작한 페이지로 복귀
+        },
+        onFailure: function(err) {
+          alert('로그인 실패: ' + (err.message || JSON.stringify(err)));
+        },
+        newPasswordRequired: function(userAttributes, requiredAttributes) {
+          // 임시 비밀번호 계정 등: 새 비밀번호 요구
+          delete userAttributes.email_verified;
+          alert('새 비밀번호가 필요합니다. (임시 계정) — 새 비밀번호 입력 UI를 구현해 주세요.');
+          // 예: cognitoUser.completeNewPasswordChallenge(newPassword, userAttributes, this);
+        }
+      });
+    });
+  }
+</script>
+
+<script>
+  (function(){
+    // 표시/숨김 헬퍼
+    function showOnly(id) {
+      ['signup-container','login-container','forgot-step1-container','forgot-step2-container']
+        .forEach(cid => {
+          const el = document.getElementById(cid);
+          if (el) el.style.display = (cid === id) ? 'flex' : 'none';
+        });
+    }
+  
+    // ① "비밀번호를 잊어버리셨나요?" → 재설정 1단계 띄우기
+    const showForgot = document.getElementById('show-forgot');
+    if (showForgot) {
+      showForgot.addEventListener('click', (e) => {
+        e.preventDefault();
+        showOnly('forgot-step1-container');
+      });
+    }
+  
+    // 로그인으로 돌아가기
+    const backToLogin = document.getElementById('back-to-login');
+    if (backToLogin) {
+      backToLogin.addEventListener('click', (e) => {
+        e.preventDefault();
+        showOnly('login-container');
+      });
+    }
+  
+    // 재설정 진행 중 이메일을 저장해 두는 변수
+    let resetEmail = '';
+  
+    // ② 인증코드 보내기 (forgotPassword)
+    const sendCodeBtn = document.getElementById('sendResetCodeButton');
+    if (sendCodeBtn) {
+      sendCodeBtn.addEventListener('click', () => {
+        const email = (document.getElementById('forgotEmail').value || '').trim();
+        if (!email) {
+          alert('이메일 주소를 입력해 주세요.');
+          return;
+        }
+  
+        const cognitoUser = new AmazonCognitoIdentity.CognitoUser({ Username: email, Pool: userPool });
+        cognitoUser.forgotPassword({
+          onSuccess: function(data) {
+            // 인증코드 발송 시작 성공
+            resetEmail = email;
+            alert('인증코드를 이메일로 보냈습니다. 받은 코드를 입력해 주세요.');
+            showOnly('forgot-step2-container');
+          },
+          onFailure: function(err) {
+            console.error('forgotPassword error:', err);
+            // 보안상(사용자 존재 노출 방지) 동일 메시지 권장
+            resetEmail = email;
+            alert('인증코드를 이메일로 보냈습니다. 받은 코드를 입력해 주세요.');
+            showOnly('forgot-step2-container');
+          },
+          // 일부 버전에서 자동 호출되는 콜백(참고용)
+          inputVerificationCode: function(data) {
+            // 코드 발송 정보를 받을 수 있음. UI는 위에서 이미 전환함.
+            console.log('Code sent:', data);
+          }
+        });
+      });
+    }
+  
+    // ③ 인증코드 + 새 비밀번호로 최종 변경 (confirmPassword)
+    const confirmBtn = document.getElementById('confirmResetButton');
+    if (confirmBtn) {
+      confirmBtn.addEventListener('click', () => {
+        const code   = (document.getElementById('resetCode').value || '').trim();
+        const pw1    = document.getElementById('newPassword').value || '';
+        const pw2    = document.getElementById('newPasswordConfirm').value || '';
+  
+        if (!code) { alert('인증코드를 입력해 주세요.'); return; }
+        if (pw1.length < 8) { alert('비밀번호는 8자 이상이어야 합니다.'); return; }
+        if (pw1 !== pw2) { alert('새 비밀번호와 확인이 일치하지 않습니다.'); return; }
+        if (!resetEmail) { alert('먼저 인증코드를 받아 주세요.'); return; }
+  
+        const cognitoUser = new AmazonCognitoIdentity.CognitoUser({ Username: resetEmail, Pool: userPool });
+        // confirmPassword(verificationCode, newPassword, callbacks)
+        cognitoUser.confirmPassword(code, pw1, {
+          onSuccess: function() {
+            alert('비밀번호가 변경되었습니다. 새 비밀번호로 로그인해 주세요.');
+            const loginEmail = document.getElementById('loginEmail');
+            if (loginEmail) loginEmail.value = resetEmail;
+            showOnly('login-container');
+          },
+          onFailure: function(err) {
+            console.error('confirmPassword error:', err);
+            alert('재설정 실패: ' + (err.message || JSON.stringify(err)));
+          }
+        });
+      });
+    }
+  
+    // ④ 인증코드 재전송 (원리는 forgotPassword 재호출)
+    const resendBtn = document.getElementById('resendResetCodeButton');
+    if (resendBtn) {
+      resendBtn.addEventListener('click', (e) => {
+        e.preventDefault();
+        const email = resetEmail || (document.getElementById('forgotEmail').value || '').trim();
+        if (!email) { alert('먼저 이메일을 입력하고 코드 받기를 눌러주세요.'); return; }
+  
+        const cognitoUser = new AmazonCognitoIdentity.CognitoUser({ Username: email, Pool: userPool });
+        cognitoUser.forgotPassword({
+          onSuccess: function() { alert('인증코드를 다시 보냈습니다.'); },
+          onFailure: function(err) {
+            console.error('resend code error:', err);
+            alert('재전송 실패: ' + (err.message || JSON.stringify(err)));
+          }
+        });
+      });
+    }
+  })();
+  </script>
+  
+
+<script src="./src/header.js" defer></script>
+
+  <!-- …여기까지 로그인 페이지 본문… -->
+
+  <!-- 공통 헤더 로더: 새 파일 없이, 페이지 하단에 인라인으로 추가 -->
+  <script>
+    (async function () {
+      const mount = document.getElementById('site-header');
+      if (!mount) return;
+  
+      try {
+        // header.html 전체를 가져온 뒤, 그 안에서 <header data-shared="true">만 추출
+        const res = await fetch('./header.html', { cache: 'no-store' });
+        const txt = await res.text();
+  
+        const parser = new DOMParser();
+        const doc = parser.parseFromString(txt, 'text/html');
+        const header = doc.querySelector('header[data-shared="true"]');
+        if (!header) throw new Error('header[data-shared="true"]를 찾지 못함');
+  
+        mount.innerHTML = '';            // 안전하게 비우고
+        mount.appendChild(header);       // 조각만 삽입
+  
+        // 고정 헤더이므로 본문 겹침 방지
+        document.body.classList.add('has-shared-header');
+  
+        // 모바일 메뉴 토글(버튼/메뉴 연결)
+        const btn = header.querySelector('.menu-icon');
+        const menu = header.querySelector('.menu-list');
+        if (btn && menu) {
+          btn.addEventListener('click', () => menu.classList.toggle('is-open'));
+          document.addEventListener('keydown', e => {
+            if (e.key === 'Escape') menu.classList.remove('is-open');
+          });
+        }
+      } catch (e) {
+        console.error('헤더 로드 실패', e);
+      }
+    })();
+    </script>
+  </body>
+  </html>
+  
+
+
+

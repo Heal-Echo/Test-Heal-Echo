@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>기적의 오토 밸런스 테스트</title>
+ 
+  <!-- ① 리셋 CSS -->
+  <link rel="stylesheet" href="./reset.css" />
+  <link rel="stylesheet" href="./reset.prefixed.css" />
+
+    <!-- ② 공통 스타일 (헤더 등 전체 레이아웃) -->
+    <link rel="stylesheet" href="./src/style.css">
+  <!-- ② 페이지 전용 스타일 -->
+  <link rel="stylesheet" href="./src/resettest.css" />
+
+  <script>
+    // ★여기를 여러분의 실제 엔드포인트로 바꿔주세요★
+    const API_ENDPOINT = "https://wniizgyev3.execute-api.ap-northeast-2.amazonaws.com/prod/myresource";
+
+  </script>
+  
+
+</head>
+<body>
+
+  <div id="site-header" data-header-src="./partials/header.html"></div>
+
+  
+  <div class="big-title-frame">
+    <h1 class="big-title">기적의 오토 밸런스 테스트</h1>
+    <div class="page-number">1/5</div>
+    <div class="main-text">
+      <p>
+        <img src="assets/images/v check.png" alt="V" class="logo-icon" />
+        Heal Echo는 의학적 진단이나 치료를 대체할 수 없습니다.
+      </p>
+      <p>
+        <img src="assets/images/v check.png" alt="V" class="logo-icon" />
+        Heal Echo는 균형잡힌 몸과 마음을 위한 웰니스 솔루션을 제공합니다.
+      </p>
+    </div>
+    <div class="agreement">
+      <input type="checkbox" id="agree-checkbox" />
+      <label for="agree-checkbox">읽고 이해하였으며 동의합니다.</label>
+    </div>
+  </div>
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      const checkbox = document.getElementById('agree-checkbox');
+
+      
+  
+      checkbox.addEventListener('change', function() {
+        if (!checkbox.checked) return;
+  
+        // 1) 동의 사실을 데이터베이스에 저장
+        fetch(API_ENDPOINT, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            timestamp: new Date().toISOString()
+          })
+        })
+        .then(res => res.json())
+        .then(data => console.log("Agreement saved:", data))
+        .catch(err => console.error("Error saving agreement:", err));
+  
+        // 2) 1초 뒤 다음 페이지로 이동
+        setTimeout(function() {
+          window.location.href = '2resttest.html';
+        }, 1000);
+      });
+    });
+  </script>
+  
+  <script src="./src/header.js" defer></script>
+
+</body>
+</html>

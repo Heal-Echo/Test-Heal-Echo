@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Heal Echo – 맞춤 솔루션</title>
+  <!-- Reset CSS 불러오기 (기존과 동일) -->
+  <link rel="stylesheet" href="./reset.css">
+  <link rel="stylesheet" href="./reset.prefixed.css">
+  <!-- balancetest 전용 스타일 -->
+  <link rel="stylesheet" href="./src/balancetest.css">
+</head>
+<body>
+  <!-- Header (index.html과 비슷하지만 메뉴 아이템은 로고·Heal Echo·로그인만) -->
+  <header class="header">
+    <div class="container header-inner">
+      <!-- 1) 로고 + 브랜드명 -->
+      <div class="logo-frame">
+        <a href="index.html" class="logo-link">
+          <img src="./assets/images/Logo_HealEcho.png" alt="Heal Echo Logo" class="logo-image">
+          <span class="logo-text">Heal Echo</span>
+        </a>
+      </div>
+      <!-- 2) 로그인 링크 -->
+      <nav class="menu-actions">
+        <a href="#" class="login-link">로그인</a>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Main Content -->
+  <main class="balancetest-main">
+    <section class="solutions">
+      <div class="solutions-frame">
+        <h1 class="solutions-title">맞춤 솔루션, 30초 무료 테스트</h1>
+        <p class="solutions-subtitle">어느 웰니스 솔루션에 관심 있으신가요?</p>
+        <ul class="solutions-list">
+          <li class="solution-item">
+            <a href="resettest.html" class="solution-link" data-css="resettest.css">
+              <link rel="stylesheet" href="resettest.css">
+
+              <div class="solution-wrapper">
+                <div class="text-frame">
+                  <div class="solution-text">
+                    삶의 활력을 찾는<br />
+                    <strong>15분, 기적의 오토 밸런스</strong>
+                  </div>
+                </div>
+                <img
+                  src="./assets/images/balance reset.png"
+                  alt="삶의 활력을 찾는 15분 기적의 오토 밸런스"
+                  class="solution-image"
+                />
+              </div>
+            </a>
+          </li>
+          
+          <li class="solution-item">
+            <div class="solution-wrapper">
+              <div class="text-frame">
+                <div class="solution-text">
+                  여성 건강의 핵심을 지키는<br/>
+                  <strong>15분, 우먼즈 위스퍼</strong>
+                </div>
+              </div>
+              <img
+                src="./assets/images/woman condition.png"
+                alt="여성 건강의 핵심을 지키는 15분 우먼즈 위스퍼"
+                class="solution-image"
+              />
+            </div>
+          </li>
+
+          <li class="solution-item">
+            <div class="solution-wrapper">
+              <div class="text-frame">
+                <div class="solution-text">
+                  마음의 균형을 유지하는<br/>
+                  <strong>15분, 마인드 힐링</strong>
+                </div>
+              </div>
+              <img
+                src="./assets/images/healing mind.png"
+                alt="마음의 균형을 유지하는 15분 마인드 힐링"
+                class="solution-image"
+              />
+            </div>
+          </li>
+
+          <li class="solution-item">
+            <div class="solution-wrapper">
+              <div class="text-frame">
+                <div class="solution-text">
+                  듣는 것만으로도 힐링되는<br/>
+                  <strong>스피리추얼 스토리</strong>
+                </div>
+              </div>
+              <img
+                src="./assets/images/spiritual story.png"
+                alt="듣는 것만으로도 힐링되는 스피리추얼 스토리"
+                class="solution-image"
+              />
+            </div>
+          </li>
+
+        </ul>
+      </div>
+    </section>
+  </main>
+  <script>
+    document.querySelectorAll('.solution-link').forEach(link => {
+      link.addEventListener('click', function(e) {
+        const cssFile = this.getAttribute('data-css');
+        if (cssFile) {
+          const link = document.createElement('link');
+          link.rel = 'stylesheet';
+          link.href = cssFile;
+          document.head.appendChild(link);
+        }
+      });
+    });
+  </script>
+</body>
+</html>

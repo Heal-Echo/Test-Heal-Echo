@@ -1,0 +1,130 @@
+/* ===========================
+   GLOBAL BASE
+=========================== */
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ===========================
+   CSS VARIABLES (전역)
+   ※ 실제 폰트 로딩은 next/font(local)에서만 수행
+=========================== */
+:root {
+  /* 공통 색상 */
+  --color-text: #000;
+  --color-bg: #fff;
+  --color-primary: #00D6F5;
+  --color-secondary: #8A2BE2;
+  --color-tertiary: #FF69B4;
+
+  /* 폰트 변수 (fonts.ts에서 주입됨) */
+  --font-sans: var(--font-noto);
+  --font-serif: var(--font-playfair);
+
+  /* 공통 UI 변수 */
+  --surface: #f7f7f9;
+  --border: #e8e8ef;
+  --shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+}
+
+/* ===========================
+   GLOBAL BODY RESET
+=========================== */
+body {
+  margin: 0;
+  padding: 0;
+  font-family: var(--font-sans);
+  background: var(--color-bg);
+  color: var(--color-text);
+  line-height: 1.6;
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* 모바일 텍스트 크기 자동 조정 방지 */
+html {
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+}
+
+/* 공통 이미지 설정 */
+img {
+  max-width: 100%;
+  height: auto;
+}
+
+/* 공통 링크 리셋 */
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+/* ===========================
+   반응형 브레이크포인트 체계
+   - Mobile S : ≤ 360px (iPhone SE, 소형 기기)
+   - Mobile   : ≤ 480px (iPhone 14/15, Galaxy S 표준)
+   - Mobile L : ≤ 640px (iPhone Plus/Max, 대형 안드로이드)
+   - Tablet   : ≤ 1024px (iPad, Galaxy Tab)
+   - Desktop  : > 1024px (데스크탑)
+=========================== */
+
+/* ── 컨테이너 최대 너비 변수 ── */
+:root {
+  --container-max-width: 720px;       /* 기본 (모바일~데스크탑) */
+  --container-max-width-tablet: 960px; /* 태블릿 전용 확장 */
+  --container-padding: 16px;           /* 기본 좌우 패딩 */
+}
+
+/* ── 터치 기기 최적화 ── */
+
+/* 터치 기기에서 탭 시 나타나는 파란색/회색 하이라이트 제거 */
+* {
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* 스크롤 성능: 모바일에서 부드러운 스크롤 */
+html {
+  scroll-behavior: smooth;
+  -webkit-overflow-scrolling: touch;
+}
+
+/* ── hover 효과 분리 ──
+   마우스가 있는 기기(데스크탑)에서만 hover 효과 적용
+   터치 기기(스마트폰, 태블릿)에서는 hover가 "끈적이는" 현상 방지
+*/
+@media (hover: none) {
+  /* 터치 기기: hover 효과 비활성화 */
+  a:hover,
+  button:hover {
+    transform: none !important;
+    box-shadow: inherit !important;
+  }
+}
+
+/* ── 태블릿 구간 기본 설정 (641px ~ 1024px) ── */
+@media (min-width: 641px) and (max-width: 1024px) {
+  :root {
+    --container-padding: 24px;
+  }
+}
+
+/* ── 대형 모바일 구간 (481px ~ 640px) ── */
+@media (min-width: 481px) and (max-width: 640px) {
+  :root {
+    --container-padding: 20px;
+  }
+}
+
+/* ── 소형 모바일 구간 (≤ 480px) ── */
+@media (max-width: 480px) {
+  :root {
+    --container-padding: 16px;
+  }
+}
+
+/* ── 초소형 모바일 구간 (≤ 360px) ── */
+@media (max-width: 360px) {
+  :root {
+    --container-padding: 12px;
+  }
+}

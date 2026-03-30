@@ -1,0 +1,685 @@
+/* ===========================
+   전체 컨테이너
+=========================== */
+.container {
+  width: 100%;
+  min-height: 100vh;
+  min-height: 100dvh;
+  background: #f5f5f7;
+  max-width: 720px;
+  margin: 0 auto;
+  padding-bottom: 90px;
+}
+
+/* 본문 */
+.main {
+  padding: 20px 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 28px;
+}
+
+/* ===========================
+   인사말
+=========================== */
+.greeting {
+  padding: 4px 0 0;
+}
+
+.greetingText {
+  margin: 0;
+  font-size: 18px;
+  font-weight: 400;
+  color: #555;
+  line-height: 1.5;
+}
+
+.greetingText strong {
+  font-weight: 700;
+  color: #1a1a1a;
+}
+
+/* ===========================
+   섹션 공통
+=========================== */
+.section {
+  margin-bottom: 0;
+}
+
+.sectionTitle {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 20px;
+  font-weight: 700;
+  margin-bottom: 14px;
+  color: #1a1a1a;
+  letter-spacing: -0.02em;
+}
+
+.sectionTitleAccent {
+  display: inline-block;
+  width: 3px;
+  height: 18px;
+  border-radius: 2px;
+  background: linear-gradient(180deg, #00d6f5, #8a2be2);
+  flex-shrink: 0;
+}
+
+/* ===========================
+   웰니스 솔루션 카드 (2열 그리드)
+=========================== */
+.wellnessGrid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+
+.wellnessCard {
+  display: flex;
+  flex-direction: column;
+  text-decoration: none;
+  color: #1a1a1a;
+  cursor: pointer;
+  transition: transform 0.2s ease;
+}
+
+.wellnessCard:active {
+  transform: scale(0.97);
+}
+
+.wellnessImageWrap {
+  position: relative;
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+  border: 1px solid rgba(0, 0, 0, 0.04);
+}
+
+.wellnessImage {
+  width: 100%;
+  height: auto;
+  display: block;
+  object-fit: cover;
+  aspect-ratio: 1 / 1;
+}
+
+.wellnessOverlay {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: 14px 10px;
+  background: linear-gradient(
+    to top,
+    rgba(0, 0, 0, 0.6) 0%,
+    rgba(0, 0, 0, 0) 100%
+  );
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 6px;
+}
+
+.wellnessSubText {
+  margin: 0;
+  font-size: 13px;
+  color: #fff;
+  font-weight: 700;
+  line-height: 1.4;
+  text-shadow: 0 1px 6px rgba(0, 0, 0, 0.4);
+}
+
+.wellnessText {
+  margin: 8px 0 0;
+  font-size: 14px;
+  font-weight: 700;
+  color: #1a1a1a;
+  letter-spacing: -0.01em;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.soonBadge {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.03em;
+  padding: 2px 6px;
+  border-radius: 999px;
+  background: linear-gradient(135deg, #ff69b4, #8a2be2);
+  color: #fff;
+  white-space: nowrap;
+  line-height: 1.4;
+}
+
+.wellnessAlert {
+  padding: 5px 8px;
+  background: #00D6F5;
+  border-radius: 6px;
+  font-size: 12px;
+  font-weight: 800;
+  color: #1a1a1a;
+  letter-spacing: -0.01em;
+  box-shadow: 0 2px 8px rgba(0, 214, 245, 0.4);
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+/* 웰니스 카드 하이라이트 */
+.wellnessHighlight .wellnessImageWrap {
+  border: 2px solid #FF69B4 !important;
+  transition: border 0.3s ease-in-out;
+}
+
+/* ===========================
+   마이 솔루션 카드
+=========================== */
+.mySolutionCard {
+  position: relative;
+  overflow: hidden;
+  border-radius: 20px;
+  padding: 32px 24px 28px;
+  background: linear-gradient(135deg, #ffe8f3 0%, #fff0f8 40%, #f3e8ff 100%);
+  box-shadow:
+    0 6px 28px rgba(255, 105, 180, 0.18),
+    0 2px 8px rgba(138, 43, 226, 0.06);
+  border: 1.5px solid rgba(255, 105, 180, 0.2);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 18px;
+}
+
+.mySolutionBadge {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 5px 14px;
+  background: linear-gradient(135deg, #ff69b4, #e040a0);
+  color: #fff;
+  font-size: 12px;
+  font-weight: 700;
+  border-radius: 20px;
+  letter-spacing: 0.02em;
+  box-shadow: 0 3px 12px rgba(255, 105, 180, 0.3);
+}
+
+.mySolutionDesc {
+  margin: 0;
+  font-size: 16px;
+  color: #555;
+  line-height: 1.5;
+  font-weight: 600;
+}
+
+.programCtaButton {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  width: 100%;
+  padding: 16px 24px;
+  background: linear-gradient(135deg, #ff69b4, #e040a0);
+  color: #fff;
+  font-weight: 700;
+  font-size: 16px;
+  border-radius: 14px;
+  text-decoration: none;
+  text-align: center;
+  box-shadow: 0 6px 24px rgba(255, 105, 180, 0.35);
+  border: none;
+  cursor: pointer;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  animation: ctaGlow 2.5s ease-in-out infinite;
+}
+
+.programCtaButton:hover,
+.programCtaButton:active {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 32px rgba(255, 105, 180, 0.45);
+  animation: none;
+}
+
+.ctaArrow {
+  display: inline-block;
+  font-size: 18px;
+  transition: transform 0.2s ease;
+}
+
+.programCtaButton:hover .ctaArrow,
+.programCtaButton:active .ctaArrow {
+  transform: translateX(3px);
+}
+
+@keyframes ctaGlow {
+  0%, 100% {
+    box-shadow: 0 6px 24px rgba(255, 105, 180, 0.35);
+  }
+  50% {
+    box-shadow: 0 8px 36px rgba(255, 105, 180, 0.55), 0 0 16px rgba(255, 105, 180, 0.2);
+  }
+}
+
+/* ===========================
+   마이 솔루션 – 구독 프로그램 카드
+=========================== */
+.mySolutionSubscribed {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 16px;
+  border-radius: 16px;
+  overflow: hidden;
+  background: linear-gradient(135deg, #f0f8f2, #e8f4eb);
+  box-shadow:
+    0 4px 20px rgba(107, 158, 120, 0.15),
+    0 1px 6px rgba(0, 0, 0, 0.04);
+  border: 1.5px solid rgba(107, 158, 120, 0.2);
+  padding: 16px;
+  cursor: pointer;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.mySolutionSubscribed:active {
+  transform: scale(0.98);
+  box-shadow: 0 2px 12px rgba(107, 158, 120, 0.2);
+}
+
+.subscribedImageWrap {
+  width: 72px;
+  height: 72px;
+  flex-shrink: 0;
+  border-radius: 14px;
+  overflow: hidden;
+}
+
+.subscribedImage {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.subscribedInfo {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.subscribedName {
+  margin: 0;
+  font-size: 16px;
+  font-weight: 700;
+  color: #2d5a3a;
+}
+
+.subscribedCta {
+  font-size: 13px;
+  font-weight: 600;
+  color: #6b9e78;
+}
+
+/* ===========================
+   구분자 (마이 솔루션 ↔ 웰니스 솔루션)
+=========================== */
+.divider {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin: 4px 0 -8px;
+}
+
+.dividerLine {
+  flex: 1;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(138, 43, 226, 0.2), transparent);
+}
+
+.dividerLabel {
+  font-size: 16px;
+  font-weight: 700;
+  color: #8a2be2;
+  letter-spacing: 0.04em;
+  white-space: nowrap;
+}
+
+/* ===========================
+   카드 슬라이드 캐러셀
+=========================== */
+.carouselSection {
+  margin-bottom: 0;
+}
+
+.carouselTrack {
+  display: flex;
+  gap: 10px;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  -webkit-overflow-scrolling: touch;
+  scroll-padding-left: 0;
+  padding-bottom: 4px;
+  /* 스크롤바 숨김 */
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+  /* 마우스 드래그 스크롤 */
+  cursor: grab;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+.carouselTrack::-webkit-scrollbar {
+  display: none;
+}
+
+.carouselCard {
+  flex: 0 0 calc((100% - 20px) / 2.35);
+  scroll-snap-align: start;
+  text-decoration: none;
+  color: #1a1a1a;
+  transition: transform 0.2s ease;
+  -webkit-user-drag: none;
+}
+
+.carouselCard:active {
+  transform: scale(0.97);
+}
+
+.carouselImageWrap {
+  position: relative;
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+  border: 1px solid rgba(0, 0, 0, 0.04);
+}
+
+.carouselImage {
+  width: 100%;
+  height: auto;
+  display: block;
+  object-fit: cover;
+  aspect-ratio: 1 / 1;
+  border-radius: 14px;
+  pointer-events: none;
+  -webkit-user-drag: none;
+}
+
+.carouselOverlay {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: 10px 12px;
+  background: linear-gradient(
+    to top,
+    rgba(0, 0, 0, 0.55) 0%,
+    rgba(0, 0, 0, 0) 100%
+  );
+}
+
+.carouselDesc {
+  margin: 0;
+  font-size: 11px;
+  font-weight: 600;
+  color: #fff;
+  line-height: 1.35;
+  text-shadow: 0 1px 4px rgba(0, 0, 0, 0.3);
+}
+
+.carouselLabel {
+  margin: 8px 0 0;
+  font-size: 13px;
+  font-weight: 700;
+  color: #1a1a1a;
+  letter-spacing: -0.01em;
+  text-align: left;
+}
+
+/* Dot indicator */
+.carouselDots {
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+  margin-top: 14px;
+}
+
+.dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  border: none;
+  padding: 18px;
+  background: #d1d1d6;
+  background-clip: content-box;
+  cursor: pointer;
+  transition: all 0.25s ease;
+  box-sizing: content-box;
+}
+
+.dotActive {
+  background: #8a2be2;
+  background-clip: content-box;
+  width: 20px;
+  border-radius: 4px;
+}
+
+/* ===========================
+   하단 탭 여백
+=========================== */
+.tabPadding {
+  height: calc(80px + env(safe-area-inset-bottom, 0px));
+}
+
+/* ===========================
+   팝업(모달)
+=========================== */
+.modalOverlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.4);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+  animation: fadeIn 0.2s ease;
+}
+
+.modalContent {
+  width: 90%;
+  max-width: 400px;
+  background: linear-gradient(170deg, #ffffff 0%, #faf8ff 100%);
+  border-radius: 24px;
+  padding: 32px 20px 28px;
+  box-shadow:
+    0 20px 60px rgba(0, 0, 0, 0.2),
+    0 0 0 1px rgba(138, 43, 226, 0.06);
+  text-align: center;
+  animation: slideUp 0.3s ease;
+}
+
+.modalBadge {
+  display: inline-block;
+  padding: 5px 16px;
+  background: linear-gradient(135deg, #ff69b4, #e040a0);
+  color: #fff;
+  font-size: 12px;
+  font-weight: 700;
+  border-radius: 20px;
+  letter-spacing: 0.02em;
+  box-shadow: 0 3px 12px rgba(255, 105, 180, 0.3);
+  margin-bottom: 14px;
+}
+
+.modalTitle {
+  font-size: 18px;
+  font-weight: 700;
+  margin: 0 0 6px;
+  color: #1a1a1a;
+  line-height: 1.4;
+}
+
+.modalSubText {
+  font-size: 13px;
+  color: #999;
+  margin: 0 0 22px;
+  font-weight: 500;
+}
+
+/* 모달 내 솔루션 선택 카드 */
+.modalCards {
+  display: flex;
+  gap: 12px;
+}
+
+.modalCard {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  padding: 12px 10px 16px;
+  background: #ffffff;
+  border-radius: 18px;
+  border: 1.5px solid rgba(0, 0, 0, 0.06);
+  cursor: pointer;
+  transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+}
+
+.modalCard:hover,
+.modalCard:active {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 28px rgba(138, 43, 226, 0.15);
+  border-color: rgba(138, 43, 226, 0.35);
+}
+
+.modalCardImageWrap {
+  width: 100%;
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.modalCardImage {
+  width: 100%;
+  aspect-ratio: 3 / 2;
+  display: block;
+  object-fit: cover;
+}
+
+.modalCardName {
+  font-size: 14px;
+  font-weight: 700;
+  color: #1a1a1a;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.modalCardCta {
+  font-size: 12px;
+  font-weight: 700;
+  color: #8a2be2;
+  letter-spacing: 0.01em;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(16px) scale(0.97);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+/* ===========================
+   반응형 — 태블릿
+=========================== */
+@media (max-width: 768px) {
+  .main {
+    padding: 18px 16px;
+    gap: 26px;
+  }
+
+  .carouselCard {
+    flex: 0 0 calc((100% - 18px) / 2.3);
+  }
+
+  .modalContent {
+    width: 90%;
+    max-width: 380px;
+  }
+}
+
+/* ===========================
+   반응형 — 모바일
+=========================== */
+@media (max-width: 480px) {
+  .main {
+    padding: 16px 14px;
+    gap: 24px;
+  }
+
+  .wellnessGrid {
+    gap: 10px;
+  }
+
+  .wellnessImage {
+    aspect-ratio: 3 / 4;
+  }
+
+  .wellnessOverlay {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .wellnessSubText {
+    font-size: 11px;
+    text-align: left;
+  }
+
+  .wellnessAlert {
+    font-size: 11px;
+    padding: 4px 6px;
+    align-self: flex-end;
+  }
+
+  .wellnessText {
+    font-size: 13px;
+  }
+
+  .mySolutionCard {
+    padding: 24px 16px 20px;
+  }
+
+  .programCtaButton {
+    width: 100%;
+    padding: 14px 20px;
+    font-size: 15px;
+  }
+
+  .carouselCard {
+    flex: 0 0 calc((100% - 16px) / 2.25);
+  }
+
+  .carouselDesc {
+    font-size: 11px;
+  }
+
+  .carouselLabel {
+    font-size: 12px;
+  }
+
+  .modalContent {
+    width: 88%;
+    padding: 24px 20px 20px;
+  }
+}

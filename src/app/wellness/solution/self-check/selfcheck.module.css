@@ -1,0 +1,443 @@
+/* ── 자가 체크 페이지 ── */
+.container {
+  min-height: 100vh;
+  background: #faf9f6;
+  display: flex;
+  flex-direction: column;
+  max-width: 720px;
+  margin: 0 auto;
+}
+
+.main {
+  flex: 1;
+  width: 100%;
+  padding: 0 20px 40px;
+}
+
+/* ── 상단 바: 프로그레스 + 건너뛰기 ── */
+.topBar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px 0 8px;
+}
+
+.progressDots {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+.progressDot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: #e0ddd8;
+  transition: all 0.3s ease;
+}
+
+.progressDotActive {
+  background: #8a2be2;
+  transform: scale(1.2);
+}
+
+.progressDotDone {
+  background: #8a2be2;
+}
+
+.skipBtn {
+  background: none;
+  border: none;
+  color: #999;
+  font-size: 13px;
+  cursor: pointer;
+  padding: 8px 0;
+}
+
+/* ── 인트로 화면 ── */
+.introScreen {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 60vh;
+  text-align: center;
+  padding: 40px 0;
+}
+
+.introEmoji {
+  font-size: 48px;
+  margin-bottom: 24px;
+}
+
+.introTitle {
+  font-size: 22px;
+  font-weight: 700;
+  color: #1a1a1a;
+  margin: 0 0 12px;
+  line-height: 1.4;
+}
+
+.introSub {
+  font-size: 14px;
+  color: #777;
+  margin: 0 0 32px;
+  line-height: 1.6;
+}
+
+.introStartBtn {
+  background: #8a2be2;
+  color: #fff;
+  border: none;
+  border-radius: 12px;
+  padding: 14px 40px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: opacity 0.2s;
+}
+
+.introStartBtn:active {
+  opacity: 0.8;
+}
+
+.introSkipBtn {
+  background: none;
+  border: none;
+  color: #aaa;
+  font-size: 13px;
+  margin-top: 16px;
+  cursor: pointer;
+}
+
+/* ── 카테고리 질문 화면 ── */
+.questionScreen {
+  padding-top: 8px;
+  animation: fadeIn 0.4s ease;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(12px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.categoryIcon {
+  font-size: 32px;
+  margin-bottom: 8px;
+}
+
+.categoryTitle {
+  font-size: 18px;
+  font-weight: 700;
+  color: #1a1a1a;
+  margin: 0 0 6px;
+}
+
+.categoryEmpathy {
+  font-size: 14px;
+  color: #888;
+  margin: 0 0 20px;
+  line-height: 1.5;
+}
+
+.symptomList {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-bottom: 24px;
+}
+
+.symptomItem {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  background: #fff;
+  border: 1.5px solid #e8e5e0;
+  border-radius: 12px;
+  padding: 14px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.symptomItem:active {
+  transform: scale(0.98);
+}
+
+.symptomItemSelected {
+  border-color: #8a2be2;
+  background: #f8f4ff;
+}
+
+.symptomCheck {
+  width: 22px;
+  height: 22px;
+  min-width: 22px;
+  border-radius: 6px;
+  border: 2px solid #d0ccc5;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+  margin-top: 1px;
+}
+
+.symptomCheckSelected {
+  background: #8a2be2;
+  border-color: #8a2be2;
+}
+
+.symptomCheckMark {
+  color: #fff;
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.symptomText {
+  font-size: 14px;
+  color: #333;
+  line-height: 1.5;
+  flex: 1;
+}
+
+/* ── 빈도 선택 ── */
+.frequencyRow {
+  display: flex;
+  gap: 6px;
+  margin-top: 8px;
+}
+
+.frequencyBtn {
+  padding: 4px 10px;
+  border-radius: 20px;
+  border: 1px solid #d0ccc5;
+  background: #fff;
+  font-size: 12px;
+  color: #888;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.frequencyBtnActive {
+  border-color: #8a2be2;
+  background: #8a2be2;
+  color: #fff;
+}
+
+/* ── 하단 네비 버튼 ── */
+.navButtons {
+  display: flex;
+  gap: 10px;
+  padding: 16px 0;
+}
+
+.prevBtn {
+  flex: 1;
+  padding: 14px;
+  border-radius: 12px;
+  border: 1.5px solid #d0ccc5;
+  background: #fff;
+  font-size: 15px;
+  font-weight: 600;
+  color: #666;
+  cursor: pointer;
+}
+
+.nextBtn {
+  flex: 2;
+  padding: 14px;
+  border-radius: 12px;
+  border: none;
+  background: #8a2be2;
+  font-size: 15px;
+  font-weight: 600;
+  color: #fff;
+  cursor: pointer;
+  transition: opacity 0.2s;
+}
+
+.nextBtn:active {
+  opacity: 0.8;
+}
+
+.nextBtnDisabled {
+  background: #d0ccc5;
+  cursor: default;
+}
+
+/* ── 결과 화면 ── */
+.resultScreen {
+  padding-top: 20px;
+  animation: fadeIn 0.5s ease;
+}
+
+.resultHeader {
+  text-align: center;
+  margin-bottom: 28px;
+}
+
+.resultEmoji {
+  font-size: 40px;
+  margin-bottom: 12px;
+}
+
+.resultTitle {
+  font-size: 20px;
+  font-weight: 700;
+  color: #1a1a1a;
+  margin: 0 0 8px;
+}
+
+.resultSub {
+  font-size: 14px;
+  color: #888;
+  margin: 0;
+}
+
+/* 영역별 막대 그래프 */
+.resultBars {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  margin-bottom: 28px;
+}
+
+.resultBarRow {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.resultBarIcon {
+  font-size: 18px;
+  min-width: 24px;
+  text-align: center;
+}
+
+.resultBarLabel {
+  font-size: 13px;
+  color: #555;
+  min-width: 80px;
+}
+
+.resultBarTrack {
+  flex: 1;
+  height: 10px;
+  background: #eeebe6;
+  border-radius: 5px;
+  overflow: hidden;
+}
+
+.resultBarFill {
+  height: 100%;
+  border-radius: 5px;
+  transition: width 1s ease;
+}
+
+.resultBarValue {
+  font-size: 12px;
+  font-weight: 700;
+  color: #555;
+  min-width: 32px;
+  text-align: right;
+}
+
+/* 인사이트 카드 */
+.insightCard {
+  background: linear-gradient(135deg, #f8f4ff, #f0e8ff);
+  border-radius: 16px;
+  padding: 20px;
+  margin-bottom: 16px;
+  text-align: center;
+}
+
+.insightCount {
+  font-size: 32px;
+  font-weight: 800;
+  color: #8a2be2;
+  margin-bottom: 4px;
+}
+
+.insightCountLabel {
+  font-size: 13px;
+  color: #8a2be2;
+  margin-bottom: 12px;
+}
+
+.insightText {
+  font-size: 14px;
+  color: #555;
+  line-height: 1.6;
+  margin: 0;
+}
+
+/* 희망 메시지 */
+.hopeCard {
+  background: #fff;
+  border: 1.5px solid #e8e5e0;
+  border-radius: 16px;
+  padding: 20px;
+  margin-bottom: 24px;
+  text-align: center;
+}
+
+.hopeEmoji {
+  font-size: 28px;
+  margin-bottom: 8px;
+}
+
+.hopeText {
+  font-size: 14px;
+  color: #555;
+  line-height: 1.6;
+  margin: 0;
+}
+
+/* CTA 버튼 */
+.resultCta {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-bottom: 16px;
+}
+
+.ctaPrimaryBtn {
+  width: 100%;
+  padding: 16px;
+  border-radius: 12px;
+  border: none;
+  background: #8a2be2;
+  font-size: 16px;
+  font-weight: 700;
+  color: #fff;
+  cursor: pointer;
+  transition: opacity 0.2s;
+}
+
+.ctaPrimaryBtn:active {
+  opacity: 0.8;
+}
+
+.ctaSecondaryBtn {
+  width: 100%;
+  padding: 14px;
+  border-radius: 12px;
+  border: 1.5px solid #d0ccc5;
+  background: #fff;
+  font-size: 14px;
+  font-weight: 600;
+  color: #666;
+  cursor: pointer;
+}
+
+/* 면책 문구 */
+.disclaimer {
+  font-size: 11px;
+  color: #bbb;
+  text-align: center;
+  margin-top: 12px;
+  line-height: 1.5;
+}
+
+.tabPadding {
+  height: 80px;
+}

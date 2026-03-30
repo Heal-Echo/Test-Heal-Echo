@@ -1,0 +1,1026 @@
+/* src/app/mypage/settings/subscription/subscription.module.css */
+
+.container {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  max-width: 480px;
+  margin: 0 auto;
+  background-color: #f9fafb;
+  position: relative;
+}
+
+.main {
+  flex: 1;
+  padding: 0 0 0;
+  box-sizing: border-box;
+}
+
+/* ── 상단 바 ── */
+.topBar {
+  display: flex;
+  align-items: center;
+  padding: 12px 16px;
+  background: #ffffff;
+  border-bottom: 1px solid #f3f4f6;
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+
+.backBtn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border-radius: 10px;
+  border: none;
+  background: transparent;
+  color: #374151;
+  cursor: pointer;
+  transition: background 0.15s ease;
+  flex-shrink: 0;
+}
+
+.backBtn:hover {
+  background: #f3f4f6;
+}
+
+.backBtn:active {
+  transform: scale(0.94);
+}
+
+.pageTitle {
+  flex: 1;
+  text-align: center;
+  font-size: 17px;
+  font-weight: 700;
+  color: #1e1b4b;
+  margin: 0;
+}
+
+.topBarSpacer {
+  width: 36px;
+  flex-shrink: 0;
+}
+
+/* ══════════════════════════════════════════
+   섹션 1: 웰컴 메시지 + 주요 CTA
+   ══════════════════════════════════════════ */
+.welcomeSection {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 40px 24px 32px;
+  background: linear-gradient(180deg, #ffffff 0%, #f0f9ff 100%);
+  text-align: center;
+}
+
+.welcomeTitle {
+  font-size: 22px;
+  font-weight: 700;
+  color: #1e1b4b;
+  line-height: 1.5;
+  margin: 0 0 24px;
+  letter-spacing: -0.3px;
+}
+
+.welcomeAccent {
+  background: linear-gradient(135deg, #00d6f5, #8a2be2);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.trialBox {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 14px 32px;
+  border-radius: 12px;
+  border: none;
+  background: linear-gradient(135deg, #00d6f5, #8a2be2);
+  color: #ffffff;
+  font-size: 16px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  box-shadow: 0 4px 16px rgba(138, 43, 226, 0.3);
+  -webkit-tap-highlight-color: transparent;
+}
+
+.trialBox:hover {
+  box-shadow: 0 6px 24px rgba(138, 43, 226, 0.4);
+  transform: translateY(-1px);
+}
+
+.trialBox:active {
+  transform: scale(0.97);
+  box-shadow: 0 2px 8px rgba(138, 43, 226, 0.3);
+}
+
+.trialText {
+  line-height: 1;
+}
+
+.trialArrow {
+  flex-shrink: 0;
+  transition: transform 0.2s ease;
+}
+
+.trialBox:hover .trialArrow {
+  transform: translateX(2px);
+}
+
+.trialGuarantee {
+  margin: 12px 0 0;
+  font-size: 13px;
+  font-weight: 500;
+  color: #9ca3af;
+  letter-spacing: -0.1px;
+}
+
+/* ══════════════════════════════════════════
+   섹션 2: 혜택 카드
+   ══════════════════════════════════════════ */
+.benefitSection {
+  padding: 28px 16px 32px;
+  background: #ffffff;
+  margin: 0;
+}
+
+.benefitText {
+  font-size: 16px;
+  font-weight: 600;
+  color: #374151;
+  line-height: 1.6;
+  text-align: center;
+  margin: 0 0 24px;
+}
+
+.benefitName {
+  color: #00D6F5;
+  font-weight: 700;
+}
+
+.benefitImages {
+  display: flex;
+  gap: 10px;
+  padding: 0 4px;
+}
+
+.benefitImageWrap {
+  flex: 1;
+  aspect-ratio: 1 / 1;
+  border-radius: 14px;
+  overflow: hidden;
+  background: #f3f4f6;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+  position: relative;
+}
+
+.benefitImage {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.benefitImageLabel {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: 20px 4px 8px;
+  background: linear-gradient(0deg, rgba(0, 0, 0, 0.55) 0%, transparent 100%);
+  color: #ffffff;
+  font-size: 12px;
+  font-weight: 700;
+  text-align: center;
+  letter-spacing: -0.2px;
+  line-height: 1;
+}
+
+/* ══════════════════════════════════════════
+   섹션 3: 자기효능감 메시지 + CTA
+   ══════════════════════════════════════════ */
+.motivationSection {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 36px 24px 40px;
+  background: linear-gradient(180deg, #f9fafb 0%, #f0f9ff 100%);
+  text-align: center;
+}
+
+.motivationText {
+  font-size: 18px;
+  font-weight: 700;
+  color: #1e1b4b;
+  line-height: 1.6;
+  margin: 0 0 28px;
+  letter-spacing: -0.2px;
+}
+
+.motivationName {
+  color: #00D6F5;
+  font-weight: 700;
+}
+
+.ctaBtn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  max-width: 320px;
+  padding: 16px 24px;
+  border-radius: 12px;
+  border: none;
+  background: linear-gradient(135deg, #00d6f5, #8a2be2);
+  color: #ffffff;
+  font-size: 16px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  box-shadow: 0 4px 16px rgba(138, 43, 226, 0.3);
+  -webkit-tap-highlight-color: transparent;
+}
+
+.ctaBtn:hover {
+  box-shadow: 0 6px 24px rgba(138, 43, 226, 0.4);
+  transform: translateY(-1px);
+}
+
+.ctaBtn:active {
+  transform: scale(0.97);
+  box-shadow: 0 2px 8px rgba(138, 43, 226, 0.3);
+}
+
+/* ══════════════════════════════════════════
+   free_trial 전용: 섹션 1 — 구독 상태 카드
+   ══════════════════════════════════════════ */
+.ftStatusSection {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 32px 24px 28px;
+  background: linear-gradient(180deg, #ffffff 0%, #f0f9ff 100%);
+}
+
+.ftStatusBadge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 14px;
+  border-radius: 20px;
+  background: #ecfdf5;
+  color: #059669;
+  font-size: 13px;
+  font-weight: 600;
+  margin-bottom: 12px;
+}
+
+.ftStatusDot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #10b981;
+  animation: ftPulse 2s ease-in-out infinite;
+}
+
+@keyframes ftPulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.4; }
+}
+
+.ftProgramName {
+  font-size: 20px;
+  font-weight: 700;
+  color: #1e1b4b;
+  margin: 0 0 20px;
+  letter-spacing: -0.3px;
+}
+
+/* 개인 웰니스 대시보드 카드 */
+.ftDashboard {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  margin-bottom: 20px;
+}
+
+.ftDashboardCards {
+  display: flex;
+  gap: 10px;
+}
+
+.ftDashboardCard {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 16px 8px 14px;
+  border-radius: 14px;
+  background: #f9fafb;
+  border: 1px solid #f3f4f6;
+  gap: 4px;
+}
+
+.ftDashboardIcon {
+  font-size: 22px;
+  line-height: 1;
+  margin-bottom: 2px;
+}
+
+.ftDashboardLabel {
+  font-size: 12px;
+  font-weight: 600;
+  color: #6b7280;
+  letter-spacing: -0.2px;
+}
+
+.ftDashboardScore {
+  font-size: 22px;
+  font-weight: 700;
+  line-height: 1.2;
+}
+
+.ftDashboardScoreUnit {
+  font-size: 0.55em;
+  opacity: 0.7;
+}
+
+.ftDashboardGrade {
+  font-size: 11px;
+  font-weight: 500;
+  color: #9ca3af;
+}
+
+.ftDashboardEmpty {
+  font-size: 14px;
+  font-weight: 500;
+  color: #d1d5db;
+  margin-top: 4px;
+}
+
+.ftDashboardCheckBtn {
+  display: inline-block;
+  margin-top: 8px;
+  padding: 0;
+  border: none;
+  background: transparent;
+  color: #8a2be2;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  transition: color 0.15s ease;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.ftDashboardCheckBtn:hover {
+  color: #7c3aed;
+}
+
+/* 웰니스 실천일 — 미니멀 상장 카드 */
+.ftAwardCard {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0;
+  padding: 32px 24px 24px;
+  border-radius: 16px;
+  background: #ffffff;
+  border: 1px solid #f0f0f5;
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
+}
+
+/* 상단 그라디언트 라인 */
+.ftAwardCard::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: linear-gradient(90deg, #00d6f5, #8a2be2);
+}
+
+/* 상장 상단 레이블 */
+.ftAwardLabel {
+  font-size: 9px;
+  font-weight: 600;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: #c4b5fd;
+  margin-bottom: 16px;
+}
+
+/* 배지: 물결 원 + 숫자 */
+.ftAwardBadge {
+  position: relative;
+  width: 110px;
+  height: 110px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 0;
+}
+
+.ftAwardBadgeSvg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.ftAwardBadgeText {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin-top: -6px;
+}
+
+.ftAwardNum {
+  font-size: 34px;
+  font-weight: 800;
+  color: #ffffff;
+  line-height: 1;
+  letter-spacing: -1px;
+}
+
+/* 리본 배너 */
+.ftAwardRibbon {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 6px 28px;
+  background: linear-gradient(135deg, #00d6f5 0%, #8a2be2 100%);
+  border-radius: 2px;
+  margin-top: -22px;
+  margin-bottom: 16px;
+  z-index: 1;
+}
+
+/* 리본 좌우 꼬리 */
+.ftAwardRibbon::before,
+.ftAwardRibbon::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  width: 10px;
+  height: 100%;
+  background: inherit;
+}
+
+.ftAwardRibbon::before {
+  left: -8px;
+  clip-path: polygon(100% 0, 100% 100%, 0 50%);
+}
+
+.ftAwardRibbon::after {
+  right: -8px;
+  clip-path: polygon(0 0, 0 100%, 100% 50%);
+}
+
+.ftAwardRibbonText {
+  font-size: 13px;
+  font-weight: 700;
+  color: #ffffff;
+  letter-spacing: 1px;
+}
+
+/* 프로그램 참여 태그 */
+.ftAwardTags {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  margin-bottom: 12px;
+}
+
+.ftAwardTag {
+  display: inline-block;
+  padding: 4px 10px;
+  border-radius: 20px;
+  background: #f5f3ff;
+  border: 1px solid #ede9fe;
+  font-size: 11px;
+  font-weight: 500;
+  color: #7c3aed;
+  letter-spacing: -0.2px;
+}
+
+/* 하단 격려 문구 */
+.ftAwardFooter {
+  font-size: 12px;
+  font-weight: 500;
+  color: #a78bfa;
+  letter-spacing: -0.2px;
+  min-height: 18px;
+}
+
+/* 결제 예정 안내 박스 */
+.ftBillingInfo {
+  width: 100%;
+  border: 1px solid #e5e7eb;
+  border-radius: 12px;
+  background: #f9fafb;
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.ftBillingRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.ftBillingKey {
+  font-size: 13px;
+  font-weight: 500;
+  color: #9ca3af;
+}
+
+.ftBillingValue {
+  font-size: 13px;
+  font-weight: 600;
+  color: #374151;
+}
+
+.ftBillingChangeBtn {
+  padding: 2px 8px;
+  border: 1px solid #d1d5db;
+  border-radius: 6px;
+  background: #ffffff;
+  color: #6b7280;
+  font-size: 11px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  -webkit-tap-highlight-color: transparent;
+  flex-shrink: 0;
+  margin-left: 2px;
+}
+
+.ftBillingChangeBtn:hover {
+  background: #f9fafb;
+  border-color: #9ca3af;
+  color: #374151;
+}
+
+.ftBillingChangeBtn:active {
+  transform: scale(0.95);
+}
+
+.ftBillingNote {
+  margin: 12px 0 0;
+  font-size: 12px;
+  font-weight: 500;
+  color: #9ca3af;
+  text-align: center;
+}
+
+/* ══════════════════════════════════════════
+   free_trial 전용: 섹션 2 — 나의 활동 요약
+   ══════════════════════════════════════════ */
+.ftActivitySection {
+  padding: 28px 20px 24px;
+  background: #ffffff;
+}
+
+.ftActivityTitle {
+  font-size: 16px;
+  font-weight: 600;
+  color: #374151;
+  text-align: center;
+  margin: 0 0 20px;
+  line-height: 1.5;
+}
+
+.ftActivityName {
+  color: #00D6F5;
+  font-weight: 700;
+}
+
+.ftActivityCards {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.ftActivityCard {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 16px 8px 14px;
+  border-radius: 14px;
+  background: #f9fafb;
+  border: 1px solid #f3f4f6;
+}
+
+.ftActivityNum {
+  font-size: 28px;
+  font-weight: 700;
+  color: #1e1b4b;
+  line-height: 1;
+}
+
+.ftActivityUnit {
+  font-size: 13px;
+  font-weight: 500;
+  color: #9ca3af;
+  margin-top: 2px;
+}
+
+.ftActivityLabel {
+  font-size: 12px;
+  font-weight: 600;
+  color: #6b7280;
+  margin-top: 6px;
+}
+
+/* 빈 상태: participationDays === 0 */
+.ftEmptyState {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 24px 16px;
+  margin-bottom: 20px;
+  border-radius: 14px;
+  background: #f9fafb;
+  border: 1px dashed #e5e7eb;
+}
+
+.ftEmptyMessage {
+  font-size: 15px;
+  font-weight: 500;
+  color: #6b7280;
+  line-height: 1.7;
+  text-align: center;
+  margin: 0;
+  letter-spacing: -0.2px;
+}
+
+/* 1~3일차 동기부여 메시지 블록 (패턴 ②~⑧) */
+.ftMotivBlock {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 16px 16px;
+  margin-bottom: 20px;
+}
+
+.ftMotivText {
+  font-size: 14px;
+  font-weight: 500;
+  color: #6b7280;
+  line-height: 1.8;
+  text-align: center;
+  margin: 0;
+  letter-spacing: -0.2px;
+}
+
+/* 주 CTA: 솔루션 바로가기 */
+.ftSolutionBtn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  width: 100%;
+  padding: 14px 24px;
+  border-radius: 12px;
+  border: none;
+  background: linear-gradient(135deg, #00d6f5, #8a2be2);
+  color: #ffffff;
+  font-size: 15px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  box-shadow: 0 4px 16px rgba(138, 43, 226, 0.3);
+  -webkit-tap-highlight-color: transparent;
+}
+
+.ftSolutionBtn:hover {
+  box-shadow: 0 6px 24px rgba(138, 43, 226, 0.4);
+  transform: translateY(-1px);
+}
+
+.ftSolutionBtn:active {
+  transform: scale(0.97);
+  box-shadow: 0 2px 8px rgba(138, 43, 226, 0.3);
+}
+
+.ftSolutionBtnText {
+  line-height: 1;
+}
+
+.ftSolutionBtnArrow {
+  flex-shrink: 0;
+  transition: transform 0.2s ease;
+}
+
+.ftSolutionBtn:hover .ftSolutionBtnArrow {
+  transform: translateX(2px);
+}
+
+/* ══════════════════════════════════════════
+   free_trial 전용: 섹션 3 — 곧 열리는 다음 여정
+   ══════════════════════════════════════════ */
+.ftNextSection {
+  padding: 28px 20px 24px;
+  background: #f9fafb;
+}
+
+.ftNextTitle {
+  font-size: 16px;
+  font-weight: 700;
+  color: #1e1b4b;
+  text-align: center;
+  margin: 0 0 20px;
+  letter-spacing: -0.2px;
+}
+
+.ftNextCards {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.ftNextCard {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 12px;
+  border-radius: 14px;
+  background: #ffffff;
+  border: 1px solid #f3f4f6;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.04);
+}
+
+.ftNextCardThumb {
+  width: 72px;
+  height: 72px;
+  border-radius: 10px;
+  overflow: hidden;
+  position: relative;
+  flex-shrink: 0;
+  background: #e5e7eb;
+}
+
+.ftNextCardImage {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  filter: blur(3px);
+  opacity: 0.6;
+}
+
+.ftNextCardPlaceholder {
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(135deg, #e5e7eb 0%, #d1d5db 100%);
+}
+
+.ftNextCardPlaceholderIcon {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, #eef2ff 0%, #e0e7ff 100%);
+  filter: blur(1px);
+  opacity: 0.7;
+}
+
+.ftNextCardLock {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0, 0, 0, 0.25);
+  border-radius: 10px;
+}
+
+.ftNextCardInfo {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.ftNextCardBadge {
+  display: inline-block;
+  width: fit-content;
+  padding: 2px 8px;
+  border-radius: 6px;
+  background: #f3f4f6;
+  color: #6b7280;
+  font-size: 11px;
+  font-weight: 600;
+}
+
+.ftNextCardTitle {
+  font-size: 14px;
+  font-weight: 600;
+  color: #374151;
+  line-height: 1.4;
+}
+
+.ftNextNote {
+  margin: 16px 0 0;
+  font-size: 12px;
+  font-weight: 500;
+  color: #9ca3af;
+  text-align: center;
+}
+
+/* paid 전용: 현재 주차 카드 (잠금 해제) */
+.ftNextCardImageUnlocked {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.ftNextCardBadgeActive {
+  display: inline-block;
+  width: fit-content;
+  padding: 2px 8px;
+  border-radius: 6px;
+  background: #ecfdf5;
+  color: #059669;
+  font-size: 11px;
+  font-weight: 600;
+}
+
+.ftNextCardProgress {
+  font-size: 11px;
+  font-weight: 500;
+  color: #10b981;
+}
+
+/* ══════════════════════════════════════════
+   free_trial 전용: 섹션 4 — 체험 해지
+   ══════════════════════════════════════════ */
+.ftCancelSection {
+  padding: 24px 24px 32px;
+  background: #f9fafb;
+  text-align: center;
+}
+
+.ftCancelDesc {
+  font-size: 13px;
+  font-weight: 400;
+  color: #9ca3af;
+  line-height: 1.7;
+  margin: 0 0 12px;
+}
+
+.ftCancelBtn {
+  display: inline-block;
+  padding: 0;
+  border: none;
+  background: transparent;
+  color: #9ca3af;
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  transition: color 0.15s ease;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.ftCancelBtn:hover {
+  color: #6b7280;
+}
+
+/* ── 하단 탭 패딩 ── */
+.tabPadding {
+  height: calc(70px + env(safe-area-inset-bottom, 0px));
+  flex-shrink: 0;
+}
+
+/* ══════════════════════════════════════════
+   반응형
+   ══════════════════════════════════════════ */
+@media (max-width: 375px) {
+  /* browser / browser_selected */
+  .welcomeTitle {
+    font-size: 20px;
+  }
+
+  .trialBox {
+    padding: 12px 28px;
+    font-size: 15px;
+  }
+
+  .benefitText {
+    font-size: 15px;
+  }
+
+  .benefitImages {
+    gap: 8px;
+  }
+
+  .benefitImageWrap {
+    border-radius: 12px;
+  }
+
+  .benefitImageLabel {
+    font-size: 11px;
+    padding: 16px 2px 6px;
+  }
+
+  .motivationText {
+    font-size: 17px;
+  }
+
+  .ctaBtn {
+    font-size: 15px;
+    padding: 14px 20px;
+  }
+
+  /* free_trial */
+  .ftProgramName {
+    font-size: 18px;
+  }
+
+  .ftDashboardCards {
+    gap: 8px;
+  }
+
+  .ftDashboardCard {
+    padding: 14px 6px 12px;
+  }
+
+  .ftDashboardScore {
+    font-size: 20px;
+  }
+
+  .ftAwardCard {
+    padding: 28px 16px 20px;
+  }
+
+  .ftAwardBadge {
+    width: 96px;
+    height: 96px;
+  }
+
+  .ftAwardNum {
+    font-size: 30px;
+  }
+
+  .ftAwardRibbonText {
+    font-size: 12px;
+  }
+
+  .ftEmptyMessage {
+    font-size: 14px;
+  }
+
+  .ftMotivText {
+    font-size: 13px;
+  }
+
+  .ftActivityNum {
+    font-size: 24px;
+  }
+
+  .ftActivityCards {
+    gap: 8px;
+  }
+
+  .ftActivityCard {
+    padding: 14px 6px 12px;
+  }
+
+  .ftSolutionBtn {
+    font-size: 14px;
+    padding: 12px 20px;
+  }
+
+  .ftNextCardThumb {
+    width: 64px;
+    height: 64px;
+  }
+
+  .ftNextCardTitle {
+    font-size: 13px;
+  }
+}

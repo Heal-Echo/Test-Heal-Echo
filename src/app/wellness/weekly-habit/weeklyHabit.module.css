@@ -1,0 +1,482 @@
+/* src/app/wellness/weekly-habit/weeklyHabit.module.css */
+
+.container {
+  width: 100%;
+  min-height: 100vh;
+  background: #fafafa;
+  max-width: 720px;
+  margin: 0 auto;
+  padding-left: 16px;
+  padding-right: 16px;
+  padding-bottom: 90px;
+}
+
+.main {
+  padding: 16px 0;
+}
+
+.title {
+  font-size: 22px;
+  font-weight: 700;
+  margin-bottom: 8px;
+  color: #111827;
+}
+
+.subtitle {
+  font-size: 14px;
+  color: #6b7280;
+  margin-bottom: 24px;
+  line-height: 1.5;
+}
+
+.descriptionSection {
+  margin-bottom: 20px;
+  padding: 16px 18px;
+  border-radius: 14px;
+  background: linear-gradient(135deg, #ede9fe, #e0e7ff);
+  border: 1px solid #c7d2fe;
+}
+
+.descriptionText {
+  font-size: 14px;
+  font-weight: 500;
+  color: #4338ca;
+  line-height: 1.6;
+  white-space: pre-wrap;
+}
+
+.weekBadge {
+  display: inline-block;
+  font-size: 12px;
+  font-weight: 600;
+  color: #6366f1;
+  background: #eef2ff;
+  padding: 4px 12px;
+  border-radius: 999px;
+  margin-bottom: 12px;
+}
+
+.loadingContainer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 80px 0;
+}
+
+.loadingText {
+  font-size: 14px;
+  color: #9ca3af;
+}
+
+.emptyContainer {
+  text-align: center;
+  padding: 60px 0;
+}
+
+.emptyText {
+  font-size: 15px;
+  color: #9ca3af;
+  line-height: 1.6;
+}
+
+/* ── 솔루션 선택 팝업 ── */
+.overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  animation: fadeIn 0.25s ease;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.modal {
+  width: 100%;
+  max-width: 380px;
+  background: #ffffff;
+  border-radius: 24px;
+  padding: 32px 24px 28px;
+  text-align: center;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.2);
+  animation: slideUp 0.3s ease;
+}
+
+@keyframes slideUp {
+  from { opacity: 0; transform: translateY(24px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.modalTitle {
+  font-size: 18px;
+  font-weight: 700;
+  color: #111827;
+  margin-bottom: 8px;
+  line-height: 1.4;
+}
+
+.modalSub {
+  font-size: 13px;
+  color: #6b7280;
+  margin-bottom: 28px;
+  line-height: 1.5;
+}
+
+.programCards {
+  display: flex;
+  gap: 12px;
+}
+
+.programCard {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px 12px 18px;
+  border-radius: 16px;
+  border: 2px solid #e5e7eb;
+  background: #fafafa;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.programCard:hover {
+  border-color: #6366f1;
+  background: #eef2ff;
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(99, 102, 241, 0.15);
+}
+
+.programCard:active {
+  transform: translateY(0);
+}
+
+.programImageWrap {
+  width: 80px;
+  height: 80px;
+  border-radius: 16px;
+  overflow: hidden;
+  margin-bottom: 14px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+}
+
+.programImage {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.programName {
+  font-size: 14px;
+  font-weight: 700;
+  color: #111827;
+  margin-bottom: 6px;
+}
+
+.programDesc {
+  font-size: 11px;
+  color: #6b7280;
+  line-height: 1.4;
+}
+
+/* ── 팝업 B: 계속 확인 ── */
+.confirmImageWrap {
+  width: 72px;
+  height: 72px;
+  border-radius: 18px;
+  overflow: hidden;
+  margin: 0 auto 20px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+}
+
+.confirmImage {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.confirmButtons {
+  display: flex;
+  gap: 12px;
+  margin-top: 24px;
+}
+
+.confirmBtnYes {
+  flex: 1;
+  padding: 14px 0;
+  border-radius: 14px;
+  border: none;
+  background: linear-gradient(135deg, #6366f1, #818cf8);
+  color: #ffffff;
+  font-size: 15px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  box-shadow: 0 4px 16px rgba(99, 102, 241, 0.3);
+}
+
+.confirmBtnYes:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 6px 20px rgba(99, 102, 241, 0.4);
+}
+
+.confirmBtnYes:active {
+  transform: translateY(0);
+}
+
+.confirmBtnNo {
+  flex: 1;
+  padding: 14px 0;
+  border-radius: 14px;
+  border: 2px solid #e5e7eb;
+  background: #ffffff;
+  color: #6b7280;
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.confirmBtnNo:hover {
+  border-color: #d1d5db;
+  background: #f9fafb;
+}
+
+.confirmBtnNo:active {
+  background: #f3f4f6;
+}
+
+/* ── 팝업 C: 1회 변경 ── */
+.programCardCurrent {
+  border-color: #c7d2fe;
+  background: #eef2ff;
+  opacity: 0.6;
+  cursor: default;
+}
+
+.programCardCurrent:hover {
+  border-color: #c7d2fe;
+  background: #eef2ff;
+  transform: none;
+  box-shadow: none;
+}
+
+.currentLabel {
+  font-size: 11px;
+  font-weight: 600;
+  color: #6366f1;
+  background: #e0e7ff;
+  padding: 2px 10px;
+  border-radius: 999px;
+}
+
+.changeCancelBtn {
+  width: 100%;
+  padding: 12px 0;
+  border-radius: 14px;
+  border: 2px solid #e5e7eb;
+  background: #ffffff;
+  color: #6b7280;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  margin-top: 16px;
+  transition: all 0.15s ease;
+}
+
+.changeCancelBtn:hover {
+  border-color: #d1d5db;
+  background: #f9fafb;
+}
+
+/* ── 솔루션 뱃지 (콘텐츠 영역 상단) ── */
+.programBadge {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 13px;
+  font-weight: 600;
+  color: #6366f1;
+  background: #eef2ff;
+  border: 1px solid #c7d2fe;
+  padding: 6px 14px;
+  border-radius: 999px;
+  margin-bottom: 16px;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.programBadge:hover {
+  background: #e0e7ff;
+  border-color: #a5b4fc;
+}
+
+.programBadgeArrow {
+  font-size: 14px;
+  color: #a5b4fc;
+}
+
+.programBadgeDisabled {
+  cursor: default;
+  opacity: 0.8;
+}
+
+.programBadgeDisabled:hover {
+  background: #eef2ff;
+  border-color: #c7d2fe;
+}
+
+/* 하단 여백: BottomTab(70px) + 영상 핸들바(~60px) + safe-area */
+.tabPadding {
+  height: 140px;
+}
+
+/* 모바일 반응형 */
+@media (max-width: 480px) {
+  .container {
+    padding-left: 12px;
+    padding-right: 12px;
+  }
+
+  .title {
+    font-size: 20px;
+  }
+
+  .descriptionSection {
+    padding: 14px 16px;
+  }
+
+  .descriptionText {
+    font-size: 13px;
+  }
+}
+
+@media (max-width: 375px) {
+  .title {
+    font-size: 18px;
+  }
+
+  .descriptionText {
+    font-size: 12px;
+  }
+}
+
+@media (max-width: 320px) {
+  .container {
+    padding-left: 8px;
+    padding-right: 8px;
+  }
+
+  .title {
+    font-size: 17px;
+  }
+
+  .weekBadge {
+    font-size: 11px;
+    padding: 3px 10px;
+  }
+
+  .modal {
+    padding: 24px 16px 20px;
+  }
+
+  .modalTitle {
+    font-size: 16px;
+  }
+
+  .programCards {
+    gap: 8px;
+  }
+
+  .programCard {
+    padding: 16px 8px 14px;
+  }
+
+  .programImageWrap {
+    width: 64px;
+    height: 64px;
+  }
+
+  .programName {
+    font-size: 12px;
+  }
+
+  .programDesc {
+    font-size: 10px;
+  }
+}
+
+/* ── PSQI 스킵 상태 카드 ── */
+.psqiSkippedCard {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 32px 20px 28px;
+  margin-top: 16px;
+  border-radius: 16px;
+  background: linear-gradient(135deg, #eef2ff 0%, #f5f3ff 100%);
+  border: 1px solid #e0e7ff;
+}
+
+.psqiSkippedIcon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  background: #ffffff;
+  box-shadow: 0 2px 8px rgba(99, 102, 241, 0.1);
+  margin-bottom: 16px;
+}
+
+.psqiSkippedText {
+  font-size: 15px;
+  font-weight: 500;
+  color: #4b5563;
+  line-height: 1.7;
+  text-align: center;
+  margin: 0 0 20px 0;
+  letter-spacing: -0.2px;
+}
+
+.psqiSkippedBtn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 12px 24px;
+  border-radius: 12px;
+  border: none;
+  background: #6366f1;
+  color: #ffffff;
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.15s ease, transform 0.1s ease;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.psqiSkippedBtn:hover {
+  background: #4f46e5;
+}
+
+.psqiSkippedBtn:active {
+  transform: scale(0.97);
+}
+
+@media (max-width: 375px) {
+  .psqiSkippedText {
+    font-size: 14px;
+  }
+
+  .psqiSkippedBtn {
+    font-size: 14px;
+    padding: 11px 20px;
+  }
+}

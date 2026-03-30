@@ -1,0 +1,238 @@
+/* src/app/mypage/settings/settings.module.css */
+
+.container {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  max-width: 480px;
+  margin: 0 auto;
+  background-color: #f9fafb;
+  position: relative;
+}
+
+.main {
+  flex: 1;
+  padding: 0 0 0;
+  box-sizing: border-box;
+}
+
+/* ── 상단 바 ── */
+.topBar {
+  display: flex;
+  align-items: center;
+  padding: 12px 16px;
+  background: #ffffff;
+  border-bottom: 1px solid #f3f4f6;
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+
+.backBtn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border-radius: 10px;
+  border: none;
+  background: transparent;
+  color: #374151;
+  cursor: pointer;
+  transition: background 0.15s ease;
+  flex-shrink: 0;
+}
+
+.backBtn:hover {
+  background: #f3f4f6;
+}
+
+.backBtn:active {
+  transform: scale(0.94);
+}
+
+.pageTitle {
+  flex: 1;
+  text-align: center;
+  font-size: 17px;
+  font-weight: 700;
+  color: #1e1b4b;
+  margin: 0;
+}
+
+.topBarSpacer {
+  width: 36px;
+  flex-shrink: 0;
+}
+
+/* ── 메뉴 리스트 ── */
+.menuList {
+  display: flex;
+  flex-direction: column;
+  margin: 16px 16px 0;
+  background: #ffffff;
+  border-radius: 16px;
+  box-shadow: 0 1px 6px rgba(0, 0, 0, 0.04);
+  border: 1px solid #f3f4f6;
+  overflow: hidden;
+}
+
+.menuItem {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 16px 18px;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  text-align: left;
+  transition: background 0.15s ease;
+  border-bottom: 1px solid #f3f4f6;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.menuItem:last-child {
+  border-bottom: none;
+}
+
+.menuItem:hover {
+  background: #f9fafb;
+}
+
+.menuItem:active {
+  background: #f3f4f6;
+}
+
+.menuIcon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 12px;
+  background: #f5f3ff;
+  color: #6366f1;
+  flex-shrink: 0;
+}
+
+.menuText {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  flex: 1;
+  min-width: 0;
+}
+
+.menuLabel {
+  font-size: 15px;
+  font-weight: 600;
+  color: #1f2937;
+  line-height: 1.3;
+}
+
+.menuDesc {
+  font-size: 12px;
+  font-weight: 400;
+  color: #9ca3af;
+  line-height: 1.3;
+}
+
+.menuArrow {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #d1d5db;
+  flex-shrink: 0;
+  transition: color 0.15s ease;
+}
+
+.menuItem:hover .menuArrow {
+  color: #9ca3af;
+}
+
+/* ── 로그아웃 버튼 ── */
+.logoutBtn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  width: calc(100% - 32px);
+  margin: 20px 16px 0;
+  padding: 15px 0;
+  border-radius: 14px;
+  border: none;
+  background: #ffffff;
+  color: #ef4444;
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  box-shadow: 0 1px 6px rgba(0, 0, 0, 0.04);
+  border: 1px solid #fecaca;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.logoutBtn:hover {
+  background: #fef2f2;
+  border-color: #fca5a5;
+}
+
+.logoutBtn:active {
+  transform: scale(0.98);
+  background: #fee2e2;
+}
+
+/* ── 푸터 ── */
+.footer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  padding: 32px 16px 24px;
+}
+
+.footerVersion {
+  font-size: 12px;
+  font-weight: 500;
+  color: #d1d5db;
+  letter-spacing: 0.5px;
+}
+
+.footerEmail {
+  font-size: 12px;
+  font-weight: 500;
+  color: #9ca3af;
+}
+
+/* ── 하단 탭 패딩 ── */
+.tabPadding {
+  height: calc(70px + env(safe-area-inset-bottom, 0px));
+  flex-shrink: 0;
+}
+
+/* ── 반응형 ── */
+@media (max-width: 375px) {
+  .menuItem {
+    padding: 14px 16px;
+    gap: 12px;
+  }
+
+  .menuIcon {
+    width: 36px;
+    height: 36px;
+    border-radius: 10px;
+  }
+
+  .menuLabel {
+    font-size: 14px;
+  }
+
+  .menuDesc {
+    font-size: 11px;
+  }
+
+  .logoutBtn {
+    font-size: 14px;
+    padding: 14px 0;
+  }
+}

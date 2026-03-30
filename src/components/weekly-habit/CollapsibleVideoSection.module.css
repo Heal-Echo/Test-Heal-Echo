@@ -1,0 +1,282 @@
+/* src/components/weekly-habit/CollapsibleVideoSection.module.css */
+
+/* ── 오버레이 (펼침 시 배경 어둡게) ── */
+.backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 9000;
+  background: rgba(0, 0, 0, 0.5);
+  animation: fadeIn 0.25s ease;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+/* ── 하단 시트 공통 ── */
+.sheet {
+  position: fixed;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 100%;
+  max-width: 720px;
+  z-index: 9500;
+  display: flex;
+  flex-direction: column;
+  transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* ── 접힌 상태: BottomTab(70px) 바로 위에 핸들만 ── */
+.sheetCollapsed {
+  bottom: calc(70px + env(safe-area-inset-bottom, 0px));
+  max-height: 64px;
+}
+
+/* ── 펼친 상태: Header(~81px) 아래부터 BottomTab(70px) 위까지 전체 ── */
+.sheetExpanded {
+  top: 81px;
+  bottom: calc(70px + env(safe-area-inset-bottom, 0px));
+  max-height: none;
+}
+
+/* ── 핸들 바 (항상 보이는 터치 영역) ── */
+.handle {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  padding: 10px 16px 12px;
+  border: none;
+  background: linear-gradient(180deg, #4f46e5, #6366f1);
+  border-radius: 20px 20px 0 0;
+  cursor: pointer;
+  user-select: none;
+  -webkit-tap-highlight-color: transparent;
+  box-shadow: 0 -4px 20px rgba(79, 70, 229, 0.25);
+  flex-shrink: 0;
+}
+
+/* 핸들 상단의 작은 바 (스와이프 힌트) */
+.handleBar {
+  display: block;
+  width: 40px;
+  height: 4px;
+  border-radius: 2px;
+  background: rgba(255, 255, 255, 0.4);
+  margin-bottom: 8px;
+}
+
+.handleContent {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+}
+
+.handleIcon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 34px;
+  height: 34px;
+  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.2);
+  color: #ffffff;
+  font-size: 13px;
+  flex-shrink: 0;
+}
+
+.handleText {
+  flex: 1;
+  font-size: 14px;
+  font-weight: 700;
+  color: #ffffff;
+  text-align: left;
+  line-height: 1.3;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.handleArrow {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.15);
+  color: #ffffff;
+  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  flex-shrink: 0;
+}
+
+/* 펼침 시 화살표 180도 회전 (위 방향) */
+.handleArrowOpen {
+  transform: rotate(180deg);
+}
+
+/* ── 바디 (영상 + 설명) ── */
+.body {
+  flex: 1;
+  overflow-y: auto;
+  background: #1e1b4b;
+  -webkit-overflow-scrolling: touch;
+  animation: slideUp 0.3s ease;
+}
+
+@keyframes slideUp {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.videoWrap {
+  padding: 0;
+  flex-shrink: 0;
+}
+
+.video {
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  background: #000;
+  display: block;
+}
+
+/* ── 설명 영역 (영상 아래) ── */
+.descriptionArea {
+  padding: 20px 18px;
+  background: linear-gradient(180deg, #1e1b4b, #312e81);
+}
+
+.descriptionText {
+  font-size: 14px;
+  font-weight: 500;
+  color: #e0e7ff;
+  line-height: 1.7;
+  white-space: pre-wrap;
+}
+
+/* ── 모바일 반응형 ── */
+@media (max-width: 480px) {
+  .handle {
+    padding: 8px 14px 10px;
+    border-radius: 16px 16px 0 0;
+  }
+
+  .handleBar {
+    width: 36px;
+    margin-bottom: 6px;
+  }
+
+  .handleIcon {
+    width: 30px;
+    height: 30px;
+    font-size: 11px;
+  }
+
+  .handleText {
+    font-size: 13px;
+  }
+
+  .handleArrow {
+    width: 26px;
+    height: 26px;
+  }
+
+  .handleArrow svg {
+    width: 16px;
+    height: 16px;
+  }
+
+  .descriptionArea {
+    padding: 16px 14px;
+  }
+
+  .descriptionText {
+    font-size: 13px;
+  }
+}
+
+@media (max-width: 320px) {
+  .handle {
+    padding: 6px 12px 8px;
+  }
+
+  .handleContent {
+    gap: 8px;
+  }
+
+  .handleIcon {
+    width: 28px;
+    height: 28px;
+    font-size: 10px;
+  }
+
+  .handleText {
+    font-size: 12px;
+  }
+
+  .descriptionArea {
+    padding: 14px 12px;
+  }
+
+  .descriptionText {
+    font-size: 12px;
+  }
+}
+
+/* ── 토스트 메시지 ── */
+.toast {
+  position: fixed;
+  left: 50%;
+  bottom: calc(70px + 80px + env(safe-area-inset-bottom, 0px));
+  transform: translateX(-50%);
+  z-index: 10000;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 14px 22px;
+  border-radius: 14px;
+  background: rgba(30, 27, 75, 0.92);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.25);
+  max-width: 360px;
+  width: max-content;
+  transition: opacity 0.35s ease, transform 0.35s ease;
+}
+
+.toastVisible {
+  opacity: 1;
+  transform: translateX(-50%) translateY(0);
+}
+
+.toastHidden {
+  opacity: 0;
+  transform: translateX(-50%) translateY(10px);
+  pointer-events: none;
+}
+
+.toastIcon {
+  font-size: 16px;
+  flex-shrink: 0;
+}
+
+.toastText {
+  font-size: 13px;
+  font-weight: 600;
+  color: #ffffff;
+  line-height: 1.4;
+}
+
+@media (max-width: 480px) {
+  .toast {
+    max-width: calc(100vw - 40px);
+    padding: 12px 18px;
+  }
+
+  .toastText {
+    font-size: 12px;
+  }
+}

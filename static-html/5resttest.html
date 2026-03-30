@@ -1,0 +1,217 @@
+<!-- 2resttest.html -->
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>헤더 적용 테스트</title>
+  <!-- CSS 파일 경로가 같은 폴더에 있다고 가정 -->
+  <link rel="stylesheet" href="./src/5resttest.css" />
+</head>
+<body>
+  <!-- ─── 헤더 & 네비게이션 ─── -->
+  <header class="header">
+    <div class="container header-inner">
+        <a href="#" class="logo-link">
+            <img
+              src="./assets/images/Logo_HealEcho.png"
+              alt="Heal Echo Logo"
+              class="logo-image"
+              style="
+                width: 40px;
+                height: 40px;
+                object-fit: cover;
+                border-radius: 50%;
+                display: block;
+              "
+            />
+            <span class="logo-text">Heal Echo</span>
+          </a>
+          
+      <nav class="nav-menu">
+        <a href="#" class="login-link">로그인</a>
+      </nav>
+    </div>
+  </header>
+
+  <div class="big-title-frame">
+    <h1 class="big-title">기적의 오토 밸런스 테스트</h1>
+    <div class="page-number">5/5</div><!-- 여기에 페이지 본문을 추가하세요 -->
+
+    <!-- ——— 전체 질문 예시 시작 ——— -->
+<section class="survey">
+    <!-- ─── 질문 & 평가 항목 ─── -->
+    <div class="question-block">
+        <p class="question-text">
+          16) 8시간 이상 충분히 자도 계속 피곤하다.
+        </p>
+        <div class="ratings">
+          <label class="rating-option">
+            <input type="radio" name="q16" value="1" />
+            <img src="./assets/images/1.svg" alt="전혀 없음" class="rating-image" />
+            <span class="rating-text">전혀 없음</span>
+          </label>
+          <label class="rating-option">
+            <input type="radio" name="q16" value="2" />
+            <img src="./assets/images/2.svg" alt="약간의 불편함" class="rating-image" />
+            <span class="rating-text">약간의 불편함</span>
+          </label>
+          <label class="rating-option">
+            <input type="radio" name="q16" value="3" />
+            <img src="./assets/images/3.svg" alt="주의가 필요한 정보" class="rating-image" />
+            <span class="rating-text">주의가 필요한 정도</span>
+          </label>
+          <label class="rating-option">
+            <input type="radio" name="q16" value="4" />
+            <img src="./assets/images/4.svg" alt="견디기 힘듦" class="rating-image" />
+            <span class="rating-text">견디기 힘듦</span>
+          </label>
+          <label class="rating-option">
+            <input type="radio" name="q16" value="5" />
+            <img src="./assets/images/5.svg" alt="매우 심함" class="rating-image" />
+            <span class="rating-text">매우 심함</span>
+          </label>
+        </div>
+      </div>
+       <!-- 질문 2 -->
+  <div class="question-block">
+    <p class="question-text">
+      17) 긴박하게 소변을 보고 싶은 느낌이 자주 있다.
+    </p>
+    <div class="ratings">
+      <label class="rating-option">
+        <input type="radio" name="q17" value="1" />
+        <img src="./assets/images/1.svg" alt="전혀 없음" class="rating-image" />
+        <span class="rating-text">전혀 없음</span>
+      </label>
+      <label class="rating-option">
+        <input type="radio" name="q17" value="2" />
+        <img src="./assets/images/2.svg" alt="약간의 불편함" class="rating-image" />
+        <span class="rating-text">약간의 불편함</span>
+      </label>
+      <label class="rating-option">
+        <input type="radio" name="q17" value="3" />
+        <img src="./assets/images/3.svg" alt="주의가 필요한 정보" class="rating-image" />
+        <span class="rating-text">주의가 필요한 정도</span>
+      </label>
+      <label class="rating-option">
+        <input type="radio" name="q17" value="4" />
+        <img src="./assets/images/4.svg" alt="견디기 힘듦" class="rating-image" />
+        <span class="rating-text">견디기 힘듦</span>
+      </label>
+      <label class="rating-option">
+        <input type="radio" name="q17" value="5" />
+        <img src="./assets/images/5.svg" alt="매우 심함" class="rating-image" />
+        <span class="rating-text">매우 심함</span>
+      </label>
+    </div>
+  </div>
+
+  <!-- 질문 3 -->
+  <div class="question-block">
+    <p class="question-text">
+      18) ‘이렇게 말했어야 했나?’, ‘괜히 그렇게 했나' 등의 생각을 자주한다.
+    </p>
+    <div class="ratings">
+      <label class="rating-option">
+        <input type="radio" name="q18" value="1" />
+        <img src="./assets/images/1.svg" alt="전혀 없음" class="rating-image" />
+        <span class="rating-text">전혀 없음</span>
+      </label>
+      <label class="rating-option">
+        <input type="radio" name="q18" value="2" />
+        <img src="./assets/images/2.svg" alt="약간의 불편함" class="rating-image" />
+        <span class="rating-text">약간의 불편함</span>
+      </label>
+      <label class="rating-option">
+        <input type="radio" name="q18" value="3" />
+        <img src="./assets/images/3.svg" alt="주의가 필요한 정보" class="rating-image" />
+        <span class="rating-text">주의가 필요한 정도</span>
+      </label>
+      <label class="rating-option">
+        <input type="radio" name="q18" value="4" />
+        <img src="./assets/images/4.svg" alt="견디기 힘듦" class="rating-image" />
+        <span class="rating-text">견디기 힘듦</span>
+      </label>
+      <label class="rating-option">
+        <input type="radio" name="q18" value="5" />
+        <img src="./assets/images/5.svg" alt="매우 심함" class="rating-image" />
+        <span class="rating-text">매우 심함</span>
+      </label>
+    </div>
+  </div>
+
+  <!-- 질문 4 -->
+  <div class="question-block">
+    <p class="question-text">
+      19) 척추의 에스 커브가 무너지거나, 몸이 한 쪽으로 기울어져 있다.
+    </p>
+    <div class="ratings">
+      <label class="rating-option">
+        <input type="radio" name="q19" value="1" />
+        <img src="./assets/images/1.svg" alt="전혀 없음" class="rating-image" />
+        <span class="rating-text">전혀 없음</span>
+      </label>
+      <label class="rating-option">
+        <input type="radio" name="q19" value="2" />
+        <img src="./assets/images/2.svg" alt="약간의 불편함" class="rating-image" />
+        <span class="rating-text">약간의 불편함</span>
+      </label>
+      <label class="rating-option">
+        <input type="radio" name="q19" value="3" />
+        <img src="./assets/images/3.svg" alt="주의가 필요한 정보" class="rating-image" />
+        <span class="rating-text">주의가 필요한 정도</span>
+      </label>
+      <label class="rating-option">
+        <input type="radio" name="q19" value="4" />
+        <img src="./assets/images/4.svg" alt="견디기 힘듦" class="rating-image" />
+        <span class="rating-text">견디기 힘듦</span>
+      </label>
+      <label class="rating-option">
+        <input type="radio" name="q19" value="5" />
+        <img src="./assets/images/5.svg" alt="매우 심함" class="rating-image" />
+        <span class="rating-text">매우 심함</span>
+      </label>
+    </div>
+  </div>
+
+  <!-- 질문 5 -->
+  <div class="question-block">
+    <p class="question-text">
+      20) ‘그래야만 해, 하면 안 돼’ 같은 자기 명령이 있다.
+    </p>
+    <div class="ratings">
+      <label class="rating-option">
+        <input type="radio" name="q20" value="1" />
+        <img src="./assets/images/1.svg" alt="전혀 없음" class="rating-image" />
+        <span class="rating-text">전혀 없음</span>
+      </label>
+      <label class="rating-option">
+        <input type="radio" name="q20" value="2" />
+        <img src="./assets/images/2.svg" alt="약간의 불편함" class="rating-image" />
+        <span class="rating-text">약간의 불편함</span>
+      </label>
+      <label class="rating-option">
+        <input type="radio" name="q20" value="3" />
+        <img src="./assets/images/3.svg" alt="주의가 필요한 정보" class="rating-image" />
+        <span class="rating-text">주의가 필요한 정도</span>
+      </label>
+      <label class="rating-option">
+        <input type="radio" name="q20" value="4" />
+        <img src="./assets/images/4.svg" alt="견디기 힘듦" class="rating-image" />
+        <span class="rating-text">견디기 힘듦</span>
+      </label>
+      <label class="rating-option">
+        <input type="radio" name="q20" value="5" />
+        <img src="./assets/images/5.svg" alt="매우 심함" class="rating-image" />
+        <span class="rating-text">매우 심함</span>
+      </label>
+    </div>
+  </div>
+
+  <div class="result-wrap">
+    <button type="button" class="result-button">결과 보기</button>
+  </div>
+  
+</body>
+</html>

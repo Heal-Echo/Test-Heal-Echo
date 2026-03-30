@@ -1,0 +1,1213 @@
+/* src/app/wellness/balance/balance.module.css */
+
+/* 전체 컨테이너 */
+.container {
+  width: 100%;
+  min-height: 100vh;
+  background: #fafafa;
+  max-width: 720px;
+  margin: 0 auto;
+  padding-left: 16px;
+  padding-right: 16px;
+  padding-bottom: 90px;
+}
+
+/* 본문 */
+.main {
+  padding: 16px;
+}
+
+/* 페이지 제목 */
+.title {
+  font-size: 22px;
+  font-weight: 700;
+  margin-bottom: 24px;
+}
+
+/* ===========================================
+   현재 주차 영상 섹션
+   =========================================== */
+.currentVideoSection {
+  margin-bottom: 40px;
+}
+
+.currentVideoCard {
+  cursor: pointer;
+  border-radius: 20px;
+  overflow: hidden;
+  background: #ffffff;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.currentVideoCard:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+}
+
+.currentVideoCard:active {
+  transform: translateY(0);
+}
+
+.thumbnailWrapper {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  overflow: hidden;
+  background: #e5e7eb;
+}
+
+.currentThumbnail {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+/* 로딩 오버레이 */
+.loadingOverlay {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0, 0, 0, 0.3);
+}
+
+.loadingText {
+  font-size: 14px;
+  color: #ffffff;
+  font-weight: 500;
+}
+
+/* 잠금 오버레이 (둘러보는 고객) */
+.lockOverlay {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0, 0, 0, 0.5);
+  gap: 8px;
+}
+
+.lockIcon {
+  font-size: 32px;
+}
+
+.lockText {
+  font-size: 14px;
+  font-weight: 600;
+  color: #ffffff;
+  background: rgba(255, 255, 255, 0.15);
+  padding: 8px 20px;
+  border-radius: 999px;
+  backdrop-filter: blur(4px);
+}
+
+/* 영상 정보 영역 */
+.currentVideoInfo {
+  padding: 16px 20px;
+}
+
+.weekBadge {
+  display: inline-block;
+  font-size: 12px;
+  font-weight: 600;
+  color: #6366f1;
+  background: #eef2ff;
+  padding: 4px 12px;
+  border-radius: 999px;
+  margin-bottom: 8px;
+}
+
+.videoTitle {
+  font-size: 17px;
+  font-weight: 600;
+  color: #111827;
+  line-height: 1.4;
+}
+
+/* ===========================================
+   선물 영상 카드
+   =========================================== */
+.giftVideoCard {
+  margin-top: 16px;
+  padding: 20px;
+  border-radius: 16px;
+  background: linear-gradient(135deg, #fef3c7, #fde68a);
+  border: 1px solid #fbbf24;
+  cursor: pointer;
+  transition: transform 0.15s ease;
+}
+
+.giftVideoCard:hover {
+  transform: translateY(-2px);
+}
+
+.giftBadge {
+  display: inline-block;
+  font-size: 13px;
+  font-weight: 700;
+  color: #92400e;
+  margin-bottom: 8px;
+}
+
+.giftVideoTitle {
+  font-size: 16px;
+  font-weight: 600;
+  color: #78350f;
+  margin-bottom: 4px;
+}
+
+.giftVideoSub {
+  font-size: 12px;
+  color: #a16207;
+}
+
+/* ===========================================
+   선물 진행도 메시지
+   =========================================== */
+.giftProgressSection {
+  margin-bottom: 20px;
+  padding: 14px 18px;
+  border-radius: 14px;
+  background: linear-gradient(135deg, #ede9fe, #e0e7ff);
+  border: 1px solid #c7d2fe;
+}
+
+.giftProgressText {
+  font-size: 14px;
+  font-weight: 600;
+  color: #4338ca;
+  text-align: center;
+  line-height: 1.5;
+}
+
+/* ===========================================
+   이번 주 실천 현황
+   =========================================== */
+.weekProgressSection {
+  margin-bottom: 32px;
+}
+
+.weekProgressBar {
+  padding: 16px 18px;
+  border-radius: 16px;
+  background: #ffffff;
+  border: 1px solid #e5e7eb;
+}
+
+.weekProgressLabel {
+  font-size: 13px;
+  font-weight: 600;
+  color: #374151;
+  margin-bottom: 12px;
+}
+
+.weekProgressDots {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 10px;
+}
+
+.progressDot {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: #f3f4f6;
+  border: 2px solid #e5e7eb;
+  transition: all 0.2s ease;
+}
+
+.progressDotFilled {
+  background: linear-gradient(135deg, #6366f1, #818cf8);
+  border-color: #6366f1;
+  box-shadow: 0 2px 6px rgba(99, 102, 241, 0.3);
+}
+
+/* 3일 달성 기준선 표시 */
+.progressDotTarget {
+  border-color: #fbbf24;
+  border-width: 2.5px;
+}
+
+.progressDotTarget.progressDotFilled {
+  border-color: #6366f1;
+}
+
+.weekProgressCount {
+  font-size: 13px;
+  font-weight: 500;
+  color: #6b7280;
+}
+
+.weekProgressCheck {
+  color: #059669;
+  font-weight: 600;
+}
+
+/* ===========================================
+   선물 예상 수령일 안내
+   =========================================== */
+.giftDateSection {
+  margin-bottom: 28px;
+  text-align: center;
+}
+
+.giftDateTitle {
+  font-size: 18px;
+  font-weight: 700;
+  color: #111827;
+  margin-bottom: 6px;
+}
+
+.giftDateText {
+  font-size: 14px;
+  color: #374151;
+  line-height: 1.6;
+}
+
+.giftDateText strong {
+  color: #6366f1;
+  font-weight: 700;
+}
+
+/* ===========================================
+   실천 달력 (mypage 달력 스타일 기반)
+   =========================================== */
+.calendarSection {
+  margin-bottom: 24px;
+  border-radius: 20px;
+  background: linear-gradient(145deg, #0f1724, #162035);
+  padding: 20px 16px 16px;
+  color: #ffffff;
+}
+
+.calendarHeader {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 18px;
+}
+
+.calendarTitle {
+  font-size: 15px;
+  font-weight: 700;
+  color: #ffffff;
+  letter-spacing: 0.5px;
+  text-align: center;
+  margin-bottom: 14px;
+}
+
+.calendarNav {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.calendarNavBtn {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  border: none;
+  background: rgba(255, 255, 255, 0.08);
+  color: rgba(255, 255, 255, 0.7);
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.15s ease;
+  line-height: 1;
+}
+
+.calendarNavBtn:hover {
+  background: rgba(255, 255, 255, 0.15);
+  color: #ffffff;
+}
+
+.calendarMonth {
+  font-size: 13px;
+  font-weight: 600;
+  color: rgba(255, 255, 255, 0.85);
+  min-width: 80px;
+  text-align: center;
+}
+
+/* 요일 헤더 */
+.calendarWeekdays {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  margin-bottom: 6px;
+}
+
+.weekdayCell {
+  text-align: center;
+  font-size: 11px;
+  font-weight: 500;
+  color: rgba(255, 255, 255, 0.35);
+  padding: 4px 0;
+}
+
+/* 날짜 그리드 */
+.calendarGrid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  row-gap: 4px;
+}
+
+.dayCell {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 3px 0;
+  position: relative;
+}
+
+.dayNumber {
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 13px;
+  font-weight: 500;
+  color: rgba(255, 255, 255, 0.55);
+  border-radius: 50%;
+  transition: all 0.2s ease;
+}
+
+/* 선물 예상일 마커 (위에서 떨어져 안착하는 애니메이션) */
+.giftDrop {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 28px;
+  line-height: 1;
+  z-index: 2;
+  filter: drop-shadow(0 2px 6px rgba(251, 191, 36, 0.5));
+  animation: giftDropIn 0.8s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+  pointer-events: none;
+}
+
+@keyframes giftDropIn {
+  0% {
+    opacity: 0;
+    transform: translate(-50%, -50%) translateY(-36px) scale(0.3);
+  }
+  60% {
+    opacity: 1;
+    transform: translate(-50%, -50%) translateY(3px) scale(1.15);
+  }
+  80% {
+    transform: translate(-50%, -50%) translateY(-2px) scale(0.95);
+  }
+  100% {
+    opacity: 1;
+    transform: translate(-50%, -50%) translateY(0) scale(1);
+  }
+}
+
+/* 선물 예상일 날짜 (아이콘 뒤로) */
+.dayGift {
+  opacity: 0.3;
+}
+
+/* 시청 완료한 날 */
+.dayPlayed {
+  background: linear-gradient(135deg, #6366f1, #818cf8);
+  color: #ffffff;
+  font-weight: 600;
+  box-shadow: 0 2px 8px rgba(99, 102, 241, 0.35);
+}
+
+/* 오늘 날짜 */
+.dayToday {
+  border: 1.5px solid rgba(255, 255, 255, 0.5);
+}
+
+/* 오늘 + 시청 완료 */
+.dayPlayed.dayToday {
+  border-color: rgba(255, 255, 255, 0.7);
+}
+
+/* 달력 하단 요약 */
+.calendarFooter {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 14px;
+  padding-top: 12px;
+  border-top: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.calendarFooterLeft {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.calendarFooterDot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #6366f1, #818cf8);
+  flex-shrink: 0;
+}
+
+.calendarFooterText {
+  font-size: 12px;
+  color: rgba(255, 255, 255, 0.5);
+  font-weight: 500;
+}
+
+.calendarFooterRight {
+  font-size: 12px;
+  color: rgba(255, 255, 255, 0.4);
+  font-weight: 500;
+}
+
+/* ===========================================
+   응원 메시지 (미달성 주)
+   =========================================== */
+.encouragementSection {
+  margin-bottom: 16px;
+  padding: 14px 18px;
+  border-radius: 14px;
+  background: linear-gradient(135deg, #fef3c7, #fde68a);
+  border: 1px solid #fbbf24;
+  text-align: center;
+}
+
+.encouragementText {
+  font-size: 14px;
+  font-weight: 600;
+  color: #92400e;
+  line-height: 1.5;
+}
+
+/* ===========================================
+   선물 조건 안내 (달력 아래)
+   =========================================== */
+.giftConditionText {
+  font-size: 12px;
+  color: #9ca3af;
+  text-align: center;
+  line-height: 1.5;
+  margin-bottom: 24px;
+}
+
+/* ===========================================
+   자가 체크 카드 (둘러보기 고객 노출)
+   =========================================== */
+.selfCheckCard {
+  margin-top: 20px;
+  margin-bottom: 8px;
+}
+
+.selfCheckCardInner {
+  background: linear-gradient(135deg, #f5f0ff, #ece4ff);
+  border-radius: 20px;
+  padding: 28px 20px;
+  text-align: center;
+  border: 1px solid rgba(138, 43, 226, 0.1);
+}
+
+.selfCheckCardEmoji {
+  font-size: 32px;
+  margin: 0 0 10px;
+}
+
+.selfCheckCardTitle {
+  font-size: 20px;
+  font-weight: 700;
+  color: #1a1a1a;
+  margin: 0 0 8px;
+}
+
+.selfCheckCardDesc {
+  font-size: 14px;
+  color: #666;
+  line-height: 1.5;
+  margin: 0 0 20px;
+}
+
+.selfCheckCardBtn {
+  display: inline-block;
+  padding: 12px 32px;
+  border-radius: 12px;
+  border: none;
+  background: #8a2be2;
+  color: #fff;
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: opacity 0.2s;
+}
+
+.selfCheckCardBtn:active {
+  opacity: 0.8;
+}
+
+/* ===========================================
+   자가 체크 결과 카드
+   =========================================== */
+.selfCheckResultCard {
+  margin-top: 20px;
+  margin-bottom: 8px;
+  background: #fff;
+  border: 1.5px solid #e8e5e0;
+  border-radius: 20px;
+  padding: 16px 20px;
+  cursor: pointer;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+  display: flex;
+  align-items: center;
+}
+
+.selfCheckResultCard:hover {
+  border-color: #d0ccc5;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+}
+
+.selfCheckResultCard:active {
+  transform: scale(0.99);
+}
+
+.resultCardArrow {
+  font-size: 22px;
+  color: #9ca3af;
+  margin-left: auto;
+  flex-shrink: 0;
+  padding-left: 8px;
+}
+
+/* 점수 + 등급 메인 섹션 (PSQI miniScoreCard 패턴) */
+.resultCardScoreSection {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  flex: 1;
+  min-width: 0;
+}
+
+.resultCardScoreCircle {
+  width: 64px;
+  height: 64px;
+  min-width: 64px;
+  border-radius: 50%;
+  border: 3px solid;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1px;
+}
+
+.resultCardScoreNum {
+  font-size: 24px;
+  font-weight: 800;
+  line-height: 1;
+}
+
+.resultCardScoreUnit {
+  font-size: 12px;
+  font-weight: 600;
+  opacity: 0.7;
+  align-self: flex-end;
+  padding-bottom: 2px;
+}
+
+.resultCardScoreInfo {
+  flex: 1;
+}
+
+.resultCardScoreLabel {
+  font-size: 14px;
+  font-weight: 700;
+  color: #1a1a1a;
+  display: block;
+  margin-bottom: 6px;
+}
+
+.resultCardGradeRow {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.resultCardGradeBadge {
+  color: #fff;
+  font-size: 12px;
+  font-weight: 800;
+  padding: 2px 8px;
+  border-radius: 4px;
+  line-height: 1.4;
+}
+
+.resultCardGap {
+  font-size: 12px;
+  font-weight: 600;
+}
+
+/* 다음 버튼 (결과 카드 → 상세 결과지 전환) */
+.resultCardNextBtn {
+  display: block;
+  width: 100%;
+  margin-top: 14px;
+  padding: 12px 0;
+  border-radius: 12px;
+  border: none;
+  background: #8a2be2;
+  color: #fff;
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: opacity 0.2s ease, transform 0.15s ease;
+}
+
+.resultCardNextBtn:hover {
+  opacity: 0.9;
+  transform: translateY(-1px);
+}
+
+.resultCardNextBtn:active {
+  opacity: 0.8;
+  transform: translateY(0);
+}
+
+/* ===========================================
+   자가 체크 결과 상세 페이지 (PSQI 패턴 벤치마킹)
+   =========================================== */
+.resultDetailOverlay {
+  position: fixed;
+  inset: 0;
+  z-index: 10010;
+  background: #faf9f6;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+  animation: resultDetailSlideIn 0.3s ease;
+}
+
+@keyframes resultDetailSlideIn {
+  from { opacity: 0; transform: translateX(30px); }
+  to { opacity: 1; transform: translateX(0); }
+}
+
+.resultDetailPage {
+  max-width: 720px;
+  margin: 0 auto;
+  padding: 0 20px 40px;
+}
+
+/* 헤더 */
+.resultDetailHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px 0;
+  position: sticky;
+  top: 0;
+  background: #faf9f6;
+  z-index: 10;
+}
+
+.resultDetailBackBtn {
+  width: 32px;
+  height: 32px;
+  border: none;
+  background: none;
+  font-size: 20px;
+  color: #374151;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  transition: background 0.15s ease;
+}
+
+.resultDetailBackBtn:hover {
+  background: rgba(0, 0, 0, 0.05);
+}
+
+.resultDetailHeaderTitle {
+  font-size: 16px;
+  font-weight: 700;
+  color: #111827;
+}
+
+/* 메인 점수 카드 */
+.resultDetailCard {
+  background: #fff;
+  border-radius: 20px;
+  padding: 32px 24px;
+  text-align: center;
+  border: 1.5px solid #e8e5e0;
+  margin-bottom: 20px;
+}
+
+.resultDetailCardTitle {
+  font-size: 14px;
+  font-weight: 600;
+  color: #6b7280;
+  margin-bottom: 20px;
+  letter-spacing: 0.5px;
+}
+
+.resultDetailCircle {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  border: 4px solid;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 2px;
+  margin: 0 auto 20px;
+}
+
+.resultDetailCircleNum {
+  font-size: 40px;
+  font-weight: 800;
+  line-height: 1;
+}
+
+.resultDetailCircleUnit {
+  font-size: 16px;
+  font-weight: 600;
+  opacity: 0.7;
+  align-self: flex-end;
+  padding-bottom: 4px;
+}
+
+.resultDetailGradeRow {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+.resultDetailGradeBadge {
+  color: #fff;
+  font-size: 13px;
+  font-weight: 800;
+  padding: 3px 10px;
+  border-radius: 6px;
+  line-height: 1.4;
+}
+
+.resultDetailGradeLabel {
+  color: #fff;
+  font-size: 13px;
+  font-weight: 600;
+  padding: 3px 12px;
+  border-radius: 6px;
+  line-height: 1.4;
+}
+
+/* 동기부여 문구 */
+.resultDetailMotivation {
+  margin-top: 20px;
+  font-size: 14px;
+  color: #374151;
+  line-height: 1.7;
+  text-align: center;
+  font-weight: 500;
+}
+
+/* 영역별 바 차트 */
+.resultDetailBarSection {
+  background: #fff;
+  border-radius: 20px;
+  padding: 24px 20px;
+  border: 1.5px solid #e8e5e0;
+  margin-bottom: 20px;
+}
+
+.resultDetailBarTitle {
+  font-size: 15px;
+  font-weight: 700;
+  color: #111827;
+  margin-bottom: 18px;
+}
+
+.resultDetailBarList {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.resultDetailBarRow {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.resultDetailBarLeft {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-width: 90px;
+}
+
+.resultDetailBarIcon {
+  font-size: 16px;
+  min-width: 22px;
+  text-align: center;
+}
+
+.resultDetailBarLabel {
+  font-size: 13px;
+  color: #374151;
+  font-weight: 500;
+}
+
+.resultDetailBarTrack {
+  flex: 1;
+  height: 10px;
+  background: #f3f0eb;
+  border-radius: 5px;
+  overflow: hidden;
+}
+
+.resultDetailBarFill {
+  height: 100%;
+  border-radius: 5px;
+  transition: width 0.8s ease;
+}
+
+.resultDetailBarValue {
+  font-size: 13px;
+  font-weight: 700;
+  color: #374151;
+  min-width: 36px;
+  text-align: right;
+}
+
+/* 영역별 아이콘 그리드 */
+.resultDetailIconGrid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px 12px;
+}
+
+.resultDetailIconItem {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  padding: 14px 4px 10px;
+  border-radius: 14px;
+  background: #faf9f6;
+}
+
+.resultDetailIconEmoji {
+  font-size: 28px;
+  line-height: 1;
+}
+
+.resultDetailIconName {
+  font-size: 12px;
+  font-weight: 600;
+  color: #374151;
+  text-align: center;
+  line-height: 1.3;
+}
+
+.resultDetailIconStatus {
+  font-size: 11px;
+  font-weight: 700;
+  padding: 2px 10px;
+  border-radius: 999px;
+  line-height: 1.4;
+}
+
+/* 3단계 상태 색상 */
+.tierStable {
+  color: #059669;
+  background: #ecfdf5;
+}
+
+.tierCaution {
+  color: #d97706;
+  background: #fffbeb;
+}
+
+.tierRecover {
+  color: #dc2626;
+  background: #fef2f2;
+}
+
+/* 아이콘 그리드 상단 안내 문구 */
+.resultDetailIconIntro {
+  font-size: 14px;
+  font-weight: 600;
+  color: #374151;
+  text-align: center;
+  margin-bottom: 18px;
+  line-height: 1.5;
+}
+
+/* 아이콘 그리드 하단 시작하기 버튼 */
+.resultDetailStartBtn {
+  display: block;
+  width: 100%;
+  margin-top: 20px;
+  padding: 14px 0;
+  border-radius: 12px;
+  border: none;
+  background: #8a2be2;
+  color: #fff;
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: opacity 0.2s ease;
+}
+
+.resultDetailStartBtn:hover {
+  opacity: 0.9;
+}
+
+.resultDetailStartBtn:active {
+  opacity: 0.8;
+}
+
+/* 영역별 분석 하단 감지 문구 */
+.resultDetailBarNote {
+  margin-top: 16px;
+  padding-top: 14px;
+  border-top: 1px solid #f0ede8;
+  font-size: 13px;
+  font-weight: 600;
+  color: #8a2be2;
+  text-align: center;
+}
+
+/* 희망 메시지 */
+.resultDetailHope {
+  background: linear-gradient(135deg, #f0fdf4, #dcfce7);
+  border-radius: 16px;
+  padding: 24px 20px;
+  text-align: center;
+  margin-bottom: 24px;
+  border: 1px solid #bbf7d0;
+}
+
+.resultDetailHopeEmoji {
+  font-size: 28px;
+  margin-bottom: 10px;
+}
+
+.resultDetailHopeText {
+  font-size: 14px;
+  color: #166534;
+  line-height: 1.7;
+  font-weight: 500;
+}
+
+/* 닫기/확인 버튼 */
+.resultDetailCta {
+  text-align: center;
+}
+
+.resultDetailCloseBtn {
+  display: inline-block;
+  width: 100%;
+  padding: 14px 0;
+  border-radius: 12px;
+  border: none;
+  background: #8a2be2;
+  color: #fff;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: opacity 0.2s ease;
+}
+
+.resultDetailCloseBtn:hover {
+  opacity: 0.9;
+}
+
+.resultDetailCloseBtn:active {
+  opacity: 0.8;
+}
+
+/* ===========================================
+   자가 체크 팝업 오버레이/모달
+   =========================================== */
+.selfCheckOverlay {
+  position: fixed;
+  inset: 0;
+  z-index: 10010;
+  background: rgba(0, 0, 0, 0.55);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px 16px;
+  animation: selectFadeIn 0.25s ease;
+}
+
+.selfCheckModal {
+  width: 100%;
+  max-width: 440px;
+  max-height: calc(100vh - 48px);
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+  background: #faf9f6;
+  border-radius: 20px;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.25);
+}
+
+/* ===========================================
+   #4 잠금 콘텐츠 무료 체험 CTA 모달
+   =========================================== */
+.lockedTrialModal {
+  width: 100%;
+  max-width: 360px;
+  background: #ffffff;
+  border-radius: 24px;
+  padding: 36px 28px 28px;
+  text-align: center;
+  box-shadow: 0 16px 48px rgba(0, 0, 0, 0.2);
+  animation: lockedTrialSlideUp 0.3s ease-out;
+}
+
+@keyframes lockedTrialSlideUp {
+  from { opacity: 0; transform: translateY(24px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.lockedTrialEmoji {
+  font-size: 40px;
+  margin: 0 0 12px;
+}
+
+.lockedTrialTitle {
+  font-size: 18px;
+  font-weight: 700;
+  color: #1a1a1a;
+  margin: 0 0 10px;
+}
+
+.lockedTrialDesc {
+  font-size: 14px;
+  color: #666;
+  line-height: 1.6;
+  margin: 0 0 24px;
+}
+
+.lockedTrialPrimaryBtn {
+  display: block;
+  width: 100%;
+  padding: 14px;
+  border-radius: 12px;
+  border: none;
+  background: linear-gradient(135deg, #6b9e78, #4a8a5a);
+  color: #fff;
+  font-size: 16px;
+  font-weight: 700;
+  cursor: pointer;
+  margin-bottom: 10px;
+  transition: opacity 0.2s;
+  box-shadow: 0 4px 12px rgba(107, 158, 120, 0.3);
+}
+
+.lockedTrialPrimaryBtn:active {
+  opacity: 0.8;
+}
+
+.lockedTrialSecondaryBtn {
+  display: block;
+  width: 100%;
+  padding: 12px;
+  border: none;
+  background: transparent;
+  color: #aaa;
+  font-size: 13px;
+  cursor: pointer;
+}
+
+/* ===========================================
+   탭바 패딩
+   =========================================== */
+.tabPadding {
+  height: 80px;
+}
+
+/* ===========================================
+   재방문 스티키 배너
+   =========================================== */
+.stickyBanner {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 12px 16px;
+  background: linear-gradient(135deg, #eef7f0, #e0f2e5);
+  border-bottom: 1px solid rgba(107, 158, 120, 0.15);
+  animation: stickySlideDown 0.4s ease;
+}
+
+@keyframes stickySlideDown {
+  from { opacity: 0; transform: translateY(-100%); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.stickyBannerText {
+  flex: 1;
+  font-size: 13px;
+  color: #2d5a3a;
+  line-height: 1.4;
+  margin: 0;
+}
+
+.stickyBannerBtns {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-shrink: 0;
+}
+
+.stickyBannerBtn {
+  padding: 8px 14px;
+  border: none;
+  border-radius: 10px;
+  background: linear-gradient(135deg, #6b9e78, #4a8a5a);
+  color: #fff;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: opacity 0.2s;
+}
+
+.stickyBannerBtn:active {
+  opacity: 0.8;
+}
+
+.stickyBannerClose {
+  width: 28px;
+  height: 28px;
+  border: none;
+  border-radius: 50%;
+  background: rgba(0, 0, 0, 0.06);
+  color: #999;
+  font-size: 14px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.2s;
+}
+
+.stickyBannerClose:active {
+  background: rgba(0, 0, 0, 0.12);
+}

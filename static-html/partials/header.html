@@ -1,0 +1,34 @@
+<!-- partials/header.html -->
+<header class="header he-header" role="banner">
+  <div class="container header-inner he-container he-header-inner">
+    <!-- 로고 + 브랜드명 -->
+    <div class="logo-wrap he-logo-wrap">
+      <a href="/"><img src="./assets/images/Logo_HealEcho.png" alt="Heal Echo 로고" /></a>
+      <span class="brand he-brand">Heal Echo</span>
+    </div>
+
+    <!-- 주요 메뉴 -->
+    <nav class="nav he-nav" aria-label="주요 메뉴">
+      <a href="miraclereset.html">기적의 오토 밸런스</a>
+      <a href="#">우먼즈 위스퍼</a>
+      <a href="#">힐링 마인드</a>
+    </nav>
+
+    <!-- 액션(로그인/무료체험) -->
+    <div class="actions he-actions">
+      <!-- 비회원에게만 보여줌: 로그인 버튼만 -->
+      <div data-when="guest">
+        <a class="btn btn-ghost he-btn he-btn-ghost" href="login.html" id="loginBtn">로그인</a>
+      </div>
+
+      <!-- 로그인한 회원에게만 보여줌: 마이 페이지 + 로그아웃 -->
+      <div data-when="user" style="display:none">
+        <a class="btn btn-ghost he-btn he-btn-ghost" href="#" id="mypageBtn">마이 페이지</a>
+        <a class="btn btn-ghost he-btn he-btn-ghost" id="logoutBtn">로그아웃</a>
+      </div>
+
+      <!-- ✅ 로그인 여부와 상관없이 항상 보이는 '무료 체험' 버튼 -->
+      <a class="btn btn-primary he-btn he-btn-primary" href="balancetest.html">무료 체험</a>
+    </div>
+  </div>
+</header>

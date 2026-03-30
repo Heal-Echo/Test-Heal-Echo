@@ -1,0 +1,182 @@
+/* -------------------------------------- */
+/*            Upload Big Box (+)          */
+/* -------------------------------------- */
+
+.intro-container {
+  display: flex;
+  justify-content: center;
+  padding-top: 20px;
+}
+
+.intro-upload-box {
+  width: 340px;
+  height: 200px;
+  border: 2px dashed #94a3b8;
+  border-radius: 16px;
+  background: #f8fafc;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: 150ms ease;
+}
+
+.intro-upload-box:hover {
+  border-color: #3b82f6;
+  background: #eff6ff;
+}
+
+.intro-plus {
+  font-size: 80px;
+  font-weight: 300;
+  color: #64748b;
+}
+
+/* 숨긴 파일 input */
+.intro-file-input {
+  display: none;
+}
+
+/* -------------------------------------- */
+/*            Table (동영상 목록)         */
+/* -------------------------------------- */
+
+.intro-table-fixed {
+  table-layout: fixed;
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.intro-table-fixed th,
+.intro-table-fixed td {
+  border-bottom: 1px solid #e2e8f0;
+  padding: 12px;
+}
+
+/* -------------------------------------- */
+/*            Modal Overlay               */
+/* -------------------------------------- */
+
+.intro-modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.6);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1100;  /* AdminHeader z-index(1000)보다 높게 설정 */
+}
+
+/* -------------------------------------- */
+/*                 Modal                  */
+/* -------------------------------------- */
+
+.intro-modal {
+  width: 520px;
+  padding: 28px;
+  background: white;
+  border-radius: 12px;
+  position: relative;
+  animation: intro-pop 0.2s ease-out;
+}
+
+@keyframes intro-pop {
+  from {
+    opacity: 0.2;
+    transform: scale(0.93);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+/* close button */
+.intro-close {
+  position: absolute;
+  right: 12px;
+  top: 12px;
+  font-size: 22px;
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+
+/* -------------------------------------- */
+/*             Inputs / Labels            */
+/* -------------------------------------- */
+
+.intro-modal-title {
+  font-size: 20px;
+  font-weight: bold;
+  margin-bottom: 18px;
+}
+
+.intro-label {
+  font-size: 14px;
+  font-weight: 600;
+  margin-top: 14px;
+  display: block;
+}
+
+.intro-input,
+.intro-textarea {
+  width: 100%;
+  border: 1px solid #cbd5e1;
+  background: #f8fafc;
+  border-radius: 8px;
+  padding: 10px;
+  margin-top: 6px;
+  font-size: 14px;
+}
+
+/* -------------------------------------- */
+/*             Thumbnail Preview          */
+/* -------------------------------------- */
+
+.intro-thumbnail-preview {
+  width: 200px;
+  border-radius: 8px;
+  border: 1px solid #ddd;
+  margin-top: 10px;
+}
+
+/* -------------------------------------- */
+/*                Buttons                 */
+/* -------------------------------------- */
+
+.intro-upload-btn {
+  margin-top: 18px;
+  width: 100%;
+  background: #2563eb;
+  color: white;
+  padding: 12px;
+  border: none;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.intro-upload-btn:hover {
+  background: #1e40af;
+}
+
+/* -------------------------------------- */
+/*      Small Video Thumbnail (A2)       */
+/* -------------------------------------- */
+
+.video-thumb-wrapper {
+  width: 112px;   /* 유튜브 작은 썸네일 (option A) */
+  height: 64px;
+  overflow: hidden;
+  border-radius: 6px;
+  border: 1px solid #cbd5e1;
+  background: black;
+}
+
+.video-thumb {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+

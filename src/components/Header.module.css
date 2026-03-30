@@ -1,0 +1,139 @@
+/* src/components/Header.module.css */
+
+/* ===========================
+   헤더 (Heal Echo 로고 영역)
+   - 모든 페이지 상단에 고정
+   - Safe Area (노치/다이나믹 아일랜드) 대응
+=========================== */
+.header {
+  padding: 20px;
+  padding-top: calc(20px + env(safe-area-inset-top, 0px));
+  background: #ffffff;
+  border-bottom: 1px solid #eeeeee;
+  text-align: center;
+}
+
+/* ===========================
+   로고 링크 영역
+=========================== */
+.headerLogoLink {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  text-decoration: none;
+  color: inherit;
+  cursor: pointer;
+}
+
+/* ===========================
+   로고 이미지 (원형)
+=========================== */
+.headerLogoImage {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+/* ===========================
+   로고 텍스트
+=========================== */
+.headerLogoText {
+  font-family: "PlayfairDisplay", serif;
+  font-size: 20px;
+  font-weight: 700;
+  margin: 0;
+}
+
+/* ===========================
+   반응형: 태블릿 (641px ~ 1024px)
+   - 로고 크기/여백을 태블릿에 맞게 조정
+   - 데스크탑과 모바일의 중간값
+=========================== */
+@media (min-width: 641px) and (max-width: 1024px) {
+  .header {
+    padding: 18px 24px;
+    padding-top: calc(18px + env(safe-area-inset-top, 0px));
+  }
+
+  .headerLogoImage {
+    width: 38px;
+    height: 38px;
+  }
+
+  .headerLogoText {
+    font-size: 19px;
+  }
+}
+
+/* ===========================
+   반응형: 소형 모바일 (≤ 480px)
+   - 기존 반응형 유지
+   - 로고와 여백을 작은 화면에 맞게 축소
+=========================== */
+@media (max-width: 480px) {
+  .header {
+    padding: 14px 16px;
+    padding-top: calc(14px + env(safe-area-inset-top, 0px));
+  }
+
+  .headerLogoLink {
+    gap: 8px;
+  }
+
+  .headerLogoImage {
+    width: 32px;
+    height: 32px;
+  }
+
+  .headerLogoText {
+    font-size: 17px;
+  }
+}
+
+/* ===========================
+   반응형: 초소형 모바일 (≤ 360px)
+   - 헤더가 과도한 공간을 차지하지 않도록 최소화
+=========================== */
+@media (max-width: 360px) {
+  .header {
+    padding: 10px 12px;
+    padding-top: calc(10px + env(safe-area-inset-top, 0px));
+  }
+
+  .headerLogoLink {
+    gap: 6px;
+  }
+
+  .headerLogoImage {
+    width: 28px;
+    height: 28px;
+  }
+
+  .headerLogoText {
+    font-size: 15px;
+  }
+}
+
+/* ===========================
+   가로 모드 대응 (landscape)
+   - 가로로 돌렸을 때 헤더 높이를 줄여
+     콘텐츠 영역을 최대한 확보
+   - 특히 영상 시청 시 유용
+=========================== */
+@media (orientation: landscape) and (max-height: 500px) {
+  .header {
+    padding: 8px 16px;
+    padding-top: calc(8px + env(safe-area-inset-top, 0px));
+  }
+
+  .headerLogoImage {
+    width: 28px;
+    height: 28px;
+  }
+
+  .headerLogoText {
+    font-size: 16px;
+  }
+}

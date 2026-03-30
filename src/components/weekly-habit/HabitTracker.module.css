@@ -1,0 +1,220 @@
+/* src/components/weekly-habit/HabitTracker.module.css */
+
+.wrapper {
+  border-radius: 16px;
+  background: #ffffff;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.06);
+  padding: 20px 16px;
+}
+
+.progressSection {
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+.progressText {
+  font-size: 15px;
+  font-weight: 600;
+  color: #374151;
+}
+
+.progressPercent {
+  font-size: 24px;
+  font-weight: 700;
+  color: #6366f1;
+  margin-left: 8px;
+}
+
+.progressBar {
+  width: 100%;
+  height: 8px;
+  border-radius: 4px;
+  background: #f3f4f6;
+  margin-top: 10px;
+  overflow: hidden;
+}
+
+.progressBarFill {
+  height: 100%;
+  border-radius: 4px;
+  background: linear-gradient(90deg, #6366f1, #818cf8);
+  transition: width 0.4s ease;
+}
+
+/* 요일 헤더 */
+.dayHeaders {
+  display: grid;
+  grid-template-columns: 1fr repeat(7, 40px);
+  gap: 4px;
+  margin-bottom: 8px;
+  padding: 0 4px;
+}
+
+.dayHeaderLabel {
+  font-size: 12px;
+  font-weight: 600;
+  color: #9ca3af;
+  text-align: center;
+}
+
+.dayHeaderToday {
+  color: #6366f1;
+  font-weight: 700;
+}
+
+.habitNameHeader {
+  font-size: 12px;
+  font-weight: 600;
+  color: #6b7280;
+}
+
+/* 습관 행 */
+.habitRow {
+  display: grid;
+  grid-template-columns: 1fr repeat(7, 40px);
+  gap: 4px;
+  padding: 8px 4px;
+  border-bottom: 1px solid #f3f4f6;
+  align-items: center;
+}
+
+.habitRow:last-child {
+  border-bottom: none;
+}
+
+.habitName {
+  font-size: 13px;
+  font-weight: 500;
+  color: #374151;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* 체크 셀 — 최소 44px 터치 영역 보장 */
+.checkCell {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 44px;
+  min-height: 44px;
+}
+
+.checkBox {
+  width: 28px;
+  height: 28px;
+  border-radius: 6px;
+  border: 2px solid #e5e7eb;
+  background: #fafafa;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+  font-size: 14px;
+}
+
+.checkBox:hover {
+  border-color: #6366f1;
+  background: #eef2ff;
+}
+
+.checkBoxChecked {
+  background: linear-gradient(135deg, #6366f1, #818cf8);
+  border-color: #6366f1;
+  color: #ffffff;
+  box-shadow: 0 2px 6px rgba(99, 102, 241, 0.3);
+}
+
+.checkBoxToday {
+  border-color: #6366f1;
+}
+
+.checkBoxDisabled {
+  opacity: 0.3;
+  cursor: default;
+}
+
+.checkBoxDisabled:hover {
+  border-color: #e5e7eb;
+  background: #fafafa;
+}
+
+/* 모바일: 세로 리스트 전환 */
+@media (max-width: 480px) {
+  .dayHeaders {
+    grid-template-columns: 1fr repeat(7, 32px);
+  }
+
+  .habitRow {
+    grid-template-columns: 1fr repeat(7, 32px);
+  }
+
+  .checkBox {
+    width: 24px;
+    height: 24px;
+    font-size: 12px;
+  }
+
+  .habitName {
+    font-size: 12px;
+  }
+}
+
+@media (max-width: 360px) {
+  .dayHeaders {
+    grid-template-columns: 1fr repeat(7, 28px);
+    gap: 2px;
+  }
+
+  .habitRow {
+    grid-template-columns: 1fr repeat(7, 28px);
+    gap: 2px;
+  }
+
+  .checkBox {
+    width: 22px;
+    height: 22px;
+    font-size: 11px;
+  }
+
+  .habitName {
+    font-size: 11px;
+  }
+
+  .progressPercent {
+    font-size: 20px;
+  }
+}
+
+/* 초소형: 320px (iPhone SE) */
+@media (max-width: 320px) {
+  .wrapper {
+    padding: 16px 10px;
+  }
+
+  .dayHeaders {
+    grid-template-columns: 1fr repeat(7, 26px);
+    gap: 1px;
+  }
+
+  .habitRow {
+    grid-template-columns: 1fr repeat(7, 26px);
+    gap: 1px;
+    padding: 6px 2px;
+  }
+
+  .checkBox {
+    width: 20px;
+    height: 20px;
+    font-size: 10px;
+  }
+
+  .dayHeaderLabel {
+    font-size: 10px;
+  }
+
+  .habitName {
+    font-size: 10px;
+  }
+}

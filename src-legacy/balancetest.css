@@ -1,0 +1,244 @@
+/* ─── Font Faces (index.html과 동일하게) ─── */
+@font-face { font-family: 'NotoSans'; font-weight: 400; src: url('../fonts/NotoSans-Regular.ttf') format('truetype'); }
+@font-face { font-family: 'NotoSans'; font-weight: 500; src: url('../fonts/NotoSans-Medium.ttf') format('truetype'); }
+@font-face { font-family: 'NotoSans'; font-weight: 600; src: url('../fonts/NotoSans-SemiBold.ttf') format('truetype'); }
+@font-face { font-family: 'NotoSans'; font-weight: 900; src: url('../fonts/NotoSans-Black.ttf') format('truetype'); }
+@font-face { font-family: 'PlayfairDisplay'; font-weight: 400; src: url('../fonts/PlayfairDisplay-Regular.ttf') format('truetype'); }
+@font-face { font-family: 'PlayfairDisplay'; font-weight: 900; src: url('../fonts/PlayfairDisplay-Black.ttf') format('truetype'); }
+
+/* ─── CSS 변수 ─── */
+:root {
+  --color-text: #000;
+  --color-bg: #fff;
+  --color-primary: #00D6F5;
+  --font-sans: 'NotoSans', sans-serif;
+  --font-serif: 'PlayfairDisplay', serif;
+}
+@media (prefers-color-scheme: dark) {
+  :root { --color-text: #fff; --color-bg: #000; }
+}
+
+/* ─── 공통 기본 ─── */
+body {
+  margin: 0; padding: 0;
+  font-family: var(--font-sans);
+  background-color: var(--color-bg);
+  color: var(--color-text);
+  line-height: 1.6;
+}
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 16px;
+}
+
+/* ─── 헤더 & 네비게이션 ─── */
+.header {
+  background-color: var(--color-bg);
+  position: fixed;
+  top: 0; left: 0;
+  width: 100%;
+  z-index: 1000;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+.header-inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 60px;
+}
+/* 로고 + 텍스트 */
+.logo-frame {
+  display: flex;
+  align-items: center;
+}
+
+.logo-link {
+  display: flex;
+  align-items: center;
+  text-decoration: none;
+}
+
+.logo-image {
+  width: 40px;
+  height: 40px;
+  object-fit: cover;
+  border-radius: 50%;
+}
+
+.logo-text {
+  margin-left: 10px;
+  font-family: var(--font-serif);
+  font-weight: 900;
+  font-size: 1.25rem;
+  color: var(--color-text);
+}
+/* 로그인 링크 */
+.menu-actions {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.login-link {
+  /* ① 무료 체험과 같은 둥근 모서리 */
+  border-radius: 36px;
+  /* ② 좌우 패딩을 13px로 맞춰서 버튼 폭 통일 */
+  padding-left: 13px;
+  padding-right: 13px;
+  /* ③ 버튼 색상 통일 (var(--color-primary)이 무료 체험 배경색 기준) */
+  background-color: var(--color-primary);
+  /* ④ 글자 색과 두께 유지 */
+  color: #000;
+  font-weight: 500;
+  /* ⑤ 밑줄 제거(원래 있던 속성) */
+  text-decoration: none;
+  /* ⑥ 폰트 속성 추가 */
+  font-family: 'NotoSans', sans-serif;
+  font-size: 1rem;
+}
+
+/* 체크되면 메뉴 보이기 */
+.nav-toggle:checked + .nav-toggle-label + .nav-menu {
+  display: flex;
+}
+
+/* ─── Main: 솔루션 리스트 ─── */
+.balancetest-main {
+  padding: 120px 0;  /* 헤더 높이(60px) + 여유 공간 증가 */
+}
+.solutions {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 0 16px;
+}
+.solutions-frame {
+  text-align: center;
+  background-color: var(--color-bg);
+  border-radius: 24px;
+  padding: 40px 24px;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+  width: 567px;
+  height: 880px;
+  margin: 0 auto;
+}
+.solutions-title {
+  font-family: var(--font-serif);
+  font-weight: 900;
+  font-size: 2.0rem;
+  margin-bottom: 16px;
+}
+.solutions-subtitle {
+  font-size: 1.5rem;
+  margin-bottom: 32px;
+}
+
+/* ① 솔루션 리스트 아래에 56px 간격 주고, 세로 중앙 정렬 */
+.solutions-list {
+  margin-top: 56px;
+  display: flex;             /* 늘어서는 방향을 설정 */
+  flex-direction: column;    /* 세로로 나열 */
+  align-items: center;       /* 가로 중앙 정렬 */
+}
+
+/* ② 텍스트+이미지를 하나의 프레임으로 묶기 */
+/* ─── 흰색 pill 모양 스타일 (첫 번째 스크린샷처럼) ─── */
+.solution-link {
+  text-decoration: none;  /* 링크 밑줄 제거 */
+  color: inherit;         /* 링크 색상 상속 */
+  display: block;         /* 블록 레벨 요소로 변경 */
+}
+
+.solution-wrapper {
+  display: flex;                    /* 텍스트+이미지를 가로 배치 */
+  align-items: center;              /* 세로 중앙 정렬 */
+  justify-content: flex-end;        /* 오른쪽 정렬 */
+  gap: 0;                          /* 텍스트와 이미지 사이 간격 제거 */
+
+  background-color: #fff;           /* 흰색 배경 */
+  border-radius: 9999px;            /* pill 모양 */
+  padding: 12px 10px 12px 24px;     /* 위 12px, 우 10px, 아래 12px, 좌 24px 여백 */
+
+  width: 405px;                     /* 정확한 너비 설정 */
+  height: 86px;                     /* 정확한 높이 설정 */
+  max-width: none;                  /* 기존 max-width 제거 */
+
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);  /* 은은한 그림자 */
+  cursor: pointer;                  /* 클릭 가능함을 표시 */
+  transition: transform 0.2s ease, box-shadow 0.2s ease;  /* 부드러운 전환 효과 */
+}
+
+.solution-wrapper:hover {
+  transform: translateY(-2px);      /* 호버 시 살짝 위로 올라가는 효과 */
+  box-shadow: 0 6px 16px rgba(0,0,0,0.15);  /* 호버 시 그림자 강화 */
+}
+
+.solution-wrapper:active {
+  transform: translateY(0);         /* 클릭 시 원위치 */
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);  /* 클릭 시 그림자 원위치 */
+}
+
+/* ③ 두 줄 텍스트 스타일 */
+.text-frame {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 4px;
+}
+
+.solution-text {
+  line-height: 1.3;
+  font-family: 'NotoSans', sans-serif;
+  font-weight: 400;
+  font-size: 1rem;
+  margin-right: 10px;
+  color: #000;  /* 텍스트 색상을 검은색으로 명시적 지정 */
+  width: 318px;  /* 텍스트 영역의 너비를 318px로 지정 */
+}
+
+.solution-text strong {
+  display: block;
+  font-family: 'NotoSans', sans-serif;
+  font-weight: 600;
+  font-size: 1.35rem;
+  margin-top: 4px;
+  color: #000;  /* 강조 텍스트 색상도 검은색으로 명시적 지정 */
+}
+
+/* ④ 이미지 크기 및 위치 초기화 */
+.solution-image {
+  width: 70px;
+  height: 70px;
+  margin-top: 0; /* 기본 .image 클래스의 margin-top 제거 */
+  object-fit: cover;
+  aspect-ratio: 1 / 1;     /* ⑤ 언제나 1:1 비율 유지 */
+  border-radius: 50%;      /* ⑥ 항상 완벽한 원형 */
+}
+
+/* ② 첫 번째 프레임 아래에만 위쪽 마진 28px */
+.solution-item + .solution-item .solution-wrapper {
+  margin-top: 28px;
+}
+
+/* ④ 이미지 크기 70×70 고정 */
+.solution-image {
+  width: 70px;
+  height: 70px;
+  object-fit: cover;
+}
+
+/* ─── 반응형 포인트 ─── */
+/* 데스크톱 ~ 스튜디오 디스플레이 */
+@media (min-width: 1200px) {
+  .solutions-title { font-size: 2.0rem; }
+}
+/* 태블릿 */
+@media (max-width: 1023px) {
+  .hero, .solutions { padding: 60px 0; }
+}
+/* 모바일 (iPhone SE 포함) */
+@media (max-width: 599px) {
+  .solutions-title { font-size: 2.0rem; }
+  .solutions-subtitle { font-size: 1rem; }
+}

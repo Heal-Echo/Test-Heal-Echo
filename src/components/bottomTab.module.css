@@ -1,0 +1,226 @@
+/* src/components/bottomTab.module.css */
+
+/* ===========================
+   하단 탭 네비게이션
+   - 모든 페이지 하단에 고정
+   - 5개 탭: 홈, 요가, 웰니스, 명상, 마이페이지
+=========================== */
+.bottomTab {
+  position: fixed;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 100%;
+  max-width: 720px;
+  height: 70px;
+  background: #ffffff;
+  border-top: 1px solid #e0e0e0;
+
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+
+  z-index: 9999;
+  padding-bottom: env(safe-area-inset-bottom);
+}
+
+/* ===========================
+   탭 아이템 (개별 탭 버튼)
+=========================== */
+.tabItem {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 20%;
+  height: 100%;
+  border: none;
+  background: transparent;
+  padding: 0;
+  cursor: pointer;
+  text-decoration: none;
+  -webkit-tap-highlight-color: transparent;
+  /* 터치 타겟 최소 48x48px 보장 */
+  min-width: 48px;
+  min-height: 48px;
+}
+
+/* ===========================
+   탭 아이콘
+=========================== */
+.tabIcon {
+  opacity: 0.8;
+  transition: opacity 0.2s ease-in-out;
+}
+
+.active {
+  opacity: 1;
+}
+
+.tabItem:active .tabIcon {
+  opacity: 0.4;
+}
+
+/* ===========================
+   yoga 탭: 무료 체험 전 안내 모달
+=========================== */
+.yogaModalOverlay {
+  position: fixed;
+  inset: 0;
+  z-index: 10001;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+  animation: yogaOverlayIn 0.25s ease;
+  padding: 20px;
+}
+
+@keyframes yogaOverlayIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.yogaModalContent {
+  background: #ffffff;
+  border-radius: 20px;
+  padding: 32px 24px 24px;
+  max-width: 320px;
+  width: 100%;
+  text-align: center;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15);
+  animation: yogaModalIn 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+@keyframes yogaModalIn {
+  from { opacity: 0; transform: scale(0.9) translateY(12px); }
+  to { opacity: 1; transform: scale(1) translateY(0); }
+}
+
+.yogaModalText {
+  font-size: 16px;
+  font-weight: 700;
+  color: #1e1b4b;
+  line-height: 1.6;
+  margin: 0 0 24px;
+}
+
+.yogaModalBtn {
+  width: 100%;
+  padding: 14px 0;
+  border-radius: 14px;
+  border: none;
+  background: linear-gradient(135deg, #6366f1, #818cf8);
+  color: #ffffff;
+  font-size: 15px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  box-shadow: 0 4px 16px rgba(99, 102, 241, 0.3);
+  /* 터치 타겟 최소 48px 보장 */
+  min-height: 48px;
+}
+
+/* 데스크탑에서만 hover 효과 */
+@media (hover: hover) and (pointer: fine) {
+  .yogaModalBtn:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 6px 20px rgba(99, 102, 241, 0.4);
+  }
+}
+
+.yogaModalBtn:active {
+  transform: translateY(0);
+}
+
+/* ===========================
+   반응형: 태블릿 (641px ~ 1024px)
+   - 탭바 max-width를 960px로 확장 (balance 페이지와 동일)
+   - 탭 높이 약간 확대
+   - yoga 모달 여유 있게 표시
+=========================== */
+@media (min-width: 641px) and (max-width: 1024px) {
+  .bottomTab {
+    max-width: var(--container-max-width-tablet, 960px);
+    height: 74px;
+  }
+
+  .yogaModalContent {
+    max-width: 360px;
+    padding: 36px 28px 28px;
+  }
+
+  .yogaModalText {
+    font-size: 17px;
+  }
+
+  .yogaModalBtn {
+    font-size: 16px;
+    padding: 15px 0;
+  }
+}
+
+/* ===========================
+   반응형: 소형 모바일 (≤ 480px)
+   - 탭바 높이 약간 축소
+   - yoga 모달 크기 축소
+=========================== */
+@media (max-width: 480px) {
+  .bottomTab {
+    height: 64px;
+  }
+
+  .yogaModalOverlay {
+    padding: 16px;
+  }
+
+  .yogaModalContent {
+    max-width: 300px;
+    padding: 28px 20px 20px;
+    border-radius: 18px;
+  }
+
+  .yogaModalText {
+    font-size: 15px;
+    margin: 0 0 20px;
+  }
+
+  .yogaModalBtn {
+    font-size: 14px;
+    padding: 13px 0;
+    border-radius: 12px;
+  }
+}
+
+/* ===========================
+   반응형: 초소형 모바일 (≤ 360px)
+   - 탭바 높이 최소화, 화면 공간 확보
+   - yoga 모달 더 컴팩트하게
+=========================== */
+@media (max-width: 360px) {
+  .bottomTab {
+    height: 58px;
+  }
+
+  .yogaModalOverlay {
+    padding: 12px;
+  }
+
+  .yogaModalContent {
+    max-width: 270px;
+    padding: 24px 16px 16px;
+    border-radius: 16px;
+  }
+
+  .yogaModalText {
+    font-size: 14px;
+    margin: 0 0 16px;
+  }
+
+  .yogaModalBtn {
+    font-size: 13px;
+    padding: 12px 0;
+    border-radius: 10px;
+  }
+}

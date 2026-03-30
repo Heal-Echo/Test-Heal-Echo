@@ -1,0 +1,1121 @@
+/* =========================================================
+   PROFILE SETUP PAGE — 사용자 친화적 디자인
+   부드러운 카드, 대화형 환영 메시지, 따뜻한 톤
+========================================================= */
+
+/* 전체 컨테이너 (홈과 동일) */
+.container {
+  width: 100%;
+  min-height: 100vh;
+  background: #f5f5f7;
+  max-width: 720px;
+  margin: 0 auto;
+  padding-bottom: calc(60px + env(safe-area-inset-bottom, 0px));
+  padding-left: env(safe-area-inset-left, 0px);
+  padding-right: env(safe-area-inset-right, 0px);
+}
+
+/* =========================================================
+   환영 영역
+========================================================= */
+.welcomeArea {
+  padding: 24px 20px 16px;
+  text-align: center;
+}
+
+.welcomeText {
+  font-size: 20px;
+  font-weight: 700;
+  color: #1a1a1a;
+  line-height: 1.5;
+  margin: 0 0 20px;
+  word-break: keep-all;
+}
+
+/* =========================================================
+   진행 표시 — 번호 + 라벨
+========================================================= */
+.progressBar {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  gap: 0;
+  padding: 0 12px;
+}
+
+.progressStep {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  min-width: 48px;
+  position: relative;
+  flex: 1;
+  max-width: 100px;
+}
+
+/* 단계 사이 연결선 */
+.progressStep::before {
+  content: "";
+  position: absolute;
+  top: 16px;
+  right: 50%;
+  width: 100%;
+  height: 2px;
+  background: #E5E7EB;
+  z-index: 0;
+}
+
+.progressStep:first-child::before {
+  display: none;
+}
+
+.progressStepDone::before {
+  background: #6366f1;
+}
+
+.progressDot {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: #E5E7EB;
+  color: #9CA3AF;
+  font-size: 14px;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease;
+  position: relative;
+  z-index: 1;
+}
+
+.progressDotActive {
+  background: linear-gradient(135deg, #6366f1, #4338ca);
+  color: #fff;
+  box-shadow: 0 3px 12px rgba(99, 102, 241, 0.35);
+  transform: scale(1.1);
+}
+
+.progressDotDone {
+  background: #6366f1;
+  color: #fff;
+}
+
+.progressLabel {
+  font-size: 11px;
+  color: #9CA3AF;
+  font-weight: 500;
+  white-space: nowrap;
+  transition: color 0.3s ease;
+}
+
+.progressLabelActive {
+  color: #6366f1;
+  font-weight: 700;
+}
+
+/* =========================================================
+   섹션 라벨 — 카드 밖 질문 제목
+========================================================= */
+.sectionLabel {
+  font-size: 16px;
+  font-weight: 700;
+  color: #1a1a1a;
+  padding-left: 2px;
+  margin-top: 4px;
+}
+
+/* =========================================================
+   메인 컨텐츠
+========================================================= */
+.main {
+  padding: 8px 20px;
+}
+
+/* =========================================================
+   Step 공통
+========================================================= */
+.stepContent {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  animation: stepFadeIn 0.35s ease;
+}
+
+@keyframes stepFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* =========================================================
+   카드 — 모든 폼 섹션을 감싸는 부드러운 컨테이너
+========================================================= */
+.card {
+  background: #fff;
+  border-radius: 16px;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.04);
+}
+
+.cardLabel {
+  font-size: 14px;
+  font-weight: 600;
+  color: #374151;
+  padding-left: 2px;
+}
+
+.cardDivider {
+  height: 1px;
+  background: #F3F4F6;
+  margin: 6px 0;
+}
+
+.optionalTag {
+  font-size: 12px;
+  font-weight: 400;
+  color: #9CA3AF;
+  margin-left: 4px;
+}
+
+/* =========================================================
+   텍스트 입력
+========================================================= */
+.textInput {
+  width: 100%;
+  height: 48px;
+  padding: 0 16px;
+  border: 1.5px solid #E5E7EB;
+  border-radius: 12px;
+  font-size: 15px;
+  color: #1a1a1a;
+  background: #FAFAFA;
+  box-sizing: border-box;
+  outline: none;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
+}
+
+.textInput:focus {
+  border-color: #6366f1;
+  background: #fff;
+  box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
+}
+
+.textInput::placeholder {
+  color: #B0B0B0;
+}
+
+.textInputDisabled {
+  background: #F3F4F6;
+  color: #6B7280;
+  border-color: #E5E7EB;
+  cursor: default;
+}
+
+.emailHint {
+  font-size: 12px;
+  color: #9CA3AF;
+  line-height: 1.5;
+  margin: -2px 0 0;
+  padding-left: 2px;
+}
+
+/* =========================================================
+   입력 + 수정 버튼 조합
+========================================================= */
+.inputWithButton {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+.inputWithButton .textInput {
+  flex: 1;
+}
+
+.editButton {
+  flex-shrink: 0;
+  width: 48px;
+  height: 48px;
+  padding: 0;
+  border: 1.5px solid #E5E7EB;
+  border-radius: 12px;
+  background: #FAFAFA;
+  font-size: 14px;
+  font-weight: 600;
+  color: #6366f1;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  white-space: nowrap;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+@media (hover: hover) {
+  .editButton:hover {
+    background: #FFF8E1;
+    border-color: #E6B800;
+  }
+}
+
+.editButtonActive {
+  width: auto;
+  padding: 0 18px;
+  border-color: #6366f1;
+  background: #eef2ff;
+  color: #4338ca;
+}
+
+@media (hover: hover) {
+  .editButtonActive:hover {
+    background: #c7d2fe;
+    border-color: #4338ca;
+  }
+}
+
+/* =========================================================
+   체크박스
+========================================================= */
+.checkboxLabel {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  cursor: pointer;
+  padding: 6px 4px;
+  margin: -6px -4px;
+  border-radius: 8px;
+  transition: background 0.15s ease;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.checkboxLabel:active {
+  background: rgba(99, 102, 241, 0.06);
+}
+
+.checkbox {
+  width: 20px;
+  height: 20px;
+  accent-color: #6366f1;
+  cursor: pointer;
+  flex-shrink: 0;
+  margin-top: 1px;
+}
+
+.checkboxText {
+  font-size: 13px;
+  color: #6B7280;
+  line-height: 1.5;
+}
+
+/* =========================================================
+   생년월일 드롭다운
+========================================================= */
+.dateRow {
+  display: flex;
+  gap: 8px;
+}
+
+.selectWrapper {
+  flex: 1;
+}
+
+.selectInput {
+  width: 100%;
+  height: 48px;
+  padding: 0 12px;
+  border: 1.5px solid #E5E7EB;
+  border-radius: 12px;
+  font-size: 15px;
+  color: #1a1a1a;
+  background: #FAFAFA;
+  box-sizing: border-box;
+  outline: none;
+  cursor: pointer;
+  appearance: none;
+  -webkit-appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='7' viewBox='0 0 12 7'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%239CA3AF' stroke-width='1.5' fill='none' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 12px center;
+  padding-right: 32px;
+  transition: border-color 0.2s ease;
+}
+
+.selectInput:focus {
+  border-color: #6366f1;
+  background: #fff;
+  box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
+}
+
+/* =========================================================
+   성별 칩
+========================================================= */
+.chipGroup {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.chip {
+  padding: 10px 20px;
+  border: 1.5px solid #E5E7EB;
+  border-radius: 24px;
+  background: #FAFAFA;
+  font-size: 14px;
+  color: #4B5563;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+@media (hover: hover) {
+  .chip:hover {
+    border-color: #6366f1;
+    background: #eef2ff;
+    color: #4338ca;
+  }
+}
+
+.chipSelected {
+  background: linear-gradient(135deg, #6366f1, #4338ca);
+  border-color: transparent;
+  color: #fff;
+  font-weight: 600;
+  box-shadow: 0 2px 8px rgba(99, 102, 241, 0.25);
+}
+
+@media (hover: hover) {
+  .chipSelected:hover {
+    background: linear-gradient(135deg, #818cf8, #4338ca);
+    border-color: transparent;
+    color: #fff;
+  }
+}
+
+
+/* =========================================================
+   습관 카드 — 식습관 / 수면습관 (Step 2, 3)
+========================================================= */
+.habitGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.habitCard {
+  width: 100%;
+  padding: 18px 20px;
+  border: 2px solid #E5E7EB;
+  border-radius: 14px;
+  background: #fff;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  text-align: left;
+  transition: all 0.25s ease;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.04);
+}
+
+@media (hover: hover) {
+  .habitCard:hover {
+    border-color: #6366f1;
+    transform: translateY(-1px);
+  }
+}
+
+.habitCard:active {
+  transform: scale(0.98);
+}
+
+.habitCardSelected {
+  border-color: #6366f1;
+  background: linear-gradient(135deg, #eef2ff, #e0e7ff);
+  box-shadow: 0 2px 12px rgba(99, 102, 241, 0.12);
+}
+
+.habitEmoji {
+  font-size: 24px;
+  flex-shrink: 0;
+}
+
+.habitLabel {
+  font-size: 15px;
+  font-weight: 600;
+  color: #1a1a1a;
+}
+
+.habitCardSelected .habitLabel {
+  color: #4338ca;
+}
+
+/* =========================================================
+   독립형 이전 버튼 — Step 2, 3, 4 하단
+========================================================= */
+.backButtonStandalone {
+  align-self: center;
+  padding: 8px 24px;
+  border-radius: 12px;
+  border: 1.5px solid #D4D4D8;
+  background: #fff;
+  font-size: 14px;
+  font-weight: 600;
+  color: #9CA3AF;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  margin-top: 8px;
+}
+
+@media (hover: hover) {
+  .backButtonStandalone:hover {
+    border-color: #9CA3AF;
+    color: #6B7280;
+    background: #F9FAFB;
+  }
+}
+
+/* =========================================================
+   웰니스 목표 카드 (Step 1)
+========================================================= */
+.goalGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.goalCard {
+  width: 100%;
+  padding: 20px;
+  border: 2px solid #E5E7EB;
+  border-radius: 16px;
+  background: #fff;
+  cursor: pointer;
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+  text-align: left;
+  transition: all 0.25s ease;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.04);
+}
+
+@media (hover: hover) {
+  .goalCard:hover {
+    border-color: #6366f1;
+    box-shadow: 0 4px 16px rgba(99, 102, 241, 0.1);
+    transform: translateY(-1px);
+  }
+}
+
+.goalCard:active {
+  transform: scale(0.98);
+}
+
+.goalCardSelected {
+  border-color: #6366f1;
+  background: linear-gradient(135deg, #eef2ff, #e0e7ff);
+  box-shadow: 0 4px 16px rgba(99, 102, 241, 0.15);
+}
+
+.goalEmoji {
+  font-size: 28px;
+  flex-shrink: 0;
+  line-height: 1;
+  margin-top: 2px;
+}
+
+.goalTextWrap {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.goalTitle {
+  font-size: 15px;
+  font-weight: 600;
+  color: #1a1a1a;
+  line-height: 1.5;
+  word-break: keep-all;
+}
+
+.goalSubtitle {
+  font-size: 13px;
+  color: #9CA3AF;
+  font-weight: 500;
+}
+
+.goalCardSelected .goalTitle {
+  color: #4338ca;
+}
+
+.goalCardSelected .goalSubtitle {
+  color: #6366f1;
+}
+
+/* =========================================================
+   Step 3: 경험 수준 카드
+========================================================= */
+.experienceGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.experienceCard {
+  width: 100%;
+  padding: 16px 18px;
+  border: 2px solid #E5E7EB;
+  border-radius: 14px;
+  background: #fff;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  text-align: left;
+  transition: all 0.25s ease;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.04);
+}
+
+@media (hover: hover) {
+  .experienceCard:hover {
+    border-color: #6366f1;
+    transform: translateY(-1px);
+  }
+}
+
+.experienceCard:active {
+  transform: scale(0.98);
+}
+
+.experienceCardSelected {
+  border-color: #6366f1;
+  background: linear-gradient(135deg, #eef2ff, #e0e7ff);
+  box-shadow: 0 2px 12px rgba(99, 102, 241, 0.12);
+}
+
+.experienceEmoji {
+  font-size: 24px;
+  flex-shrink: 0;
+}
+
+.experienceTextWrap {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.experienceLabel {
+  font-size: 15px;
+  font-weight: 600;
+  color: #1a1a1a;
+}
+
+.experienceDesc {
+  font-size: 13px;
+  color: #9CA3AF;
+}
+
+.experienceCardSelected .experienceLabel {
+  color: #4338ca;
+}
+
+.experienceCardSelected .experienceDesc {
+  color: #6366f1;
+}
+
+/* =========================================================
+   알림 토글
+========================================================= */
+.toggleRow {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  grid-template-rows: auto auto;
+  align-items: center;
+  gap: 2px 12px;
+  cursor: pointer;
+}
+
+.toggleLabel {
+  grid-column: 1;
+  grid-row: 1;
+  font-size: 14px;
+  font-weight: 600;
+  color: #374151;
+}
+
+.toggleDesc {
+  grid-column: 1;
+  grid-row: 2;
+  font-size: 12px;
+  color: #9CA3AF;
+}
+
+.toggle {
+  grid-column: 2;
+  grid-row: 1 / 3;
+  width: 46px;
+  height: 26px;
+  border-radius: 13px;
+  border: none;
+  background: #D4D4D8;
+  cursor: pointer;
+  position: relative;
+  transition: background 0.25s ease;
+  padding: 0;
+  flex-shrink: 0;
+}
+
+.toggleOn {
+  background: linear-gradient(135deg, #6366f1, #4338ca);
+}
+
+.toggleKnob {
+  display: block;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background: #fff;
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  transition: transform 0.25s ease;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.15);
+}
+
+.toggleOn .toggleKnob {
+  transform: translateX(20px);
+}
+
+.marketingHint {
+  font-size: 12px;
+  color: #9CA3AF;
+  margin: -2px 0 0;
+  line-height: 1.4;
+}
+
+/* =========================================================
+   버튼
+========================================================= */
+.nextButton {
+  width: 100%;
+  height: 52px;
+  border-radius: 14px;
+  border: none;
+  background: linear-gradient(135deg, #6366f1, #4338ca);
+  font-size: 16px;
+  font-weight: 700;
+  color: #fff;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  box-shadow: 0 4px 14px rgba(99, 102, 241, 0.25);
+}
+
+@media (hover: hover) {
+  .nextButton:hover:not(:disabled) {
+    box-shadow: 0 6px 20px rgba(99, 102, 241, 0.35);
+    transform: translateY(-1px);
+  }
+}
+
+.nextButton:active:not(:disabled) {
+  transform: translateY(0);
+  box-shadow: 0 2px 8px rgba(99, 102, 241, 0.25);
+}
+
+.nextButton:disabled {
+  background: #E5E7EB;
+  color: #9CA3AF;
+  cursor: not-allowed;
+  box-shadow: none;
+}
+
+.backButton {
+  flex: 0 0 auto;
+  padding: 0 24px;
+  height: 52px;
+  border-radius: 14px;
+  border: 1.5px solid #D4D4D8;
+  background: #fff;
+  font-size: 15px;
+  font-weight: 600;
+  color: #6B7280;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+@media (hover: hover) {
+  .backButton:hover {
+    border-color: #9CA3AF;
+    color: #374151;
+    background: #F9FAFB;
+  }
+}
+
+.buttonRow {
+  display: flex;
+  gap: 10px;
+}
+
+.buttonRow .nextButton {
+  flex: 1;
+}
+
+.skipButton {
+  background: none;
+  border: none;
+  font-size: 14px;
+  color: #9CA3AF;
+  cursor: pointer;
+  transition: color 0.2s ease;
+  margin-top: -2px;
+  align-self: center;
+  padding: 8px 16px;
+}
+
+@media (hover: hover) {
+  .skipButton:hover {
+    color: #6B7280;
+  }
+}
+
+/* =========================================================
+   반응형: 중간 모바일 (481px ~ 720px)
+   — 큰 스마트폰, 소형 태블릿
+========================================================= */
+@media (max-width: 720px) and (min-width: 481px) {
+  .main {
+    padding: 8px 18px;
+  }
+
+  .welcomeArea {
+    padding: 22px 18px 14px;
+  }
+
+  .welcomeText {
+    font-size: 19px;
+  }
+
+  .progressDot {
+    width: 30px;
+    height: 30px;
+    font-size: 13px;
+  }
+
+  .progressStep::before {
+    top: 15px;
+  }
+
+  .card {
+    padding: 18px;
+  }
+
+  .textInput,
+  .selectInput {
+    height: 46px;
+    font-size: 15px;
+  }
+
+  .editButton {
+    width: 46px;
+    height: 46px;
+  }
+
+  .nextButton,
+  .backButton {
+    height: 50px;
+  }
+
+  .nextButton {
+    font-size: 15px;
+  }
+
+  .goalCard {
+    padding: 18px;
+  }
+
+  .goalEmoji {
+    font-size: 26px;
+  }
+
+  .experienceCard {
+    padding: 15px 17px;
+  }
+
+  .habitCard {
+    padding: 16px 18px;
+  }
+}
+
+/* =========================================================
+   반응형: 소형 모바일 (480px 이하)
+========================================================= */
+@media (max-width: 480px) {
+  .main {
+    padding: 6px 16px;
+  }
+
+  .welcomeArea {
+    padding: 20px 16px 12px;
+  }
+
+  .welcomeText {
+    font-size: 18px;
+  }
+
+  .progressDot {
+    width: 28px;
+    height: 28px;
+    font-size: 12px;
+  }
+
+  .progressStep::before {
+    top: 14px;
+  }
+
+  .progressLabel {
+    font-size: 10px;
+  }
+
+  .sectionLabel {
+    font-size: 15px;
+  }
+
+  .card {
+    padding: 16px;
+    border-radius: 14px;
+  }
+
+  .stepContent {
+    gap: 12px;
+  }
+
+  .textInput,
+  .selectInput {
+    height: 44px;
+    font-size: 14px;
+  }
+
+  .editButton {
+    width: 44px;
+    height: 44px;
+    font-size: 13px;
+  }
+
+  .editButtonActive {
+    width: auto;
+    padding: 0 14px;
+  }
+
+  .chip {
+    padding: 8px 16px;
+    font-size: 13px;
+  }
+
+  .nextButton,
+  .backButton {
+    height: 48px;
+  }
+
+  .nextButton {
+    font-size: 15px;
+  }
+
+  .goalCard {
+    padding: 16px;
+  }
+
+  .goalEmoji {
+    font-size: 24px;
+  }
+
+  .goalTitle {
+    font-size: 14px;
+    white-space: pre-line;
+  }
+
+  .experienceCard {
+    padding: 14px 16px;
+  }
+
+  .habitCard {
+    padding: 14px 16px;
+  }
+
+  .habitEmoji {
+    font-size: 20px;
+  }
+
+  .habitLabel {
+    font-size: 14px;
+  }
+}
+
+/* =========================================================
+   반응형: 초소형 모바일 (360px 이하)
+   — iPhone SE 1세대, 구형 소형 폰
+========================================================= */
+@media (max-width: 360px) {
+  .main {
+    padding: 4px 12px;
+  }
+
+  .welcomeArea {
+    padding: 16px 12px 10px;
+  }
+
+  .welcomeText {
+    font-size: 16px;
+    line-height: 1.4;
+  }
+
+  .progressStep {
+    min-width: 40px;
+  }
+
+  .progressStep::before {
+    top: 12px;
+  }
+
+  .progressDot {
+    width: 24px;
+    height: 24px;
+    font-size: 11px;
+  }
+
+  .progressLabel {
+    font-size: 9px;
+  }
+
+  .sectionLabel {
+    font-size: 14px;
+  }
+
+  .card {
+    padding: 14px;
+    border-radius: 12px;
+  }
+
+  .stepContent {
+    gap: 10px;
+  }
+
+  .textInput,
+  .selectInput {
+    height: 42px;
+    font-size: 13px;
+    border-radius: 10px;
+  }
+
+  .dateRow {
+    gap: 6px;
+  }
+
+  .selectInput {
+    padding: 0 8px;
+    padding-right: 28px;
+    background-position: right 8px center;
+  }
+
+  .editButton {
+    width: 42px;
+    height: 42px;
+    font-size: 12px;
+    border-radius: 10px;
+  }
+
+  .chip {
+    padding: 7px 14px;
+    font-size: 12px;
+    border-radius: 20px;
+  }
+
+  .nextButton,
+  .backButton {
+    height: 44px;
+    border-radius: 12px;
+  }
+
+  .nextButton {
+    font-size: 14px;
+  }
+
+  .backButton {
+    padding: 0 16px;
+    font-size: 13px;
+  }
+
+  .goalCard {
+    padding: 14px;
+    border-radius: 12px;
+    gap: 10px;
+  }
+
+  .goalEmoji {
+    font-size: 22px;
+  }
+
+  .goalTitle {
+    font-size: 13px;
+  }
+
+  .goalSubtitle {
+    font-size: 12px;
+  }
+
+  .experienceCard {
+    padding: 12px 14px;
+    border-radius: 12px;
+    gap: 10px;
+  }
+
+  .experienceEmoji {
+    font-size: 20px;
+  }
+
+  .experienceLabel {
+    font-size: 13px;
+  }
+
+  .experienceDesc {
+    font-size: 12px;
+  }
+
+  .habitCard {
+    padding: 12px 14px;
+    border-radius: 12px;
+    gap: 10px;
+  }
+
+  .habitEmoji {
+    font-size: 18px;
+  }
+
+  .habitLabel {
+    font-size: 13px;
+  }
+
+  .toggleLabel {
+    font-size: 13px;
+  }
+
+  .toggleDesc {
+    font-size: 11px;
+  }
+
+  .skipButton {
+    font-size: 13px;
+  }
+
+  .backButtonStandalone {
+    font-size: 13px;
+    padding: 6px 20px;
+  }
+}
+
