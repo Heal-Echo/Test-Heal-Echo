@@ -27,6 +27,7 @@ type SelfCheckBody = {
   affectedCategories: number;
   totalSelected: number;
   overallPercent: number;
+  timestamp?: number;
 };
 
 export const handler = async (event: any) => {
@@ -78,6 +79,7 @@ export const handler = async (event: any) => {
             affectedCategories: body.affectedCategories,
             totalSelected: body.totalSelected,
             overallPercent: body.overallPercent,
+            timestamp: body.timestamp || Date.now(),
             createdAt: now,
           },
         })

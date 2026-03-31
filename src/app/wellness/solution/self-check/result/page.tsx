@@ -10,7 +10,6 @@ import { isUserLoggedIn } from "@/auth/user";
 import {
   getSavedSelfCheckResult,
   fetchAndHydrateSelfCheckResult,
-  retryPendingSelfCheckSync,
   getSignalIntensity,
   getSignalGrade,
 } from "@/components/self-check/SelfCheckSurvey";
@@ -55,10 +54,10 @@ export default function SelfCheckResultPage() {
   useEffect(() => {
     if (typeof window === "undefined") return;
 
+    // fetchAndHydrateSelfCheckResult 내부에서 pending retry를 이미 수행하므로
+    // retryPendingSelfCheckSync를 별도 호출하지 않음 (중복 POST 방지)
     const handleVisibilityChange = () => {
       if (document.visibilityState === "visible") {
-        retryPendingSelfCheckSync();
-        // 최신 결과 반영
         fetchAndHydrateSelfCheckResult().then((r) => {
           if (r) setResult(r);
         });
@@ -66,7 +65,6 @@ export default function SelfCheckResultPage() {
     };
 
     const handleOnline = () => {
-      retryPendingSelfCheckSync();
       fetchAndHydrateSelfCheckResult().then((r) => {
         if (r) setResult(r);
       });

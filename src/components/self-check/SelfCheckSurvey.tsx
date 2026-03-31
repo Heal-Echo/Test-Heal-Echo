@@ -345,7 +345,17 @@ export async function fetchAndHydrateSelfCheckResult(): Promise<SelfCheckResult 
 
       if (Array.isArray(results) && results.length > 0) {
         // AWS에 데이터 있음 → 로컬 캐시 갱신
-        const latest = results[results.length - 1] as SelfCheckResult;
+        // Lambda가 ScanIndexForward: false(최신순)로 반환하므로 첫 번째가 최신
+        const latest = results[0] as SelfCheckResult;
+
+        // AWS에는 createdAt(ISO)만 저장되고 timestamp(epoch)가 없을 수 있음
+        // → 모바일 앱/웹 간 데이터 일관성을 위해 timestamp 보정
+        if (!latest.timestamp && (latest as any).createdAt) {
+          latest.timestamp = new Date((latest as any).createdAt).getTime();
+        } else if (!latest.timestamp) {
+          latest.timestamp = Date.now();
+        }
+
         storage.setJSON(SELFCHECK_RESULT_KEY, latest);
         storage.set(SELFCHECK_DONE_KEY, "true");
         return latest;

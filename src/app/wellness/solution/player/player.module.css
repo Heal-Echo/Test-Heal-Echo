@@ -226,22 +226,46 @@
     inset: 0;
     z-index: 10010;
     display: flex;
-    align-items: center;
+    align-items: flex-end;
     justify-content: center;
     background: rgba(0, 0, 0, 0.55);
     backdrop-filter: blur(4px);
-    padding: 24px 16px;
+    padding: 0;
   }
 
   .selfCheckModal {
     width: 100%;
-    max-width: 440px;
-    max-height: calc(100vh - 48px);
+    max-height: calc(100vh - env(safe-area-inset-top, 24px));
+    max-height: calc(100dvh - env(safe-area-inset-top, 24px));
     overflow-y: auto;
     -webkit-overflow-scrolling: touch;
     background: #faf9f6;
-    border-radius: 20px;
-    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.25);
+    border-radius: 20px 20px 0 0;
+    box-shadow: 0 -4px 40px rgba(0, 0, 0, 0.2);
+    padding-bottom: env(safe-area-inset-bottom, 0px);
+    animation: selfCheckSlideUp 0.3s ease-out;
+  }
+
+  @keyframes selfCheckSlideUp {
+    from { opacity: 0; transform: translateY(40px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  /* 태블릿 이상: 중앙 모달 */
+  @media (min-width: 641px) {
+    .selfCheckOverlay {
+      align-items: center;
+      padding: 24px 20px;
+    }
+
+    .selfCheckModal {
+      max-width: 540px;
+      max-height: calc(100vh - 48px);
+      max-height: calc(100dvh - 48px);
+      border-radius: 24px;
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.25);
+      padding-bottom: 0;
+    }
   }
 
   /* ─── 무료 체험 CTA 카드 (영상 아래) ─── */
