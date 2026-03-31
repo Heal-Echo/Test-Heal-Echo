@@ -347,6 +347,8 @@ function LoginPageInner() {
 
         recordLogin(idToken);
         sendPendingConsent(idToken);
+        // 구독 정보 프리페치 (fire-and-forget: 홈 도착 전에 캐시 채우기)
+        import("@/auth/subscription").then((m) => m.prefetchSubscriptions());
         router.replace(getPostLoginRedirect());
       } catch (err: any) {
         showBanner(err.message || "소셜 로그인 처리 중 오류가 발생했습니다.", "error");
@@ -613,6 +615,8 @@ function LoginPageInner() {
       const result: any = await userLogin(loginEmail, loginPassword);
       recordLogin(result.idToken);
       sendPendingConsent(result.idToken);
+      // 구독 정보 프리페치 (fire-and-forget: 홈 도착 전에 캐시 채우기)
+      import("@/auth/subscription").then((m) => m.prefetchSubscriptions());
       router.replace(getPostLoginRedirect());
     } catch (err: any) {
       // 보안: 이메일 존재 여부·가입 경로를 노출하지 않도록

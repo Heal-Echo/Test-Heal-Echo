@@ -32,8 +32,13 @@ const nextConfig = {
     ];
   },
 
-  // 이미지 도메인 허용 (CloudFront)
+  // 이미지 최적화 설정
   images: {
+    // 모바일/태블릿 디바이스 최적화 크기
+    deviceSizes: [360, 480, 640, 768, 1024, 1280],
+    imageSizes: [16, 32, 48, 64, 96, 128, 256, 320],
+    // WebP 우선, AVIF 지원 브라우저에서 추가 최적화
+    formats: ["image/avif", "image/webp"],
     remotePatterns: [
       {
         protocol: "http",

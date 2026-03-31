@@ -1,44 +1,30 @@
 "use client";
 
-import React, { useState, useEffect, useRef, useCallback, Suspense } from "react";
+import React, { useState, useEffect, Suspense } from "react";
+import dynamic from "next/dynamic";
 import { useRouter, useSearchParams } from "next/navigation";
 import styles from "./home.module.css";
 import Image from "next/image";
 import Link from "next/link";
 import BottomTab from "@/components/BottomTab";
 import Header from "@/components/Header";
-import ComingSoonModal from "@/components/publicSite/ComingSoonModal";
+import WellnessCarousel from "./WellnessCarousel";
 
 // 사용자 인증
 import { isUserLoggedIn, getUserName, getUserInfo } from "@/auth/user";
-import { getSubscription } from "@/auth/subscription";
+import { getSubscription, getSubscriptionSync } from "@/auth/subscription";
 import { PROGRAMS_LIST, getProgramName } from "@/config/programs";
 import * as storage from "@/lib/storage";
-import { syncProgramSelection, getSelectedProgram, isSelectionConfirmed } from "@/lib/programSelection";
+import { getSelectedProgram, isSelectionConfirmed } from "@/lib/programSelection";
 
-const WELLNESS_SLIDES = [
-  {
-    href: "/wellness/solution",
-    image: "/assets/images/solutions.png",
-    alt: "위클리 솔루션",
-    label: "위클리 솔루션",
-    desc: "하루 15분, 나를 위한 맞춤 요가 클래스",
-  },
-  {
-    href: "/wellness/weekly-habit",
-    image: "/assets/images/healing_recipe_square.png",
-    alt: "위클리 해빗",
-    label: "위클리 해빗",
-    desc: "쉽게 실천 가능한 수면 습관과 식습관",
-  },
-  {
-    href: "/understanding",
-    image: "/assets/images/Ocean_of_Understanding_crop1.png",
-    alt: "이해의 바다",
-    label: "이해의 바다",
-    desc: "조건없이 나를 이해하는 시간",
-  },
-];
+// 모달은 사용자 인터랙션 시에만 필요 → dynamic import로 코드 스플리팅
+const ProgramSelectModal = dynamic(() => import("./ProgramSelectModal"), {
+  ssr: false,
+});
+const ComingSoonModal = dynamic(
+  () => import("@/components/publicSite/ComingSoonModal"),
+  { ssr: false }
+);
 
 // =======================================================
 // 프로필 AWS 재전송 함수 (독립 함수로 분리)
@@ -198,84 +184,12 @@ function HomeContent() {
   const [highlightWellness, setHighlightWellness] = useState(false);
   const [userName, setUserName] = useState<string | null>(null);
   const [showComingSoon, setShowComingSoon] = useState(false);
-  const [activeSlide, setActiveSlide] = useState(0);
   const [subscribedProgram, setSubscribedProgram] = useState<{
     id: string;
     name: string;
     image: string;
     href: string | null;
   } | null>(null);
-  const carouselRef = useRef<HTMLDivElement>(null);
-
-  // 카루셀 스크롤 감지
-  const handleCarouselScroll = useCallback(() => {
-    const el = carouselRef.current;
-    if (!el) return;
-    const scrollLeft = el.scrollLeft;
-    const cardWidth = el.firstElementChild
-      ? (el.firstElementChild as HTMLElement).offsetWidth
-      : 1;
-    const gap = 10;
-    const index = Math.round(scrollLeft / (cardWidth + gap));
-    setActiveSlide(Math.min(index, WELLNESS_SLIDES.length - 1));
-  }, []);
-
-  const scrollToSlide = (index: number) => {
-    const el = carouselRef.current;
-    if (!el || !el.firstElementChild) return;
-    const cardWidth = (el.firstElementChild as HTMLElement).offsetWidth;
-    const gap = 10;
-    el.scrollTo({ left: index * (cardWidth + gap), behavior: "smooth" });
-  };
-
-  // 마우스 드래그 스크롤 (데스크톱)
-  const isDragging = useRef(false);
-  const dragStartX = useRef(0);
-  const dragScrollLeft = useRef(0);
-  const dragMoved = useRef(false);
-
-  const handleMouseDown = useCallback((e: React.MouseEvent) => {
-    const el = carouselRef.current;
-    if (!el) return;
-    isDragging.current = true;
-    dragMoved.current = false;
-    dragStartX.current = e.pageX - el.offsetLeft;
-    dragScrollLeft.current = el.scrollLeft;
-    el.style.cursor = "grabbing";
-    el.style.scrollSnapType = "none";
-  }, []);
-
-  const handleMouseMove = useCallback((e: React.MouseEvent) => {
-    if (!isDragging.current) return;
-    e.preventDefault();
-    const el = carouselRef.current;
-    if (!el) return;
-    const x = e.pageX - el.offsetLeft;
-    const walk = (x - dragStartX.current) * 1.5;
-    // 5px 이상 움직이면 드래그로 판정 → 클릭 방지
-    if (Math.abs(x - dragStartX.current) > 5) {
-      dragMoved.current = true;
-    }
-    el.scrollLeft = dragScrollLeft.current - walk;
-  }, []);
-
-  const handleMouseUp = useCallback(() => {
-    isDragging.current = false;
-    const el = carouselRef.current;
-    if (!el) return;
-    el.style.cursor = "grab";
-    setTimeout(() => {
-      el.style.scrollSnapType = "x mandatory";
-    }, 50);
-  }, []);
-
-  // 드래그 후 링크 클릭 방지
-  const handleCardClick = useCallback((e: React.MouseEvent) => {
-    if (dragMoved.current) {
-      e.preventDefault();
-      e.stopPropagation();
-    }
-  }, []);
 
   // ▶ 사용자 이름 가져오기
   useEffect(() => {
@@ -283,7 +197,7 @@ function HomeContent() {
     setUserName(name);
   }, []);
 
-  // ▶ 구독 상태 확인 (서버 API에서 조회 → 결제 완료 시 프로그램 카드 표시)
+  // ▶ 구독 상태 확인: 캐시 즉시 표시 → 백그라운드 갱신
   useEffect(() => {
     // 프로그램별 이동 경로 (향후 확장 시 여기에 추가)
     const PROGRAM_HREF: Record<string, string | null> = {
@@ -291,22 +205,45 @@ function HomeContent() {
       "womans-whisper": null, // 향후 설정 예정
     };
 
-    async function checkSubscriptions() {
+    function findSubscribed(
+      getSub: (id: string) => { subscriptionType: string }
+    ) {
       for (const prog of PROGRAMS_LIST) {
-        const sub = await getSubscription(prog.id);
+        const sub = getSub(prog.id);
         if (sub.subscriptionType === "free_trial" || sub.subscriptionType === "paid") {
-          setSubscribedProgram({
+          return {
             id: prog.id,
             name: prog.name,
             image: prog.image,
             href: PROGRAM_HREF[prog.id] ?? null,
-          });
-          return;
+          };
         }
+      }
+      return null;
+    }
+
+    // 1단계: 캐시에서 즉시 표시 (로그인 시 prefetch된 데이터)
+    const cached = findSubscribed(getSubscriptionSync);
+    if (cached) setSubscribedProgram(cached);
+
+    // 2단계: 백그라운드에서 최신 데이터 갱신
+    async function refreshSubscriptions() {
+      const results = await Promise.all(
+        PROGRAMS_LIST.map((prog) => getSubscription(prog.id))
+      );
+
+      const fresh = findSubscribed((id) => {
+        const idx = PROGRAMS_LIST.findIndex((p) => p.id === id);
+        return results[idx];
+      });
+
+      // 캐시와 다를 때만 업데이트 (불필요한 리렌더 방지)
+      if (fresh?.id !== cached?.id) {
+        setSubscribedProgram(fresh);
       }
     }
 
-    checkSubscriptions();
+    refreshSubscriptions();
   }, []);
 
   // ▶ yoga 탭 → home 리다이렉트 시 웰니스 섹션 하이라이트
@@ -383,10 +320,12 @@ function HomeContent() {
             >
               <div className={styles.wellnessImageWrap}>
                 <Image
-                  src="/assets/images/balance reset_square.png"
+                  src="/assets/images/webp/balance_reset_square.webp"
                   alt={getProgramName("autobalance")}
                   width={480}
                   height={480}
+                  sizes="(max-width: 480px) 45vw, (max-width: 1024px) 40vw, 340px"
+                  priority
                   className={styles.wellnessImage}
                 />
                 <div className={styles.wellnessOverlay}>
@@ -411,10 +350,12 @@ function HomeContent() {
             >
               <div className={styles.wellnessImageWrap}>
                 <Image
-                  src="/assets/images/woman condition_square.png"
+                  src="/assets/images/webp/woman_condition_square.webp"
                   alt={getProgramName("womans-whisper")}
                   width={480}
                   height={480}
+                  sizes="(max-width: 480px) 45vw, (max-width: 1024px) 40vw, 340px"
+                  priority
                   className={styles.wellnessImage}
                 />
                 <div className={styles.wellnessOverlay}>
@@ -499,55 +440,7 @@ function HomeContent() {
         </div>
 
         {/* 웰니스 솔루션 카드 슬라이드 */}
-        <section className={styles.carouselSection}>
-          <div
-            className={styles.carouselTrack}
-            ref={carouselRef}
-            onScroll={handleCarouselScroll}
-            onMouseDown={handleMouseDown}
-            onMouseMove={handleMouseMove}
-            onMouseUp={handleMouseUp}
-            onMouseLeave={handleMouseUp}
-          >
-            {WELLNESS_SLIDES.map((slide, i) => (
-              <Link
-                key={slide.href}
-                href={slide.href}
-                className={styles.carouselCard}
-                onClick={handleCardClick}
-                draggable={false}
-              >
-                <div className={styles.carouselImageWrap}>
-                  <Image
-                    src={slide.image}
-                    alt={slide.alt}
-                    width={1024}
-                    height={1024}
-                    className={styles.carouselImage}
-                  />
-                  <div className={styles.carouselOverlay}>
-                    <p className={styles.carouselDesc}>{slide.desc}</p>
-                  </div>
-                </div>
-                <p className={styles.carouselLabel}>{slide.label}</p>
-              </Link>
-            ))}
-          </div>
-
-          {/* Dot indicator */}
-          <div className={styles.carouselDots}>
-            {WELLNESS_SLIDES.map((_, i) => (
-              <button
-                key={i}
-                className={`${styles.dot} ${
-                  activeSlide === i ? styles.dotActive : ""
-                }`}
-                onClick={() => scrollToSlide(i)}
-                aria-label={`슬라이드 ${i + 1}`}
-              />
-            ))}
-          </div>
-        </section>
+        <WellnessCarousel />
       </main>
 
       <div className={styles.tabPadding}></div>
@@ -555,61 +448,13 @@ function HomeContent() {
       <BottomTab />
 
       {isModalOpen && (
-        <div className={styles.modalOverlay} onClick={handleCloseModal}>
-          <div
-            className={styles.modalContent}
-            onClick={(e) => e.stopPropagation()}
-          >
-            <span className={styles.modalBadge}>7일 무료 체험</span>
-            <p className={styles.modalTitle}>나에게 맞는 웰니스를 선택하세요</p>
-            <p className={styles.modalSubText}>선택 즉시 맞춤 프로그램이 시작됩니다</p>
-
-            <div className={styles.modalCards}>
-              <button
-                className={styles.modalCard}
-                onClick={() => {
-                  syncProgramSelection("autobalance");
-                  setIsModalOpen(false);
-                  router.push("/wellness/balance");
-                }}
-              >
-                <div className={styles.modalCardImageWrap}>
-                  <Image
-                    src="/assets/images/balance reset_square.png"
-                    alt={getProgramName("autobalance")}
-                    width={320}
-                    height={213}
-                    className={styles.modalCardImage}
-                  />
-                </div>
-                <span className={styles.modalCardName}>{getProgramName("autobalance")}</span>
-                <span className={styles.modalCardCta}>시작하기 →</span>
-              </button>
-
-              <button
-                className={styles.modalCard}
-                onClick={() => {
-                  setIsModalOpen(false);
-                  setShowComingSoon(true);
-                }}
-              >
-                <div className={styles.modalCardImageWrap}>
-                  <Image
-                    src="/assets/images/woman condition_square.png"
-                    alt={getProgramName("womans-whisper")}
-                    width={320}
-                    height={213}
-                    className={styles.modalCardImage}
-                  />
-                </div>
-                <span className={styles.modalCardName}>
-                  {getProgramName("womans-whisper")}
-                </span>
-                <span className={styles.modalCardCta}>시작하기 →</span>
-              </button>
-            </div>
-          </div>
-        </div>
+        <ProgramSelectModal
+          onClose={handleCloseModal}
+          onShowComingSoon={() => {
+            setIsModalOpen(false);
+            setShowComingSoon(true);
+          }}
+        />
       )}
       <ComingSoonModal
         open={showComingSoon}

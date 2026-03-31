@@ -41,6 +41,26 @@ async function getAuthToken(): Promise<string | null> {
 }
 
 // ─────────────────────────────────────────
+// 인메모리 캐시 (동일 세션 내 중복 API 호출 방지)
+// ─────────────────────────────────────────
+const MEMORY_CACHE_TTL = 30_000; // 30초
+const memoryCache = new Map<string, { data: UserSubscription; ts: number }>();
+
+function getFromMemoryCache(programId: string): UserSubscription | null {
+  const entry = memoryCache.get(programId);
+  if (!entry) return null;
+  if (Date.now() - entry.ts > MEMORY_CACHE_TTL) {
+    memoryCache.delete(programId);
+    return null;
+  }
+  return entry.data;
+}
+
+function setMemoryCache(sub: UserSubscription): void {
+  memoryCache.set(sub.programId, { data: sub, ts: Date.now() });
+}
+
+// ─────────────────────────────────────────
 // 1) 구독 상태 조회
 // ─────────────────────────────────────────
 
@@ -87,6 +107,10 @@ function saveSubscriptionToCache(sub: UserSubscription): void {
  * - 실패 시 storage 폴백
  */
 export async function getSubscription(programId: string): Promise<UserSubscription> {
+  // 인메모리 캐시 히트 → API 호출 생략
+  const cached = getFromMemoryCache(programId);
+  if (cached) return cached;
+
   const token = await getAuthToken();
 
   // 토큰 없으면 캐시에서 읽기 (비로그인 상태)
@@ -114,8 +138,9 @@ export async function getSubscription(programId: string): Promise<UserSubscripti
     const data = await res.json();
     const sub = data.subscription as UserSubscription;
 
-    // 캐시에 저장
+    // 캐시에 저장 (storage + 인메모리)
     saveSubscriptionToCache(sub);
+    setMemoryCache(sub);
 
     return sub;
   } catch (err) {
@@ -131,6 +156,22 @@ export async function getSubscription(programId: string): Promise<UserSubscripti
  */
 export function getSubscriptionSync(programId: string): UserSubscription {
   return getSubscriptionFromCache(programId);
+}
+
+/**
+ * 로그인 직후 모든 프로그램 구독 상태를 병렬 프리페치
+ * - storage + 인메모리 캐시에 저장 → 홈 진입 시 즉시 표시
+ * - fire-and-forget으로 호출해도 안전 (실패해도 홈에서 재조회)
+ */
+export async function prefetchSubscriptions(): Promise<void> {
+  try {
+    const { PROGRAMS_LIST } = await import("@/config/programs");
+    await Promise.all(
+      PROGRAMS_LIST.map((prog) => getSubscription(prog.id))
+    );
+  } catch {
+    // 실패해도 무시 — 홈에서 다시 조회됨
+  }
 }
 
 /**
@@ -170,7 +211,9 @@ export async function saveSubscription(sub: UserSubscription): Promise<boolean> 
 
     const data = await res.json();
     if (data.subscription) {
-      saveSubscriptionToCache(data.subscription as UserSubscription);
+      const saved = data.subscription as UserSubscription;
+      saveSubscriptionToCache(saved);
+      setMemoryCache(saved);
     }
 
     return true;

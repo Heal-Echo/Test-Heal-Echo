@@ -601,12 +601,133 @@
 }
 
 /* ===========================
-   반응형 — 태블릿
+   반응형 — 태블릿 (641px ~ 1024px)
+   넓은 화면을 활용한 여유 있는 레이아웃
 =========================== */
-@media (max-width: 768px) {
+@media (min-width: 641px) and (max-width: 1024px) {
+  .container {
+    max-width: 960px;
+  }
+
   .main {
-    padding: 18px 16px;
-    gap: 26px;
+    padding: 28px 24px;
+    gap: 32px;
+  }
+
+  .greetingText {
+    font-size: 20px;
+  }
+
+  .sectionTitle {
+    font-size: 22px;
+    margin-bottom: 18px;
+  }
+
+  .wellnessGrid {
+    gap: 16px;
+  }
+
+  .wellnessSubText {
+    font-size: 14px;
+  }
+
+  .wellnessAlert {
+    font-size: 13px;
+    padding: 6px 10px;
+  }
+
+  .wellnessText {
+    font-size: 15px;
+    margin-top: 10px;
+  }
+
+  .mySolutionCard {
+    padding: 36px 28px 32px;
+    border-radius: 24px;
+  }
+
+  .mySolutionDesc {
+    font-size: 17px;
+  }
+
+  .programCtaButton {
+    padding: 18px 28px;
+    font-size: 17px;
+    border-radius: 16px;
+  }
+
+  .mySolutionSubscribed {
+    padding: 20px;
+    gap: 20px;
+  }
+
+  .subscribedImageWrap {
+    width: 84px;
+    height: 84px;
+  }
+
+  .subscribedName {
+    font-size: 17px;
+  }
+
+  .subscribedCta {
+    font-size: 14px;
+  }
+
+  .dividerLabel {
+    font-size: 17px;
+  }
+
+  .carouselCard {
+    flex: 0 0 calc((100% - 24px) / 2.5);
+  }
+
+  .carouselDesc {
+    font-size: 12px;
+  }
+
+  .carouselLabel {
+    font-size: 14px;
+  }
+
+  .modalContent {
+    width: 80%;
+    max-width: 440px;
+    padding: 36px 24px 32px;
+  }
+
+  .modalTitle {
+    font-size: 20px;
+  }
+
+  .modalSubText {
+    font-size: 14px;
+  }
+
+  .modalCardName {
+    font-size: 15px;
+  }
+
+  .modalCardCta {
+    font-size: 13px;
+  }
+}
+
+/* ===========================
+   반응형 — 소형 태블릿 / 대형 모바일 (481px ~ 640px)
+=========================== */
+@media (min-width: 481px) and (max-width: 640px) {
+  .main {
+    padding: 20px 20px;
+    gap: 28px;
+  }
+
+  .wellnessGrid {
+    gap: 14px;
+  }
+
+  .wellnessSubText {
+    font-size: 12px;
   }
 
   .carouselCard {
@@ -614,13 +735,13 @@
   }
 
   .modalContent {
-    width: 90%;
-    max-width: 380px;
+    width: 85%;
+    max-width: 400px;
   }
 }
 
 /* ===========================
-   반응형 — 모바일
+   반응형 — 모바일 (≤ 480px)
 =========================== */
 @media (max-width: 480px) {
   .main {
@@ -681,5 +802,183 @@
   .modalContent {
     width: 88%;
     padding: 24px 20px 20px;
+  }
+}
+
+/* ===========================
+   반응형 — 소형 모바일 (≤ 360px)
+   iPhone SE, Galaxy A 등 좁은 화면 최적화
+=========================== */
+@media (max-width: 360px) {
+  .main {
+    padding: 14px 12px;
+    gap: 20px;
+  }
+
+  .greetingText {
+    font-size: 16px;
+  }
+
+  .sectionTitle {
+    font-size: 17px;
+    margin-bottom: 10px;
+  }
+
+  .sectionTitleAccent {
+    height: 14px;
+  }
+
+  .wellnessGrid {
+    gap: 8px;
+  }
+
+  .wellnessOverlay {
+    padding: 10px 8px;
+  }
+
+  .wellnessSubText {
+    font-size: 10px;
+  }
+
+  .wellnessAlert {
+    font-size: 10px;
+    padding: 3px 5px;
+  }
+
+  .wellnessText {
+    font-size: 12px;
+    margin-top: 6px;
+  }
+
+  .mySolutionCard {
+    padding: 20px 14px 18px;
+    gap: 14px;
+    border-radius: 16px;
+  }
+
+  .mySolutionBadge {
+    font-size: 11px;
+    padding: 4px 12px;
+  }
+
+  .mySolutionDesc {
+    font-size: 14px;
+  }
+
+  .programCtaButton {
+    padding: 12px 16px;
+    font-size: 14px;
+    border-radius: 12px;
+  }
+
+  .mySolutionSubscribed {
+    padding: 12px;
+    gap: 12px;
+  }
+
+  .subscribedImageWrap {
+    width: 60px;
+    height: 60px;
+    border-radius: 12px;
+  }
+
+  .subscribedName {
+    font-size: 14px;
+  }
+
+  .divider {
+    gap: 10px;
+  }
+
+  .dividerLabel {
+    font-size: 14px;
+  }
+
+  .carouselCard {
+    flex: 0 0 calc((100% - 12px) / 2.1);
+  }
+
+  .carouselDesc {
+    font-size: 10px;
+  }
+
+  .carouselLabel {
+    font-size: 11px;
+  }
+
+  .carouselDots {
+    gap: 6px;
+    margin-top: 10px;
+  }
+
+  .dot {
+    width: 6px;
+    height: 6px;
+    padding: 14px;
+  }
+
+  .dotActive {
+    width: 16px;
+  }
+
+  .modalContent {
+    width: 92%;
+    padding: 20px 16px 18px;
+    border-radius: 20px;
+  }
+
+  .modalBadge {
+    font-size: 11px;
+    padding: 4px 12px;
+  }
+
+  .modalTitle {
+    font-size: 16px;
+  }
+
+  .modalSubText {
+    font-size: 12px;
+    margin-bottom: 16px;
+  }
+
+  .modalCards {
+    gap: 8px;
+  }
+
+  .modalCard {
+    padding: 10px 8px 12px;
+    gap: 8px;
+    border-radius: 14px;
+  }
+
+  .modalCardName {
+    font-size: 12px;
+  }
+
+  .modalCardCta {
+    font-size: 11px;
+  }
+}
+
+/* ===========================
+   가로 모드 (Landscape) 최적화
+=========================== */
+@media (orientation: landscape) and (max-height: 500px) {
+  .main {
+    gap: 16px;
+  }
+
+  .mySolutionCard {
+    padding: 20px 16px 18px;
+  }
+
+  .modalContent {
+    max-height: 90vh;
+    overflow-y: auto;
+    padding: 20px 20px 18px;
+  }
+
+  .modalCards {
+    flex-direction: row;
   }
 }
