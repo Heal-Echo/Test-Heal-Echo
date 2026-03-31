@@ -1,9 +1,13 @@
-/* src/app/wellness/solution/self-check/result/selfcheckResult.module.css */
+/* ── 자가 체크 결과 페이지 ──
+   반응형 3단계: 모바일(≤480px), 태블릿(481–1024px), 데스크톱(1025px+)
+   landing / login / home 페이지의 clamp() + safe-area-inset 패턴 적용
+   ── */
 
 .container {
   display: flex;
   flex-direction: column;
   min-height: 100vh;
+  min-height: 100dvh;
   max-width: 720px;
   margin: 0 auto;
   background: #faf9f6;
@@ -11,7 +15,8 @@
 
 .main {
   flex: 1;
-  padding: 0 20px 40px;
+  padding: 0 clamp(14px, 4vw, 28px) clamp(28px, 5vw, 40px);
+  box-sizing: border-box;
 }
 
 /* ── 상단 바 ── */
@@ -19,7 +24,7 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 16px 0;
+  padding: clamp(12px, 2.5vw, 16px) 0;
   position: sticky;
   top: 0;
   background: #faf9f6;
@@ -27,8 +32,8 @@
 }
 
 .backBtn {
-  width: 36px;
-  height: 36px;
+  width: clamp(34px, 7vw, 40px);
+  height: clamp(34px, 7vw, 40px);
   border: none;
   background: transparent;
   color: #374151;
@@ -48,96 +53,96 @@
 .pageTitle {
   flex: 1;
   text-align: center;
-  font-size: 17px;
+  font-size: clamp(15px, 3.5vw, 18px);
   font-weight: 700;
   color: #1e1b4b;
   margin: 0;
 }
 
 .topBarSpacer {
-  width: 36px;
+  width: clamp(34px, 7vw, 40px);
   flex-shrink: 0;
 }
 
 .loadingText {
   color: #9ca3af;
   text-align: center;
-  padding: 40px 0;
-  font-size: 14px;
+  padding: clamp(28px, 6vw, 44px) 0;
+  font-size: clamp(13px, 3vw, 15px);
 }
 
 /* ── 메인 점수 카드 ── */
 .scoreCard {
   background: #fff;
-  border-radius: 20px;
-  padding: 32px 24px;
+  border-radius: clamp(16px, 3.5vw, 22px);
+  padding: clamp(24px, 5vw, 36px) clamp(18px, 4vw, 28px);
   text-align: center;
   border: 1.5px solid #e8e5e0;
-  margin-bottom: 20px;
+  margin-bottom: clamp(14px, 3vw, 22px);
 }
 
 .scoreCardTitle {
-  font-size: 14px;
+  font-size: clamp(13px, 3vw, 15px);
   font-weight: 600;
   color: #6b7280;
-  margin-bottom: 20px;
+  margin-bottom: clamp(14px, 3vw, 22px);
   letter-spacing: 0.5px;
 }
 
 .scoreCircle {
-  width: 100px;
-  height: 100px;
+  width: clamp(88px, 18vw, 110px);
+  height: clamp(88px, 18vw, 110px);
   border-radius: 50%;
   border: 4px solid;
   display: flex;
   align-items: center;
   justify-content: center;
   gap: 2px;
-  margin: 0 auto 20px;
+  margin: 0 auto clamp(14px, 3vw, 22px);
 }
 
 .scoreCircleNum {
-  font-size: 40px;
+  font-size: clamp(32px, 7vw, 44px);
   font-weight: 800;
   line-height: 1;
 }
 
 .scoreCircleUnit {
-  font-size: 16px;
+  font-size: clamp(14px, 3vw, 18px);
   font-weight: 600;
   opacity: 0.7;
   align-self: flex-end;
-  padding-bottom: 4px;
+  padding-bottom: clamp(3px, 0.8vw, 6px);
 }
 
 .gradeRow {
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 8px;
+  gap: clamp(6px, 1.5vw, 10px);
 }
 
 .gradeBadge {
   color: #fff;
-  font-size: 13px;
+  font-size: clamp(12px, 2.8vw, 14px);
   font-weight: 800;
-  padding: 3px 10px;
+  padding: clamp(3px, 0.8vw, 5px) clamp(8px, 2vw, 12px);
   border-radius: 6px;
   line-height: 1.4;
 }
 
 .gradeLabel {
   color: #fff;
-  font-size: 13px;
+  font-size: clamp(12px, 2.8vw, 14px);
   font-weight: 600;
-  padding: 3px 12px;
+  padding: clamp(3px, 0.8vw, 5px) clamp(10px, 2.5vw, 14px);
   border-radius: 6px;
   line-height: 1.4;
 }
 
 .motivation {
-  margin-top: 20px;
-  font-size: 14px;
+  margin-top: clamp(14px, 3vw, 22px);
+  font-size: clamp(13px, 3vw, 15px);
   color: #374151;
   line-height: 1.7;
   text-align: center;
@@ -147,53 +152,53 @@
 /* ── 영역별 바 차트 섹션 ── */
 .barSection {
   background: #fff;
-  border-radius: 20px;
-  padding: 24px 20px;
+  border-radius: clamp(16px, 3.5vw, 22px);
+  padding: clamp(18px, 4vw, 28px) clamp(16px, 3.5vw, 24px);
   border: 1.5px solid #e8e5e0;
-  margin-bottom: 20px;
+  margin-bottom: clamp(14px, 3vw, 22px);
 }
 
 .barTitle {
-  font-size: 15px;
+  font-size: clamp(14px, 3.2vw, 16px);
   font-weight: 700;
   color: #111827;
-  margin-bottom: 18px;
+  margin-bottom: clamp(14px, 3vw, 20px);
 }
 
 .barList {
   display: flex;
   flex-direction: column;
-  gap: 14px;
+  gap: clamp(10px, 2.5vw, 16px);
 }
 
 .barRow {
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: clamp(8px, 2vw, 12px);
 }
 
 .barLeft {
   display: flex;
   align-items: center;
-  gap: 8px;
-  min-width: 90px;
+  gap: clamp(6px, 1.5vw, 10px);
+  min-width: clamp(72px, 16vw, 96px);
 }
 
 .barIcon {
-  font-size: 16px;
-  min-width: 22px;
+  font-size: clamp(14px, 3vw, 18px);
+  min-width: clamp(18px, 4vw, 24px);
   text-align: center;
 }
 
 .barLabel {
-  font-size: 13px;
+  font-size: clamp(12px, 2.8vw, 14px);
   color: #374151;
   font-weight: 500;
 }
 
 .barTrack {
   flex: 1;
-  height: 10px;
+  height: clamp(8px, 2vw, 12px);
   background: #f3f0eb;
   border-radius: 5px;
   overflow: hidden;
@@ -206,18 +211,18 @@
 }
 
 .barValue {
-  font-size: 13px;
+  font-size: clamp(12px, 2.8vw, 14px);
   font-weight: 700;
   color: #374151;
-  min-width: 36px;
+  min-width: clamp(30px, 7vw, 40px);
   text-align: right;
 }
 
 .barNote {
-  margin-top: 16px;
-  padding-top: 14px;
+  margin-top: clamp(12px, 2.5vw, 18px);
+  padding-top: clamp(10px, 2.2vw, 16px);
   border-top: 1px solid #f0ede8;
-  font-size: 13px;
+  font-size: clamp(12px, 2.8vw, 14px);
   font-weight: 600;
   color: #8a2be2;
   text-align: center;
@@ -225,37 +230,37 @@
 
 /* ── 영역별 아이콘 그리드 ── */
 .iconIntro {
-  font-size: 14px;
+  font-size: clamp(13px, 3vw, 15px);
   font-weight: 600;
   color: #374151;
   text-align: center;
-  margin-bottom: 18px;
+  margin-bottom: clamp(14px, 3vw, 20px);
   line-height: 1.5;
 }
 
 .iconGrid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: 16px 12px;
+  gap: clamp(12px, 2.5vw, 18px) clamp(8px, 2vw, 14px);
 }
 
 .iconItem {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 6px;
-  padding: 14px 4px 10px;
-  border-radius: 14px;
+  gap: clamp(4px, 1vw, 7px);
+  padding: clamp(10px, 2.5vw, 16px) clamp(4px, 1vw, 8px) clamp(8px, 2vw, 12px);
+  border-radius: clamp(12px, 2.5vw, 16px);
   background: #faf9f6;
 }
 
 .iconEmoji {
-  font-size: 28px;
+  font-size: clamp(24px, 5vw, 32px);
   line-height: 1;
 }
 
 .iconName {
-  font-size: 12px;
+  font-size: clamp(11px, 2.5vw, 13px);
   font-weight: 600;
   color: #374151;
   text-align: center;
@@ -263,9 +268,9 @@
 }
 
 .iconStatus {
-  font-size: 11px;
+  font-size: clamp(10px, 2.2vw, 12px);
   font-weight: 700;
-  padding: 2px 10px;
+  padding: clamp(2px, 0.5vw, 3px) clamp(8px, 2vw, 12px);
   border-radius: 999px;
   line-height: 1.4;
 }
@@ -290,20 +295,16 @@
 .startBtn {
   display: block;
   width: 100%;
-  margin-top: 20px;
-  padding: 14px 0;
+  margin-top: clamp(16px, 3.5vw, 24px);
+  padding: clamp(13px, 3vw, 16px) 0;
   border-radius: 12px;
   border: none;
   background: #8a2be2;
   color: #fff;
-  font-size: 15px;
+  font-size: clamp(14px, 3.2vw, 16px);
   font-weight: 600;
   cursor: pointer;
   transition: opacity 0.2s ease;
-}
-
-.startBtn:hover {
-  opacity: 0.9;
 }
 
 .startBtn:active {
@@ -313,20 +314,20 @@
 /* ── 희망 메시지 ── */
 .hopeCard {
   background: linear-gradient(135deg, #f0fdf4, #dcfce7);
-  border-radius: 16px;
-  padding: 24px 20px;
+  border-radius: clamp(14px, 3vw, 18px);
+  padding: clamp(18px, 4vw, 28px) clamp(16px, 3.5vw, 24px);
   text-align: center;
-  margin-bottom: 24px;
+  margin-bottom: clamp(16px, 3.5vw, 28px);
   border: 1px solid #bbf7d0;
 }
 
 .hopeEmoji {
-  font-size: 28px;
-  margin-bottom: 10px;
+  font-size: clamp(24px, 5vw, 32px);
+  margin-bottom: clamp(6px, 1.5vw, 12px);
 }
 
 .hopeText {
-  font-size: 14px;
+  font-size: clamp(13px, 3vw, 15px);
   color: #166534;
   line-height: 1.7;
   font-weight: 500;
@@ -341,19 +342,15 @@
 .closeBtn {
   display: inline-block;
   width: 100%;
-  padding: 14px 0;
+  padding: clamp(13px, 3vw, 16px) 0;
   border-radius: 12px;
   border: none;
   background: #8a2be2;
   color: #fff;
-  font-size: 16px;
+  font-size: clamp(15px, 3.5vw, 18px);
   font-weight: 600;
   cursor: pointer;
   transition: opacity 0.2s ease;
-}
-
-.closeBtn:hover {
-  opacity: 0.9;
 }
 
 .closeBtn:active {
@@ -362,6 +359,164 @@
 
 /* ── 하단 탭 패딩 ── */
 .tabPadding {
-  height: calc(70px + env(safe-area-inset-bottom, 0px));
+  height: calc(80px + env(safe-area-inset-bottom, 0px));
   flex-shrink: 0;
+}
+
+/* =============================================
+   태블릿 (641px ~ 1024px)
+   — 넉넉한 패딩, 카드 여백 확보, 그리드 확장
+   ============================================= */
+@media (min-width: 641px) and (max-width: 1024px) {
+  .main {
+    padding: 0 clamp(24px, 4vw, 40px) clamp(36px, 5vw, 48px);
+  }
+
+  .scoreCard {
+    padding: clamp(32px, 5vw, 44px) clamp(24px, 4vw, 36px);
+  }
+
+  .barSection {
+    padding: clamp(24px, 3.5vw, 34px) clamp(20px, 3vw, 30px);
+  }
+
+  /* 아이콘 그리드: 한 행에 6개로 확장 — 태블릿 가로폭 활용 */
+  .iconGrid {
+    grid-template-columns: repeat(6, 1fr);
+    gap: clamp(10px, 2vw, 16px) clamp(8px, 1.5vw, 12px);
+  }
+
+  /* 점수원: 태블릿에서 약간 키움 */
+  .scoreCircle {
+    width: clamp(100px, 16vw, 120px);
+    height: clamp(100px, 16vw, 120px);
+  }
+}
+
+/* =============================================
+   작은 모바일 (≤ 480px)
+   — 컴팩트 패딩, safe-area 적용
+   ============================================= */
+@media (max-width: 480px) {
+  .main {
+    padding: 0 max(12px, env(safe-area-inset-right)) 24px;
+  }
+
+  /* 점수원: 소형 화면에 맞게 축소 */
+  .scoreCircle {
+    width: 82px;
+    height: 82px;
+    border-width: 3px;
+  }
+
+  .scoreCircleNum {
+    font-size: 28px;
+  }
+
+  .scoreCircleUnit {
+    font-size: 12px;
+  }
+
+  /* 아이콘 그리드: 2열로 전환 — 작은 화면 가독성 확보 */
+  .iconGrid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px 8px;
+  }
+}
+
+/* =============================================
+   초소형 화면 (≤ 360px)
+   — 최소 패딩, 폰트 축소
+   ============================================= */
+@media (max-width: 360px) {
+  .main {
+    padding: 0 max(10px, env(safe-area-inset-right)) 20px;
+  }
+
+  .barLeft {
+    min-width: 64px;
+  }
+
+  .barIcon {
+    font-size: 13px;
+    min-width: 16px;
+  }
+
+  .barLabel {
+    font-size: 11px;
+  }
+
+  .barValue {
+    font-size: 11px;
+    min-width: 28px;
+  }
+
+  .iconEmoji {
+    font-size: 22px;
+  }
+
+  .iconName {
+    font-size: 10px;
+  }
+
+  .iconStatus {
+    font-size: 9px;
+    padding: 2px 6px;
+  }
+}
+
+/* =============================================
+   가로 모드 (짧은 높이)
+   — 세로 패딩 대폭 축소, 스크롤 최소화
+   ============================================= */
+@media (orientation: landscape) and (max-height: 500px) {
+  .scoreCard {
+    padding: 16px 14px;
+  }
+
+  .scoreCircle {
+    width: 72px;
+    height: 72px;
+  }
+
+  .barSection {
+    padding: 14px 12px;
+    margin-bottom: 12px;
+  }
+
+  .hopeCard {
+    padding: 12px;
+    margin-bottom: 12px;
+  }
+
+  .iconItem {
+    padding: 8px 4px 6px;
+  }
+}
+
+/* =============================================
+   터치 기기: hover 비활성화
+   ============================================= */
+@media (hover: none) {
+  .backBtn:hover {
+    background: transparent;
+  }
+
+  .startBtn:hover,
+  .closeBtn:hover {
+    opacity: 1;
+  }
+}
+
+/* =============================================
+   모션 줄이기 접근성
+   ============================================= */
+@media (prefers-reduced-motion: reduce) {
+  .barFill {
+    transition: none;
+  }
+
+  .backBtn {
+    transition: none;
+  }
 }

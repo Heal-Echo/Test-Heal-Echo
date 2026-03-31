@@ -94,6 +94,20 @@ function SelfCheckPageContent() {
     }
   };
 
+  // hydrate 완료 전에는 로딩 표시 (리다이렉트 판단 전 인트로 노출 방지)
+  if (!hydrated) {
+    return (
+      <div className={styles.container}>
+        <Header />
+        <div className={styles.main}>
+          <p className={styles.loadingText}>불러오는 중...</p>
+        </div>
+        <div className={styles.tabPadding} />
+        <BottomTab />
+      </div>
+    );
+  }
+
   return (
     <div className={styles.container}>
       <Header />
