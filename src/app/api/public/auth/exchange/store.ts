@@ -19,30 +19,36 @@ interface StoredTokens {
   createdAt: number;
 }
 
-/** 교환 코드 → 토큰 매핑 (서버 메모리) */
-export const tokenStore = new Map<string, StoredTokens>();
-
 /** TTL: 60초 */
 export const CODE_TTL_MS = 60_000;
 
 /** 만료된 코드 정리 (10분마다 자동 실행) */
 const CLEANUP_INTERVAL_MS = 10 * 60_000;
 
-// 주기적 정리 타이머 (서버 프로세스 수명 동안 유지)
-if (typeof globalThis !== "undefined") {
-  // Next.js 핫 리로드 시 중복 타이머 방지
-  const globalKey = "__authCodeCleanupTimer__";
-  const g = globalThis as Record<string, unknown>;
-  if (!g[globalKey]) {
-    g[globalKey] = setInterval(() => {
-      const now = Date.now();
-      for (const [code, data] of tokenStore.entries()) {
-        if (now - data.createdAt > CODE_TTL_MS) {
-          tokenStore.delete(code);
-        }
-      }
-    }, CLEANUP_INTERVAL_MS);
+const GLOBAL_STORE_KEY = "__auth_code_token_store__" as const;
+
+/** 교환 코드 → 토큰 매핑 (globalThis로 HMR 재컴파일에도 유지) */
+function getTokenStore(): Map<string, StoredTokens> {
+  if (!(globalThis as any)[GLOBAL_STORE_KEY]) {
+    (globalThis as any)[GLOBAL_STORE_KEY] = new Map<string, StoredTokens>();
   }
+  return (globalThis as any)[GLOBAL_STORE_KEY];
+}
+
+export const tokenStore = getTokenStore();
+
+// 주기적 정리 타이머 (서버 프로세스 수명 동안 유지)
+// Next.js 핫 리로드 시 중복 타이머 방지
+if (!(globalThis as any).__authCodeCleanupTimer__) {
+  (globalThis as any).__authCodeCleanupTimer__ = setInterval(() => {
+    const now = Date.now();
+    const store = getTokenStore();
+    for (const [code, data] of store.entries()) {
+      if (now - data.createdAt > CODE_TTL_MS) {
+        store.delete(code);
+      }
+    }
+  }, CLEANUP_INTERVAL_MS);
 }
 
 // =======================================================

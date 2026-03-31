@@ -7,23 +7,37 @@
 // createOAuthState / verifyOAuthState는 이 파일에서 export합니다.
 
 // ─── 서버 메모리 state 저장소 ───
+// globalThis를 사용하여 Next.js 개발 모드에서 모듈 재컴파일 시에도
+// state가 유지되도록 함 (HMR/라우트 재컴파일 대응)
 interface StateEntry {
   provider: string;
   createdAt: number;
 }
 
-const stateStore = new Map<string, StateEntry>();
+const GLOBAL_KEY = "__oauth_state_store__" as const;
 const STATE_TTL_MS = 5 * 60 * 1000; // 5분
 
-// 만료된 state 정리 (10분마다)
-setInterval(() => {
-  const now = Date.now();
-  for (const [key, entry] of stateStore) {
-    if (now - entry.createdAt > STATE_TTL_MS) {
-      stateStore.delete(key);
-    }
+function getStateStore(): Map<string, StateEntry> {
+  if (!(globalThis as any)[GLOBAL_KEY]) {
+    (globalThis as any)[GLOBAL_KEY] = new Map<string, StateEntry>();
   }
-}, 10 * 60 * 1000);
+  return (globalThis as any)[GLOBAL_KEY];
+}
+
+const stateStore = getStateStore();
+
+// 만료된 state 정리 (10분마다)
+if (!(globalThis as any).__oauth_state_cleanup__) {
+  (globalThis as any).__oauth_state_cleanup__ = setInterval(() => {
+    const now = Date.now();
+    const store = getStateStore();
+    for (const [key, entry] of store) {
+      if (now - entry.createdAt > STATE_TTL_MS) {
+        store.delete(key);
+      }
+    }
+  }, 10 * 60 * 1000);
+}
 
 // =======================================================
 // state 생성 (클라이언트 auth 모듈에서 호출)

@@ -3,6 +3,7 @@
 import React, { useState, useMemo, useCallback } from "react";
 import styles from "./SelfCheckSurvey.module.css";
 import * as storage from "@/lib/storage";
+import { ensureValidToken } from "@/auth/tokenManager";
 
 // ─────────────────────────────────────────
 // 설문 데이터: 6개 영역, 공감형 어조
@@ -258,8 +259,15 @@ async function saveSelfCheckResult(result: SelfCheckResult) {
   storage.setJSON(SELFCHECK_RESULT_KEY, result);
   storage.set(SELFCHECK_DONE_KEY, "true");
 
-  // 2) AWS 저장 (실패 시 pending 플래그 설정)
-  const token = storage.getRaw("user_id_token");
+  // 2) 토큰 갱신 후 AWS 저장 (Home 페이지 ensureValidToken 패턴)
+  let token: string | null = null;
+  try {
+    const validated = await ensureValidToken();
+    token = validated?.idToken ?? null;
+  } catch {
+    token = storage.getRaw("user_id_token");
+  }
+
   const ok = await postSelfCheckToAWS(result, token);
   if (!ok) {
     storage.set(SELFCHECK_AWS_PENDING_KEY, "true");
@@ -283,7 +291,15 @@ export async function retryPendingSelfCheckSync(): Promise<void> {
   const local = getSavedSelfCheckResult();
   if (!local) return;
 
-  const token = storage.getRaw("user_id_token");
+  // 토큰 갱신 후 재전송 (Home 페이지 retryPendingProfileSync 패턴)
+  let token: string | null = null;
+  try {
+    const validated = await ensureValidToken();
+    token = validated?.idToken ?? null;
+  } catch {
+    token = storage.getRaw("user_id_token");
+  }
+
   await postSelfCheckToAWS(local, token);
 }
 
@@ -292,7 +308,14 @@ export async function retryPendingSelfCheckSync(): Promise<void> {
  * + 로컬에 AWS 미전송(pending) 데이터가 있으면 자동 재업로드
  */
 export async function fetchAndHydrateSelfCheckResult(): Promise<SelfCheckResult | null> {
-  const token = storage.getRaw("user_id_token");
+  // 토큰 갱신 후 사용 (Home 페이지 ensureValidToken 패턴)
+  let token: string | null = null;
+  try {
+    const validated = await ensureValidToken();
+    token = validated?.idToken ?? null;
+  } catch {
+    token = storage.getRaw("user_id_token");
+  }
 
   // 기존 키 → 사용자별 키 마이그레이션 (최초 1회, 이후 no-op)
   storage.migrateKey(SELFCHECK_RESULT_KEY);

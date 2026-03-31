@@ -10,6 +10,7 @@ import { isUserLoggedIn } from "@/auth/user";
 import {
   getSavedSelfCheckResult,
   fetchAndHydrateSelfCheckResult,
+  retryPendingSelfCheckSync,
   getSignalIntensity,
   getSignalGrade,
 } from "@/components/self-check/SelfCheckSurvey";
@@ -27,22 +28,57 @@ export default function SelfCheckResultPage() {
     }
   }, [router]);
 
-  // 결과 로드: localStorage → 없으면 AWS hydrate
+  // 결과 로드: AWS 우선 조회 → localStorage 폴백 (Home 패턴)
   useEffect(() => {
     async function loadResult() {
       try {
-        let saved = getSavedSelfCheckResult();
-        if (!saved) {
-          saved = await fetchAndHydrateSelfCheckResult();
+        // AWS 우선 hydrate (key migration 포함)
+        const hydrated = await fetchAndHydrateSelfCheckResult();
+        if (hydrated) {
+          setResult(hydrated);
+        } else {
+          // 폴백: localStorage에서 직접 조회
+          setResult(getSavedSelfCheckResult());
         }
-        setResult(saved);
       } catch (err) {
         console.error("자가 체크 결과 로드 실패:", err);
+        setResult(getSavedSelfCheckResult());
       } finally {
         setChecked(true);
       }
     }
     loadResult();
+  }, []);
+
+  // 앱 복귀(visibilitychange) + 인터넷 복구(online) 시
+  // pending 데이터 재전송 + 최신 결과 갱신 (Home 패턴)
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+
+    const handleVisibilityChange = () => {
+      if (document.visibilityState === "visible") {
+        retryPendingSelfCheckSync();
+        // 최신 결과 반영
+        fetchAndHydrateSelfCheckResult().then((r) => {
+          if (r) setResult(r);
+        });
+      }
+    };
+
+    const handleOnline = () => {
+      retryPendingSelfCheckSync();
+      fetchAndHydrateSelfCheckResult().then((r) => {
+        if (r) setResult(r);
+      });
+    };
+
+    document.addEventListener("visibilitychange", handleVisibilityChange);
+    window.addEventListener("online", handleOnline);
+
+    return () => {
+      document.removeEventListener("visibilitychange", handleVisibilityChange);
+      window.removeEventListener("online", handleOnline);
+    };
   }, []);
 
   // 결과 없으면 솔루션 페이지로 리다이렉트
