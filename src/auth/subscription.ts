@@ -21,6 +21,8 @@ const KEY_SUBSCRIPTION = "balance_subscription";
 const KEY_WATCH_RECORDS = "balance_watch_records";
 const KEY_GIFT_CYCLE = "balance_gift_cycle";
 const KEY_MIGRATION_DONE = "balance_server_migration_done";
+const KEY_WATCH_RECORDS_PENDING = "balance_watch_records_aws_pending";
+const KEY_GIFT_CYCLE_PENDING = "balance_gift_cycle_aws_pending";
 
 function isBrowser() {
   return typeof window !== "undefined";
@@ -422,7 +424,7 @@ export async function saveWatchRecord(record: WatchRecord): Promise<void> {
   if (!token) return; // 비로그인 상태면 서버 저장 스킵
 
   try {
-    await fetch("/api/user/watch-records", {
+    const res = await fetch("/api/user/watch-records", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -436,8 +438,16 @@ export async function saveWatchRecord(record: WatchRecord): Promise<void> {
         isCompleted: record.isCompleted,
       }),
     });
+
+    if (res.ok) {
+      storage.remove(`${KEY_WATCH_RECORDS_PENDING}_${record.programId}`);
+    } else {
+      storage.set(`${KEY_WATCH_RECORDS_PENDING}_${record.programId}`, "true");
+      console.warn("[saveWatchRecord] Server save failed:", res.status);
+    }
   } catch (err) {
-    // 서버 저장 실패 시 로그만 남김 (localStorage에는 이미 저장됨)
+    // 서버 저장 실패 → pending 플래그 설정 (다음 접속 시 재시도)
+    storage.set(`${KEY_WATCH_RECORDS_PENDING}_${record.programId}`, "true");
     console.warn("[saveWatchRecord] Server save failed:", err);
   }
 }
@@ -580,7 +590,7 @@ export async function saveGiftCycle(cycle: GiftCycle): Promise<void> {
   if (!token) return; // 비로그인 상태면 서버 저장 스킵
 
   try {
-    await fetch("/api/user/gift-cycles", {
+    const res = await fetch("/api/user/gift-cycles", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -595,8 +605,16 @@ export async function saveGiftCycle(cycle: GiftCycle): Promise<void> {
         giftVideoId: cycle.giftVideoId,
       }),
     });
+
+    if (res.ok) {
+      storage.remove(`${KEY_GIFT_CYCLE_PENDING}_${cycle.programId}`);
+    } else {
+      storage.set(`${KEY_GIFT_CYCLE_PENDING}_${cycle.programId}`, "true");
+      console.warn("[saveGiftCycle] Server save failed:", res.status);
+    }
   } catch (err) {
-    // 서버 저장 실패 시 로그만 남김 (localStorage에는 이미 저장됨)
+    // 서버 저장 실패 → pending 플래그 설정 (다음 접속 시 재시도)
+    storage.set(`${KEY_GIFT_CYCLE_PENDING}_${cycle.programId}`, "true");
     console.warn("[saveGiftCycle] Server save failed:", err);
   }
 }
@@ -953,4 +971,101 @@ export async function getBalanceUserState(programId: string): Promise<BalanceUse
     daysInRecentWindow,
     encouragementMessage: null, // page에서 userName과 함께 계산
   };
+}
+
+// ─────────────────────────────────────────
+// 8) Pending 데이터 재전송 (앱 복귀 / 인터넷 복구 시)
+//    - Home 페이지의 retryPendingProfileSync() 패턴 적용
+//    - 시청 기록 + 선물 사이클의 pending 플래그 확인 → 서버 재전송
+//    - visibilitychange, online 이벤트에서 호출
+// ─────────────────────────────────────────
+
+let balanceSyncInProgress = false;
+
+/**
+ * 시청 기록/선물 사이클의 pending 데이터를 서버에 재전송합니다.
+ * - pending 플래그가 있는 경우에만 실행
+ * - 중복 실행 방지를 위해 balanceSyncInProgress 플래그 사용
+ * - Home 페이지의 retryPendingProfileSync() 패턴과 동일
+ */
+export async function retryPendingBalanceSync(programId: string): Promise<void> {
+  if (!isBrowser()) return;
+  if (balanceSyncInProgress) return;
+
+  const watchPending = storage.get(`${KEY_WATCH_RECORDS_PENDING}_${programId}`);
+  const giftPending = storage.get(`${KEY_GIFT_CYCLE_PENDING}_${programId}`);
+
+  if (watchPending !== "true" && giftPending !== "true") return;
+
+  balanceSyncInProgress = true;
+
+  try {
+    const token = await getAuthToken();
+    if (!token) return;
+
+    // ── 시청 기록 재전송 ──
+    if (watchPending === "true") {
+      const records = getWatchRecords(programId);
+      if (records.length > 0) {
+        try {
+          let allOk = true;
+          for (const record of records) {
+            const res = await fetch("/api/user/watch-records", {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${token}`,
+              },
+              body: JSON.stringify({
+                programId: record.programId,
+                weekNumber: record.weekNumber,
+                watchDate: record.watchDate,
+                watchDurationSeconds: record.watchDurationSeconds,
+                isCompleted: record.isCompleted,
+              }),
+            });
+            if (!res.ok) allOk = false;
+          }
+          if (allOk) {
+            storage.remove(`${KEY_WATCH_RECORDS_PENDING}_${programId}`);
+            console.log("[Balance] 시청 기록 AWS 재전송 성공");
+          }
+        } catch (err) {
+          console.warn("[Balance] 시청 기록 AWS 재전송 실패:", err);
+        }
+      }
+    }
+
+    // ── 선물 사이클 재전송 ──
+    if (giftPending === "true") {
+      const cycle = getGiftCycle(programId);
+      if (cycle.qualifiedWeeks > 0 || cycle.giftUnlockedAt) {
+        try {
+          const res = await fetch("/api/user/gift-cycles", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${token}`,
+            },
+            body: JSON.stringify({
+              programId: cycle.programId,
+              cycleNumber: cycle.cycleNumber,
+              qualifiedWeeks: cycle.qualifiedWeeks,
+              giftUnlockedAt: cycle.giftUnlockedAt,
+              giftExpiresAt: cycle.giftExpiresAt,
+              giftVideoId: cycle.giftVideoId,
+            }),
+          });
+          if (res.ok) {
+            storage.remove(`${KEY_GIFT_CYCLE_PENDING}_${programId}`);
+            console.log("[Balance] 선물 사이클 AWS 재전송 성공");
+          }
+        } catch (err) {
+          console.warn("[Balance] 선물 사이클 AWS 재전송 실패:", err);
+        }
+      }
+    }
+  } finally {
+    balanceSyncInProgress = false;
+  }
 }

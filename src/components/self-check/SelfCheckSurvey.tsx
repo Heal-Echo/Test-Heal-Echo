@@ -270,6 +270,24 @@ async function saveSelfCheckResult(result: SelfCheckResult) {
 }
 
 /**
+ * selfcheck pending 데이터 재전송 (앱 복귀 / 인터넷 복구 시 호출)
+ * - Home 페이지의 retryPendingProfileSync() 패턴과 동일
+ * - pending 플래그가 있고 로컬에 결과가 있으면 서버에 재전송
+ */
+export async function retryPendingSelfCheckSync(): Promise<void> {
+  if (typeof window === "undefined") return;
+
+  const pending = storage.get(SELFCHECK_AWS_PENDING_KEY);
+  if (pending !== "true") return;
+
+  const local = getSavedSelfCheckResult();
+  if (!local) return;
+
+  const token = storage.getRaw("user_id_token");
+  await postSelfCheckToAWS(local, token);
+}
+
+/**
  * 서버 우선 조회(Server-First) → 로컬 캐시 갱신
  * + 로컬에 AWS 미전송(pending) 데이터가 있으면 자동 재업로드
  */

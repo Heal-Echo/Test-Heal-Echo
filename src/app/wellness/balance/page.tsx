@@ -43,7 +43,10 @@ export default function BalancePage() {
       <Header />
 
       <main className={styles.main}>
-        <h1 className={styles.title}>{getProgramName("autobalance")}</h1>
+        <h1 className={styles.title}>
+          <span className={styles.titleAccent} />
+          {getProgramName("autobalance")}
+        </h1>
 
         {/* ── 웰니스 솔루션 구분자 ── */}
         <div className={styles.divider}>
@@ -52,62 +55,65 @@ export default function BalancePage() {
           <span className={styles.dividerLine} />
         </div>
 
-        {/* 위클리 솔루션 */}
-        <section className={styles.hubSection}>
-          <h2 className={styles.hubSectionTitle}>위클리 솔루션</h2>
+        {/* 카드 그리드 (태블릿에서 2열) */}
+        <div className={styles.cardGrid}>
+          {/* 위클리 솔루션 */}
+          <section className={styles.hubSection}>
+            <h2 className={styles.hubSectionTitle}>위클리 솔루션</h2>
 
-          <Link href="/wellness/solution" className={styles.wideCard}>
-            <Image
-              src="/assets/images/solutions.png"
-              alt="위클리 솔루션"
-              width={1536}
-              height={1024}
-              sizes={CARD_IMAGE_SIZES}
-              className={styles.wideImage}
-            />
-            <div className={styles.wideCardOverlay}>
-              <p className={styles.wideCardText}>하루 15분, 나를 위한 맞춤 요가 클래스</p>
-            </div>
-          </Link>
-        </section>
+            <Link href="/wellness/solution" className={styles.wideCard}>
+              <Image
+                src="/assets/images/solutions.png"
+                alt="위클리 솔루션"
+                width={1536}
+                height={1024}
+                sizes={CARD_IMAGE_SIZES}
+                className={styles.wideImage}
+              />
+              <div className={styles.wideCardOverlay}>
+                <p className={styles.wideCardText}>하루 15분, 나를 위한 맞춤 요가 클래스</p>
+              </div>
+            </Link>
+          </section>
 
-        {/* 위클리 해빗 */}
-        <section className={styles.hubSection}>
-          <h2 className={styles.hubSectionTitle}>위클리 해빗</h2>
+          {/* 위클리 해빗 */}
+          <section className={styles.hubSection}>
+            <h2 className={styles.hubSectionTitle}>위클리 해빗</h2>
 
-          <Link href="/wellness/weekly-habit" className={styles.wideCard}>
-            <Image
-              src="/assets/images/healing_recipe_square.png"
-              alt="위클리 해빗"
-              width={1536}
-              height={1024}
-              sizes={CARD_IMAGE_SIZES}
-              className={styles.wideImage}
-            />
-            <div className={styles.wideCardOverlay}>
-              <p className={styles.wideCardText}>쉽게 실천 가능한 수면 습관과 식습관</p>
-            </div>
-          </Link>
-        </section>
+            <Link href="/wellness/weekly-habit" className={styles.wideCard}>
+              <Image
+                src="/assets/images/healing_recipe_square.png"
+                alt="위클리 해빗"
+                width={1536}
+                height={1024}
+                sizes={CARD_IMAGE_SIZES}
+                className={styles.wideImage}
+              />
+              <div className={styles.wideCardOverlay}>
+                <p className={styles.wideCardText}>쉽게 실천 가능한 수면 습관과 식습관</p>
+              </div>
+            </Link>
+          </section>
 
-        {/* 이해의 바다 */}
-        <section className={styles.hubSection}>
-          <h2 className={styles.hubSectionTitle}>이해의 바다</h2>
+          {/* 이해의 바다 */}
+          <section className={`${styles.hubSection} ${styles.hubSectionFull}`}>
+            <h2 className={styles.hubSectionTitle}>이해의 바다</h2>
 
-          <Link href="/understanding" className={styles.wideCard}>
-            <Image
-              src="/assets/images/Ocean_of_Understanding_crop1.png"
-              alt="이해의 바다"
-              width={1536}
-              height={1024}
-              sizes={CARD_IMAGE_SIZES}
-              className={styles.wideImage}
-            />
-            <div className={styles.wideCardOverlay}>
-              <p className={styles.wideCardText}>조건없이 나를 이해하는 시간</p>
-            </div>
-          </Link>
-        </section>
+            <Link href="/understanding" className={styles.wideCard}>
+              <Image
+                src="/assets/images/Ocean_of_Understanding_crop1.png"
+                alt="이해의 바다"
+                width={1536}
+                height={1024}
+                sizes={CARD_IMAGE_SIZES}
+                className={styles.wideImage}
+              />
+              <div className={styles.wideCardOverlay}>
+                <p className={styles.wideCardText}>조건없이 나를 이해하는 시간</p>
+              </div>
+            </Link>
+          </section>
+        </div>
       </main>
 
       <div className={styles.tabPadding}></div>

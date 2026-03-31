@@ -9,7 +9,7 @@ import BottomTab from "@/components/BottomTab";
 import { isUserLoggedIn, getUserName, getUserInfo } from "@/auth/user";
 import * as storage from "@/lib/storage";
 import { makeThumbnailUrl } from "@/config/constants";
-import SelfCheckSurvey, { hasSelfCheckResult, getSavedSelfCheckResult, fetchAndHydrateSelfCheckResult, getSignalIntensity, getSignalGrade } from "@/components/self-check/SelfCheckSurvey";
+import SelfCheckSurvey, { hasSelfCheckResult, getSavedSelfCheckResult, fetchAndHydrateSelfCheckResult, getSignalIntensity, getSignalGrade, retryPendingSelfCheckSync } from "@/components/self-check/SelfCheckSurvey";
 import {
   getBalanceUserState,
   canPlayVideo,
@@ -19,6 +19,7 @@ import {
   getExpectedGiftDate,
   formatKoreanDate,
   getEncouragementMessage,
+  retryPendingBalanceSync,
 } from "@/auth/subscription";
 import { getProgramName } from "@/config/programs";
 import type { BalanceUserState } from "@/types/subscription";
@@ -115,6 +116,41 @@ export default function SolutionPage() {
 
   useEffect(() => {
     getBalanceUserState(program).then(setUserState);
+  }, [program]);
+
+  // ─────────────────────────────────────────
+  // P0 강화: 앱 복귀(visibilitychange) + 인터넷 복구(online) 시
+  // pending 데이터 자동 재전송 + 서버 데이터 갱신
+  // - Home 페이지의 retryPendingProfileSync() 패턴과 동일
+  // - 모바일에서 다른 앱을 쓰다가 돌아왔을 때
+  // - 지하철 등에서 인터넷이 끊겼다가 다시 연결되었을 때
+  // ─────────────────────────────────────────
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+
+    const handleVisibilityChange = () => {
+      if (document.visibilityState === "visible") {
+        // pending 데이터 재전송 (시청 기록, 선물 사이클, selfcheck)
+        retryPendingBalanceSync(program);
+        retryPendingSelfCheckSync();
+        // 서버 데이터 갱신 (최신 상태 반영)
+        getBalanceUserState(program).then(setUserState);
+      }
+    };
+
+    const handleOnline = () => {
+      retryPendingBalanceSync(program);
+      retryPendingSelfCheckSync();
+      getBalanceUserState(program).then(setUserState);
+    };
+
+    document.addEventListener("visibilitychange", handleVisibilityChange);
+    window.addEventListener("online", handleOnline);
+
+    return () => {
+      document.removeEventListener("visibilitychange", handleVisibilityChange);
+      window.removeEventListener("online", handleOnline);
+    };
   }, [program]);
 
   const currentWeek = userState.subscription.currentWeek;

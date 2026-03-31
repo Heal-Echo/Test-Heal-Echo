@@ -285,6 +285,9 @@ export function clearUserData(): void {
     "balance_subscription_autobalance",
     "balance_watch_records_autobalance",
     "balance_gift_cycle_autobalance",
+    // AWS pending 플래그
+    "balance_watch_records_aws_pending_autobalance",
+    "balance_gift_cycle_aws_pending_autobalance",
   ];
 
   const uid = getUserId();
