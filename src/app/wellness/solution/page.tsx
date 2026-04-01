@@ -303,7 +303,7 @@ export default function SolutionPage() {
 
   useEffect(() => {
     setCompletedDates(getCompletedDates(program));
-  }, [program]);
+  }, [program, userState.watchRecords]);
 
   const todayStr = toDateStr(now.getFullYear(), now.getMonth(), now.getDate());
 

@@ -8,11 +8,19 @@ import styles from "./player.module.css";
 
 import { isUserLoggedIn, getUserInfo } from "@/auth/user";
 import { makeVideoUrl, makeThumbnailUrl } from "@/config/constants";
-import { canPlayVideo, getBalanceUserState } from "@/auth/subscription";
+import {
+  canPlayVideo,
+  getBalanceUserState,
+  saveWatchRecord,
+  getGiftCycle,
+  saveGiftCycle,
+  countQualifyingWeeksRolling,
+} from "@/auth/subscription";
 import SelfCheckSurvey, { hasSelfCheckResult } from "@/components/self-check/SelfCheckSurvey";
 
 import { extractPlayerVideoByWeek, type PlayerVideo } from "./playerBrain";
 import * as storage from "@/lib/storage";
+import { getUserId } from "@/lib/storage";
 
 // ── 영상 재생 시도 기록 키 ──
 const PLAY_ATTEMPTED_KEY = "balance_video_played";
@@ -248,7 +256,7 @@ function BalancePlayerPageContent() {
   }, [subType, program]);
 
   // ─────────────────────────────────────────
-  // 영상 70% 시청 시: 실천 기록 AWS 저장
+  // 영상 70% 시청 시: 실천 기록 + 시청 기록 + 선물 사이클 저장
   // ─────────────────────────────────────────
   const handleTimeUpdate = useCallback(() => {
     if (practiceRecordSentRef.current) return;
@@ -259,7 +267,7 @@ function BalancePlayerPageContent() {
       practiceRecordSentRef.current = true;
       const today = new Date().toISOString().slice(0, 10);
 
-      // AWS에 실천 기록 저장
+      // 1) AWS에 실천 기록 저장 (기존)
       const token = storage.getRaw("user_id_token");
       fetch("/api/user/practice-record", {
         method: "POST",
@@ -269,8 +277,39 @@ function BalancePlayerPageContent() {
         },
         body: JSON.stringify({ type: "solution", date: today }),
       }).catch(() => {});
+
+      // 2) 시청 기록 저장 (localStorage + AWS)
+      const userId = getUserId() || "";
+      const wk = weekNumber ?? 1;
+      saveWatchRecord({
+        userId,
+        programId: program,
+        weekNumber: wk,
+        watchDate: today,
+        watchDurationSeconds: Math.round(vid.currentTime),
+        isCompleted: true,
+      }).then(() => {
+        // 3) 선물 사이클 업데이트: 달성 주수가 변했으면 저장
+        const qualifiedWeeks = countQualifyingWeeksRolling(program);
+        const currentCycle = getGiftCycle(program);
+
+        if (qualifiedWeeks !== currentCycle.qualifiedWeeks) {
+          const updatedCycle = { ...currentCycle, userId, qualifiedWeeks };
+
+          // 4주 배수 달성 시 선물 해금
+          if (qualifiedWeeks > 0 && qualifiedWeeks % 4 === 0 && !currentCycle.giftUnlockedAt) {
+            const now = new Date();
+            const expires = new Date(now);
+            expires.setDate(expires.getDate() + 7);
+            updatedCycle.giftUnlockedAt = now.toISOString();
+            updatedCycle.giftExpiresAt = expires.toISOString();
+          }
+
+          saveGiftCycle(updatedCycle);
+        }
+      });
     }
-  }, []);
+  }, [weekNumber, program]);
 
   // ─────────────────────────────────────────
   // #2 영상 종료 시: 무료 체험 표시
