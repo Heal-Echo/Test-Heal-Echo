@@ -1,5 +1,7 @@
 .pageWrapper {
   width: 100%;
+  min-height: 100vh;
+  min-height: 100dvh;
   background: var(--color-bg);
   color: var(--color-text);
   overflow-x: hidden;
@@ -698,6 +700,31 @@
   }
   .empathyAvatar:hover {
     transform: none;
+  }
+  /* 버튼류 hover 끈적임 방지 */
+  .btnPrimary:hover {
+    transform: none;
+    box-shadow: 0 4px 16px rgba(0, 214, 245, 0.3);
+  }
+  .btnPinkOutline:hover {
+    transform: none;
+    box-shadow: none;
+  }
+  .btnPink:hover {
+    transform: none;
+    box-shadow: 0 4px 16px rgba(255, 105, 180, 0.3);
+  }
+  .empathyCta:hover {
+    transform: none;
+    box-shadow: 0 4px 16px rgba(0, 214, 245, 0.3);
+  }
+  .whyCardCta:hover {
+    transform: none;
+    box-shadow: 0 6px 20px rgba(0, 214, 245, 0.3);
+  }
+  .videoOverlayCenter:hover {
+    transform: translate(-50%, -50%);
+    box-shadow: 0 6px 24px rgba(0, 214, 245, 0.35);
   }
 }
 
@@ -1872,6 +1899,406 @@
     display: flex;
     align-items: center;
     justify-content: center;
+  }
+}
+
+/* ===========================
+   반응형: 태블릿 (641px ~ 1024px)
+   - 컨테이너 max-width 확장
+   - 그리드/카드 여유 있는 배치
+   - 텍스트/여백 확대
+   (home/balance 패턴 통일)
+=========================== */
+@media (min-width: 641px) and (max-width: 1024px) {
+  .container {
+    max-width: var(--container-max-width-tablet, 960px);
+    padding: 0 max(var(--container-padding, 24px), env(safe-area-inset-right, 0px)) 0 max(var(--container-padding, 24px), env(safe-area-inset-left, 0px));
+  }
+
+  .hero {
+    padding: clamp(56px, 8vw, 96px) 0 clamp(36px, 5vw, 64px);
+  }
+
+  .programList {
+    gap: 28px;
+  }
+
+  .programOverlay {
+    padding: 20px;
+  }
+
+  .benefitCards {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+  }
+
+  .evidenceSection {
+    padding: clamp(56px, 8vw, 88px) 0;
+  }
+
+  .evidenceItem {
+    gap: 24px;
+  }
+
+  .whyCard {
+    max-width: 680px;
+    padding: 44px 48px;
+  }
+
+  .empathyFrame {
+    max-width: 680px;
+    padding: clamp(40px, 5vw, 60px) clamp(32px, 4vw, 52px);
+  }
+
+  .introVideoCard {
+    max-width: 720px;
+  }
+
+  .footer {
+    padding: 56px 0 calc(40px + env(safe-area-inset-bottom, 0px));
+  }
+}
+
+/* ===========================
+   반응형: 대형 모바일 (481px ~ 640px)
+   - iPhone Plus/Max, 큰 안드로이드
+   (home/balance 패턴 통일)
+=========================== */
+@media (min-width: 481px) and (max-width: 640px) {
+  .container {
+    padding: 0 max(var(--container-padding, 20px), env(safe-area-inset-right, 0px)) 0 max(var(--container-padding, 20px), env(safe-area-inset-left, 0px));
+  }
+
+  .heroGrid {
+    grid-template-columns: 1fr;
+    gap: 32px;
+    text-align: center;
+  }
+
+  .eyebrow {
+    justify-content: center;
+  }
+
+  .heroCta {
+    justify-content: center;
+  }
+
+  .programList {
+    gap: 16px;
+  }
+
+  .programOverlay {
+    padding: 16px 14px;
+  }
+
+  .programCardLabel {
+    font-size: 14px;
+  }
+
+  .benefitCardWrap {
+    flex: 0 0 calc((100% - 20px) / 2.2);
+  }
+
+  .evidenceItem {
+    gap: 20px;
+  }
+
+  .whyCard {
+    padding: 32px 28px;
+  }
+
+  .empathyFrame {
+    padding: 32px 24px;
+  }
+
+  .introVideoCard {
+    padding: 12px;
+  }
+
+  .footer {
+    padding: 40px 0 calc(32px + env(safe-area-inset-bottom, 0px));
+  }
+}
+
+/* ===========================
+   반응형: 초소형 모바일 (≤ 360px)
+   - iPhone SE, Galaxy S 소형
+   - 요소가 잘리거나 겹치지 않도록 최소 크기 보장
+   (home/balance 패턴 통일)
+=========================== */
+@media (max-width: 360px) {
+  .container {
+    padding: 0 max(var(--container-padding, 12px), env(safe-area-inset-right, 0px)) 0 max(var(--container-padding, 12px), env(safe-area-inset-left, 0px));
+  }
+
+  .hero {
+    padding: clamp(32px, 6vw, 56px) 0 clamp(24px, 4vw, 40px);
+  }
+
+  .heroTitle {
+    font-size: clamp(24px, 7vw, 32px);
+  }
+
+  .heroDesc {
+    font-size: 14px;
+    margin-bottom: 20px;
+  }
+
+  .heroCta {
+    flex-wrap: nowrap;
+    gap: 6px;
+  }
+
+  .heroCta .btnPrimary,
+  .heroCta .btnPinkOutline {
+    padding: 8px 12px;
+    font-size: 12px;
+  }
+
+  .heroImgWrap::before {
+    top: 8px;
+    left: 8px;
+    right: -8px;
+    bottom: -8px;
+  }
+
+  .sectionTitle {
+    font-size: clamp(18px, 5vw, 22px);
+  }
+
+  .programList {
+    gap: 8px;
+  }
+
+  .programImage {
+    aspect-ratio: 3 / 4;
+  }
+
+  .programOverlay {
+    padding: 10px 8px;
+  }
+
+  .programOverlayDesc {
+    font-size: 10px;
+  }
+
+  .programOverlayBadge {
+    font-size: 10px;
+    padding: 3px 5px;
+  }
+
+  .programCardLabel {
+    font-size: 12px;
+    padding-left: 1px;
+  }
+
+  .programSoonBadge {
+    font-size: 8px;
+    padding: 2px 5px;
+  }
+
+  .programCta {
+    margin-top: 32px;
+  }
+
+  .btnPink {
+    padding: 12px 24px;
+    font-size: 14px;
+  }
+
+  .benefitCardWrap {
+    flex: 0 0 calc((100% - 12px) / 2.0);
+  }
+
+  .benefitTitle {
+    font-size: 13px;
+    padding: 0 10px;
+  }
+
+  .benefitDesc {
+    font-size: 0.75rem;
+    padding: 0 10px;
+  }
+
+  .benefitNoteBox {
+    padding: 14px 16px;
+    border-radius: 14px;
+  }
+
+  .benefitNote {
+    font-size: 0.85rem;
+  }
+
+  .evidenceNumber {
+    font-size: clamp(36px, 10vw, 48px);
+  }
+
+  .evidenceDesc {
+    font-size: 14px;
+  }
+
+  .evidenceLink {
+    font-size: 12px;
+  }
+
+  .evidenceList {
+    gap: 32px;
+  }
+
+  .whyCard {
+    padding: 24px 18px;
+    border-radius: 18px;
+  }
+
+  .whyCardList li {
+    font-size: 14px;
+    padding-left: 16px;
+  }
+
+  .whyCardCta {
+    padding: 11px 0;
+    font-size: 14px;
+    border-radius: 12px;
+  }
+
+  .whyCardPricing {
+    font-size: 12px;
+  }
+
+  .empathyFrame {
+    padding: 24px 16px;
+    border-radius: 22px;
+  }
+
+  .empathyText {
+    font-size: clamp(15px, 4vw, 18px);
+  }
+
+  .empathySpacer {
+    margin: 20px 0;
+  }
+
+  .empathyCta {
+    margin-top: 24px;
+    padding: 11px 24px;
+    font-size: 14px;
+  }
+
+  .introVideoCard {
+    padding: 10px;
+    border-radius: 18px;
+  }
+
+  .introVideo video,
+  #introVideo {
+    border-radius: 12px;
+  }
+
+  .videoOverlayCenter {
+    width: 52px;
+    height: 52px;
+  }
+
+  .videoOverlayCenter::before {
+    border-width: 9px 0 9px 16px;
+  }
+
+  .introPlaceholder {
+    padding: 48px 14px;
+  }
+
+  .footerBrandName {
+    font-size: 16px;
+  }
+
+  .footerInfo p {
+    font-size: 0.78rem;
+  }
+
+  .footerCopyright {
+    font-size: 0.72rem;
+  }
+}
+
+/* ===========================
+   가로 모드 (Landscape) 최적화 — home/balance 패턴
+=========================== */
+@media (orientation: landscape) and (max-height: 500px) {
+  .hero {
+    padding: 32px 0 24px;
+  }
+
+  .heroGrid {
+    grid-template-columns: 1.3fr 1fr;
+    gap: 20px;
+  }
+
+  .programs {
+    padding: 40px 0;
+  }
+
+  .benefitSection {
+    padding: 40px 0;
+  }
+
+  .evidenceSection {
+    padding: 40px 0;
+  }
+
+  .whySection {
+    padding: 40px 0;
+  }
+
+  .empathySection {
+    padding: 40px 0;
+  }
+
+  .introSection {
+    padding: 24px 0;
+  }
+
+  .empathySpacer {
+    margin: 16px 0;
+  }
+
+  .footer {
+    padding: 32px 0 calc(24px + env(safe-area-inset-bottom, 0px));
+  }
+}
+
+/* ===========================
+   접근성: 움직임 줄이기 — home/balance 패턴
+=========================== */
+@media (prefers-reduced-motion: reduce) {
+  .programCard,
+  .benefitCard,
+  .bellaCard,
+  .introVideoCard,
+  .empathyAvatar,
+  .btnPrimary,
+  .btnPinkOutline,
+  .btnGhost,
+  .btnPink,
+  .empathyCta,
+  .whyCardCta,
+  .wideCard {
+    transition: none;
+  }
+
+  .programImage img,
+  .benefitImage,
+  .bellaImgWrap img {
+    transition: none;
+  }
+
+  .evidenceSource {
+    transition: none;
+    opacity: 1;
+    max-height: none;
+  }
+
+  @keyframes introSpin {
+    to { transform: rotate(360deg); }
   }
 }
 

@@ -18,7 +18,7 @@
         "validateOnSynth": false,
         "assumeRoleArn": "arn:${AWS::Partition}:iam::513213802410:role/cdk-hnb659fds-deploy-role-513213802410-ap-northeast-2",
         "cloudFormationExecutionRoleArn": "arn:${AWS::Partition}:iam::513213802410:role/cdk-hnb659fds-cfn-exec-role-513213802410-ap-northeast-2",
-        "stackTemplateAssetObjectUrl": "s3://cdk-hnb659fds-assets-513213802410-ap-northeast-2/d0c3218f4298b002d65c7f29f16f5bf327703fdf9699a5a5dcf0943abb4a1504.json",
+        "stackTemplateAssetObjectUrl": "s3://cdk-hnb659fds-assets-513213802410-ap-northeast-2/6ee4968a2d86eff3bbea2e320c253d43f90ed8596798025874c2a56ef838c214.json",
         "requiresBootstrapStackVersion": 6,
         "bootstrapStackVersionSsmParameter": "/cdk-bootstrap/hnb659fds/version",
         "additionalDependencies": [
@@ -46,30 +46,6 @@
             "data": "SiteBucketPolicy3AC1D0F8"
           }
         ],
-        "/HealechoStack/SiteBucket/AutoDeleteObjectsCustomResource/Default": [
-          {
-            "type": "aws:cdk:logicalId",
-            "data": "SiteBucketAutoDeleteObjectsCustomResource9585E968"
-          }
-        ],
-        "/HealechoStack/Custom::S3AutoDeleteObjectsCustomResourceProvider": [
-          {
-            "type": "aws:cdk:is-custom-resource-handler-customResourceProvider",
-            "data": true
-          }
-        ],
-        "/HealechoStack/Custom::S3AutoDeleteObjectsCustomResourceProvider/Role": [
-          {
-            "type": "aws:cdk:logicalId",
-            "data": "CustomS3AutoDeleteObjectsCustomResourceProviderRole3B1BD092"
-          }
-        ],
-        "/HealechoStack/Custom::S3AutoDeleteObjectsCustomResourceProvider/Handler": [
-          {
-            "type": "aws:cdk:logicalId",
-            "data": "CustomS3AutoDeleteObjectsCustomResourceProviderHandler9D90184F"
-          }
-        ],
         "/HealechoStack/VideoBucket/Resource": [
           {
             "type": "aws:cdk:logicalId",
@@ -80,12 +56,6 @@
           {
             "type": "aws:cdk:logicalId",
             "data": "VideoBucketPolicyDE50723C"
-          }
-        ],
-        "/HealechoStack/VideoBucket/AutoDeleteObjectsCustomResource/Default": [
-          {
-            "type": "aws:cdk:logicalId",
-            "data": "VideoBucketAutoDeleteObjectsCustomResource5F365B42"
           }
         ],
         "/HealechoStack/OAI/Resource": [
@@ -1138,6 +1108,24 @@
             "data": "HealechoHttpApiPOSTuserrecordlogin61CEC662"
           }
         ],
+        "/HealechoStack/HealechoHttpApi/POST--admin--repair-profiles/RepairProfiles/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "HealechoHttpApiPOSTadminrepairprofilesRepairProfiles123F563F"
+          }
+        ],
+        "/HealechoStack/HealechoHttpApi/POST--admin--repair-profiles/RepairProfiles-Permission": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "HealechoHttpApiPOSTadminrepairprofilesRepairProfilesPermissionE55911A7"
+          }
+        ],
+        "/HealechoStack/HealechoHttpApi/POST--admin--repair-profiles/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "HealechoHttpApiPOSTadminrepairprofiles46345D57"
+          }
+        ],
         "/HealechoStack/HealechoHttpApi/GET--admin--dashboard-stats/AdminDashboardStats/Resource": [
           {
             "type": "aws:cdk:logicalId",
@@ -1864,6 +1852,24 @@
             "data": "UserProfileLambda2C03C5A4"
           }
         ],
+        "/HealechoStack/RepairProfilesLambda/ServiceRole/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "RepairProfilesLambdaServiceRole8964A91D"
+          }
+        ],
+        "/HealechoStack/RepairProfilesLambda/ServiceRole/DefaultPolicy/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "RepairProfilesLambdaServiceRoleDefaultPolicyA8421CA6"
+          }
+        ],
+        "/HealechoStack/RepairProfilesLambda/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "RepairProfilesLambda57186D6B"
+          }
+        ],
         "/HealechoStack/AdminDashboardStatsLambda/ServiceRole/Resource": [
           {
             "type": "aws:cdk:logicalId",
@@ -1880,6 +1886,228 @@
           {
             "type": "aws:cdk:logicalId",
             "data": "AdminDashboardStatsLambda12DAD8EC"
+          }
+        ],
+        "/HealechoStack/HealechoBackupVault/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "HealechoBackupVault21A6D39C"
+          }
+        ],
+        "/HealechoStack/HealechoBackupPlan/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "HealechoBackupPlanD185B0A0"
+          }
+        ],
+        "/HealechoStack/HealechoBackupPlan/Backup-UsersTable/Role/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "HealechoBackupPlanBackupUsersTableRole37ECAF8A"
+          }
+        ],
+        "/HealechoStack/HealechoBackupPlan/Backup-UsersTable/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "HealechoBackupPlanBackupUsersTable960F1B6D"
+          }
+        ],
+        "/HealechoStack/HealechoBackupPlan/Backup-SubscriptionsTable/Role/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "HealechoBackupPlanBackupSubscriptionsTableRoleE5FCFA35"
+          }
+        ],
+        "/HealechoStack/HealechoBackupPlan/Backup-SubscriptionsTable/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "HealechoBackupPlanBackupSubscriptionsTable3F1772F9"
+          }
+        ],
+        "/HealechoStack/HealechoBackupPlan/Backup-PaymentsTable/Role/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "HealechoBackupPlanBackupPaymentsTableRoleEC1811D2"
+          }
+        ],
+        "/HealechoStack/HealechoBackupPlan/Backup-PaymentsTable/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "HealechoBackupPlanBackupPaymentsTable31797B82"
+          }
+        ],
+        "/HealechoStack/HealechoBackupPlan/Backup-WatchRecordsTable/Role/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "HealechoBackupPlanBackupWatchRecordsTableRole205585C9"
+          }
+        ],
+        "/HealechoStack/HealechoBackupPlan/Backup-WatchRecordsTable/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "HealechoBackupPlanBackupWatchRecordsTableB722D935"
+          }
+        ],
+        "/HealechoStack/HealechoBackupPlan/Backup-GiftCyclesTable/Role/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "HealechoBackupPlanBackupGiftCyclesTableRoleB7F1A65C"
+          }
+        ],
+        "/HealechoStack/HealechoBackupPlan/Backup-GiftCyclesTable/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "HealechoBackupPlanBackupGiftCyclesTableD9EF9C6E"
+          }
+        ],
+        "/HealechoStack/HealechoBackupPlan/Backup-PSQIResultsTable/Role/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "HealechoBackupPlanBackupPSQIResultsTableRoleA08CB60C"
+          }
+        ],
+        "/HealechoStack/HealechoBackupPlan/Backup-PSQIResultsTable/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "HealechoBackupPlanBackupPSQIResultsTable80F32EFC"
+          }
+        ],
+        "/HealechoStack/HealechoBackupPlan/Backup-SelfCheckResultsTable/Role/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "HealechoBackupPlanBackupSelfCheckResultsTableRole5AA9E8B6"
+          }
+        ],
+        "/HealechoStack/HealechoBackupPlan/Backup-SelfCheckResultsTable/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "HealechoBackupPlanBackupSelfCheckResultsTable3E4735BD"
+          }
+        ],
+        "/HealechoStack/HealechoBackupPlan/Backup-UserHabitTrackingTable/Role/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "HealechoBackupPlanBackupUserHabitTrackingTableRoleC70FABA2"
+          }
+        ],
+        "/HealechoStack/HealechoBackupPlan/Backup-UserHabitTrackingTable/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "HealechoBackupPlanBackupUserHabitTrackingTableB423C9A7"
+          }
+        ],
+        "/HealechoStack/HealechoBackupPlan/Backup-UserSleepLogTable/Role/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "HealechoBackupPlanBackupUserSleepLogTableRole4430D071"
+          }
+        ],
+        "/HealechoStack/HealechoBackupPlan/Backup-UserSleepLogTable/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "HealechoBackupPlanBackupUserSleepLogTable29C44118"
+          }
+        ],
+        "/HealechoStack/HealechoBackupPlan/Backup-PracticeRecordsTable/Role/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "HealechoBackupPlanBackupPracticeRecordsTableRole6D93BFCA"
+          }
+        ],
+        "/HealechoStack/HealechoBackupPlan/Backup-PracticeRecordsTable/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "HealechoBackupPlanBackupPracticeRecordsTable977731B3"
+          }
+        ],
+        "/HealechoStack/HealechoBackupPlan/Backup-UserPreferencesTable/Role/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "HealechoBackupPlanBackupUserPreferencesTableRole0BBB30E6"
+          }
+        ],
+        "/HealechoStack/HealechoBackupPlan/Backup-UserPreferencesTable/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "HealechoBackupPlanBackupUserPreferencesTable01971DDD"
+          }
+        ],
+        "/HealechoStack/HealechoBackupPlan/Backup-BalanceVideosTable/Role/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "HealechoBackupPlanBackupBalanceVideosTableRoleC8058E5A"
+          }
+        ],
+        "/HealechoStack/HealechoBackupPlan/Backup-BalanceVideosTable/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "HealechoBackupPlanBackupBalanceVideosTable8D36B77B"
+          }
+        ],
+        "/HealechoStack/HealechoBackupPlan/Backup-WeeklyHabitContentTable/Role/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "HealechoBackupPlanBackupWeeklyHabitContentTableRole5073C6D8"
+          }
+        ],
+        "/HealechoStack/HealechoBackupPlan/Backup-WeeklyHabitContentTable/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "HealechoBackupPlanBackupWeeklyHabitContentTableB0BBCF4B"
+          }
+        ],
+        "/HealechoStack/HealechoBackupPlan/Backup-SleepHabitTable/Role/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "HealechoBackupPlanBackupSleepHabitTableRole5F2E348D"
+          }
+        ],
+        "/HealechoStack/HealechoBackupPlan/Backup-SleepHabitTable/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "HealechoBackupPlanBackupSleepHabitTableF888AB11"
+          }
+        ],
+        "/HealechoStack/HealechoBackupPlan/Backup-ItemsTable/Role/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "HealechoBackupPlanBackupItemsTableRoleF1F6F8AD"
+          }
+        ],
+        "/HealechoStack/HealechoBackupPlan/Backup-ItemsTable/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "HealechoBackupPlanBackupItemsTableFA199556"
+          }
+        ],
+        "/HealechoStack/CognitoBackupLambda/ServiceRole/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "CognitoBackupLambdaServiceRole3BD9DD14"
+          }
+        ],
+        "/HealechoStack/CognitoBackupLambda/ServiceRole/DefaultPolicy/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "CognitoBackupLambdaServiceRoleDefaultPolicyED674221"
+          }
+        ],
+        "/HealechoStack/CognitoBackupLambda/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "CognitoBackupLambdaA47CB983"
+          }
+        ],
+        "/HealechoStack/CognitoBackupRule/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "CognitoBackupRuleB8050377"
+          }
+        ],
+        "/HealechoStack/CognitoBackupRule/AllowEventRuleHealechoStackCognitoBackupLambda2C3E1D98": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "CognitoBackupRuleAllowEventRuleHealechoStackCognitoBackupLambda2C3E1D98F12AFE35"
           }
         ],
         "/HealechoStack/HttpApiUrl": [

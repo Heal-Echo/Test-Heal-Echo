@@ -1,3 +1,4 @@
+import { Suspense } from "react";
 import Image from "next/image";
 import PublicHeader from "@/components/publicSite/PublicHeader";
 import styles from "./landing.module.css";
@@ -85,14 +86,18 @@ export default async function LandingPage() {
       <PublicHeader />
 
       {/* Hero + Programs + ComingSoon 모달 (클라이언트) */}
-      <HeroProgramsClient />
+      <Suspense fallback={null}>
+        <HeroProgramsClient />
+      </Suspense>
 
       {/* Introduction Video (클라이언트 — 재생 제어만 담당) */}
-      <IntroVideoClient
-        videoKey={introVideoData.videoKey}
-        thumbnailKey={introVideoData.thumbnailKey}
-        error={introVideoData.error}
-      />
+      <Suspense fallback={null}>
+        <IntroVideoClient
+          videoKey={introVideoData.videoKey}
+          thumbnailKey={introVideoData.thumbnailKey}
+          error={introVideoData.error}
+        />
+      </Suspense>
 
       {/* ===========================
           Member's Benefit (서버)
@@ -123,7 +128,7 @@ export default async function LandingPage() {
                     alt="위클리 솔루션"
                     width={800}
                     height={533}
-                    sizes="(max-width: 768px) 100vw, 33vw"
+                    sizes="(max-width: 480px) 45vw, (max-width: 640px) 40vw, (max-width: 1024px) 33vw, 280px"
                     className={styles.benefitImage}
                   />
                 </div>
@@ -144,7 +149,7 @@ export default async function LandingPage() {
                     alt="위클리 해빗"
                     width={800}
                     height={533}
-                    sizes="(max-width: 768px) 100vw, 33vw"
+                    sizes="(max-width: 480px) 45vw, (max-width: 640px) 40vw, (max-width: 1024px) 33vw, 280px"
                     className={styles.benefitImage}
                   />
                 </div>
@@ -165,7 +170,7 @@ export default async function LandingPage() {
                     alt="이해의 바다"
                     width={800}
                     height={533}
-                    sizes="(max-width: 768px) 100vw, 33vw"
+                    sizes="(max-width: 480px) 45vw, (max-width: 640px) 40vw, (max-width: 1024px) 33vw, 280px"
                     className={styles.benefitImage}
                   />
                 </div>

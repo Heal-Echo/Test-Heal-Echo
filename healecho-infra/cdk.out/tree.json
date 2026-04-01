@@ -24,12 +24,9 @@
                       "ignorePublicAcls": true,
                       "restrictPublicBuckets": true
                     },
-                    "tags": [
-                      {
-                        "key": "aws-cdk:auto-delete-objects",
-                        "value": "true"
-                      }
-                    ]
+                    "versioningConfiguration": {
+                      "status": "Enabled"
+                    }
                   }
                 },
                 "constructInfo": {
@@ -52,45 +49,6 @@
                         },
                         "policyDocument": {
                           "Statement": [
-                            {
-                              "Action": [
-                                "s3:PutBucketPolicy",
-                                "s3:GetBucket*",
-                                "s3:List*",
-                                "s3:DeleteObject*"
-                              ],
-                              "Effect": "Allow",
-                              "Principal": {
-                                "AWS": {
-                                  "Fn::GetAtt": [
-                                    "CustomS3AutoDeleteObjectsCustomResourceProviderRole3B1BD092",
-                                    "Arn"
-                                  ]
-                                }
-                              },
-                              "Resource": [
-                                {
-                                  "Fn::GetAtt": [
-                                    "SiteBucket397A1860",
-                                    "Arn"
-                                  ]
-                                },
-                                {
-                                  "Fn::Join": [
-                                    "",
-                                    [
-                                      {
-                                        "Fn::GetAtt": [
-                                          "SiteBucket397A1860",
-                                          "Arn"
-                                        ]
-                                      },
-                                      "/*"
-                                    ]
-                                  ]
-                                }
-                              ]
-                            },
                             {
                               "Action": "s3:GetObject",
                               "Effect": "Allow",
@@ -132,62 +90,10 @@
                   "fqn": "aws-cdk-lib.aws_s3.BucketPolicy",
                   "version": "2.154.1"
                 }
-              },
-              "AutoDeleteObjectsCustomResource": {
-                "id": "AutoDeleteObjectsCustomResource",
-                "path": "HealechoStack/SiteBucket/AutoDeleteObjectsCustomResource",
-                "children": {
-                  "Default": {
-                    "id": "Default",
-                    "path": "HealechoStack/SiteBucket/AutoDeleteObjectsCustomResource/Default",
-                    "constructInfo": {
-                      "fqn": "aws-cdk-lib.CfnResource",
-                      "version": "2.154.1"
-                    }
-                  }
-                },
-                "constructInfo": {
-                  "fqn": "aws-cdk-lib.CustomResource",
-                  "version": "2.154.1"
-                }
               }
             },
             "constructInfo": {
               "fqn": "aws-cdk-lib.aws_s3.Bucket",
-              "version": "2.154.1"
-            }
-          },
-          "Custom::S3AutoDeleteObjectsCustomResourceProvider": {
-            "id": "Custom::S3AutoDeleteObjectsCustomResourceProvider",
-            "path": "HealechoStack/Custom::S3AutoDeleteObjectsCustomResourceProvider",
-            "children": {
-              "Staging": {
-                "id": "Staging",
-                "path": "HealechoStack/Custom::S3AutoDeleteObjectsCustomResourceProvider/Staging",
-                "constructInfo": {
-                  "fqn": "aws-cdk-lib.AssetStaging",
-                  "version": "2.154.1"
-                }
-              },
-              "Role": {
-                "id": "Role",
-                "path": "HealechoStack/Custom::S3AutoDeleteObjectsCustomResourceProvider/Role",
-                "constructInfo": {
-                  "fqn": "aws-cdk-lib.CfnResource",
-                  "version": "2.154.1"
-                }
-              },
-              "Handler": {
-                "id": "Handler",
-                "path": "HealechoStack/Custom::S3AutoDeleteObjectsCustomResourceProvider/Handler",
-                "constructInfo": {
-                  "fqn": "aws-cdk-lib.CfnResource",
-                  "version": "2.154.1"
-                }
-              }
-            },
-            "constructInfo": {
-              "fqn": "aws-cdk-lib.CustomResourceProviderBase",
               "version": "2.154.1"
             }
           },
@@ -222,18 +128,26 @@
                         }
                       ]
                     },
+                    "lifecycleConfiguration": {
+                      "rules": [
+                        {
+                          "noncurrentVersionExpiration": {
+                            "noncurrentDays": 90,
+                            "newerNoncurrentVersions": 3
+                          },
+                          "status": "Enabled"
+                        }
+                      ]
+                    },
                     "publicAccessBlockConfiguration": {
                       "blockPublicAcls": true,
                       "blockPublicPolicy": true,
                       "ignorePublicAcls": true,
                       "restrictPublicBuckets": true
                     },
-                    "tags": [
-                      {
-                        "key": "aws-cdk:auto-delete-objects",
-                        "value": "true"
-                      }
-                    ]
+                    "versioningConfiguration": {
+                      "status": "Enabled"
+                    }
                   }
                 },
                 "constructInfo": {
@@ -256,45 +170,6 @@
                         },
                         "policyDocument": {
                           "Statement": [
-                            {
-                              "Action": [
-                                "s3:PutBucketPolicy",
-                                "s3:GetBucket*",
-                                "s3:List*",
-                                "s3:DeleteObject*"
-                              ],
-                              "Effect": "Allow",
-                              "Principal": {
-                                "AWS": {
-                                  "Fn::GetAtt": [
-                                    "CustomS3AutoDeleteObjectsCustomResourceProviderRole3B1BD092",
-                                    "Arn"
-                                  ]
-                                }
-                              },
-                              "Resource": [
-                                {
-                                  "Fn::GetAtt": [
-                                    "VideoBucket6ED8E1AF",
-                                    "Arn"
-                                  ]
-                                },
-                                {
-                                  "Fn::Join": [
-                                    "",
-                                    [
-                                      {
-                                        "Fn::GetAtt": [
-                                          "VideoBucket6ED8E1AF",
-                                          "Arn"
-                                        ]
-                                      },
-                                      "/*"
-                                    ]
-                                  ]
-                                }
-                              ]
-                            },
                             {
                               "Action": "s3:GetObject",
                               "Effect": "Allow",
@@ -334,24 +209,6 @@
                 },
                 "constructInfo": {
                   "fqn": "aws-cdk-lib.aws_s3.BucketPolicy",
-                  "version": "2.154.1"
-                }
-              },
-              "AutoDeleteObjectsCustomResource": {
-                "id": "AutoDeleteObjectsCustomResource",
-                "path": "HealechoStack/VideoBucket/AutoDeleteObjectsCustomResource",
-                "children": {
-                  "Default": {
-                    "id": "Default",
-                    "path": "HealechoStack/VideoBucket/AutoDeleteObjectsCustomResource/Default",
-                    "constructInfo": {
-                      "fqn": "aws-cdk-lib.CfnResource",
-                      "version": "2.154.1"
-                    }
-                  }
-                },
-                "constructInfo": {
-                  "fqn": "aws-cdk-lib.CustomResource",
                   "version": "2.154.1"
                 }
               }
@@ -557,7 +414,10 @@
                         "attributeName": "id",
                         "keyType": "HASH"
                       }
-                    ]
+                    ],
+                    "pointInTimeRecoverySpecification": {
+                      "pointInTimeRecoveryEnabled": true
+                    }
                   }
                 },
                 "constructInfo": {
@@ -609,7 +469,10 @@
                         "attributeName": "weekNumber",
                         "keyType": "RANGE"
                       }
-                    ]
+                    ],
+                    "pointInTimeRecoverySpecification": {
+                      "pointInTimeRecoveryEnabled": true
+                    }
                   }
                 },
                 "constructInfo": {
@@ -661,7 +524,10 @@
                         "attributeName": "programId",
                         "keyType": "RANGE"
                       }
-                    ]
+                    ],
+                    "pointInTimeRecoverySpecification": {
+                      "pointInTimeRecoveryEnabled": true
+                    }
                   }
                 },
                 "constructInfo": {
@@ -713,7 +579,10 @@
                         "attributeName": "paymentId",
                         "keyType": "RANGE"
                       }
-                    ]
+                    ],
+                    "pointInTimeRecoverySpecification": {
+                      "pointInTimeRecoveryEnabled": true
+                    }
                   }
                 },
                 "constructInfo": {
@@ -799,7 +668,10 @@
                         "attributeName": "userId",
                         "keyType": "HASH"
                       }
-                    ]
+                    ],
+                    "pointInTimeRecoverySpecification": {
+                      "pointInTimeRecoveryEnabled": true
+                    }
                   }
                 },
                 "constructInfo": {
@@ -851,7 +723,10 @@
                         "attributeName": "watchDate",
                         "keyType": "RANGE"
                       }
-                    ]
+                    ],
+                    "pointInTimeRecoverySpecification": {
+                      "pointInTimeRecoveryEnabled": true
+                    }
                   }
                 },
                 "constructInfo": {
@@ -903,7 +778,10 @@
                         "attributeName": "weekNumber",
                         "keyType": "RANGE"
                       }
-                    ]
+                    ],
+                    "pointInTimeRecoverySpecification": {
+                      "pointInTimeRecoveryEnabled": true
+                    }
                   }
                 },
                 "constructInfo": {
@@ -955,7 +833,10 @@
                         "attributeName": "trackingKey",
                         "keyType": "RANGE"
                       }
-                    ]
+                    ],
+                    "pointInTimeRecoverySpecification": {
+                      "pointInTimeRecoveryEnabled": true
+                    }
                   }
                 },
                 "constructInfo": {
@@ -1007,7 +888,10 @@
                         "attributeName": "weekNumber",
                         "keyType": "RANGE"
                       }
-                    ]
+                    ],
+                    "pointInTimeRecoverySpecification": {
+                      "pointInTimeRecoveryEnabled": true
+                    }
                   }
                 },
                 "constructInfo": {
@@ -7228,6 +7112,119 @@
                   "version": "2.114.1-alpha.0"
                 }
               },
+              "POST--admin--repair-profiles": {
+                "id": "POST--admin--repair-profiles",
+                "path": "HealechoStack/HealechoHttpApi/POST--admin--repair-profiles",
+                "children": {
+                  "RepairProfiles": {
+                    "id": "RepairProfiles",
+                    "path": "HealechoStack/HealechoHttpApi/POST--admin--repair-profiles/RepairProfiles",
+                    "children": {
+                      "Resource": {
+                        "id": "Resource",
+                        "path": "HealechoStack/HealechoHttpApi/POST--admin--repair-profiles/RepairProfiles/Resource",
+                        "attributes": {
+                          "aws:cdk:cloudformation:type": "AWS::ApiGatewayV2::Integration",
+                          "aws:cdk:cloudformation:props": {
+                            "apiId": {
+                              "Ref": "HealechoHttpApiBBC56DC2"
+                            },
+                            "integrationType": "AWS_PROXY",
+                            "integrationUri": {
+                              "Fn::GetAtt": [
+                                "RepairProfilesLambda57186D6B",
+                                "Arn"
+                              ]
+                            },
+                            "payloadFormatVersion": "2.0"
+                          }
+                        },
+                        "constructInfo": {
+                          "fqn": "aws-cdk-lib.aws_apigatewayv2.CfnIntegration",
+                          "version": "2.154.1"
+                        }
+                      }
+                    },
+                    "constructInfo": {
+                      "fqn": "@aws-cdk/aws-apigatewayv2-alpha.HttpIntegration",
+                      "version": "2.114.1-alpha.0"
+                    }
+                  },
+                  "RepairProfiles-Permission": {
+                    "id": "RepairProfiles-Permission",
+                    "path": "HealechoStack/HealechoHttpApi/POST--admin--repair-profiles/RepairProfiles-Permission",
+                    "attributes": {
+                      "aws:cdk:cloudformation:type": "AWS::Lambda::Permission",
+                      "aws:cdk:cloudformation:props": {
+                        "action": "lambda:InvokeFunction",
+                        "functionName": {
+                          "Fn::GetAtt": [
+                            "RepairProfilesLambda57186D6B",
+                            "Arn"
+                          ]
+                        },
+                        "principal": "apigateway.amazonaws.com",
+                        "sourceArn": {
+                          "Fn::Join": [
+                            "",
+                            [
+                              "arn:",
+                              {
+                                "Ref": "AWS::Partition"
+                              },
+                              ":execute-api:ap-northeast-2:513213802410:",
+                              {
+                                "Ref": "HealechoHttpApiBBC56DC2"
+                              },
+                              "/*/*/admin/repair-profiles"
+                            ]
+                          ]
+                        }
+                      }
+                    },
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.aws_lambda.CfnPermission",
+                      "version": "2.154.1"
+                    }
+                  },
+                  "Resource": {
+                    "id": "Resource",
+                    "path": "HealechoStack/HealechoHttpApi/POST--admin--repair-profiles/Resource",
+                    "attributes": {
+                      "aws:cdk:cloudformation:type": "AWS::ApiGatewayV2::Route",
+                      "aws:cdk:cloudformation:props": {
+                        "apiId": {
+                          "Ref": "HealechoHttpApiBBC56DC2"
+                        },
+                        "authorizationType": "JWT",
+                        "authorizerId": {
+                          "Ref": "HealechoHttpApiHealechoAuthorizer724ECFAA"
+                        },
+                        "routeKey": "POST /admin/repair-profiles",
+                        "target": {
+                          "Fn::Join": [
+                            "",
+                            [
+                              "integrations/",
+                              {
+                                "Ref": "HealechoHttpApiPOSTadminrepairprofilesRepairProfiles123F563F"
+                              }
+                            ]
+                          ]
+                        }
+                      }
+                    },
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.aws_apigatewayv2.CfnRoute",
+                      "version": "2.154.1"
+                    }
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "@aws-cdk/aws-apigatewayv2-alpha.HttpRoute",
+                  "version": "2.114.1-alpha.0"
+                }
+              },
               "GET--admin--dashboard-stats": {
                 "id": "GET--admin--dashboard-stats",
                 "path": "HealechoStack/HealechoHttpApi/GET--admin--dashboard-stats",
@@ -10881,7 +10878,10 @@
                         "attributeName": "testDate",
                         "keyType": "RANGE"
                       }
-                    ]
+                    ],
+                    "pointInTimeRecoverySpecification": {
+                      "pointInTimeRecoveryEnabled": true
+                    }
                   }
                 },
                 "constructInfo": {
@@ -11120,7 +11120,10 @@
                         "attributeName": "testDate",
                         "keyType": "RANGE"
                       }
-                    ]
+                    ],
+                    "pointInTimeRecoverySpecification": {
+                      "pointInTimeRecoveryEnabled": true
+                    }
                   }
                 },
                 "constructInfo": {
@@ -11299,7 +11302,7 @@
                   "aws:cdk:cloudformation:props": {
                     "code": {
                       "s3Bucket": "cdk-hnb659fds-assets-513213802410-ap-northeast-2",
-                      "s3Key": "a1e1e7ee8bcf253f567627ef1608badb03b669f73c5dc96c6172466135e1263a.zip"
+                      "s3Key": "6797e432c07d6c567d97b27312289ebba83fc7bdc49f497d1f53071df9185d0b.zip"
                     },
                     "environment": {
                       "variables": {
@@ -11359,7 +11362,10 @@
                         "attributeName": "cycleKey",
                         "keyType": "RANGE"
                       }
-                    ]
+                    ],
+                    "pointInTimeRecoverySpecification": {
+                      "pointInTimeRecoveryEnabled": true
+                    }
                   }
                 },
                 "constructInfo": {
@@ -11785,7 +11791,10 @@
                         "attributeName": "recordKey",
                         "keyType": "RANGE"
                       }
-                    ]
+                    ],
+                    "pointInTimeRecoverySpecification": {
+                      "pointInTimeRecoveryEnabled": true
+                    }
                   }
                 },
                 "constructInfo": {
@@ -12024,7 +12033,10 @@
                         "attributeName": "logKey",
                         "keyType": "RANGE"
                       }
-                    ]
+                    ],
+                    "pointInTimeRecoverySpecification": {
+                      "pointInTimeRecoveryEnabled": true
+                    }
                   }
                 },
                 "constructInfo": {
@@ -12255,7 +12267,10 @@
                         "attributeName": "userId",
                         "keyType": "HASH"
                       }
-                    ]
+                    ],
+                    "pointInTimeRecoverySpecification": {
+                      "pointInTimeRecoveryEnabled": true
+                    }
                   }
                 },
                 "constructInfo": {
@@ -15411,7 +15426,7 @@
                   "aws:cdk:cloudformation:props": {
                     "code": {
                       "s3Bucket": "cdk-hnb659fds-assets-513213802410-ap-northeast-2",
-                      "s3Key": "225a0581861ac7afc33673851551a568c989de813ada394f847c4cc6cd5b1a5f.zip"
+                      "s3Key": "ddef1809b73804764a683fc2ac6f64d8d41b7cdbf89552de681e335a10e0d5d6.zip"
                     },
                     "environment": {
                       "variables": {
@@ -15428,6 +15443,286 @@
                       ]
                     },
                     "runtime": "nodejs18.x"
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.aws_lambda.CfnFunction",
+                  "version": "2.154.1"
+                }
+              }
+            },
+            "constructInfo": {
+              "fqn": "aws-cdk-lib.aws_lambda_nodejs.NodejsFunction",
+              "version": "2.154.1"
+            }
+          },
+          "RepairProfilesLambda": {
+            "id": "RepairProfilesLambda",
+            "path": "HealechoStack/RepairProfilesLambda",
+            "children": {
+              "ServiceRole": {
+                "id": "ServiceRole",
+                "path": "HealechoStack/RepairProfilesLambda/ServiceRole",
+                "children": {
+                  "ImportServiceRole": {
+                    "id": "ImportServiceRole",
+                    "path": "HealechoStack/RepairProfilesLambda/ServiceRole/ImportServiceRole",
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.Resource",
+                      "version": "2.154.1"
+                    }
+                  },
+                  "Resource": {
+                    "id": "Resource",
+                    "path": "HealechoStack/RepairProfilesLambda/ServiceRole/Resource",
+                    "attributes": {
+                      "aws:cdk:cloudformation:type": "AWS::IAM::Role",
+                      "aws:cdk:cloudformation:props": {
+                        "assumeRolePolicyDocument": {
+                          "Statement": [
+                            {
+                              "Action": "sts:AssumeRole",
+                              "Effect": "Allow",
+                              "Principal": {
+                                "Service": "lambda.amazonaws.com"
+                              }
+                            }
+                          ],
+                          "Version": "2012-10-17"
+                        },
+                        "managedPolicyArns": [
+                          {
+                            "Fn::Join": [
+                              "",
+                              [
+                                "arn:",
+                                {
+                                  "Ref": "AWS::Partition"
+                                },
+                                ":iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"
+                              ]
+                            ]
+                          }
+                        ]
+                      }
+                    },
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.aws_iam.CfnRole",
+                      "version": "2.154.1"
+                    }
+                  },
+                  "DefaultPolicy": {
+                    "id": "DefaultPolicy",
+                    "path": "HealechoStack/RepairProfilesLambda/ServiceRole/DefaultPolicy",
+                    "children": {
+                      "Resource": {
+                        "id": "Resource",
+                        "path": "HealechoStack/RepairProfilesLambda/ServiceRole/DefaultPolicy/Resource",
+                        "attributes": {
+                          "aws:cdk:cloudformation:type": "AWS::IAM::Policy",
+                          "aws:cdk:cloudformation:props": {
+                            "policyDocument": {
+                              "Statement": [
+                                {
+                                  "Action": [
+                                    "dynamodb:BatchGetItem",
+                                    "dynamodb:GetRecords",
+                                    "dynamodb:GetShardIterator",
+                                    "dynamodb:Query",
+                                    "dynamodb:GetItem",
+                                    "dynamodb:Scan",
+                                    "dynamodb:ConditionCheckItem",
+                                    "dynamodb:BatchWriteItem",
+                                    "dynamodb:PutItem",
+                                    "dynamodb:UpdateItem",
+                                    "dynamodb:DeleteItem",
+                                    "dynamodb:DescribeTable"
+                                  ],
+                                  "Effect": "Allow",
+                                  "Resource": [
+                                    {
+                                      "Fn::GetAtt": [
+                                        "UsersTable9725E9C8",
+                                        "Arn"
+                                      ]
+                                    },
+                                    {
+                                      "Fn::Join": [
+                                        "",
+                                        [
+                                          {
+                                            "Fn::GetAtt": [
+                                              "UsersTable9725E9C8",
+                                              "Arn"
+                                            ]
+                                          },
+                                          "/index/*"
+                                        ]
+                                      ]
+                                    }
+                                  ]
+                                },
+                                {
+                                  "Action": [
+                                    "dynamodb:BatchGetItem",
+                                    "dynamodb:GetRecords",
+                                    "dynamodb:GetShardIterator",
+                                    "dynamodb:Query",
+                                    "dynamodb:GetItem",
+                                    "dynamodb:Scan",
+                                    "dynamodb:ConditionCheckItem",
+                                    "dynamodb:DescribeTable"
+                                  ],
+                                  "Effect": "Allow",
+                                  "Resource": [
+                                    {
+                                      "Fn::GetAtt": [
+                                        "SubscriptionsTable40965A9D",
+                                        "Arn"
+                                      ]
+                                    },
+                                    {
+                                      "Ref": "AWS::NoValue"
+                                    }
+                                  ]
+                                },
+                                {
+                                  "Action": [
+                                    "dynamodb:BatchGetItem",
+                                    "dynamodb:GetRecords",
+                                    "dynamodb:GetShardIterator",
+                                    "dynamodb:Query",
+                                    "dynamodb:GetItem",
+                                    "dynamodb:Scan",
+                                    "dynamodb:ConditionCheckItem",
+                                    "dynamodb:DescribeTable"
+                                  ],
+                                  "Effect": "Allow",
+                                  "Resource": [
+                                    {
+                                      "Fn::GetAtt": [
+                                        "WatchRecordsTableAE91DA73",
+                                        "Arn"
+                                      ]
+                                    },
+                                    {
+                                      "Ref": "AWS::NoValue"
+                                    }
+                                  ]
+                                },
+                                {
+                                  "Action": [
+                                    "dynamodb:BatchGetItem",
+                                    "dynamodb:GetRecords",
+                                    "dynamodb:GetShardIterator",
+                                    "dynamodb:Query",
+                                    "dynamodb:GetItem",
+                                    "dynamodb:Scan",
+                                    "dynamodb:ConditionCheckItem",
+                                    "dynamodb:DescribeTable"
+                                  ],
+                                  "Effect": "Allow",
+                                  "Resource": [
+                                    {
+                                      "Fn::GetAtt": [
+                                        "UserPreferencesTableA0B50479",
+                                        "Arn"
+                                      ]
+                                    },
+                                    {
+                                      "Ref": "AWS::NoValue"
+                                    }
+                                  ]
+                                }
+                              ],
+                              "Version": "2012-10-17"
+                            },
+                            "policyName": "RepairProfilesLambdaServiceRoleDefaultPolicyA8421CA6",
+                            "roles": [
+                              {
+                                "Ref": "RepairProfilesLambdaServiceRole8964A91D"
+                              }
+                            ]
+                          }
+                        },
+                        "constructInfo": {
+                          "fqn": "aws-cdk-lib.aws_iam.CfnPolicy",
+                          "version": "2.154.1"
+                        }
+                      }
+                    },
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.aws_iam.Policy",
+                      "version": "2.154.1"
+                    }
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.aws_iam.Role",
+                  "version": "2.154.1"
+                }
+              },
+              "Code": {
+                "id": "Code",
+                "path": "HealechoStack/RepairProfilesLambda/Code",
+                "children": {
+                  "Stage": {
+                    "id": "Stage",
+                    "path": "HealechoStack/RepairProfilesLambda/Code/Stage",
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.AssetStaging",
+                      "version": "2.154.1"
+                    }
+                  },
+                  "AssetBucket": {
+                    "id": "AssetBucket",
+                    "path": "HealechoStack/RepairProfilesLambda/Code/AssetBucket",
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.aws_s3.BucketBase",
+                      "version": "2.154.1"
+                    }
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.aws_s3_assets.Asset",
+                  "version": "2.154.1"
+                }
+              },
+              "Resource": {
+                "id": "Resource",
+                "path": "HealechoStack/RepairProfilesLambda/Resource",
+                "attributes": {
+                  "aws:cdk:cloudformation:type": "AWS::Lambda::Function",
+                  "aws:cdk:cloudformation:props": {
+                    "code": {
+                      "s3Bucket": "cdk-hnb659fds-assets-513213802410-ap-northeast-2",
+                      "s3Key": "33e63dab077700e89d25b645d527e730efe33aa40464cb2ae5d183186b5a6d6b.zip"
+                    },
+                    "environment": {
+                      "variables": {
+                        "USERS_TABLE_NAME": {
+                          "Ref": "UsersTable9725E9C8"
+                        },
+                        "SUBSCRIPTIONS_TABLE_NAME": {
+                          "Ref": "SubscriptionsTable40965A9D"
+                        },
+                        "WATCH_RECORDS_TABLE_NAME": {
+                          "Ref": "WatchRecordsTableAE91DA73"
+                        },
+                        "USER_PREFERENCES_TABLE_NAME": {
+                          "Ref": "UserPreferencesTableA0B50479"
+                        }
+                      }
+                    },
+                    "handler": "index.handler",
+                    "role": {
+                      "Fn::GetAtt": [
+                        "RepairProfilesLambdaServiceRole8964A91D",
+                        "Arn"
+                      ]
+                    },
+                    "runtime": "nodejs18.x",
+                    "timeout": 300
                   }
                 },
                 "constructInfo": {
@@ -15646,6 +15941,1903 @@
             },
             "constructInfo": {
               "fqn": "aws-cdk-lib.aws_lambda_nodejs.NodejsFunction",
+              "version": "2.154.1"
+            }
+          },
+          "HealechoBackupVault": {
+            "id": "HealechoBackupVault",
+            "path": "HealechoStack/HealechoBackupVault",
+            "children": {
+              "Resource": {
+                "id": "Resource",
+                "path": "HealechoStack/HealechoBackupVault/Resource",
+                "attributes": {
+                  "aws:cdk:cloudformation:type": "AWS::Backup::BackupVault",
+                  "aws:cdk:cloudformation:props": {
+                    "backupVaultName": "healecho-backup-vault"
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.aws_backup.CfnBackupVault",
+                  "version": "2.154.1"
+                }
+              }
+            },
+            "constructInfo": {
+              "fqn": "aws-cdk-lib.aws_backup.BackupVault",
+              "version": "2.154.1"
+            }
+          },
+          "HealechoBackupPlan": {
+            "id": "HealechoBackupPlan",
+            "path": "HealechoStack/HealechoBackupPlan",
+            "children": {
+              "Resource": {
+                "id": "Resource",
+                "path": "HealechoStack/HealechoBackupPlan/Resource",
+                "attributes": {
+                  "aws:cdk:cloudformation:type": "AWS::Backup::BackupPlan",
+                  "aws:cdk:cloudformation:props": {
+                    "backupPlan": {
+                      "backupPlanName": "healecho-dynamodb-backup",
+                      "backupPlanRule": [
+                        {
+                          "lifecycle": {
+                            "deleteAfterDays": 30
+                          },
+                          "ruleName": "WeeklyBackup",
+                          "scheduleExpression": "cron(0 18 ? * SAT *)",
+                          "targetBackupVault": {
+                            "Fn::GetAtt": [
+                              "HealechoBackupVault21A6D39C",
+                              "BackupVaultName"
+                            ]
+                          }
+                        },
+                        {
+                          "lifecycle": {
+                            "deleteAfterDays": 365
+                          },
+                          "ruleName": "MonthlyBackup",
+                          "scheduleExpression": "cron(0 18 1 * ? *)",
+                          "targetBackupVault": {
+                            "Fn::GetAtt": [
+                              "HealechoBackupVault21A6D39C",
+                              "BackupVaultName"
+                            ]
+                          }
+                        }
+                      ]
+                    }
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.aws_backup.CfnBackupPlan",
+                  "version": "2.154.1"
+                }
+              },
+              "Backup-UsersTable": {
+                "id": "Backup-UsersTable",
+                "path": "HealechoStack/HealechoBackupPlan/Backup-UsersTable",
+                "children": {
+                  "Role": {
+                    "id": "Role",
+                    "path": "HealechoStack/HealechoBackupPlan/Backup-UsersTable/Role",
+                    "children": {
+                      "ImportRole": {
+                        "id": "ImportRole",
+                        "path": "HealechoStack/HealechoBackupPlan/Backup-UsersTable/Role/ImportRole",
+                        "constructInfo": {
+                          "fqn": "aws-cdk-lib.Resource",
+                          "version": "2.154.1"
+                        }
+                      },
+                      "Resource": {
+                        "id": "Resource",
+                        "path": "HealechoStack/HealechoBackupPlan/Backup-UsersTable/Role/Resource",
+                        "attributes": {
+                          "aws:cdk:cloudformation:type": "AWS::IAM::Role",
+                          "aws:cdk:cloudformation:props": {
+                            "assumeRolePolicyDocument": {
+                              "Statement": [
+                                {
+                                  "Action": "sts:AssumeRole",
+                                  "Effect": "Allow",
+                                  "Principal": {
+                                    "Service": "backup.amazonaws.com"
+                                  }
+                                }
+                              ],
+                              "Version": "2012-10-17"
+                            },
+                            "managedPolicyArns": [
+                              {
+                                "Fn::Join": [
+                                  "",
+                                  [
+                                    "arn:",
+                                    {
+                                      "Ref": "AWS::Partition"
+                                    },
+                                    ":iam::aws:policy/service-role/AWSBackupServiceRolePolicyForBackup"
+                                  ]
+                                ]
+                              }
+                            ]
+                          }
+                        },
+                        "constructInfo": {
+                          "fqn": "aws-cdk-lib.aws_iam.CfnRole",
+                          "version": "2.154.1"
+                        }
+                      }
+                    },
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.aws_iam.Role",
+                      "version": "2.154.1"
+                    }
+                  },
+                  "Resource": {
+                    "id": "Resource",
+                    "path": "HealechoStack/HealechoBackupPlan/Backup-UsersTable/Resource",
+                    "attributes": {
+                      "aws:cdk:cloudformation:type": "AWS::Backup::BackupSelection",
+                      "aws:cdk:cloudformation:props": {
+                        "backupPlanId": {
+                          "Fn::GetAtt": [
+                            "HealechoBackupPlanD185B0A0",
+                            "BackupPlanId"
+                          ]
+                        },
+                        "backupSelection": {
+                          "iamRoleArn": {
+                            "Fn::GetAtt": [
+                              "HealechoBackupPlanBackupUsersTableRole37ECAF8A",
+                              "Arn"
+                            ]
+                          },
+                          "selectionName": "Backup-UsersTable",
+                          "resources": [
+                            {
+                              "Fn::GetAtt": [
+                                "UsersTable9725E9C8",
+                                "Arn"
+                              ]
+                            }
+                          ]
+                        }
+                      }
+                    },
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.aws_backup.CfnBackupSelection",
+                      "version": "2.154.1"
+                    }
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.aws_backup.BackupSelection",
+                  "version": "2.154.1"
+                }
+              },
+              "Backup-SubscriptionsTable": {
+                "id": "Backup-SubscriptionsTable",
+                "path": "HealechoStack/HealechoBackupPlan/Backup-SubscriptionsTable",
+                "children": {
+                  "Role": {
+                    "id": "Role",
+                    "path": "HealechoStack/HealechoBackupPlan/Backup-SubscriptionsTable/Role",
+                    "children": {
+                      "ImportRole": {
+                        "id": "ImportRole",
+                        "path": "HealechoStack/HealechoBackupPlan/Backup-SubscriptionsTable/Role/ImportRole",
+                        "constructInfo": {
+                          "fqn": "aws-cdk-lib.Resource",
+                          "version": "2.154.1"
+                        }
+                      },
+                      "Resource": {
+                        "id": "Resource",
+                        "path": "HealechoStack/HealechoBackupPlan/Backup-SubscriptionsTable/Role/Resource",
+                        "attributes": {
+                          "aws:cdk:cloudformation:type": "AWS::IAM::Role",
+                          "aws:cdk:cloudformation:props": {
+                            "assumeRolePolicyDocument": {
+                              "Statement": [
+                                {
+                                  "Action": "sts:AssumeRole",
+                                  "Effect": "Allow",
+                                  "Principal": {
+                                    "Service": "backup.amazonaws.com"
+                                  }
+                                }
+                              ],
+                              "Version": "2012-10-17"
+                            },
+                            "managedPolicyArns": [
+                              {
+                                "Fn::Join": [
+                                  "",
+                                  [
+                                    "arn:",
+                                    {
+                                      "Ref": "AWS::Partition"
+                                    },
+                                    ":iam::aws:policy/service-role/AWSBackupServiceRolePolicyForBackup"
+                                  ]
+                                ]
+                              }
+                            ]
+                          }
+                        },
+                        "constructInfo": {
+                          "fqn": "aws-cdk-lib.aws_iam.CfnRole",
+                          "version": "2.154.1"
+                        }
+                      }
+                    },
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.aws_iam.Role",
+                      "version": "2.154.1"
+                    }
+                  },
+                  "Resource": {
+                    "id": "Resource",
+                    "path": "HealechoStack/HealechoBackupPlan/Backup-SubscriptionsTable/Resource",
+                    "attributes": {
+                      "aws:cdk:cloudformation:type": "AWS::Backup::BackupSelection",
+                      "aws:cdk:cloudformation:props": {
+                        "backupPlanId": {
+                          "Fn::GetAtt": [
+                            "HealechoBackupPlanD185B0A0",
+                            "BackupPlanId"
+                          ]
+                        },
+                        "backupSelection": {
+                          "iamRoleArn": {
+                            "Fn::GetAtt": [
+                              "HealechoBackupPlanBackupSubscriptionsTableRoleE5FCFA35",
+                              "Arn"
+                            ]
+                          },
+                          "selectionName": "Backup-SubscriptionsTable",
+                          "resources": [
+                            {
+                              "Fn::GetAtt": [
+                                "SubscriptionsTable40965A9D",
+                                "Arn"
+                              ]
+                            }
+                          ]
+                        }
+                      }
+                    },
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.aws_backup.CfnBackupSelection",
+                      "version": "2.154.1"
+                    }
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.aws_backup.BackupSelection",
+                  "version": "2.154.1"
+                }
+              },
+              "Backup-PaymentsTable": {
+                "id": "Backup-PaymentsTable",
+                "path": "HealechoStack/HealechoBackupPlan/Backup-PaymentsTable",
+                "children": {
+                  "Role": {
+                    "id": "Role",
+                    "path": "HealechoStack/HealechoBackupPlan/Backup-PaymentsTable/Role",
+                    "children": {
+                      "ImportRole": {
+                        "id": "ImportRole",
+                        "path": "HealechoStack/HealechoBackupPlan/Backup-PaymentsTable/Role/ImportRole",
+                        "constructInfo": {
+                          "fqn": "aws-cdk-lib.Resource",
+                          "version": "2.154.1"
+                        }
+                      },
+                      "Resource": {
+                        "id": "Resource",
+                        "path": "HealechoStack/HealechoBackupPlan/Backup-PaymentsTable/Role/Resource",
+                        "attributes": {
+                          "aws:cdk:cloudformation:type": "AWS::IAM::Role",
+                          "aws:cdk:cloudformation:props": {
+                            "assumeRolePolicyDocument": {
+                              "Statement": [
+                                {
+                                  "Action": "sts:AssumeRole",
+                                  "Effect": "Allow",
+                                  "Principal": {
+                                    "Service": "backup.amazonaws.com"
+                                  }
+                                }
+                              ],
+                              "Version": "2012-10-17"
+                            },
+                            "managedPolicyArns": [
+                              {
+                                "Fn::Join": [
+                                  "",
+                                  [
+                                    "arn:",
+                                    {
+                                      "Ref": "AWS::Partition"
+                                    },
+                                    ":iam::aws:policy/service-role/AWSBackupServiceRolePolicyForBackup"
+                                  ]
+                                ]
+                              }
+                            ]
+                          }
+                        },
+                        "constructInfo": {
+                          "fqn": "aws-cdk-lib.aws_iam.CfnRole",
+                          "version": "2.154.1"
+                        }
+                      }
+                    },
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.aws_iam.Role",
+                      "version": "2.154.1"
+                    }
+                  },
+                  "Resource": {
+                    "id": "Resource",
+                    "path": "HealechoStack/HealechoBackupPlan/Backup-PaymentsTable/Resource",
+                    "attributes": {
+                      "aws:cdk:cloudformation:type": "AWS::Backup::BackupSelection",
+                      "aws:cdk:cloudformation:props": {
+                        "backupPlanId": {
+                          "Fn::GetAtt": [
+                            "HealechoBackupPlanD185B0A0",
+                            "BackupPlanId"
+                          ]
+                        },
+                        "backupSelection": {
+                          "iamRoleArn": {
+                            "Fn::GetAtt": [
+                              "HealechoBackupPlanBackupPaymentsTableRoleEC1811D2",
+                              "Arn"
+                            ]
+                          },
+                          "selectionName": "Backup-PaymentsTable",
+                          "resources": [
+                            {
+                              "Fn::GetAtt": [
+                                "PaymentsTable48A42630",
+                                "Arn"
+                              ]
+                            }
+                          ]
+                        }
+                      }
+                    },
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.aws_backup.CfnBackupSelection",
+                      "version": "2.154.1"
+                    }
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.aws_backup.BackupSelection",
+                  "version": "2.154.1"
+                }
+              },
+              "Backup-WatchRecordsTable": {
+                "id": "Backup-WatchRecordsTable",
+                "path": "HealechoStack/HealechoBackupPlan/Backup-WatchRecordsTable",
+                "children": {
+                  "Role": {
+                    "id": "Role",
+                    "path": "HealechoStack/HealechoBackupPlan/Backup-WatchRecordsTable/Role",
+                    "children": {
+                      "ImportRole": {
+                        "id": "ImportRole",
+                        "path": "HealechoStack/HealechoBackupPlan/Backup-WatchRecordsTable/Role/ImportRole",
+                        "constructInfo": {
+                          "fqn": "aws-cdk-lib.Resource",
+                          "version": "2.154.1"
+                        }
+                      },
+                      "Resource": {
+                        "id": "Resource",
+                        "path": "HealechoStack/HealechoBackupPlan/Backup-WatchRecordsTable/Role/Resource",
+                        "attributes": {
+                          "aws:cdk:cloudformation:type": "AWS::IAM::Role",
+                          "aws:cdk:cloudformation:props": {
+                            "assumeRolePolicyDocument": {
+                              "Statement": [
+                                {
+                                  "Action": "sts:AssumeRole",
+                                  "Effect": "Allow",
+                                  "Principal": {
+                                    "Service": "backup.amazonaws.com"
+                                  }
+                                }
+                              ],
+                              "Version": "2012-10-17"
+                            },
+                            "managedPolicyArns": [
+                              {
+                                "Fn::Join": [
+                                  "",
+                                  [
+                                    "arn:",
+                                    {
+                                      "Ref": "AWS::Partition"
+                                    },
+                                    ":iam::aws:policy/service-role/AWSBackupServiceRolePolicyForBackup"
+                                  ]
+                                ]
+                              }
+                            ]
+                          }
+                        },
+                        "constructInfo": {
+                          "fqn": "aws-cdk-lib.aws_iam.CfnRole",
+                          "version": "2.154.1"
+                        }
+                      }
+                    },
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.aws_iam.Role",
+                      "version": "2.154.1"
+                    }
+                  },
+                  "Resource": {
+                    "id": "Resource",
+                    "path": "HealechoStack/HealechoBackupPlan/Backup-WatchRecordsTable/Resource",
+                    "attributes": {
+                      "aws:cdk:cloudformation:type": "AWS::Backup::BackupSelection",
+                      "aws:cdk:cloudformation:props": {
+                        "backupPlanId": {
+                          "Fn::GetAtt": [
+                            "HealechoBackupPlanD185B0A0",
+                            "BackupPlanId"
+                          ]
+                        },
+                        "backupSelection": {
+                          "iamRoleArn": {
+                            "Fn::GetAtt": [
+                              "HealechoBackupPlanBackupWatchRecordsTableRole205585C9",
+                              "Arn"
+                            ]
+                          },
+                          "selectionName": "Backup-WatchRecordsTable",
+                          "resources": [
+                            {
+                              "Fn::GetAtt": [
+                                "WatchRecordsTableAE91DA73",
+                                "Arn"
+                              ]
+                            }
+                          ]
+                        }
+                      }
+                    },
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.aws_backup.CfnBackupSelection",
+                      "version": "2.154.1"
+                    }
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.aws_backup.BackupSelection",
+                  "version": "2.154.1"
+                }
+              },
+              "Backup-GiftCyclesTable": {
+                "id": "Backup-GiftCyclesTable",
+                "path": "HealechoStack/HealechoBackupPlan/Backup-GiftCyclesTable",
+                "children": {
+                  "Role": {
+                    "id": "Role",
+                    "path": "HealechoStack/HealechoBackupPlan/Backup-GiftCyclesTable/Role",
+                    "children": {
+                      "ImportRole": {
+                        "id": "ImportRole",
+                        "path": "HealechoStack/HealechoBackupPlan/Backup-GiftCyclesTable/Role/ImportRole",
+                        "constructInfo": {
+                          "fqn": "aws-cdk-lib.Resource",
+                          "version": "2.154.1"
+                        }
+                      },
+                      "Resource": {
+                        "id": "Resource",
+                        "path": "HealechoStack/HealechoBackupPlan/Backup-GiftCyclesTable/Role/Resource",
+                        "attributes": {
+                          "aws:cdk:cloudformation:type": "AWS::IAM::Role",
+                          "aws:cdk:cloudformation:props": {
+                            "assumeRolePolicyDocument": {
+                              "Statement": [
+                                {
+                                  "Action": "sts:AssumeRole",
+                                  "Effect": "Allow",
+                                  "Principal": {
+                                    "Service": "backup.amazonaws.com"
+                                  }
+                                }
+                              ],
+                              "Version": "2012-10-17"
+                            },
+                            "managedPolicyArns": [
+                              {
+                                "Fn::Join": [
+                                  "",
+                                  [
+                                    "arn:",
+                                    {
+                                      "Ref": "AWS::Partition"
+                                    },
+                                    ":iam::aws:policy/service-role/AWSBackupServiceRolePolicyForBackup"
+                                  ]
+                                ]
+                              }
+                            ]
+                          }
+                        },
+                        "constructInfo": {
+                          "fqn": "aws-cdk-lib.aws_iam.CfnRole",
+                          "version": "2.154.1"
+                        }
+                      }
+                    },
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.aws_iam.Role",
+                      "version": "2.154.1"
+                    }
+                  },
+                  "Resource": {
+                    "id": "Resource",
+                    "path": "HealechoStack/HealechoBackupPlan/Backup-GiftCyclesTable/Resource",
+                    "attributes": {
+                      "aws:cdk:cloudformation:type": "AWS::Backup::BackupSelection",
+                      "aws:cdk:cloudformation:props": {
+                        "backupPlanId": {
+                          "Fn::GetAtt": [
+                            "HealechoBackupPlanD185B0A0",
+                            "BackupPlanId"
+                          ]
+                        },
+                        "backupSelection": {
+                          "iamRoleArn": {
+                            "Fn::GetAtt": [
+                              "HealechoBackupPlanBackupGiftCyclesTableRoleB7F1A65C",
+                              "Arn"
+                            ]
+                          },
+                          "selectionName": "Backup-GiftCyclesTable",
+                          "resources": [
+                            {
+                              "Fn::GetAtt": [
+                                "GiftCyclesTable573D8678",
+                                "Arn"
+                              ]
+                            }
+                          ]
+                        }
+                      }
+                    },
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.aws_backup.CfnBackupSelection",
+                      "version": "2.154.1"
+                    }
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.aws_backup.BackupSelection",
+                  "version": "2.154.1"
+                }
+              },
+              "Backup-PSQIResultsTable": {
+                "id": "Backup-PSQIResultsTable",
+                "path": "HealechoStack/HealechoBackupPlan/Backup-PSQIResultsTable",
+                "children": {
+                  "Role": {
+                    "id": "Role",
+                    "path": "HealechoStack/HealechoBackupPlan/Backup-PSQIResultsTable/Role",
+                    "children": {
+                      "ImportRole": {
+                        "id": "ImportRole",
+                        "path": "HealechoStack/HealechoBackupPlan/Backup-PSQIResultsTable/Role/ImportRole",
+                        "constructInfo": {
+                          "fqn": "aws-cdk-lib.Resource",
+                          "version": "2.154.1"
+                        }
+                      },
+                      "Resource": {
+                        "id": "Resource",
+                        "path": "HealechoStack/HealechoBackupPlan/Backup-PSQIResultsTable/Role/Resource",
+                        "attributes": {
+                          "aws:cdk:cloudformation:type": "AWS::IAM::Role",
+                          "aws:cdk:cloudformation:props": {
+                            "assumeRolePolicyDocument": {
+                              "Statement": [
+                                {
+                                  "Action": "sts:AssumeRole",
+                                  "Effect": "Allow",
+                                  "Principal": {
+                                    "Service": "backup.amazonaws.com"
+                                  }
+                                }
+                              ],
+                              "Version": "2012-10-17"
+                            },
+                            "managedPolicyArns": [
+                              {
+                                "Fn::Join": [
+                                  "",
+                                  [
+                                    "arn:",
+                                    {
+                                      "Ref": "AWS::Partition"
+                                    },
+                                    ":iam::aws:policy/service-role/AWSBackupServiceRolePolicyForBackup"
+                                  ]
+                                ]
+                              }
+                            ]
+                          }
+                        },
+                        "constructInfo": {
+                          "fqn": "aws-cdk-lib.aws_iam.CfnRole",
+                          "version": "2.154.1"
+                        }
+                      }
+                    },
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.aws_iam.Role",
+                      "version": "2.154.1"
+                    }
+                  },
+                  "Resource": {
+                    "id": "Resource",
+                    "path": "HealechoStack/HealechoBackupPlan/Backup-PSQIResultsTable/Resource",
+                    "attributes": {
+                      "aws:cdk:cloudformation:type": "AWS::Backup::BackupSelection",
+                      "aws:cdk:cloudformation:props": {
+                        "backupPlanId": {
+                          "Fn::GetAtt": [
+                            "HealechoBackupPlanD185B0A0",
+                            "BackupPlanId"
+                          ]
+                        },
+                        "backupSelection": {
+                          "iamRoleArn": {
+                            "Fn::GetAtt": [
+                              "HealechoBackupPlanBackupPSQIResultsTableRoleA08CB60C",
+                              "Arn"
+                            ]
+                          },
+                          "selectionName": "Backup-PSQIResultsTable",
+                          "resources": [
+                            {
+                              "Fn::GetAtt": [
+                                "PSQIResultsTable7946855A",
+                                "Arn"
+                              ]
+                            }
+                          ]
+                        }
+                      }
+                    },
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.aws_backup.CfnBackupSelection",
+                      "version": "2.154.1"
+                    }
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.aws_backup.BackupSelection",
+                  "version": "2.154.1"
+                }
+              },
+              "Backup-SelfCheckResultsTable": {
+                "id": "Backup-SelfCheckResultsTable",
+                "path": "HealechoStack/HealechoBackupPlan/Backup-SelfCheckResultsTable",
+                "children": {
+                  "Role": {
+                    "id": "Role",
+                    "path": "HealechoStack/HealechoBackupPlan/Backup-SelfCheckResultsTable/Role",
+                    "children": {
+                      "ImportRole": {
+                        "id": "ImportRole",
+                        "path": "HealechoStack/HealechoBackupPlan/Backup-SelfCheckResultsTable/Role/ImportRole",
+                        "constructInfo": {
+                          "fqn": "aws-cdk-lib.Resource",
+                          "version": "2.154.1"
+                        }
+                      },
+                      "Resource": {
+                        "id": "Resource",
+                        "path": "HealechoStack/HealechoBackupPlan/Backup-SelfCheckResultsTable/Role/Resource",
+                        "attributes": {
+                          "aws:cdk:cloudformation:type": "AWS::IAM::Role",
+                          "aws:cdk:cloudformation:props": {
+                            "assumeRolePolicyDocument": {
+                              "Statement": [
+                                {
+                                  "Action": "sts:AssumeRole",
+                                  "Effect": "Allow",
+                                  "Principal": {
+                                    "Service": "backup.amazonaws.com"
+                                  }
+                                }
+                              ],
+                              "Version": "2012-10-17"
+                            },
+                            "managedPolicyArns": [
+                              {
+                                "Fn::Join": [
+                                  "",
+                                  [
+                                    "arn:",
+                                    {
+                                      "Ref": "AWS::Partition"
+                                    },
+                                    ":iam::aws:policy/service-role/AWSBackupServiceRolePolicyForBackup"
+                                  ]
+                                ]
+                              }
+                            ]
+                          }
+                        },
+                        "constructInfo": {
+                          "fqn": "aws-cdk-lib.aws_iam.CfnRole",
+                          "version": "2.154.1"
+                        }
+                      }
+                    },
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.aws_iam.Role",
+                      "version": "2.154.1"
+                    }
+                  },
+                  "Resource": {
+                    "id": "Resource",
+                    "path": "HealechoStack/HealechoBackupPlan/Backup-SelfCheckResultsTable/Resource",
+                    "attributes": {
+                      "aws:cdk:cloudformation:type": "AWS::Backup::BackupSelection",
+                      "aws:cdk:cloudformation:props": {
+                        "backupPlanId": {
+                          "Fn::GetAtt": [
+                            "HealechoBackupPlanD185B0A0",
+                            "BackupPlanId"
+                          ]
+                        },
+                        "backupSelection": {
+                          "iamRoleArn": {
+                            "Fn::GetAtt": [
+                              "HealechoBackupPlanBackupSelfCheckResultsTableRole5AA9E8B6",
+                              "Arn"
+                            ]
+                          },
+                          "selectionName": "Backup-SelfCheckResultsTable",
+                          "resources": [
+                            {
+                              "Fn::GetAtt": [
+                                "SelfCheckResultsTableFA1CBE82",
+                                "Arn"
+                              ]
+                            }
+                          ]
+                        }
+                      }
+                    },
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.aws_backup.CfnBackupSelection",
+                      "version": "2.154.1"
+                    }
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.aws_backup.BackupSelection",
+                  "version": "2.154.1"
+                }
+              },
+              "Backup-UserHabitTrackingTable": {
+                "id": "Backup-UserHabitTrackingTable",
+                "path": "HealechoStack/HealechoBackupPlan/Backup-UserHabitTrackingTable",
+                "children": {
+                  "Role": {
+                    "id": "Role",
+                    "path": "HealechoStack/HealechoBackupPlan/Backup-UserHabitTrackingTable/Role",
+                    "children": {
+                      "ImportRole": {
+                        "id": "ImportRole",
+                        "path": "HealechoStack/HealechoBackupPlan/Backup-UserHabitTrackingTable/Role/ImportRole",
+                        "constructInfo": {
+                          "fqn": "aws-cdk-lib.Resource",
+                          "version": "2.154.1"
+                        }
+                      },
+                      "Resource": {
+                        "id": "Resource",
+                        "path": "HealechoStack/HealechoBackupPlan/Backup-UserHabitTrackingTable/Role/Resource",
+                        "attributes": {
+                          "aws:cdk:cloudformation:type": "AWS::IAM::Role",
+                          "aws:cdk:cloudformation:props": {
+                            "assumeRolePolicyDocument": {
+                              "Statement": [
+                                {
+                                  "Action": "sts:AssumeRole",
+                                  "Effect": "Allow",
+                                  "Principal": {
+                                    "Service": "backup.amazonaws.com"
+                                  }
+                                }
+                              ],
+                              "Version": "2012-10-17"
+                            },
+                            "managedPolicyArns": [
+                              {
+                                "Fn::Join": [
+                                  "",
+                                  [
+                                    "arn:",
+                                    {
+                                      "Ref": "AWS::Partition"
+                                    },
+                                    ":iam::aws:policy/service-role/AWSBackupServiceRolePolicyForBackup"
+                                  ]
+                                ]
+                              }
+                            ]
+                          }
+                        },
+                        "constructInfo": {
+                          "fqn": "aws-cdk-lib.aws_iam.CfnRole",
+                          "version": "2.154.1"
+                        }
+                      }
+                    },
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.aws_iam.Role",
+                      "version": "2.154.1"
+                    }
+                  },
+                  "Resource": {
+                    "id": "Resource",
+                    "path": "HealechoStack/HealechoBackupPlan/Backup-UserHabitTrackingTable/Resource",
+                    "attributes": {
+                      "aws:cdk:cloudformation:type": "AWS::Backup::BackupSelection",
+                      "aws:cdk:cloudformation:props": {
+                        "backupPlanId": {
+                          "Fn::GetAtt": [
+                            "HealechoBackupPlanD185B0A0",
+                            "BackupPlanId"
+                          ]
+                        },
+                        "backupSelection": {
+                          "iamRoleArn": {
+                            "Fn::GetAtt": [
+                              "HealechoBackupPlanBackupUserHabitTrackingTableRoleC70FABA2",
+                              "Arn"
+                            ]
+                          },
+                          "selectionName": "Backup-UserHabitTrackingTable",
+                          "resources": [
+                            {
+                              "Fn::GetAtt": [
+                                "UserHabitTrackingTable7C6744FD",
+                                "Arn"
+                              ]
+                            }
+                          ]
+                        }
+                      }
+                    },
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.aws_backup.CfnBackupSelection",
+                      "version": "2.154.1"
+                    }
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.aws_backup.BackupSelection",
+                  "version": "2.154.1"
+                }
+              },
+              "Backup-UserSleepLogTable": {
+                "id": "Backup-UserSleepLogTable",
+                "path": "HealechoStack/HealechoBackupPlan/Backup-UserSleepLogTable",
+                "children": {
+                  "Role": {
+                    "id": "Role",
+                    "path": "HealechoStack/HealechoBackupPlan/Backup-UserSleepLogTable/Role",
+                    "children": {
+                      "ImportRole": {
+                        "id": "ImportRole",
+                        "path": "HealechoStack/HealechoBackupPlan/Backup-UserSleepLogTable/Role/ImportRole",
+                        "constructInfo": {
+                          "fqn": "aws-cdk-lib.Resource",
+                          "version": "2.154.1"
+                        }
+                      },
+                      "Resource": {
+                        "id": "Resource",
+                        "path": "HealechoStack/HealechoBackupPlan/Backup-UserSleepLogTable/Role/Resource",
+                        "attributes": {
+                          "aws:cdk:cloudformation:type": "AWS::IAM::Role",
+                          "aws:cdk:cloudformation:props": {
+                            "assumeRolePolicyDocument": {
+                              "Statement": [
+                                {
+                                  "Action": "sts:AssumeRole",
+                                  "Effect": "Allow",
+                                  "Principal": {
+                                    "Service": "backup.amazonaws.com"
+                                  }
+                                }
+                              ],
+                              "Version": "2012-10-17"
+                            },
+                            "managedPolicyArns": [
+                              {
+                                "Fn::Join": [
+                                  "",
+                                  [
+                                    "arn:",
+                                    {
+                                      "Ref": "AWS::Partition"
+                                    },
+                                    ":iam::aws:policy/service-role/AWSBackupServiceRolePolicyForBackup"
+                                  ]
+                                ]
+                              }
+                            ]
+                          }
+                        },
+                        "constructInfo": {
+                          "fqn": "aws-cdk-lib.aws_iam.CfnRole",
+                          "version": "2.154.1"
+                        }
+                      }
+                    },
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.aws_iam.Role",
+                      "version": "2.154.1"
+                    }
+                  },
+                  "Resource": {
+                    "id": "Resource",
+                    "path": "HealechoStack/HealechoBackupPlan/Backup-UserSleepLogTable/Resource",
+                    "attributes": {
+                      "aws:cdk:cloudformation:type": "AWS::Backup::BackupSelection",
+                      "aws:cdk:cloudformation:props": {
+                        "backupPlanId": {
+                          "Fn::GetAtt": [
+                            "HealechoBackupPlanD185B0A0",
+                            "BackupPlanId"
+                          ]
+                        },
+                        "backupSelection": {
+                          "iamRoleArn": {
+                            "Fn::GetAtt": [
+                              "HealechoBackupPlanBackupUserSleepLogTableRole4430D071",
+                              "Arn"
+                            ]
+                          },
+                          "selectionName": "Backup-UserSleepLogTable",
+                          "resources": [
+                            {
+                              "Fn::GetAtt": [
+                                "UserSleepLogTable6554EABD",
+                                "Arn"
+                              ]
+                            }
+                          ]
+                        }
+                      }
+                    },
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.aws_backup.CfnBackupSelection",
+                      "version": "2.154.1"
+                    }
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.aws_backup.BackupSelection",
+                  "version": "2.154.1"
+                }
+              },
+              "Backup-PracticeRecordsTable": {
+                "id": "Backup-PracticeRecordsTable",
+                "path": "HealechoStack/HealechoBackupPlan/Backup-PracticeRecordsTable",
+                "children": {
+                  "Role": {
+                    "id": "Role",
+                    "path": "HealechoStack/HealechoBackupPlan/Backup-PracticeRecordsTable/Role",
+                    "children": {
+                      "ImportRole": {
+                        "id": "ImportRole",
+                        "path": "HealechoStack/HealechoBackupPlan/Backup-PracticeRecordsTable/Role/ImportRole",
+                        "constructInfo": {
+                          "fqn": "aws-cdk-lib.Resource",
+                          "version": "2.154.1"
+                        }
+                      },
+                      "Resource": {
+                        "id": "Resource",
+                        "path": "HealechoStack/HealechoBackupPlan/Backup-PracticeRecordsTable/Role/Resource",
+                        "attributes": {
+                          "aws:cdk:cloudformation:type": "AWS::IAM::Role",
+                          "aws:cdk:cloudformation:props": {
+                            "assumeRolePolicyDocument": {
+                              "Statement": [
+                                {
+                                  "Action": "sts:AssumeRole",
+                                  "Effect": "Allow",
+                                  "Principal": {
+                                    "Service": "backup.amazonaws.com"
+                                  }
+                                }
+                              ],
+                              "Version": "2012-10-17"
+                            },
+                            "managedPolicyArns": [
+                              {
+                                "Fn::Join": [
+                                  "",
+                                  [
+                                    "arn:",
+                                    {
+                                      "Ref": "AWS::Partition"
+                                    },
+                                    ":iam::aws:policy/service-role/AWSBackupServiceRolePolicyForBackup"
+                                  ]
+                                ]
+                              }
+                            ]
+                          }
+                        },
+                        "constructInfo": {
+                          "fqn": "aws-cdk-lib.aws_iam.CfnRole",
+                          "version": "2.154.1"
+                        }
+                      }
+                    },
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.aws_iam.Role",
+                      "version": "2.154.1"
+                    }
+                  },
+                  "Resource": {
+                    "id": "Resource",
+                    "path": "HealechoStack/HealechoBackupPlan/Backup-PracticeRecordsTable/Resource",
+                    "attributes": {
+                      "aws:cdk:cloudformation:type": "AWS::Backup::BackupSelection",
+                      "aws:cdk:cloudformation:props": {
+                        "backupPlanId": {
+                          "Fn::GetAtt": [
+                            "HealechoBackupPlanD185B0A0",
+                            "BackupPlanId"
+                          ]
+                        },
+                        "backupSelection": {
+                          "iamRoleArn": {
+                            "Fn::GetAtt": [
+                              "HealechoBackupPlanBackupPracticeRecordsTableRole6D93BFCA",
+                              "Arn"
+                            ]
+                          },
+                          "selectionName": "Backup-PracticeRecordsTable",
+                          "resources": [
+                            {
+                              "Fn::GetAtt": [
+                                "PracticeRecordsTable5BAFBC5C",
+                                "Arn"
+                              ]
+                            }
+                          ]
+                        }
+                      }
+                    },
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.aws_backup.CfnBackupSelection",
+                      "version": "2.154.1"
+                    }
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.aws_backup.BackupSelection",
+                  "version": "2.154.1"
+                }
+              },
+              "Backup-UserPreferencesTable": {
+                "id": "Backup-UserPreferencesTable",
+                "path": "HealechoStack/HealechoBackupPlan/Backup-UserPreferencesTable",
+                "children": {
+                  "Role": {
+                    "id": "Role",
+                    "path": "HealechoStack/HealechoBackupPlan/Backup-UserPreferencesTable/Role",
+                    "children": {
+                      "ImportRole": {
+                        "id": "ImportRole",
+                        "path": "HealechoStack/HealechoBackupPlan/Backup-UserPreferencesTable/Role/ImportRole",
+                        "constructInfo": {
+                          "fqn": "aws-cdk-lib.Resource",
+                          "version": "2.154.1"
+                        }
+                      },
+                      "Resource": {
+                        "id": "Resource",
+                        "path": "HealechoStack/HealechoBackupPlan/Backup-UserPreferencesTable/Role/Resource",
+                        "attributes": {
+                          "aws:cdk:cloudformation:type": "AWS::IAM::Role",
+                          "aws:cdk:cloudformation:props": {
+                            "assumeRolePolicyDocument": {
+                              "Statement": [
+                                {
+                                  "Action": "sts:AssumeRole",
+                                  "Effect": "Allow",
+                                  "Principal": {
+                                    "Service": "backup.amazonaws.com"
+                                  }
+                                }
+                              ],
+                              "Version": "2012-10-17"
+                            },
+                            "managedPolicyArns": [
+                              {
+                                "Fn::Join": [
+                                  "",
+                                  [
+                                    "arn:",
+                                    {
+                                      "Ref": "AWS::Partition"
+                                    },
+                                    ":iam::aws:policy/service-role/AWSBackupServiceRolePolicyForBackup"
+                                  ]
+                                ]
+                              }
+                            ]
+                          }
+                        },
+                        "constructInfo": {
+                          "fqn": "aws-cdk-lib.aws_iam.CfnRole",
+                          "version": "2.154.1"
+                        }
+                      }
+                    },
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.aws_iam.Role",
+                      "version": "2.154.1"
+                    }
+                  },
+                  "Resource": {
+                    "id": "Resource",
+                    "path": "HealechoStack/HealechoBackupPlan/Backup-UserPreferencesTable/Resource",
+                    "attributes": {
+                      "aws:cdk:cloudformation:type": "AWS::Backup::BackupSelection",
+                      "aws:cdk:cloudformation:props": {
+                        "backupPlanId": {
+                          "Fn::GetAtt": [
+                            "HealechoBackupPlanD185B0A0",
+                            "BackupPlanId"
+                          ]
+                        },
+                        "backupSelection": {
+                          "iamRoleArn": {
+                            "Fn::GetAtt": [
+                              "HealechoBackupPlanBackupUserPreferencesTableRole0BBB30E6",
+                              "Arn"
+                            ]
+                          },
+                          "selectionName": "Backup-UserPreferencesTable",
+                          "resources": [
+                            {
+                              "Fn::GetAtt": [
+                                "UserPreferencesTableA0B50479",
+                                "Arn"
+                              ]
+                            }
+                          ]
+                        }
+                      }
+                    },
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.aws_backup.CfnBackupSelection",
+                      "version": "2.154.1"
+                    }
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.aws_backup.BackupSelection",
+                  "version": "2.154.1"
+                }
+              },
+              "Backup-BalanceVideosTable": {
+                "id": "Backup-BalanceVideosTable",
+                "path": "HealechoStack/HealechoBackupPlan/Backup-BalanceVideosTable",
+                "children": {
+                  "Role": {
+                    "id": "Role",
+                    "path": "HealechoStack/HealechoBackupPlan/Backup-BalanceVideosTable/Role",
+                    "children": {
+                      "ImportRole": {
+                        "id": "ImportRole",
+                        "path": "HealechoStack/HealechoBackupPlan/Backup-BalanceVideosTable/Role/ImportRole",
+                        "constructInfo": {
+                          "fqn": "aws-cdk-lib.Resource",
+                          "version": "2.154.1"
+                        }
+                      },
+                      "Resource": {
+                        "id": "Resource",
+                        "path": "HealechoStack/HealechoBackupPlan/Backup-BalanceVideosTable/Role/Resource",
+                        "attributes": {
+                          "aws:cdk:cloudformation:type": "AWS::IAM::Role",
+                          "aws:cdk:cloudformation:props": {
+                            "assumeRolePolicyDocument": {
+                              "Statement": [
+                                {
+                                  "Action": "sts:AssumeRole",
+                                  "Effect": "Allow",
+                                  "Principal": {
+                                    "Service": "backup.amazonaws.com"
+                                  }
+                                }
+                              ],
+                              "Version": "2012-10-17"
+                            },
+                            "managedPolicyArns": [
+                              {
+                                "Fn::Join": [
+                                  "",
+                                  [
+                                    "arn:",
+                                    {
+                                      "Ref": "AWS::Partition"
+                                    },
+                                    ":iam::aws:policy/service-role/AWSBackupServiceRolePolicyForBackup"
+                                  ]
+                                ]
+                              }
+                            ]
+                          }
+                        },
+                        "constructInfo": {
+                          "fqn": "aws-cdk-lib.aws_iam.CfnRole",
+                          "version": "2.154.1"
+                        }
+                      }
+                    },
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.aws_iam.Role",
+                      "version": "2.154.1"
+                    }
+                  },
+                  "Resource": {
+                    "id": "Resource",
+                    "path": "HealechoStack/HealechoBackupPlan/Backup-BalanceVideosTable/Resource",
+                    "attributes": {
+                      "aws:cdk:cloudformation:type": "AWS::Backup::BackupSelection",
+                      "aws:cdk:cloudformation:props": {
+                        "backupPlanId": {
+                          "Fn::GetAtt": [
+                            "HealechoBackupPlanD185B0A0",
+                            "BackupPlanId"
+                          ]
+                        },
+                        "backupSelection": {
+                          "iamRoleArn": {
+                            "Fn::GetAtt": [
+                              "HealechoBackupPlanBackupBalanceVideosTableRoleC8058E5A",
+                              "Arn"
+                            ]
+                          },
+                          "selectionName": "Backup-BalanceVideosTable",
+                          "resources": [
+                            {
+                              "Fn::GetAtt": [
+                                "BalanceVideosTableC09FAEEC",
+                                "Arn"
+                              ]
+                            }
+                          ]
+                        }
+                      }
+                    },
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.aws_backup.CfnBackupSelection",
+                      "version": "2.154.1"
+                    }
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.aws_backup.BackupSelection",
+                  "version": "2.154.1"
+                }
+              },
+              "Backup-WeeklyHabitContentTable": {
+                "id": "Backup-WeeklyHabitContentTable",
+                "path": "HealechoStack/HealechoBackupPlan/Backup-WeeklyHabitContentTable",
+                "children": {
+                  "Role": {
+                    "id": "Role",
+                    "path": "HealechoStack/HealechoBackupPlan/Backup-WeeklyHabitContentTable/Role",
+                    "children": {
+                      "ImportRole": {
+                        "id": "ImportRole",
+                        "path": "HealechoStack/HealechoBackupPlan/Backup-WeeklyHabitContentTable/Role/ImportRole",
+                        "constructInfo": {
+                          "fqn": "aws-cdk-lib.Resource",
+                          "version": "2.154.1"
+                        }
+                      },
+                      "Resource": {
+                        "id": "Resource",
+                        "path": "HealechoStack/HealechoBackupPlan/Backup-WeeklyHabitContentTable/Role/Resource",
+                        "attributes": {
+                          "aws:cdk:cloudformation:type": "AWS::IAM::Role",
+                          "aws:cdk:cloudformation:props": {
+                            "assumeRolePolicyDocument": {
+                              "Statement": [
+                                {
+                                  "Action": "sts:AssumeRole",
+                                  "Effect": "Allow",
+                                  "Principal": {
+                                    "Service": "backup.amazonaws.com"
+                                  }
+                                }
+                              ],
+                              "Version": "2012-10-17"
+                            },
+                            "managedPolicyArns": [
+                              {
+                                "Fn::Join": [
+                                  "",
+                                  [
+                                    "arn:",
+                                    {
+                                      "Ref": "AWS::Partition"
+                                    },
+                                    ":iam::aws:policy/service-role/AWSBackupServiceRolePolicyForBackup"
+                                  ]
+                                ]
+                              }
+                            ]
+                          }
+                        },
+                        "constructInfo": {
+                          "fqn": "aws-cdk-lib.aws_iam.CfnRole",
+                          "version": "2.154.1"
+                        }
+                      }
+                    },
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.aws_iam.Role",
+                      "version": "2.154.1"
+                    }
+                  },
+                  "Resource": {
+                    "id": "Resource",
+                    "path": "HealechoStack/HealechoBackupPlan/Backup-WeeklyHabitContentTable/Resource",
+                    "attributes": {
+                      "aws:cdk:cloudformation:type": "AWS::Backup::BackupSelection",
+                      "aws:cdk:cloudformation:props": {
+                        "backupPlanId": {
+                          "Fn::GetAtt": [
+                            "HealechoBackupPlanD185B0A0",
+                            "BackupPlanId"
+                          ]
+                        },
+                        "backupSelection": {
+                          "iamRoleArn": {
+                            "Fn::GetAtt": [
+                              "HealechoBackupPlanBackupWeeklyHabitContentTableRole5073C6D8",
+                              "Arn"
+                            ]
+                          },
+                          "selectionName": "Backup-WeeklyHabitContentTable",
+                          "resources": [
+                            {
+                              "Fn::GetAtt": [
+                                "WeeklyHabitContentTable5E83F3C2",
+                                "Arn"
+                              ]
+                            }
+                          ]
+                        }
+                      }
+                    },
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.aws_backup.CfnBackupSelection",
+                      "version": "2.154.1"
+                    }
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.aws_backup.BackupSelection",
+                  "version": "2.154.1"
+                }
+              },
+              "Backup-SleepHabitTable": {
+                "id": "Backup-SleepHabitTable",
+                "path": "HealechoStack/HealechoBackupPlan/Backup-SleepHabitTable",
+                "children": {
+                  "Role": {
+                    "id": "Role",
+                    "path": "HealechoStack/HealechoBackupPlan/Backup-SleepHabitTable/Role",
+                    "children": {
+                      "ImportRole": {
+                        "id": "ImportRole",
+                        "path": "HealechoStack/HealechoBackupPlan/Backup-SleepHabitTable/Role/ImportRole",
+                        "constructInfo": {
+                          "fqn": "aws-cdk-lib.Resource",
+                          "version": "2.154.1"
+                        }
+                      },
+                      "Resource": {
+                        "id": "Resource",
+                        "path": "HealechoStack/HealechoBackupPlan/Backup-SleepHabitTable/Role/Resource",
+                        "attributes": {
+                          "aws:cdk:cloudformation:type": "AWS::IAM::Role",
+                          "aws:cdk:cloudformation:props": {
+                            "assumeRolePolicyDocument": {
+                              "Statement": [
+                                {
+                                  "Action": "sts:AssumeRole",
+                                  "Effect": "Allow",
+                                  "Principal": {
+                                    "Service": "backup.amazonaws.com"
+                                  }
+                                }
+                              ],
+                              "Version": "2012-10-17"
+                            },
+                            "managedPolicyArns": [
+                              {
+                                "Fn::Join": [
+                                  "",
+                                  [
+                                    "arn:",
+                                    {
+                                      "Ref": "AWS::Partition"
+                                    },
+                                    ":iam::aws:policy/service-role/AWSBackupServiceRolePolicyForBackup"
+                                  ]
+                                ]
+                              }
+                            ]
+                          }
+                        },
+                        "constructInfo": {
+                          "fqn": "aws-cdk-lib.aws_iam.CfnRole",
+                          "version": "2.154.1"
+                        }
+                      }
+                    },
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.aws_iam.Role",
+                      "version": "2.154.1"
+                    }
+                  },
+                  "Resource": {
+                    "id": "Resource",
+                    "path": "HealechoStack/HealechoBackupPlan/Backup-SleepHabitTable/Resource",
+                    "attributes": {
+                      "aws:cdk:cloudformation:type": "AWS::Backup::BackupSelection",
+                      "aws:cdk:cloudformation:props": {
+                        "backupPlanId": {
+                          "Fn::GetAtt": [
+                            "HealechoBackupPlanD185B0A0",
+                            "BackupPlanId"
+                          ]
+                        },
+                        "backupSelection": {
+                          "iamRoleArn": {
+                            "Fn::GetAtt": [
+                              "HealechoBackupPlanBackupSleepHabitTableRole5F2E348D",
+                              "Arn"
+                            ]
+                          },
+                          "selectionName": "Backup-SleepHabitTable",
+                          "resources": [
+                            {
+                              "Fn::GetAtt": [
+                                "SleepHabitTableD8537285",
+                                "Arn"
+                              ]
+                            }
+                          ]
+                        }
+                      }
+                    },
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.aws_backup.CfnBackupSelection",
+                      "version": "2.154.1"
+                    }
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.aws_backup.BackupSelection",
+                  "version": "2.154.1"
+                }
+              },
+              "Backup-ItemsTable": {
+                "id": "Backup-ItemsTable",
+                "path": "HealechoStack/HealechoBackupPlan/Backup-ItemsTable",
+                "children": {
+                  "Role": {
+                    "id": "Role",
+                    "path": "HealechoStack/HealechoBackupPlan/Backup-ItemsTable/Role",
+                    "children": {
+                      "ImportRole": {
+                        "id": "ImportRole",
+                        "path": "HealechoStack/HealechoBackupPlan/Backup-ItemsTable/Role/ImportRole",
+                        "constructInfo": {
+                          "fqn": "aws-cdk-lib.Resource",
+                          "version": "2.154.1"
+                        }
+                      },
+                      "Resource": {
+                        "id": "Resource",
+                        "path": "HealechoStack/HealechoBackupPlan/Backup-ItemsTable/Role/Resource",
+                        "attributes": {
+                          "aws:cdk:cloudformation:type": "AWS::IAM::Role",
+                          "aws:cdk:cloudformation:props": {
+                            "assumeRolePolicyDocument": {
+                              "Statement": [
+                                {
+                                  "Action": "sts:AssumeRole",
+                                  "Effect": "Allow",
+                                  "Principal": {
+                                    "Service": "backup.amazonaws.com"
+                                  }
+                                }
+                              ],
+                              "Version": "2012-10-17"
+                            },
+                            "managedPolicyArns": [
+                              {
+                                "Fn::Join": [
+                                  "",
+                                  [
+                                    "arn:",
+                                    {
+                                      "Ref": "AWS::Partition"
+                                    },
+                                    ":iam::aws:policy/service-role/AWSBackupServiceRolePolicyForBackup"
+                                  ]
+                                ]
+                              }
+                            ]
+                          }
+                        },
+                        "constructInfo": {
+                          "fqn": "aws-cdk-lib.aws_iam.CfnRole",
+                          "version": "2.154.1"
+                        }
+                      }
+                    },
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.aws_iam.Role",
+                      "version": "2.154.1"
+                    }
+                  },
+                  "Resource": {
+                    "id": "Resource",
+                    "path": "HealechoStack/HealechoBackupPlan/Backup-ItemsTable/Resource",
+                    "attributes": {
+                      "aws:cdk:cloudformation:type": "AWS::Backup::BackupSelection",
+                      "aws:cdk:cloudformation:props": {
+                        "backupPlanId": {
+                          "Fn::GetAtt": [
+                            "HealechoBackupPlanD185B0A0",
+                            "BackupPlanId"
+                          ]
+                        },
+                        "backupSelection": {
+                          "iamRoleArn": {
+                            "Fn::GetAtt": [
+                              "HealechoBackupPlanBackupItemsTableRoleF1F6F8AD",
+                              "Arn"
+                            ]
+                          },
+                          "selectionName": "Backup-ItemsTable",
+                          "resources": [
+                            {
+                              "Fn::GetAtt": [
+                                "ItemsTable5AAC2C46",
+                                "Arn"
+                              ]
+                            }
+                          ]
+                        }
+                      }
+                    },
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.aws_backup.CfnBackupSelection",
+                      "version": "2.154.1"
+                    }
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.aws_backup.BackupSelection",
+                  "version": "2.154.1"
+                }
+              }
+            },
+            "constructInfo": {
+              "fqn": "aws-cdk-lib.aws_backup.BackupPlan",
+              "version": "2.154.1"
+            }
+          },
+          "CognitoBackupLambda": {
+            "id": "CognitoBackupLambda",
+            "path": "HealechoStack/CognitoBackupLambda",
+            "children": {
+              "ServiceRole": {
+                "id": "ServiceRole",
+                "path": "HealechoStack/CognitoBackupLambda/ServiceRole",
+                "children": {
+                  "ImportServiceRole": {
+                    "id": "ImportServiceRole",
+                    "path": "HealechoStack/CognitoBackupLambda/ServiceRole/ImportServiceRole",
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.Resource",
+                      "version": "2.154.1"
+                    }
+                  },
+                  "Resource": {
+                    "id": "Resource",
+                    "path": "HealechoStack/CognitoBackupLambda/ServiceRole/Resource",
+                    "attributes": {
+                      "aws:cdk:cloudformation:type": "AWS::IAM::Role",
+                      "aws:cdk:cloudformation:props": {
+                        "assumeRolePolicyDocument": {
+                          "Statement": [
+                            {
+                              "Action": "sts:AssumeRole",
+                              "Effect": "Allow",
+                              "Principal": {
+                                "Service": "lambda.amazonaws.com"
+                              }
+                            }
+                          ],
+                          "Version": "2012-10-17"
+                        },
+                        "managedPolicyArns": [
+                          {
+                            "Fn::Join": [
+                              "",
+                              [
+                                "arn:",
+                                {
+                                  "Ref": "AWS::Partition"
+                                },
+                                ":iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"
+                              ]
+                            ]
+                          }
+                        ]
+                      }
+                    },
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.aws_iam.CfnRole",
+                      "version": "2.154.1"
+                    }
+                  },
+                  "DefaultPolicy": {
+                    "id": "DefaultPolicy",
+                    "path": "HealechoStack/CognitoBackupLambda/ServiceRole/DefaultPolicy",
+                    "children": {
+                      "Resource": {
+                        "id": "Resource",
+                        "path": "HealechoStack/CognitoBackupLambda/ServiceRole/DefaultPolicy/Resource",
+                        "attributes": {
+                          "aws:cdk:cloudformation:type": "AWS::IAM::Policy",
+                          "aws:cdk:cloudformation:props": {
+                            "policyDocument": {
+                              "Statement": [
+                                {
+                                  "Action": [
+                                    "cognito-idp:ListUsers",
+                                    "cognito-idp:AdminGetUser"
+                                  ],
+                                  "Effect": "Allow",
+                                  "Resource": {
+                                    "Fn::GetAtt": [
+                                      "UserPool6BA7E5F2",
+                                      "Arn"
+                                    ]
+                                  }
+                                },
+                                {
+                                  "Action": [
+                                    "s3:DeleteObject*",
+                                    "s3:PutObject",
+                                    "s3:PutObjectLegalHold",
+                                    "s3:PutObjectRetention",
+                                    "s3:PutObjectTagging",
+                                    "s3:PutObjectVersionTagging",
+                                    "s3:Abort*"
+                                  ],
+                                  "Effect": "Allow",
+                                  "Resource": [
+                                    {
+                                      "Fn::GetAtt": [
+                                        "VideoBucket6ED8E1AF",
+                                        "Arn"
+                                      ]
+                                    },
+                                    {
+                                      "Fn::Join": [
+                                        "",
+                                        [
+                                          {
+                                            "Fn::GetAtt": [
+                                              "VideoBucket6ED8E1AF",
+                                              "Arn"
+                                            ]
+                                          },
+                                          "/*"
+                                        ]
+                                      ]
+                                    }
+                                  ]
+                                }
+                              ],
+                              "Version": "2012-10-17"
+                            },
+                            "policyName": "CognitoBackupLambdaServiceRoleDefaultPolicyED674221",
+                            "roles": [
+                              {
+                                "Ref": "CognitoBackupLambdaServiceRole3BD9DD14"
+                              }
+                            ]
+                          }
+                        },
+                        "constructInfo": {
+                          "fqn": "aws-cdk-lib.aws_iam.CfnPolicy",
+                          "version": "2.154.1"
+                        }
+                      }
+                    },
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.aws_iam.Policy",
+                      "version": "2.154.1"
+                    }
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.aws_iam.Role",
+                  "version": "2.154.1"
+                }
+              },
+              "Code": {
+                "id": "Code",
+                "path": "HealechoStack/CognitoBackupLambda/Code",
+                "children": {
+                  "Stage": {
+                    "id": "Stage",
+                    "path": "HealechoStack/CognitoBackupLambda/Code/Stage",
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.AssetStaging",
+                      "version": "2.154.1"
+                    }
+                  },
+                  "AssetBucket": {
+                    "id": "AssetBucket",
+                    "path": "HealechoStack/CognitoBackupLambda/Code/AssetBucket",
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.aws_s3.BucketBase",
+                      "version": "2.154.1"
+                    }
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.aws_s3_assets.Asset",
+                  "version": "2.154.1"
+                }
+              },
+              "Resource": {
+                "id": "Resource",
+                "path": "HealechoStack/CognitoBackupLambda/Resource",
+                "attributes": {
+                  "aws:cdk:cloudformation:type": "AWS::Lambda::Function",
+                  "aws:cdk:cloudformation:props": {
+                    "code": {
+                      "s3Bucket": "cdk-hnb659fds-assets-513213802410-ap-northeast-2",
+                      "s3Key": "a00a9d38714e6ace00b98f141489705b0da40bc2b2daf5663b14f263c990fbd2.zip"
+                    },
+                    "environment": {
+                      "variables": {
+                        "USER_POOL_ID": {
+                          "Ref": "UserPool6BA7E5F2"
+                        },
+                        "BACKUP_BUCKET": {
+                          "Ref": "VideoBucket6ED8E1AF"
+                        },
+                        "BACKUP_PREFIX": "backups/cognito/"
+                      }
+                    },
+                    "handler": "index.handler",
+                    "role": {
+                      "Fn::GetAtt": [
+                        "CognitoBackupLambdaServiceRole3BD9DD14",
+                        "Arn"
+                      ]
+                    },
+                    "runtime": "nodejs18.x",
+                    "timeout": 300
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.aws_lambda.CfnFunction",
+                  "version": "2.154.1"
+                }
+              }
+            },
+            "constructInfo": {
+              "fqn": "aws-cdk-lib.aws_lambda_nodejs.NodejsFunction",
+              "version": "2.154.1"
+            }
+          },
+          "CognitoBackupRule": {
+            "id": "CognitoBackupRule",
+            "path": "HealechoStack/CognitoBackupRule",
+            "children": {
+              "Resource": {
+                "id": "Resource",
+                "path": "HealechoStack/CognitoBackupRule/Resource",
+                "attributes": {
+                  "aws:cdk:cloudformation:type": "AWS::Events::Rule",
+                  "aws:cdk:cloudformation:props": {
+                    "scheduleExpression": "cron(0 17 * * ? *)",
+                    "state": "ENABLED",
+                    "targets": [
+                      {
+                        "id": "Target0",
+                        "arn": {
+                          "Fn::GetAtt": [
+                            "CognitoBackupLambdaA47CB983",
+                            "Arn"
+                          ]
+                        }
+                      }
+                    ]
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.aws_events.CfnRule",
+                  "version": "2.154.1"
+                }
+              },
+              "AllowEventRuleHealechoStackCognitoBackupLambda2C3E1D98": {
+                "id": "AllowEventRuleHealechoStackCognitoBackupLambda2C3E1D98",
+                "path": "HealechoStack/CognitoBackupRule/AllowEventRuleHealechoStackCognitoBackupLambda2C3E1D98",
+                "attributes": {
+                  "aws:cdk:cloudformation:type": "AWS::Lambda::Permission",
+                  "aws:cdk:cloudformation:props": {
+                    "action": "lambda:InvokeFunction",
+                    "functionName": {
+                      "Fn::GetAtt": [
+                        "CognitoBackupLambdaA47CB983",
+                        "Arn"
+                      ]
+                    },
+                    "principal": "events.amazonaws.com",
+                    "sourceArn": {
+                      "Fn::GetAtt": [
+                        "CognitoBackupRuleB8050377",
+                        "Arn"
+                      ]
+                    }
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.aws_lambda.CfnPermission",
+                  "version": "2.154.1"
+                }
+              }
+            },
+            "constructInfo": {
+              "fqn": "aws-cdk-lib.aws_events.Rule",
               "version": "2.154.1"
             }
           },

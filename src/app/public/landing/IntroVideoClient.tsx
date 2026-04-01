@@ -75,7 +75,7 @@ export default function IntroVideoClient({
                       src={makeThumbnailUrl(thumbnailKey)}
                       alt="소개 영상 썸네일"
                       fill
-                      sizes="(max-width: 768px) 100vw, 640px"
+                      sizes="(max-width: 480px) 100vw, (max-width: 640px) 90vw, (max-width: 1024px) 720px, 640px"
                       className={styles.introThumbnailImg}
                     />
                   )}

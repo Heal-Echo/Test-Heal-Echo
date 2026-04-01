@@ -41,7 +41,7 @@
 .title {
   display: flex;
   align-items: center;
-  justify-content: center;
+  justify-content: flex-start;
   gap: 8px;
   font-size: clamp(20px, 4.5vw, 26px);
   font-weight: 700;

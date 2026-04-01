@@ -18,8 +18,16 @@ import { getProgramName } from "@/config/programs";
  * - 그 이상 (데스크탑): 최대 720px 너비 사용
  * → 기기에 맞는 적절한 크기의 이미지를 자동 선택하여 로딩 속도 향상
  */
+/**
+ * 반응형 이미지 sizes 속성 (5단계 브레이크포인트)
+ * - 360px 이하 (초소형 모바일): 화면 전체 너비
+ * - 480px 이하 (스마트폰): 화면 전체 너비
+ * - 640px 이하 (대형 모바일): 화면의 95% 너비
+ * - 1024px 이하 (태블릿): 카드 2열 → 화면의 46% 너비
+ * - 그 이상 (데스크탑): 최대 720px 너비
+ */
 const CARD_IMAGE_SIZES =
-  "(max-width: 480px) 100vw, (max-width: 1024px) 90vw, 720px";
+  "(max-width: 480px) 100vw, (max-width: 640px) 95vw, (max-width: 1024px) 46vw, 720px";
 
 export default function BalancePage() {
   const router = useRouter();
@@ -44,7 +52,6 @@ export default function BalancePage() {
 
       <main className={styles.main}>
         <h1 className={styles.title}>
-          <span className={styles.titleAccent} />
           {getProgramName("autobalance")}
         </h1>
 
@@ -63,7 +70,7 @@ export default function BalancePage() {
 
             <Link href="/wellness/solution" className={styles.wideCard}>
               <Image
-                src="/assets/images/solutions.png"
+                src="/assets/images/webp/solutions.webp"
                 alt="위클리 솔루션"
                 width={1536}
                 height={1024}
@@ -82,7 +89,7 @@ export default function BalancePage() {
 
             <Link href="/wellness/weekly-habit" className={styles.wideCard}>
               <Image
-                src="/assets/images/healing_recipe_square.png"
+                src="/assets/images/webp/healing_recipe_square.webp"
                 alt="위클리 해빗"
                 width={1536}
                 height={1024}
@@ -101,7 +108,7 @@ export default function BalancePage() {
 
             <Link href="/understanding" className={styles.wideCard}>
               <Image
-                src="/assets/images/Ocean_of_Understanding_crop1.png"
+                src="/assets/images/webp/Ocean_of_Understanding_crop1.webp"
                 alt="이해의 바다"
                 width={1536}
                 height={1024}

@@ -83,7 +83,7 @@ export default function HeroProgramsClient() {
                 alt="웰니스 히어로 이미지"
                 width={1200}
                 height={720}
-                sizes="(max-width: 768px) 100vw, 50vw"
+                sizes="(max-width: 480px) 100vw, (max-width: 640px) 100vw, (max-width: 1024px) 50vw, 560px"
                 priority
                 className={styles.heroImg}
               />
@@ -118,7 +118,7 @@ export default function HeroProgramsClient() {
                     alt={getProgramName("autobalance")}
                     width={533}
                     height={800}
-                    sizes="(max-width: 480px) 100vw, 50vw"
+                    sizes="(max-width: 480px) 48vw, (max-width: 640px) 48vw, (max-width: 1024px) 45vw, 400px"
                   />
                   <div className={styles.programOverlay}>
                     <p className={styles.programOverlayDesc}>
@@ -145,7 +145,7 @@ export default function HeroProgramsClient() {
                     alt={getProgramName("womans-whisper")}
                     width={533}
                     height={800}
-                    sizes="(max-width: 480px) 100vw, 50vw"
+                    sizes="(max-width: 480px) 48vw, (max-width: 640px) 48vw, (max-width: 1024px) 45vw, 400px"
                   />
                   <div className={styles.programOverlay}>
                     <p className={styles.programOverlayDesc}>

@@ -11,6 +11,7 @@ import {
   aws_cognito as cognito,
   aws_events as events,
   aws_events_targets as targets,
+  aws_backup as backup,                           // ✅ 백업: AWS Backup 서비스
 } from "aws-cdk-lib";
 
 import * as path from "path";
@@ -33,14 +34,22 @@ export class HealechoStack extends cdk.Stack {
     =============================== */
     const siteBucket = new s3.Bucket(this, "SiteBucket", {
       blockPublicAccess: s3.BlockPublicAccess.BLOCK_ALL,
-      removalPolicy: cdk.RemovalPolicy.DESTROY,
-      autoDeleteObjects: true,
+      versioned: true,                            // ✅ 백업: 버전 관리 활성화
+      removalPolicy: cdk.RemovalPolicy.RETAIN,    // ✅ 백업: 스택 삭제 시 버킷 보존
+      autoDeleteObjects: false,                    // ✅ 백업: 자동 삭제 비활성화
     });
 
     const videoBucket = new s3.Bucket(this, "VideoBucket", {
       blockPublicAccess: s3.BlockPublicAccess.BLOCK_ALL,
-      removalPolicy: cdk.RemovalPolicy.DESTROY,
-      autoDeleteObjects: true,
+      versioned: true,                            // ✅ 백업: 버전 관리 활성화 (영상 콘텐츠 보호)
+      removalPolicy: cdk.RemovalPolicy.RETAIN,    // ✅ 백업: 스택 삭제 시 버킷 보존
+      autoDeleteObjects: false,                    // ✅ 백업: 자동 삭제 비활성화
+      lifecycleRules: [                            // ✅ 백업: 이전 버전 90일 후 자동 정리 (비용 절약)
+        {
+          noncurrentVersionExpiration: cdk.Duration.days(90),
+          noncurrentVersionsToRetain: 3,
+        },
+      ],
       cors: [
         {
           allowedMethods: [s3.HttpMethods.GET, s3.HttpMethods.PUT],
@@ -138,14 +147,16 @@ export class HealechoStack extends cdk.Stack {
     const itemsTable = new dynamodb.Table(this, "ItemsTable", {
       partitionKey: { name: "id", type: dynamodb.AttributeType.STRING },
       billingMode: dynamodb.BillingMode.PAY_PER_REQUEST,
-      removalPolicy: cdk.RemovalPolicy.DESTROY,
+      removalPolicy: cdk.RemovalPolicy.RETAIN,    // ✅ 백업: 스택 삭제 시 테이블 보존
+      pointInTimeRecovery: true,                   // ✅ 백업: 35일 시점 복구 활성화
     });
 
     const balanceVideosTable = new dynamodb.Table(this, "BalanceVideosTable", {
       partitionKey: { name: "program", type: dynamodb.AttributeType.STRING },
       sortKey: { name: "weekNumber", type: dynamodb.AttributeType.NUMBER },
       billingMode: dynamodb.BillingMode.PAY_PER_REQUEST,
-      removalPolicy: cdk.RemovalPolicy.DESTROY,
+      removalPolicy: cdk.RemovalPolicy.RETAIN,    // ✅ 백업: 스택 삭제 시 테이블 보존
+      pointInTimeRecovery: true,                   // ✅ 백업: 35일 시점 복구 활성화
     });
 
     /* ── 구독 상태 테이블 ── */
@@ -200,7 +211,8 @@ export class HealechoStack extends cdk.Stack {
       partitionKey: { name: "program", type: dynamodb.AttributeType.STRING },
       sortKey: { name: "weekNumber", type: dynamodb.AttributeType.NUMBER },
       billingMode: dynamodb.BillingMode.PAY_PER_REQUEST,
-      removalPolicy: cdk.RemovalPolicy.DESTROY,
+      removalPolicy: cdk.RemovalPolicy.RETAIN,    // ✅ 백업: 스택 삭제 시 테이블 보존
+      pointInTimeRecovery: true,                   // ✅ 백업: 35일 시점 복구 활성화
     });
 
     const userHabitTrackingTable = new dynamodb.Table(this, "UserHabitTrackingTable", {
@@ -216,7 +228,8 @@ export class HealechoStack extends cdk.Stack {
       partitionKey: { name: "program", type: dynamodb.AttributeType.STRING },
       sortKey: { name: "weekNumber", type: dynamodb.AttributeType.NUMBER },
       billingMode: dynamodb.BillingMode.PAY_PER_REQUEST,
-      removalPolicy: cdk.RemovalPolicy.DESTROY,
+      removalPolicy: cdk.RemovalPolicy.RETAIN,    // ✅ 백업: 스택 삭제 시 테이블 보존
+      pointInTimeRecovery: true,                   // ✅ 백업: 35일 시점 복구 활성화
     });
 
     /* ===============================
@@ -1370,6 +1383,104 @@ export class HealechoStack extends cdk.Stack {
       methods: [HttpMethod.GET],
       integration: new HttpLambdaIntegration("AdminDashboardStats", adminDashboardStatsLambda),
       authorizer,
+    });
+
+    /* ===============================
+       ✅ AWS Backup — DynamoDB 장기 보존 자동 백업
+    =============================== */
+
+    // 백업 저장소 (Vault)
+    const backupVault = new backup.BackupVault(this, "HealechoBackupVault", {
+      backupVaultName: "healecho-backup-vault",
+      removalPolicy: cdk.RemovalPolicy.RETAIN,    // 스택 삭제 시에도 백업 데이터 보존
+    });
+
+    // 백업 플랜: 주간 + 월간 자동 백업
+    const backupPlan = new backup.BackupPlan(this, "HealechoBackupPlan", {
+      backupPlanName: "healecho-dynamodb-backup",
+      backupPlanRules: [
+        // 주간 백업: 매주 일요일 03:00 KST (토요일 18:00 UTC), 30일 보존
+        new backup.BackupPlanRule({
+          ruleName: "WeeklyBackup",
+          scheduleExpression: events.Schedule.cron({
+            minute: "0",
+            hour: "18",
+            weekDay: "SAT",
+          }),
+          deleteAfter: cdk.Duration.days(30),
+          backupVault,
+        }),
+        // 월간 백업: 매월 1일 03:00 KST (전월 말일 18:00 UTC), 365일 보존
+        new backup.BackupPlanRule({
+          ruleName: "MonthlyBackup",
+          scheduleExpression: events.Schedule.cron({
+            minute: "0",
+            hour: "18",
+            day: "1",
+          }),
+          deleteAfter: cdk.Duration.days(365),
+          backupVault,
+        }),
+      ],
+    });
+
+    // 핵심 테이블 백업 대상 등록
+    const criticalTables = [
+      usersTable,
+      subscriptionsTable,
+      paymentsTable,
+      watchRecordsTable,
+      giftCyclesTable,
+      psqiResultsTable,
+      selfCheckResultsTable,
+      userHabitTrackingTable,
+      userSleepLogTable,
+      practiceRecordsTable,
+      userPreferencesTable,
+      balanceVideosTable,
+      weeklyHabitContentTable,
+      sleepHabitTable,
+      itemsTable,
+    ];
+
+    for (const table of criticalTables) {
+      backupPlan.addSelection(`Backup-${table.node.id}`, {
+        resources: [backup.BackupResource.fromDynamoDbTable(table)],
+      });
+    }
+
+    /* ===============================
+       ✅ Cognito 사용자 백업 Lambda — 매일 자동 Export
+    =============================== */
+
+    const cognitoBackupLambda = new NodejsFunction(this, "CognitoBackupLambda", {
+      runtime: lambda.Runtime.NODEJS_18_X,
+      entry: path.join(__dirname, "..", "lambda", "cognito-backup.ts"),
+      handler: "handler",
+      timeout: cdk.Duration.minutes(5),
+      environment: {
+        USER_POOL_ID: userPool.userPoolId,
+        BACKUP_BUCKET: videoBucket.bucketName,
+        BACKUP_PREFIX: "backups/cognito/",
+      },
+    });
+
+    // Cognito 사용자 목록 읽기 권한
+    cognitoBackupLambda.addToRolePolicy(new iam.PolicyStatement({
+      actions: [
+        "cognito-idp:ListUsers",
+        "cognito-idp:AdminGetUser",
+      ],
+      resources: [userPool.userPoolArn],
+    }));
+
+    // S3에 백업 파일 쓰기 권한
+    videoBucket.grantWrite(cognitoBackupLambda);
+
+    // EventBridge: 매일 02:00 KST (17:00 UTC) Cognito 백업 실행
+    new events.Rule(this, "CognitoBackupRule", {
+      schedule: events.Schedule.cron({ minute: "0", hour: "17" }),
+      targets: [new targets.LambdaFunction(cognitoBackupLambda)],
     });
 
     /* ===============================
