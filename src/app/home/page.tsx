@@ -110,8 +110,9 @@ function HomeContent() {
           });
           if (res.ok) {
             const data = await res.json();
-            if (data.profile && data.profileSetupDone) {
+            if (data.profile && data.profileSetupDone && data.profile.wellnessGoal) {
               // AWS에 프로필 존재 → 스토리지 레이어에 hydrate
+              // wellnessGoal 확인: 이용약관 동의만 전송된 불완전 프로필 제외
               storage.setJSON("user_profile", data.profile);
               storage.set("profile_setup_done", "true");
               console.log("[Profile] AWS에서 프로필 hydrate 완료");

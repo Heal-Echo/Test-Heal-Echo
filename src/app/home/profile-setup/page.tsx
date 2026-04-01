@@ -125,8 +125,9 @@ export default function ProfileSetupPage() {
         if (!res.ok) return;
 
         const data = await res.json();
-        if (data.profile && data.profileSetupDone) {
+        if (data.profile && data.profileSetupDone && data.profile.wellnessGoal) {
           // AWS에 완료된 프로필 존재 → localStorage에 hydrate 후 홈으로 이동
+          // wellnessGoal 확인: 이용약관 동의만 전송된 불완전 프로필 제외
           storage.setJSON("user_profile", data.profile);
           storage.set("profile_setup_done", "true");
           console.log("[Profile] AWS에서 완료된 프로필 hydrate → 홈 이동");
