@@ -110,21 +110,38 @@ function HomeContent() {
           });
           if (res.ok) {
             const data = await res.json();
-            if (data.profile && data.profileSetupDone && data.profile.wellnessGoal) {
+            console.log("[Profile] AWS 응답 구조:", JSON.stringify(Object.keys(data)));
+
+            // AWS 응답 구조 유연하게 처리:
+            // 형태 A: { profile: { wellnessGoal, ... }, profileSetupDone: true }
+            // 형태 B: { wellnessGoal, ..., profileSetupDone: true } (플랫 구조)
+            const profile = data.profile || data;
+            const setupDone = data.profileSetupDone || profile.profileSetupDone;
+            const hasWellnessGoal = profile.wellnessGoal;
+
+            if (setupDone && hasWellnessGoal) {
               // AWS에 프로필 존재 → 스토리지 레이어에 hydrate
               // wellnessGoal 확인: 이용약관 동의만 전송된 불완전 프로필 제외
-              storage.setJSON("user_profile", data.profile);
+              storage.setJSON("user_profile", profile);
               storage.set("profile_setup_done", "true");
               console.log("[Profile] AWS에서 프로필 hydrate 완료");
               return; // 홈 유지
             }
+          } else {
+            // API 호출은 됐지만 서버 에러 (500 등) → 서버 장애일 수 있으므로
+            // 프로필 설정 페이지로 보내지 않고 홈에 유지
+            console.warn("[Profile] AWS 프로필 조회 서버 에러:", res.status);
+            return;
           }
         }
       } catch (err) {
-        console.warn("[Profile] AWS 프로필 조회 실패:", err);
+        // 네트워크 에러 등 → 서버 장애일 수 있으므로
+        // 프로필 설정 페이지로 보내지 않고 홈에 유지
+        console.warn("[Profile] AWS 프로필 조회 실패 (네트워크 에러):", err);
+        return;
       }
 
-      // AWS에도 없으면 프로필 설정 페이지로 이동
+      // AWS 응답이 정상이지만 프로필 데이터가 없는 경우에만 프로필 설정 페이지로 이동
       router.replace("/home/profile-setup");
     }
 

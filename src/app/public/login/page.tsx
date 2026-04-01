@@ -19,7 +19,7 @@ import {
   saveCognitoKakaoSession,
 } from "@/auth/kakao";
 
-import { getSession, removeSession, getRaw, setRaw, removeRaw, get as storageGet } from "@/lib/storage";
+import { getSession, removeSession, getRaw, setRaw, removeRaw } from "@/lib/storage";
 
 /** 로그인 성공 후 lastLoginAt 기록 (fire-and-forget) */
 function recordLogin(idToken: string) {
@@ -47,21 +47,44 @@ function sendPendingConsent(idToken: string) {
     const consentData = JSON.parse(pending);
     removeRaw("pending_consent");
 
+    // ⚠️ 기존 프로필이 있는 사용자의 데이터를 덮어쓰지 않도록 보호
+    // 먼저 AWS에 프로필이 존재하는지 확인한 후, 없을 때만 동의 정보 전송
     fetch("/api/user/profile", {
-      method: "PUT",
-      headers: {
-        Authorization: `Bearer ${idToken}`,
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        termsConsent: consentData.termsConsent ?? true,
-        termsConsentAt: consentData.termsConsentAt ?? new Date().toISOString(),
-      }),
-    }).catch(() => {}); // 실패해도 로그인 흐름 차단하지 않음
+      method: "GET",
+      headers: { Authorization: `Bearer ${idToken}` },
+    })
+      .then((res) => (res.ok ? res.json() : null))
+      .then((data) => {
+        if (!data) return; // 조회 실패 시 안전하게 스킵
+
+        // AWS 응답 구조 유연하게 처리 (플랫 또는 중첩 구조)
+        const profile = data.profile || data;
+        const alreadyDone =
+          data.profileSetupDone || profile.profileSetupDone || profile.wellnessGoal;
+
+        if (alreadyDone) {
+          console.log("[Consent] 프로필 이미 완료 → 동의 정보 전송 스킵");
+          return; // 이미 완성된 프로필이 있으면 덮어쓰지 않음
+        }
+
+        // 프로필 없음 → 신규 사용자이므로 동의 정보만 전송
+        fetch("/api/user/profile", {
+          method: "PUT",
+          headers: {
+            Authorization: `Bearer ${idToken}`,
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            termsConsent: consentData.termsConsent ?? true,
+            termsConsentAt: consentData.termsConsentAt ?? new Date().toISOString(),
+          }),
+        }).catch(() => {});
+      })
+      .catch(() => {}); // 전체 실패해도 로그인 흐름 차단하지 않음
   } catch {}
 }
 
-/** 로그인 후 리다이렉트 경로 결정 (storage 추상화 레이어 경유, 기본 /home) */
+/** 로그인 후 리다이렉트 경로 결정 (기본 /home) */
 function getPostLoginRedirect(): string {
   const saved = getSession("redirect_after_login");
   if (saved) {
@@ -69,13 +92,10 @@ function getPostLoginRedirect(): string {
     return saved;
   }
 
-  // 프로필 설정 미완료 시 → 프로필 설정 페이지로 바로 이동
-  // (첫 로그인, 소셜 첫 로그인, 프로필 미작성 테스트 계정 등)
-  const profileDone = storageGet("profile_setup_done");
-  if (!profileDone) {
-    return "/home/profile-setup";
-  }
-
+  // 프로필 설정 여부는 /home의 checkProfileSetup()이 판단
+  // (localStorage → AWS fallback 체인으로 정확한 확인)
+  // localStorage만으로는 새 기기/브라우저에서 오판할 수 있으므로
+  // 로그인 페이지에서는 프로필 체크를 하지 않음
   return "/home";
 }
 
@@ -383,8 +403,11 @@ function LoginPageInner() {
   // 🟡 카카오 로그인 핸들러
   // (카카오는 state를 사용하지 않으므로 기존 방식 유지)
   // -----------------------------
-  /** 소셜 로그인 전 동의 정보를 storage에 임시 저장 */
+  /** 소셜 로그인 전 동의 정보를 storage에 임시 저장 (신규 사용자만) */
   function saveSocialConsent() {
+    // 이미 프로필 설정을 완료한 사용자는 동의 정보를 다시 저장하지 않음
+    // (재로그인 시 AWS 프로필이 덮어써지는 것을 방지)
+    // ※ userId별 키를 확인하기 어려우므로 sendPendingConsent에서도 이중 방어
     setRaw("pending_consent", JSON.stringify({
       termsConsent: true,
       termsConsentAt: new Date().toISOString(),

@@ -66,12 +66,51 @@ const EXPERIENCE_OPTIONS = [
 export default function ProfileSetupPage() {
   const router = useRouter();
 
-  // 🔐 보호 페이지: 로그인 여부 확인
+  // 🔐 보호 페이지: 로그인 여부 확인 + 이미 프로필 완료한 사용자는 홈으로 리다이렉트
   useEffect(() => {
     if (!isUserLoggedIn()) {
       router.replace("/public/login");
       return;
     }
+
+    // 이미 프로필 설정을 완료한 사용자는 다시 작성하지 않도록 홈으로 이동
+    const profileDone = storage.get("profile_setup_done");
+    if (profileDone) {
+      router.replace("/home");
+      return;
+    }
+
+    // 스토리지에 없으면 AWS에서도 확인 (다른 기기/브라우저 캐시 삭제 대응)
+    async function checkAlreadyCompleted() {
+      try {
+        const info = getUserInfo();
+        const token = info?.idToken;
+        if (!token) return;
+
+        const res = await fetch("/api/user/profile", {
+          method: "GET",
+          headers: { Authorization: `Bearer ${token}` },
+        });
+
+        if (!res.ok) return;
+
+        const data = await res.json();
+        // AWS 응답 구조 유연하게 처리 (플랫 또는 중첩 구조 모두 대응)
+        const profile = data.profile || data;
+        const setupDone = data.profileSetupDone || profile.profileSetupDone;
+
+        if (setupDone && profile.wellnessGoal) {
+          // AWS에 완료된 프로필 존재 → 스토리지 복원 후 홈으로 이동
+          storage.setJSON("user_profile", profile);
+          storage.set("profile_setup_done", "true");
+          router.replace("/home");
+        }
+      } catch (err) {
+        console.warn("[Profile] 프로필 완료 여부 확인 실패:", err);
+      }
+    }
+
+    checkAlreadyCompleted();
   }, [router]);
 
   // 단계
@@ -109,9 +148,7 @@ export default function ProfileSetupPage() {
     const info = getUserInfo();
     if (info?.email) setReportEmail(info.email);
 
-    // AWS에서 기존 프로필 불러오기
-    // - 이미 완료된 경우: localStorage에 복원 → 홈으로 이동 (다른 기기/브라우저 대응)
-    // - 미완료인 경우: 프로필 설정 위저드 진행
+    // AWS에서 기존 프로필 불러오기 (이미 저장된 경우 복원)
     async function loadProfile() {
       try {
         const token = info?.idToken;
@@ -125,14 +162,28 @@ export default function ProfileSetupPage() {
         if (!res.ok) return;
 
         const data = await res.json();
-        if (data.profile && data.profileSetupDone && data.profile.wellnessGoal) {
-          // AWS에 완료된 프로필 존재 → localStorage에 hydrate 후 홈으로 이동
-          // wellnessGoal 확인: 이용약관 동의만 전송된 불완전 프로필 제외
-          storage.setJSON("user_profile", data.profile);
-          storage.set("profile_setup_done", "true");
-          console.log("[Profile] AWS에서 완료된 프로필 hydrate → 홈 이동");
-          router.replace("/home");
-          return;
+        // AWS 응답 구조 유연하게 처리 (플랫 또는 중첩 구조 모두 대응)
+        const profileData = data.profile || data;
+        const setupDone = data.profileSetupDone || profileData.profileSetupDone;
+        if (profileData && setupDone) {
+          const p = profileData;
+          if (p.wellnessGoal) setWellnessGoal(p.wellnessGoal);
+          if (p.dietHabit) setDietHabit(p.dietHabit);
+          if (p.sleepHabit) setSleepHabit(p.sleepHabit);
+          if (p.experience) setExperience(p.experience);
+          if (p.nickname) setNickname(p.nickname);
+          if (p.birthDate) {
+            const parts = p.birthDate.split("-");
+            if (parts.length === 3) {
+              setBirthYear(parts[0]);
+              setBirthMonth(String(Number(parts[1])));
+              setBirthDay(String(Number(parts[2])));
+            }
+          }
+          if (p.gender) setGender(p.gender);
+          if (p.pushNotification !== undefined) setPushNotification(p.pushNotification);
+          if (p.emailNotification !== undefined) setEmailNotification(p.emailNotification);
+          if (p.marketingConsent !== undefined) setMarketingConsent(p.marketingConsent);
         }
       } catch (err) {
         console.warn("[Profile] AWS에서 프로필 로드 실패:", err);
@@ -227,6 +278,7 @@ export default function ProfileSetupPage() {
       termsConsent: consentData.termsConsent ?? true,
       termsConsentAt: consentData.termsConsentAt ?? new Date().toISOString(),
       marketingConsentAt: consentData.marketingConsentAt ?? null,
+      profileSetupDone: true,
     };
 
     // 스토리지 레이어에 백업 (오프라인/에러 fallback, userId 자동 포함)

@@ -105,9 +105,12 @@ export async function GET(req: Request) {
     });
 
     const text = await res.text();
+    console.log("[User Profile GET] status:", res.status, "raw response:", text.slice(0, 500));
 
     try {
-      return NextResponse.json(JSON.parse(text), { status: res.status });
+      const parsed = JSON.parse(text);
+      console.log("[User Profile GET] parsed keys:", Object.keys(parsed), "profileSetupDone:", parsed.profileSetupDone, "profile?:", !!parsed.profile);
+      return NextResponse.json(parsed, { status: res.status });
     } catch {
       return NextResponse.json({ raw: text }, { status: res.status });
     }
