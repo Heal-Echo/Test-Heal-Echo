@@ -10,19 +10,9 @@ import AWS from "aws-sdk";
 const dynamo = new AWS.DynamoDB.DocumentClient();
 const TABLE = process.env.USERS_TABLE_NAME as string;
 
-type ProfileBody = {
-  wellnessGoal: string;
-  dietHabit: string | null;
-  sleepHabit: string | null;
-  experience: string;
-  nickname: string;
-  reportEmail: string;
-  birthDate: string | null;
-  gender: string | null;
-  pushNotification: boolean;
-  emailNotification: boolean;
-  marketingConsent: boolean;
-};
+// PUT 요청 본문은 전체 프로필(온보딩) 또는 부분 업데이트(동의 정보 등)
+// 어느 쪽이든 올 수 있으므로, 요청 본문에 포함된 필드만 DB에 반영
+// → Record<string, any>로 받고, 포함 여부를 `key in body`로 판별
 
 export const handler = async (event: any) => {
   const method = event.requestContext?.http?.method || event.httpMethod;
@@ -67,37 +57,68 @@ export const handler = async (event: any) => {
 
     // PUT /user/profile — 프로필 저장
     if (method === "PUT") {
-      const body: ProfileBody = JSON.parse(event.body || "{}");
+      const body: Record<string, any> = JSON.parse(event.body || "{}");
       const now = new Date().toISOString();
 
-      // UsersTable에 프로필 데이터 저장 (upsert)
+      // ──────────────────────────────────────────────
+      // 요청 본문에 실제로 포함된 필드만 업데이트 항목에 추가
+      // → 누락된 필드는 기존 값을 유지 (null 덮어쓰기 방지)
+      // 예: 이용약관 동의만 전송 시, 기존 wellnessGoal 등이 보존됨
+      // ──────────────────────────────────────────────
+      const PROFILE_FIELDS: Array<{
+        key: string;
+        fallback?: any;
+      }> = [
+        { key: "wellnessGoal" },
+        { key: "dietHabit" },
+        { key: "sleepHabit" },
+        { key: "experience" },
+        { key: "nickname" },
+        { key: "birthDate" },
+        { key: "gender" },
+        { key: "pushNotification" },
+        { key: "emailNotification" },
+        { key: "marketingConsent" },
+        { key: "termsConsent" },
+        { key: "termsConsentAt" },
+        { key: "marketingConsentAt" },
+      ];
+
       const item: Record<string, any> = {
         userId,
-        email: body.reportEmail || email,
-        wellnessGoal: body.wellnessGoal || null,
-        dietHabit: body.dietHabit || null,
-        sleepHabit: body.sleepHabit || null,
-        experience: body.experience || null,
-        nickname: body.nickname || null,
-        birthDate: body.birthDate || null,
-        gender: body.gender || null,
-        pushNotification: body.pushNotification ?? true,
-        emailNotification: body.emailNotification ?? true,
-        marketingConsent: body.marketingConsent ?? false,
-        profileSetupDone: true,
         profileUpdatedAt: now,
       };
 
-      // 기존 항목이 있으면 createdAt 유지, 없으면 새로 생성
+      // 이메일: body에 있으면 사용, 없으면 JWT 클레임에서 추출
+      if (body.reportEmail) {
+        item.email = body.reportEmail;
+      } else if (email) {
+        item.email = email;
+      }
+
+      // 프로필 필드: 요청 본문에 포함된 것만 item에 추가
+      for (const field of PROFILE_FIELDS) {
+        if (field.key in body) {
+          item[field.key] = body[field.key];
+        }
+      }
+
+      // profileSetupDone: body에 명시적으로 true이거나,
+      // 실제 프로필 데이터(wellnessGoal)가 포함된 경우에만 true 설정
+      // → 이용약관 동의만 전송된 경우 profileSetupDone을 true로 설정하지 않음
+      if (body.profileSetupDone === true || body.wellnessGoal) {
+        item.profileSetupDone = true;
+      }
+
+      // 기존 항목이 있으면 기존 데이터 보존 + 요청된 필드만 업데이트
       const existing = await dynamo
         .get({ TableName: TABLE, Key: { userId } })
         .promise();
 
       if (existing.Item) {
-        // 기존 필드 병합 (기존 데이터 보존 + 프로필 필드 업데이트)
         item.createdAt = existing.Item.createdAt || now;
         item.subscriptionType = existing.Item.subscriptionType || "browser";
-        // 기존 UsersTable의 다른 필드도 보존
+        // 기존 데이터 위에 요청된 필드만 덮어쓰기 (나머지 보존)
         const merged = { ...existing.Item, ...item };
         await dynamo.put({ TableName: TABLE, Item: merged }).promise();
       } else {
@@ -106,10 +127,11 @@ export const handler = async (event: any) => {
         await dynamo.put({ TableName: TABLE, Item: item }).promise();
       }
 
+      const isFullProfile = !!item.profileSetupDone;
       return {
         statusCode: 200,
         headers,
-        body: JSON.stringify({ ok: true, profileSetupDone: true }),
+        body: JSON.stringify({ ok: true, profileSetupDone: isFullProfile }),
       };
     }
 

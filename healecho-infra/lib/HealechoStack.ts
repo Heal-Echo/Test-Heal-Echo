@@ -169,6 +169,7 @@ export class HealechoStack extends cdk.Stack {
       partitionKey: { name: "userId", type: dynamodb.AttributeType.STRING },
       billingMode: dynamodb.BillingMode.PAY_PER_REQUEST,
       removalPolicy: cdk.RemovalPolicy.DESTROY,
+      pointInTimeRecovery: true,
     });
 
     // 이메일로 회원 검색용 GSI
@@ -1296,6 +1297,37 @@ export class HealechoStack extends cdk.Stack {
       path: "/user/record-login",
       methods: [HttpMethod.POST],
       integration: new HttpLambdaIntegration("UserRecordLogin", userProfileLambda),
+      authorizer,
+    });
+
+    /* ===============================
+       프로필 복구 Lambda (일회성)
+       손상된 프로필(wellnessGoal=null)을 다른 테이블에서 복원
+    =============================== */
+
+    const repairProfilesLambda = new NodejsFunction(this, "RepairProfilesLambda", {
+      runtime: lambda.Runtime.NODEJS_18_X,
+      entry: path.join(__dirname, "..", "lambda", "repair-profiles.ts"),
+      handler: "handler",
+      timeout: cdk.Duration.minutes(5),
+      environment: {
+        USERS_TABLE_NAME: usersTable.tableName,
+        SUBSCRIPTIONS_TABLE_NAME: subscriptionsTable.tableName,
+        WATCH_RECORDS_TABLE_NAME: watchRecordsTable.tableName,
+        USER_PREFERENCES_TABLE_NAME: userPreferencesTable.tableName,
+      },
+    });
+
+    usersTable.grantReadWriteData(repairProfilesLambda);
+    subscriptionsTable.grantReadData(repairProfilesLambda);
+    watchRecordsTable.grantReadData(repairProfilesLambda);
+    userPreferencesTable.grantReadData(repairProfilesLambda);
+
+    // 관리자 API로 복구 실행 (POST /admin/repair-profiles)
+    httpApi.addRoutes({
+      path: "/admin/repair-profiles",
+      methods: [HttpMethod.POST],
+      integration: new HttpLambdaIntegration("RepairProfiles", repairProfilesLambda),
       authorizer,
     });
 
