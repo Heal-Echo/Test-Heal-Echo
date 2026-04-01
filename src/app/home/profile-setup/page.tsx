@@ -109,7 +109,9 @@ export default function ProfileSetupPage() {
     const info = getUserInfo();
     if (info?.email) setReportEmail(info.email);
 
-    // AWS에서 기존 프로필 불러오기 (이미 저장된 경우 복원)
+    // AWS에서 기존 프로필 불러오기
+    // - 이미 완료된 경우: localStorage에 복원 → 홈으로 이동 (다른 기기/브라우저 대응)
+    // - 미완료인 경우: 프로필 설정 위저드 진행
     async function loadProfile() {
       try {
         const token = info?.idToken;
@@ -124,24 +126,12 @@ export default function ProfileSetupPage() {
 
         const data = await res.json();
         if (data.profile && data.profileSetupDone) {
-          const p = data.profile;
-          if (p.wellnessGoal) setWellnessGoal(p.wellnessGoal);
-          if (p.dietHabit) setDietHabit(p.dietHabit);
-          if (p.sleepHabit) setSleepHabit(p.sleepHabit);
-          if (p.experience) setExperience(p.experience);
-          if (p.nickname) setNickname(p.nickname);
-          if (p.birthDate) {
-            const parts = p.birthDate.split("-");
-            if (parts.length === 3) {
-              setBirthYear(parts[0]);
-              setBirthMonth(String(Number(parts[1])));
-              setBirthDay(String(Number(parts[2])));
-            }
-          }
-          if (p.gender) setGender(p.gender);
-          if (p.pushNotification !== undefined) setPushNotification(p.pushNotification);
-          if (p.emailNotification !== undefined) setEmailNotification(p.emailNotification);
-          if (p.marketingConsent !== undefined) setMarketingConsent(p.marketingConsent);
+          // AWS에 완료된 프로필 존재 → localStorage에 hydrate 후 홈으로 이동
+          storage.setJSON("user_profile", data.profile);
+          storage.set("profile_setup_done", "true");
+          console.log("[Profile] AWS에서 완료된 프로필 hydrate → 홈 이동");
+          router.replace("/home");
+          return;
         }
       } catch (err) {
         console.warn("[Profile] AWS에서 프로필 로드 실패:", err);

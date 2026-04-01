@@ -19,7 +19,7 @@ import {
   saveCognitoKakaoSession,
 } from "@/auth/kakao";
 
-import { getSession, removeSession, getRaw, setRaw, removeRaw } from "@/lib/storage";
+import { getSession, removeSession, getRaw, setRaw, removeRaw, get as storageGet } from "@/lib/storage";
 
 /** 로그인 성공 후 lastLoginAt 기록 (fire-and-forget) */
 function recordLogin(idToken: string) {
@@ -68,6 +68,14 @@ function getPostLoginRedirect(): string {
     removeSession("redirect_after_login");
     return saved;
   }
+
+  // 프로필 설정 미완료 시 → 프로필 설정 페이지로 바로 이동
+  // (첫 로그인, 소셜 첫 로그인, 프로필 미작성 테스트 계정 등)
+  const profileDone = storageGet("profile_setup_done");
+  if (!profileDone) {
+    return "/home/profile-setup";
+  }
+
   return "/home";
 }
 
