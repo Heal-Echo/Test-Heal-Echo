@@ -24,15 +24,39 @@ export default function IntroVideoClient({
   // ▶ 비디오 활성화 상태 (재생 버튼 클릭 전까지 video 태그 미생성)
   const [videoActivated, setVideoActivated] = useState(false);
 
+  // ▶ 비디오 재생 에러 상태
+  const [playbackError, setPlaybackError] = useState(false);
+
+  // ▶ 비디오 재생 완료 상태
+  const [videoEnded, setVideoEnded] = useState(false);
+
   // ▶ 오버레이 재생 버튼 — 클릭 시 비디오 활성화
   const handleOverlayPlay = () => {
+    setPlaybackError(false);
+    setVideoEnded(false);
     setVideoActivated(true);
+  };
+
+  // ▶ 다시 보기 — 영상을 처음으로 되돌려 재생
+  const handleReplay = () => {
+    if (videoRef.current) {
+      videoRef.current.currentTime = 0;
+      videoRef.current.play().catch(() => {});
+    }
+    setVideoEnded(false);
+  };
+
+  // ▶ 비디오 로딩/재생 에러 핸들러
+  const handleVideoError = () => {
+    setPlaybackError(true);
   };
 
   // ▶ 비디오 활성화 후 자동 재생
   useEffect(() => {
     if (videoActivated && videoRef.current) {
-      videoRef.current.play();
+      videoRef.current.play().catch(() => {
+        // autoplay blocked or source error — handled by onError
+      });
     }
   }, [videoActivated]);
 
@@ -79,23 +103,51 @@ export default function IntroVideoClient({
                     aria-label="영상 재생"
                   />
                 </div>
+              ) : playbackError ? (
+                /* 비디오 로딩/재생 실패 시 안내 */
+                <div className={styles.introPlaceholder}>
+                  <p className={styles.introMsgError}>
+                    영상을 재생할 수 없습니다. 잠시 후 다시 시도해 주세요.
+                  </p>
+                  <button
+                    type="button"
+                    className={styles.btnPrimary}
+                    onClick={handleOverlayPlay}
+                    style={{ marginTop: "16px" }}
+                  >
+                    다시 시도
+                  </button>
+                </div>
               ) : (
                 /* 비디오 활성화: 실제 video 태그 렌더링 */
-                <video
-                  id="introVideo"
-                  ref={videoRef}
-                  autoPlay
-                  controls
-                  playsInline
-                  controlsList="nodownload"
-                  preload="metadata"
-                >
-                  <source
-                    src={makeVideoUrl(videoKey)}
-                    type="video/mp4"
-                  />
-                  브라우저가 HTML5 비디오를 지원하지 않습니다.
-                </video>
+                <div className={styles.introVideoWrap}>
+                  <video
+                    id="introVideo"
+                    ref={videoRef}
+                    autoPlay
+                    controls
+                    playsInline
+                    controlsList="nodownload"
+                    preload="metadata"
+                    onError={handleVideoError}
+                    onEnded={() => setVideoEnded(true)}
+                  >
+                    <source
+                      src={makeVideoUrl(videoKey)}
+                      type="video/mp4"
+                    />
+                    브라우저가 HTML5 비디오를 지원하지 않습니다.
+                  </video>
+
+                  {videoEnded && (
+                    <button
+                      type="button"
+                      className={styles.videoReplayBtn}
+                      onClick={handleReplay}
+                      aria-label="영상 다시 보기"
+                    />
+                  )}
+                </div>
               )}
             </>
           )}

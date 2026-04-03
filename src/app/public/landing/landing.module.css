@@ -165,6 +165,11 @@
   opacity: 0.85;
 }
 
+.btnPrimary:focus-visible {
+  outline: 3px solid #00d6f5;
+  outline-offset: 3px;
+}
+
 .btnGhost {
   padding: 12px 24px;
   border-radius: 999px;
@@ -204,6 +209,11 @@
 .btnPinkOutline:active {
   background: rgba(255, 105, 180, 0.08);
   transform: translateY(-1px);
+}
+
+.btnPinkOutline:focus-visible {
+  outline: 3px solid #FF69B4;
+  outline-offset: 3px;
 }
 
 /* 이미지 영역 */
@@ -325,6 +335,12 @@
   color: inherit;
   cursor: pointer;
   box-sizing: border-box;
+}
+
+.programCardButton:focus-visible {
+  outline: 3px solid #8a2be2;
+  outline-offset: 4px;
+  border-radius: 20px;
 }
 
 .programCard {
@@ -498,6 +514,11 @@
 .btnPink:active {
   transform: translateY(-1px);
   opacity: 0.85;
+}
+
+.btnPink:focus-visible {
+  outline: 3px solid #ff69b4;
+  outline-offset: 3px;
 }
 
 @media (max-width: 768px) {
@@ -890,12 +911,17 @@
   opacity: 0.85;
 }
 
+.whyCardCta:focus-visible {
+  outline: 3px solid #00d6f5;
+  outline-offset: 3px;
+}
+
 .whyCardPricing {
   display: block;
   margin-top: 12px;
   text-align: center;
   font-size: clamp(13px, 1.3vw, 15px);
-  color: #888;
+  color: #767676; /* WCAG AA compliant — was #888 (3.54:1 → 4.54:1) */
   text-decoration: none;
   transition: color 0.2s ease;
 }
@@ -945,7 +971,7 @@
 .benefitSub {
   margin: 4px 0 0;
   font-size: clamp(12px, 1.3vw, 14px);
-  color: #999;
+  color: #767676; /* WCAG AA compliant — was #999 (2.85:1 → 4.54:1) */
   letter-spacing: 0.01em;
 }
 
@@ -1538,12 +1564,65 @@
   box-shadow: 0 8px 32px rgba(0, 214, 245, 0.45);
 }
 
+.videoOverlayCenter:focus-visible {
+  outline: 3px solid #00d6f5;
+  outline-offset: 4px;
+}
+
 .videoOverlayCenter::before {
   content: "";
   border-style: solid;
   border-width: 12px 0 12px 20px;
   border-color: transparent transparent transparent #fff;
   margin-left: 3px;
+}
+
+/* 비디오 래퍼 (다시 보기 버튼 포지셔닝용) */
+.introVideoWrap {
+  position: relative;
+  width: 100%;
+}
+
+.introVideoWrap video {
+  width: 100%;
+  display: block;
+}
+
+/* 다시 보기(Replay) 버튼 */
+.videoReplayBtn {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 72px;
+  height: 72px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, rgba(0, 214, 245, 0.9), rgba(138, 43, 226, 0.9));
+  border: none;
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  box-shadow: 0 6px 24px rgba(0, 214, 245, 0.35);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  z-index: 2;
+}
+
+.videoReplayBtn:hover {
+  transform: translate(-50%, -50%) scale(1.08);
+  box-shadow: 0 8px 32px rgba(0, 214, 245, 0.45);
+}
+
+.videoReplayBtn:focus-visible {
+  outline: 3px solid #00d6f5;
+  outline-offset: 4px;
+}
+
+.videoReplayBtn::before {
+  content: "↻";
+  font-size: 32px;
+  color: #fff;
+  line-height: 1;
 }
 
 /* 다크 모드 */
@@ -1567,6 +1646,15 @@
 
   .videoOverlayCenter::before {
     border-width: 10px 0 10px 18px;
+  }
+
+  .videoReplayBtn {
+    width: 60px;
+    height: 60px;
+  }
+
+  .videoReplayBtn::before {
+    font-size: 26px;
   }
 
   .introGlowLeft,
@@ -1733,6 +1821,11 @@
 .empathyCta:active {
   transform: translateY(-1px);
   opacity: 0.85;
+}
+
+.empathyCta:focus-visible {
+  outline: 3px solid #00d6f5;
+  outline-offset: 3px;
 }
 
 /* 다크 모드 */
