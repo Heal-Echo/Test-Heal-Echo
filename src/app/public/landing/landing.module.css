@@ -644,7 +644,7 @@
   font-family: "PlayfairDisplay", serif;
   font-style: italic;
   font-size: clamp(11px, 1.1vw, 13px);
-  color: #aaa;
+  color: #767676;
   letter-spacing: 0.02em;
   opacity: 0;
   max-height: 0;

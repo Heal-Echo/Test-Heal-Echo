@@ -59,7 +59,8 @@ async function fetchIntroVideo(): Promise<{
 
     const data = await res.json();
     const items: VideoItem[] = data?.items ?? [];
-    const match = items.find((v) => v.id === "featured");
+    const FEATURED_VIDEO_ID = "featured";
+    const match = items.find((v) => v.id === FEATURED_VIDEO_ID);
 
     if (!match) {
       return { videoKey: null, thumbnailKey: null, error: null };
@@ -86,12 +87,12 @@ export default async function LandingPage() {
       <PublicHeader />
 
       {/* Hero + Programs + ComingSoon 모달 (클라이언트) */}
-      <Suspense fallback={null}>
+      <Suspense fallback={<div style={{ minHeight: "60vh" }} />}>
         <HeroProgramsClient />
       </Suspense>
 
       {/* Introduction Video (클라이언트 — 재생 제어만 담당) */}
-      <Suspense fallback={null}>
+      <Suspense fallback={<div style={{ minHeight: "200px" }} />}>
         <IntroVideoClient
           videoKey={introVideoData.videoKey}
           thumbnailKey={introVideoData.thumbnailKey}

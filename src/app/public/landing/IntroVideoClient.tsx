@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useState, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import styles from "./landing.module.css";
 
@@ -20,7 +20,6 @@ export default function IntroVideoClient({
 }: IntroVideoProps) {
   // ▶ 플레이 버튼 & 재생 제어용 ref
   const videoRef = useRef<HTMLVideoElement | null>(null);
-  const [hasPlayedOnce, setHasPlayedOnce] = useState(false);
 
   // ▶ 비디오 활성화 상태 (재생 버튼 클릭 전까지 video 태그 미생성)
   const [videoActivated, setVideoActivated] = useState(false);
@@ -28,7 +27,6 @@ export default function IntroVideoClient({
   // ▶ 오버레이 재생 버튼 — 클릭 시 비디오 활성화
   const handleOverlayPlay = () => {
     setVideoActivated(true);
-    setHasPlayedOnce(true);
   };
 
   // ▶ 비디오 활성화 후 자동 재생
@@ -37,11 +35,6 @@ export default function IntroVideoClient({
       videoRef.current.play();
     }
   }, [videoActivated]);
-
-  // ▶ 사용자가 기본 컨트롤로 재생해도 오버레이 제거
-  const handleVideoPlay = () => {
-    setHasPlayedOnce(true);
-  };
 
   return (
     <section id="introduction" className={styles.introSection}>
@@ -96,7 +89,6 @@ export default function IntroVideoClient({
                   playsInline
                   controlsList="nodownload"
                   preload="metadata"
-                  onPlay={handleVideoPlay}
                 >
                   <source
                     src={makeVideoUrl(videoKey)}
