@@ -13,6 +13,8 @@ export type ProgramInfo = {
   image: string;
   /** 웰니스 내부 이미지 (solution, weekly-habit 팝업 등에서 사용) */
   imageAlt: string;
+  /** 솔루션 페이지 경로 (null = 아직 미출시) */
+  route: string | null;
 };
 
 /** 전체 프로그램 정보 (id 기준 맵) */
@@ -23,6 +25,7 @@ export const PROGRAMS: Record<string, ProgramInfo> = {
     description: "자율신경계 균형을 되찾는 맞춤 요가 클래스",
     image: "/assets/images/balance reset_square.png",
     imageAlt: "/assets/images/autobalance_square.png",
+    route: "/wellness/balance",
   },
   "womans-whisper": {
     id: "womans-whisper",
@@ -30,6 +33,7 @@ export const PROGRAMS: Record<string, ProgramInfo> = {
     description: "여성 건강을 위한 호르몬 밸런스 요가",
     image: "/assets/images/woman condition_square.png",
     imageAlt: "/assets/images/womans_whisper_square.png",
+    route: null,
   },
 };
 

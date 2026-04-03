@@ -25,6 +25,9 @@ const HABIT_TRACKING_TABLE = process.env.USER_HABIT_TRACKING_TABLE_NAME as strin
 const PSQI_TABLE = process.env.PSQI_RESULTS_TABLE_NAME as string;
 const SELFCHECK_TABLE = process.env.SELFCHECK_RESULTS_TABLE_NAME as string;
 const SLEEP_LOG_TABLE = process.env.USER_SLEEP_LOG_TABLE_NAME as string;
+const PRACTICE_RECORDS_TABLE = process.env.PRACTICE_RECORDS_TABLE_NAME as string;
+const PREFERENCES_TABLE = process.env.USER_PREFERENCES_TABLE_NAME as string;
+const GIFT_CYCLES_TABLE = process.env.GIFT_CYCLES_TABLE_NAME as string;
 
 const GRACE_PERIOD_DAYS = 30;
 
@@ -167,7 +170,37 @@ async function anonymizeUser(userId: string, anonId: string): Promise<void> {
     });
   }
 
-  // ── 8) UsersTable: PII 제거, 분석용 필드 보존 ──
+  // ── 8) PracticeRecordsTable: 실천 기록 보존 ──
+  const practices = await queryByUserId(PRACTICE_RECORDS_TABLE, userId);
+  for (const pr of practices) {
+    const anonymized = { ...pr, userId: anonId, anonymizedAt: now };
+    await putAnonymized(PRACTICE_RECORDS_TABLE, anonymized);
+    await deleteRecord(PRACTICE_RECORDS_TABLE, {
+      userId: pr.userId,
+      recordKey: pr.recordKey,
+    });
+  }
+
+  // ── 9) UserPreferencesTable: 환경설정 삭제 (정렬키 없음) ──
+  const prefs = await queryByUserId(PREFERENCES_TABLE, userId);
+  for (const pref of prefs) {
+    const anonymized = { ...pref, userId: anonId, anonymizedAt: now };
+    await putAnonymized(PREFERENCES_TABLE, anonymized);
+    await deleteRecord(PREFERENCES_TABLE, { userId: pref.userId });
+  }
+
+  // ── 10) GiftCyclesTable: 선물 사이클 보존 ──
+  const gifts = await queryByUserId(GIFT_CYCLES_TABLE, userId);
+  for (const g of gifts) {
+    const anonymized = { ...g, userId: anonId, anonymizedAt: now };
+    await putAnonymized(GIFT_CYCLES_TABLE, anonymized);
+    await deleteRecord(GIFT_CYCLES_TABLE, {
+      userId: g.userId,
+      cycleKey: g.cycleKey,
+    });
+  }
+
+  // ── 11) UsersTable: PII 제거, 분석용 필드 보존 ──
   await dynamo
     .update({
       TableName: USERS_TABLE,

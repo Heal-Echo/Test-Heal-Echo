@@ -16,9 +16,9 @@ const TABLE = process.env.USERS_TABLE_NAME as string;
 
 export const handler = async (event: any) => {
   const method = event.requestContext?.http?.method || event.httpMethod;
+  // CORS는 API Gateway corsPreflight에서 처리 → Lambda에서는 Content-Type만 설정
   const headers = {
     "Content-Type": "application/json",
-    "Access-Control-Allow-Origin": "*",
   };
 
   try {
@@ -57,7 +57,16 @@ export const handler = async (event: any) => {
 
     // PUT /user/profile — 프로필 저장
     if (method === "PUT") {
-      const body: Record<string, any> = JSON.parse(event.body || "{}");
+      let body: Record<string, any>;
+      try {
+        body = JSON.parse(event.body || "{}");
+      } catch {
+        return {
+          statusCode: 400,
+          headers,
+          body: JSON.stringify({ message: "Invalid JSON body" }),
+        };
+      }
       const now = new Date().toISOString();
 
       // ──────────────────────────────────────────────

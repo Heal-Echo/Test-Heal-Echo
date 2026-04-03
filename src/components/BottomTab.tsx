@@ -3,16 +3,11 @@
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter, usePathname } from "next/navigation";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import styles from "./bottomTab.module.css";
 import ComingSoonModal from "@/components/publicSite/ComingSoonModal";
 import { getSelectedProgram, isSelectionConfirmed } from "@/lib/programSelection";
-
-/** 프로그램 ID → 솔루션 페이지 경로 */
-const PROGRAM_ROUTES: Record<string, string> = {
-  autobalance: "/wellness/balance",
-  // womans-whisper: 추후 추가
-};
+import { PROGRAMS } from "@/config/programs";
 
 export default function BottomTab() {
   const pathname = usePathname();
@@ -37,7 +32,7 @@ export default function BottomTab() {
     const confirmed = isSelectionConfirmed();
 
     if (program && confirmed) {
-      const route = PROGRAM_ROUTES[program];
+      const route = PROGRAMS[program]?.route;
       if (route) {
         router.push(route);
       } else {
@@ -55,6 +50,16 @@ export default function BottomTab() {
     setShowModal(false);
     router.push("/home?highlight=wellness");
   }
+
+  /* ESC 키로 모달 닫기 */
+  useEffect(() => {
+    if (!showModal) return;
+    const handleKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape") handleModalConfirm();
+    };
+    window.addEventListener("keydown", handleKey);
+    return () => window.removeEventListener("keydown", handleKey);
+  }, [showModal]);
 
   return (
     <>
@@ -109,6 +114,9 @@ export default function BottomTab() {
           <div
             className={styles.yogaModalContent}
             onClick={(e) => e.stopPropagation()}
+            role="dialog"
+            aria-modal="true"
+            aria-label="웰니스 솔루션 안내"
           >
             <p className={styles.yogaModalText}>
               관심있는 웰니스 솔루션을 선택하세요.

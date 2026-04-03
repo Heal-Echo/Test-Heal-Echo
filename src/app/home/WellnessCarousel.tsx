@@ -32,8 +32,9 @@ const WELLNESS_SLIDES = [
 export default function WellnessCarousel() {
   const [activeSlide, setActiveSlide] = useState(0);
   const carouselRef = useRef<HTMLDivElement>(null);
+  const lastSlideRef = useRef(0);
 
-  // 카루셀 스크롤 감지
+  // 카루셀 스크롤 감지 — 슬라이드가 실제 변경될 때만 setState
   const handleCarouselScroll = useCallback(() => {
     const el = carouselRef.current;
     if (!el) return;
@@ -42,8 +43,14 @@ export default function WellnessCarousel() {
       ? (el.firstElementChild as HTMLElement).offsetWidth
       : 1;
     const gap = 10;
-    const index = Math.round(scrollLeft / (cardWidth + gap));
-    setActiveSlide(Math.min(index, WELLNESS_SLIDES.length - 1));
+    const index = Math.min(
+      Math.round(scrollLeft / (cardWidth + gap)),
+      WELLNESS_SLIDES.length - 1
+    );
+    if (index !== lastSlideRef.current) {
+      lastSlideRef.current = index;
+      setActiveSlide(index);
+    }
   }, []);
 
   const scrollToSlide = (index: number) => {

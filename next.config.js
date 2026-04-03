@@ -2,6 +2,11 @@
 
 const isProd = process.env.NODE_ENV === "production";
 
+// CORS: production uses SITE_URL env var, dev allows localhost
+const allowedOrigin = isProd
+  ? process.env.NEXT_PUBLIC_SITE_URL || "https://healecho.com"
+  : "http://localhost:3000";
+
 const nextConfig = {
   reactStrictMode: false,
 
@@ -18,15 +23,27 @@ const nextConfig = {
     ADMIN_COOKIE_SAMESITE: isProd ? "strict" : "lax",
   },
 
-  // CORS / Header 안정화
+  // CORS + Security headers
   async headers() {
     return [
       {
         source: "/api/:path*",
         headers: [
-          { key: "Access-Control-Allow-Origin", value: "*" },
-          { key: "Access-Control-Allow-Methods", value: "GET,POST,PATCH,DELETE,OPTIONS" },
+          { key: "Access-Control-Allow-Origin", value: allowedOrigin },
+          { key: "Access-Control-Allow-Methods", value: "GET,POST,PUT,DELETE,OPTIONS" },
           { key: "Access-Control-Allow-Headers", value: "Authorization,Content-Type" },
+        ],
+      },
+      {
+        source: "/:path*",
+        headers: [
+          { key: "X-Frame-Options", value: "DENY" },
+          { key: "X-Content-Type-Options", value: "nosniff" },
+          { key: "Referrer-Policy", value: "strict-origin-when-cross-origin" },
+          { key: "Permissions-Policy", value: "camera=(), microphone=(), geolocation=()" },
+          ...(isProd
+            ? [{ key: "Strict-Transport-Security", value: "max-age=63072000; includeSubDomains; preload" }]
+            : []),
         ],
       },
     ];

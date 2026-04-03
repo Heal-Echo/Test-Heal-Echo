@@ -8,6 +8,7 @@
 
 import * as storage from "@/lib/storage";
 import { getUserInfo } from "@/auth/user";
+import { USER_API } from "@/config/constants";
 
 // ── 스토리지 키 (weekly-habit page.tsx와 동일) ──
 export const SELECTED_PROGRAM_KEY = "weekly_habit_selected_program";
@@ -170,7 +171,7 @@ async function savePreferencesToAWS(
     const token = info?.idToken;
     if (!token) return;
 
-    await fetch("/api/user/preferences", {
+    await fetch(USER_API.PREFERENCES, {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
@@ -206,7 +207,7 @@ export async function hydrateFromAWS(): Promise<string | null> {
     const token = info?.idToken;
     if (!token) return null;
 
-    const res = await fetch("/api/user/preferences", {
+    const res = await fetch(USER_API.PREFERENCES, {
       headers: { Authorization: `Bearer ${token}` },
     });
     if (!res.ok) return null;

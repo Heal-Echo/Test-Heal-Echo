@@ -59,6 +59,8 @@ export const AUTH_API = {
 
 export const USER_API = {
   PROFILE: "/api/user/profile",
+  SUBSCRIPTION: "/api/user/subscription",
+  PREFERENCES: "/api/user/preferences",
 } as const;
 
 /**

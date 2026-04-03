@@ -18,7 +18,7 @@
         "validateOnSynth": false,
         "assumeRoleArn": "arn:${AWS::Partition}:iam::513213802410:role/cdk-hnb659fds-deploy-role-513213802410-ap-northeast-2",
         "cloudFormationExecutionRoleArn": "arn:${AWS::Partition}:iam::513213802410:role/cdk-hnb659fds-cfn-exec-role-513213802410-ap-northeast-2",
-        "stackTemplateAssetObjectUrl": "s3://cdk-hnb659fds-assets-513213802410-ap-northeast-2/6ee4968a2d86eff3bbea2e320c253d43f90ed8596798025874c2a56ef838c214.json",
+        "stackTemplateAssetObjectUrl": "s3://cdk-hnb659fds-assets-513213802410-ap-northeast-2/0e365fc01deeea6763d5438222fb45996efa9c30d8d047b6340e98b1eed568e8.json",
         "requiresBootstrapStackVersion": 6,
         "bootstrapStackVersionSsmParameter": "/cdk-bootstrap/hnb659fds/version",
         "additionalDependencies": [
@@ -2108,6 +2108,12 @@
           {
             "type": "aws:cdk:logicalId",
             "data": "CognitoBackupRuleAllowEventRuleHealechoStackCognitoBackupLambda2C3E1D98F12AFE35"
+          }
+        ],
+        "/HealechoStack/MonthlyBudget": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "MonthlyBudget"
           }
         ],
         "/HealechoStack/HttpApiUrl": [
