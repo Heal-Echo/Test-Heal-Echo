@@ -179,7 +179,7 @@
   .subtitleRight {
     flex: 1;
     text-align: right;
-    color: #D22424; /* 강조 색 */
+    color: var(--color-accent);
     cursor: pointer;
     background: none;
     border: none;
@@ -190,7 +190,7 @@
   }
 
   .subtitleRight:active {
-    color: #a81c1c;
+    color: var(--color-accent-hover);
   }
 
   /* 입력폼 공통 */
@@ -207,7 +207,7 @@
     width: 100%;
     height: clamp(50px, 11vw, 55px);
     padding: 0 16px;
-    border: 1px solid #D0D0D0;
+    border: 1px solid var(--color-border);
     border-radius: 16px;
     font-size: clamp(15px, 3.3vw, 16px);
     box-sizing: border-box;
@@ -233,8 +233,8 @@
     height: clamp(50px, 11vw, 55px);
     border-radius: 16px;
     border: none;
-    background: #00D6F5;
-    color: #000;
+    background: var(--color-primary);
+    color: var(--color-text);
     font-size: clamp(18px, 4.2vw, 20px);
     font-weight: 700;
     cursor: pointer;
@@ -242,7 +242,7 @@
   }
 
   .continueButton:hover {
-    background: #00c2de;
+    background: var(--color-primary-hover);
     box-shadow: 0 4px 14px rgba(0, 214, 245, 0.3);
   }
 
@@ -347,17 +347,17 @@
   }
 
   .pwRulePass {
-    color: #059669;
+    color: var(--color-success);
   }
 
   .pwRuleFail {
-    color: #D0D0D0;
+    color: #9CA3AF; /* WCAG AA 대비 충족 (4.5:1+) — 기존 #D0D0D0은 1.5:1로 미달 */
   }
 
   /* 비밀번호 확인 불일치 */
   .pwMismatch {
     font-size: 13px;
-    color: #D22424;
+    color: var(--color-accent);
     margin: -8px 0 0 4px;
     animation: pwRulesReveal 0.2s ease-out;
   }
@@ -372,7 +372,7 @@
     border: none;
     font-family: inherit;
     font-size: 14px;
-    color: #D22424;
+    color: var(--color-accent);
     cursor: pointer;
     align-self: flex-end;
     margin-top: 4px;
@@ -384,11 +384,11 @@
   }
 
   .forgotPassword:hover {
-    color: #a81c1c;
+    color: var(--color-accent-hover);
   }
 
   .forgotPassword:active {
-    color: #a81c1c;
+    color: var(--color-accent-hover);
   }
 
   /* 에러 텍스트 (레거시 — 배너로 대체) */
@@ -411,7 +411,7 @@
   .loginErrorText {
     margin: 0;
     font-size: 14px;
-    color: #DC2626;
+    color: var(--color-error);
     line-height: 1.5;
   }
 
@@ -462,11 +462,11 @@
 
   /* 에러 상태 입력 필드 — 테두리 빨간색 */
   .inputError {
-    border-color: #DC2626 !important;
+    border-color: var(--color-error) !important;
   }
 
   .inputError:focus {
-    border-color: #DC2626 !important;
+    border-color: var(--color-error) !important;
     box-shadow: 0 0 0 3px rgba(220, 38, 38, 0.15) !important;
   }
 
@@ -526,12 +526,12 @@
   }
 
   .socialLoginKakao {
-    background: #FEE500;
-    color: #000000;
+    background: var(--color-kakao);
+    color: var(--color-text);
   }
 
   .socialLoginNaver {
-    background: #03C75A;
+    background: var(--color-naver);
     color: #ffffff;
   }
 
@@ -542,7 +542,7 @@
   }
 
   .socialLoginApple {
-    background: #000000;
+    background: var(--color-apple);
     color: #ffffff;
   }
 
@@ -591,15 +591,15 @@
   }
 
   .bannerSuccess {
-    background: #ECFDF5;
-    color: #065F46;
-    border: 1px solid #A7F3D0;
+    background: var(--color-success-bg);
+    color: var(--color-success-dark);
+    border: 1px solid var(--color-success-border);
   }
 
   .bannerError {
-    background: #FEF2F2;
-    color: #991B1B;
-    border: 1px solid #FECACA;
+    background: var(--color-error-bg);
+    color: var(--color-error-dark);
+    border: 1px solid var(--color-error-border);
   }
 
   @keyframes bannerSlideIn {
@@ -740,8 +740,8 @@
 
   /* 필수 동의 미체크 시 버튼 비활성화 */
   .continueButton:disabled {
-    background: #E5E7EB;
-    color: #9CA3AF;
+    background: var(--color-disabled-bg);
+    color: var(--color-disabled-text);
     cursor: not-allowed;
     box-shadow: none;
   }
@@ -809,11 +809,11 @@
   }
 
   .socialKakao {
-    background: #FEE500;
+    background: var(--color-kakao);
   }
 
   .socialNaver {
-    background: #03C75A;
+    background: var(--color-naver);
   }
 
   .socialGoogle {
@@ -822,7 +822,7 @@
   }
 
   .socialApple {
-    background: #000000;
+    background: var(--color-apple);
   }
 
   /* -------------------------
@@ -980,7 +980,7 @@
   ========================================================= */
   @media (hover: none) {
     .continueButton:hover {
-      background: #00D6F5;
+      background: var(--color-primary);
       box-shadow: none;
     }
 
@@ -995,7 +995,7 @@
     }
 
     .forgotPassword:hover {
-      color: #D22424;
+      color: var(--color-accent);
     }
 
     .loginErrorLink:hover {
@@ -1034,3 +1034,38 @@
       animation: none;
     }
   }
+
+/* ===========================
+   Social Callback Loading Overlay
+=========================== */
+.socialCallbackOverlay {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  background: rgba(255, 255, 255, 0.85);
+  backdrop-filter: blur(4px);
+}
+
+.socialCallbackSpinner {
+  width: 40px;
+  height: 40px;
+  border: 3px solid var(--color-border-light);
+  border-top-color: var(--color-primary);
+  border-radius: 50%;
+  animation: spinCallback 0.8s linear infinite;
+}
+
+.socialCallbackText {
+  font-size: 15px;
+  color: var(--color-text);
+  font-weight: 500;
+}
+
+@keyframes spinCallback {
+  to { transform: rotate(360deg); }
+}

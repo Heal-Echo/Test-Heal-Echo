@@ -40,14 +40,40 @@ export const ADMIN_REGION =
 
 /**
  * ================================
+ *  Featured Video
+ * ================================
+ */
+export const FEATURED_VIDEO_ID =
+  process.env.NEXT_PUBLIC_FEATURED_VIDEO_ID ?? "featured";
+
+/**
+ * ================================
+ *  Public Auth API Paths (Next.js internal routes)
+ * ================================
+ */
+export const AUTH_API = {
+  EXCHANGE: "/api/public/auth/exchange",
+  STATE: "/api/public/auth/state",
+  CHECK_LOGIN_METHOD: "/api/public/auth/check-login-method",
+} as const;
+
+export const USER_API = {
+  PROFILE: "/api/user/profile",
+} as const;
+
+/**
+ * ================================
  * LocalStorage key prefix
  * ================================
  */
 export const SESSION_STORAGE_KEY = "video-admin-session";
 
-console.log(
-  "[HealEcho Admin Auth Config]",
-  "ADMIN_POOL:", ADMIN_USER_POOL_ID,
-  "ADMIN_CLIENT:", ADMIN_CLIENT_ID,
-  "REGION:", ADMIN_REGION
-);
+// Debug logging — only in development
+if (process.env.NODE_ENV === "development") {
+  console.log(
+    "[HealEcho Admin Auth Config]",
+    "ADMIN_POOL:", ADMIN_USER_POOL_ID,
+    "ADMIN_CLIENT:", ADMIN_CLIENT_ID,
+    "REGION:", ADMIN_REGION
+  );
+}

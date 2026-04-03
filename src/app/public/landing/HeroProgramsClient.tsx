@@ -5,6 +5,7 @@ import dynamic from "next/dynamic";
 import Image from "next/image";
 import styles from "./landing.module.css";
 import { getProgramName } from "@/config/programs";
+import { ROUTES } from "@/config/routes";
 
 // Coming Soon 모달: 사용자가 클릭할 때만 필요하므로 지연 로딩
 const ComingSoonModal = dynamic(
@@ -64,7 +65,7 @@ export default function HeroProgramsClient() {
               </p>
 
               <div className={styles.heroCta}>
-                <a className={styles.btnPrimary} href="/public/login">
+                <a className={styles.btnPrimary} href={ROUTES.LOGIN}>
                   Heal Echo 7일 무료 체험
                 </a>
                 <a
@@ -110,7 +111,7 @@ export default function HeroProgramsClient() {
 
           <div className={styles.programList}>
             {/* 1. 기적의 오토 밸런스 */}
-            <a href="/public/miraclereset" className={styles.programCardLink}>
+            <a href={ROUTES.MIRACLE_RESET} className={styles.programCardLink}>
               <div className={`${styles.programCard} ${highlightPrograms ? styles.programHighlight : ""}`}>
                 <div className={styles.programImage}>
                   <Image
@@ -162,7 +163,7 @@ export default function HeroProgramsClient() {
           </div>
 
           <div className={styles.programCta}>
-            <a href="/public/login" className={styles.btnPink}>
+            <a href={ROUTES.LOGIN} className={styles.btnPink}>
               Heal Echo 7일 무료 체험
             </a>
           </div>
