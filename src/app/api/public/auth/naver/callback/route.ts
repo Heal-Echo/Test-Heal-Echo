@@ -15,6 +15,7 @@
 // - 한 네이버 계정 = Cognito 사용자 1명
 
 import { NextRequest, NextResponse } from "next/server";
+import crypto from "crypto";
 import { exchangeNaverCode, getNaverUserProfile } from "@/auth/naver";
 import { createAuthCode } from "@/app/api/public/auth/exchange/store";
 import { verifyOAuthState } from "@/app/api/public/auth/state/store";
@@ -40,8 +41,17 @@ const CLIENT_ID =
 
 const cognitoClient = new CognitoIdentityProviderClient({ region: REGION });
 
-// ─── 네이버 사용자용 Cognito 비밀번호 (naverId 기반 결정적 생성) ───
+// ─── 네이버 사용자용 Cognito 비밀번호 ───
+const SOCIAL_SALT = process.env.SOCIAL_PASSWORD_SALT || "";
+
 function naverPassword(naverId: string): string {
+  if (!SOCIAL_SALT) return naverPasswordLegacy(naverId);
+  const hash = crypto.createHmac("sha256", SOCIAL_SALT)
+    .update(`naver:${naverId}`).digest("hex").substring(0, 20);
+  return `Nv!${hash}_HE`;
+}
+
+function naverPasswordLegacy(naverId: string): string {
   return `Nv!${naverId}_HealEcho2025`;
 }
 
@@ -126,19 +136,47 @@ async function updateCognitoUser(params: {
 async function getCognitoTokens(email: string, naverId: string) {
   const password = naverPassword(naverId);
 
-  const result = await cognitoClient.send(
-    new AdminInitiateAuthCommand({
-      UserPoolId: USER_POOL_ID,
-      ClientId: CLIENT_ID,
-      AuthFlow: "ADMIN_USER_PASSWORD_AUTH",
-      AuthParameters: {
-        USERNAME: email,
-        PASSWORD: password,
-      },
-    })
-  );
-
-  return result.AuthenticationResult;
+  try {
+    const result = await cognitoClient.send(
+      new AdminInitiateAuthCommand({
+        UserPoolId: USER_POOL_ID,
+        ClientId: CLIENT_ID,
+        AuthFlow: "ADMIN_USER_PASSWORD_AUTH",
+        AuthParameters: {
+          USERNAME: email,
+          PASSWORD: password,
+        },
+      })
+    );
+    return result.AuthenticationResult;
+  } catch (err: any) {
+    if (SOCIAL_SALT && err.name === "NotAuthorizedException") {
+      const legacyPw = naverPasswordLegacy(naverId);
+      const result = await cognitoClient.send(
+        new AdminInitiateAuthCommand({
+          UserPoolId: USER_POOL_ID,
+          ClientId: CLIENT_ID,
+          AuthFlow: "ADMIN_USER_PASSWORD_AUTH",
+          AuthParameters: {
+            USERNAME: email,
+            PASSWORD: legacyPw,
+          },
+        })
+      );
+      if (result.AuthenticationResult?.IdToken) {
+        await cognitoClient.send(
+          new AdminSetUserPasswordCommand({
+            UserPoolId: USER_POOL_ID,
+            Username: email,
+            Password: password,
+            Permanent: true,
+          })
+        );
+      }
+      return result.AuthenticationResult;
+    }
+    throw err;
+  }
 }
 
 // =======================================================

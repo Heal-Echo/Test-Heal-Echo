@@ -15,8 +15,10 @@
 // - 한 카카오 계정 = Cognito 사용자 1명
 
 import { NextRequest, NextResponse } from "next/server";
+import crypto from "crypto";
 import { exchangeKakaoCode, getKakaoUserProfile } from "@/auth/kakao";
 import { createAuthCode } from "@/app/api/public/auth/exchange/store";
+import { verifyOAuthState } from "@/app/api/public/auth/state/store";
 import {
   CognitoIdentityProviderClient,
   AdminGetUserCommand,
@@ -39,8 +41,19 @@ const CLIENT_ID =
 
 const cognitoClient = new CognitoIdentityProviderClient({ region: REGION });
 
-// ─── 카카오 사용자용 Cognito 비밀번호 (kakaoId 기반 결정적 생성) ───
+// ─── 카카오 사용자용 Cognito 비밀번호 ───
+// SOCIAL_PASSWORD_SALT 설정 시 HMAC 기반 보안 비밀번호 생성
+// 미설정 시 레거시 방식 유지 (하위 호환)
+const SOCIAL_SALT = process.env.SOCIAL_PASSWORD_SALT || "";
+
 function kakaoPassword(kakaoId: string): string {
+  if (!SOCIAL_SALT) return kakaoPasswordLegacy(kakaoId);
+  const hash = crypto.createHmac("sha256", SOCIAL_SALT)
+    .update(`kakao:${kakaoId}`).digest("hex").substring(0, 20);
+  return `Kk!${hash}_HE`;
+}
+
+function kakaoPasswordLegacy(kakaoId: string): string {
   return `Kk!${kakaoId}_HealEcho2025`;
 }
 
@@ -122,22 +135,52 @@ async function updateCognitoUser(params: {
 }
 
 // ─── Cognito 토큰 발급 (AdminInitiateAuth) ───
+// SALT 적용 전 기존 사용자: 레거시 비밀번호 fallback + 자동 마이그레이션
 async function getCognitoTokens(email: string, kakaoId: string) {
   const password = kakaoPassword(kakaoId);
 
-  const result = await cognitoClient.send(
-    new AdminInitiateAuthCommand({
-      UserPoolId: USER_POOL_ID,
-      ClientId: CLIENT_ID,
-      AuthFlow: "ADMIN_USER_PASSWORD_AUTH",
-      AuthParameters: {
-        USERNAME: email,
-        PASSWORD: password,
-      },
-    })
-  );
-
-  return result.AuthenticationResult;
+  try {
+    const result = await cognitoClient.send(
+      new AdminInitiateAuthCommand({
+        UserPoolId: USER_POOL_ID,
+        ClientId: CLIENT_ID,
+        AuthFlow: "ADMIN_USER_PASSWORD_AUTH",
+        AuthParameters: {
+          USERNAME: email,
+          PASSWORD: password,
+        },
+      })
+    );
+    return result.AuthenticationResult;
+  } catch (err: any) {
+    // SALT 적용 전 가입 사용자: 레거시 비밀번호로 재시도 + 마이그레이션
+    if (SOCIAL_SALT && err.name === "NotAuthorizedException") {
+      const legacyPw = kakaoPasswordLegacy(kakaoId);
+      const result = await cognitoClient.send(
+        new AdminInitiateAuthCommand({
+          UserPoolId: USER_POOL_ID,
+          ClientId: CLIENT_ID,
+          AuthFlow: "ADMIN_USER_PASSWORD_AUTH",
+          AuthParameters: {
+            USERNAME: email,
+            PASSWORD: legacyPw,
+          },
+        })
+      );
+      if (result.AuthenticationResult?.IdToken) {
+        await cognitoClient.send(
+          new AdminSetUserPasswordCommand({
+            UserPoolId: USER_POOL_ID,
+            Username: email,
+            Password: password,
+            Permanent: true,
+          })
+        );
+      }
+      return result.AuthenticationResult;
+    }
+    throw err;
+  }
 }
 
 // =======================================================
@@ -146,6 +189,7 @@ async function getCognitoTokens(email: string, kakaoId: string) {
 export async function GET(request: NextRequest) {
   const { searchParams } = new URL(request.url);
   const code = searchParams.get("code");
+  const state = searchParams.get("state");
   const error = searchParams.get("error");
 
   // 실제 요청의 Host 헤더로 origin 구성 (dev server localhost 문제 대응)
@@ -167,6 +211,16 @@ export async function GET(request: NextRequest) {
     return NextResponse.redirect(
       new URL("/public/login?kakao_error=no_code", origin)
     );
+  }
+
+  // CSRF 방지: 서버에 저장된 state와 대조 검증
+  if (state) {
+    const stateProvider = verifyOAuthState(state);
+    if (stateProvider !== "kakao") {
+      return NextResponse.redirect(
+        new URL("/public/login?kakao_error=invalid_state", origin)
+      );
+    }
   }
 
   try {

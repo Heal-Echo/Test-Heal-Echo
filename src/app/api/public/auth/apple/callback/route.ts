@@ -104,8 +104,17 @@ function decodeAppleIdToken(idToken: string): {
   return payload;
 }
 
-// ─── 애플 사용자용 Cognito 비밀번호 (Apple sub 기반 결정적 생성) ───
+// ─── 애플 사용자용 Cognito 비밀번호 ───
+const SOCIAL_SALT = process.env.SOCIAL_PASSWORD_SALT || "";
+
 function applePassword(appleSub: string): string {
+  if (!SOCIAL_SALT) return applePasswordLegacy(appleSub);
+  const hash = crypto.createHmac("sha256", SOCIAL_SALT)
+    .update(`apple:${appleSub}`).digest("hex").substring(0, 20);
+  return `Ap!${hash}_HE`;
+}
+
+function applePasswordLegacy(appleSub: string): string {
   return `Ap!${appleSub.substring(0, 20)}_HealEcho2025`;
 }
 
@@ -184,19 +193,47 @@ async function updateCognitoUser(params: {
 async function getCognitoTokens(email: string, appleSub: string) {
   const password = applePassword(appleSub);
 
-  const result = await cognitoClient.send(
-    new AdminInitiateAuthCommand({
-      UserPoolId: USER_POOL_ID,
-      ClientId: CLIENT_ID,
-      AuthFlow: "ADMIN_USER_PASSWORD_AUTH",
-      AuthParameters: {
-        USERNAME: email,
-        PASSWORD: password,
-      },
-    })
-  );
-
-  return result.AuthenticationResult;
+  try {
+    const result = await cognitoClient.send(
+      new AdminInitiateAuthCommand({
+        UserPoolId: USER_POOL_ID,
+        ClientId: CLIENT_ID,
+        AuthFlow: "ADMIN_USER_PASSWORD_AUTH",
+        AuthParameters: {
+          USERNAME: email,
+          PASSWORD: password,
+        },
+      })
+    );
+    return result.AuthenticationResult;
+  } catch (err: any) {
+    if (SOCIAL_SALT && err.name === "NotAuthorizedException") {
+      const legacyPw = applePasswordLegacy(appleSub);
+      const result = await cognitoClient.send(
+        new AdminInitiateAuthCommand({
+          UserPoolId: USER_POOL_ID,
+          ClientId: CLIENT_ID,
+          AuthFlow: "ADMIN_USER_PASSWORD_AUTH",
+          AuthParameters: {
+            USERNAME: email,
+            PASSWORD: legacyPw,
+          },
+        })
+      );
+      if (result.AuthenticationResult?.IdToken) {
+        await cognitoClient.send(
+          new AdminSetUserPasswordCommand({
+            UserPoolId: USER_POOL_ID,
+            Username: email,
+            Password: password,
+            Permanent: true,
+          })
+        );
+      }
+      return result.AuthenticationResult;
+    }
+    throw err;
+  }
 }
 
 // ─── ngrok 등 프록시 환경에서 올바른 기본 URL 추출 ───

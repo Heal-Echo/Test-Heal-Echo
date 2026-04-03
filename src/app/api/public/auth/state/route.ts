@@ -28,7 +28,7 @@ export async function POST(request: NextRequest) {
     const body = await request.json();
     const { provider } = body;
 
-    if (!provider || !["naver", "google", "apple"].includes(provider)) {
+    if (!provider || !["kakao", "naver", "google", "apple"].includes(provider)) {
       return NextResponse.json(
         { error: "유효하지 않은 provider" },
         { status: 400 }

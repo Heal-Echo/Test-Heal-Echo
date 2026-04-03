@@ -54,7 +54,7 @@ function isBrowser() {
 // =======================================================
 // 1) 카카오 로그인 URL 생성 (직접 카카오 OAuth)
 // =======================================================
-export function getKakaoLoginUrl(): string {
+export function getKakaoLoginUrl(state?: string): string {
   const params = new URLSearchParams({
     client_id: KAKAO_REST_API_KEY,
     redirect_uri: getKakaoRedirectUri(),
@@ -62,6 +62,7 @@ export function getKakaoLoginUrl(): string {
     scope: "account_email",   // 카카오계정 이메일 수집 (비즈니스 인증 필요)
     prompt: "login",          // 매번 카카오 로그인 확인 화면 표시
   });
+  if (state) params.set("state", state);
 
   return `https://kauth.kakao.com/oauth/authorize?${params.toString()}`;
 }

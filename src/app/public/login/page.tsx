@@ -89,7 +89,10 @@ function getPostLoginRedirect(): string {
   const saved = getSession("redirect_after_login");
   if (saved) {
     removeSession("redirect_after_login");
-    return saved;
+    // Open Redirect 방지: 내부 경로만 허용
+    if (saved.startsWith("/") && !saved.startsWith("//")) {
+      return saved;
+    }
   }
 
   // 프로필 설정 여부는 /home의 checkProfileSetup()이 판단
@@ -414,13 +417,18 @@ function LoginPageInner() {
     }));
   }
 
-  function handleKakaoLogin() {
+  async function handleKakaoLogin() {
     if (!termsConsent) {
       showConsentToast();
       return;
     }
-    saveSocialConsent();
-    window.location.href = getKakaoLoginUrl();
+    try {
+      saveSocialConsent();
+      const state = await fetchOAuthState("kakao");
+      window.location.href = getKakaoLoginUrl(state);
+    } catch {
+      showBanner("카카오 로그인 준비 중 오류가 발생했습니다.", "error");
+    }
   }
 
   // -----------------------------
