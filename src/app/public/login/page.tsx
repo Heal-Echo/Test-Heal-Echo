@@ -19,6 +19,21 @@ import {
   saveCognitoKakaoSession,
 } from "@/auth/kakao";
 
+import {
+  getNaverLoginUrl,
+  saveCognitoNaverSession,
+} from "@/auth/naver";
+
+import {
+  getGoogleLoginUrl,
+  saveCognitoGoogleSession,
+} from "@/auth/google";
+
+import {
+  getAppleLoginUrl,
+  saveCognitoAppleSession,
+} from "@/auth/apple";
+
 import { getSession, removeSession, getRaw, setRaw, removeRaw } from "@/lib/storage";
 
 /** 로그인 성공 후 lastLoginAt 기록 (fire-and-forget) */
@@ -101,21 +116,6 @@ function getPostLoginRedirect(): string {
   // 로그인 페이지에서는 프로필 체크를 하지 않음
   return "/home";
 }
-
-import {
-  getNaverLoginUrl,
-  saveCognitoNaverSession,
-} from "@/auth/naver";
-
-import {
-  getGoogleLoginUrl,
-  saveCognitoGoogleSession,
-} from "@/auth/google";
-
-import {
-  getAppleLoginUrl,
-  saveCognitoAppleSession,
-} from "@/auth/apple";
 
 type View =
   | "login"
@@ -296,7 +296,6 @@ function LoginPageInner() {
 
   // 로딩/에러 상태
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState("");
   const [loginError, setLoginError] = useState("");
   const [forgotSocialInfo, setForgotSocialInfo] = useState<{
     message: string;
@@ -511,7 +510,7 @@ function LoginPageInner() {
 
   const switchView = (v: View) => {
     // 에러/배너 초기화
-    setError("");
+
     setBanner(null);
     setLoading(false);
     setLoginError("");
@@ -543,15 +542,22 @@ function LoginPageInner() {
   };
 
   // ============================================================
-  // 비밀번호 유효성 검사 (회원가입용)
+  // 비밀번호 유효성 검사 (회원가입 + 비밀번호 재설정 공용)
   // ============================================================
-  const pwRules = [
-    { label: "8자 이상", pass: signupPassword.length >= 8 },
-    { label: "숫자 포함", pass: /\d/.test(signupPassword) },
-    { label: "영문 대문자 포함", pass: /[A-Z]/.test(signupPassword) },
-    { label: "특수문자 포함", pass: /[^A-Za-z0-9]/.test(signupPassword) },
-  ];
+  function getPwRules(pw: string) {
+    return [
+      { label: "8자 이상", pass: pw.length >= 8 },
+      { label: "숫자 포함", pass: /\d/.test(pw) },
+      { label: "영문 대문자 포함", pass: /[A-Z]/.test(pw) },
+      { label: "특수문자 포함", pass: /[^A-Za-z0-9]/.test(pw) },
+    ];
+  }
+
+  const pwRules = getPwRules(signupPassword);
   const allPwRulesPassed = pwRules.every((r) => r.pass);
+
+  const resetPwRules = getPwRules(newPassword);
+  const allResetPwRulesPassed = resetPwRules.every((r) => r.pass);
 
   // 비밀번호 규칙 모두 충족 시 0.5초 후 숨김
   const [pwRulesHidden, setPwRulesHidden] = useState(false);
@@ -593,7 +599,7 @@ function LoginPageInner() {
       return;
     }
     setLoading(true);
-    setError("");
+
     setBanner(null);
 
     try {
@@ -627,7 +633,7 @@ function LoginPageInner() {
   async function handleConfirmSignup(e: React.FormEvent) {
     e.preventDefault();
     setLoading(true);
-    setError("");
+
     setBanner(null);
 
     try {
@@ -673,7 +679,7 @@ function LoginPageInner() {
   async function handleForgotStep1(e: React.FormEvent) {
     e.preventDefault();
     setLoading(true);
-    setError("");
+
     setBanner(null);
     setForgotSocialInfo(null);
 
@@ -746,7 +752,7 @@ function LoginPageInner() {
     }
 
     setLoading(true);
-    setError("");
+
     setBanner(null);
 
     try {
@@ -881,33 +887,36 @@ function LoginPageInner() {
                     <div className={styles.loginErrorBlock}>
                       <p className={styles.loginErrorText}>{loginError}</p>
                       <div className={styles.loginErrorLinks}>
-                        <span
+                        <button
+                          type="button"
                           className={styles.loginErrorLink}
                           onClick={() => switchView("forgotStep1")}
                         >
                           비밀번호를 잊으셨나요?
-                        </span>
+                        </button>
                         <span className={styles.loginErrorDot}>·</span>
-                        <span
+                        <button
+                          type="button"
                           className={styles.loginErrorLink}
                           onClick={() => switchView("signup")}
                         >
                           계정이 없으신가요? 회원가입
-                        </span>
+                        </button>
                       </div>
                     </div>
                   )}
 
                   {!loginError && (
-                    <span
+                    <button
+                      type="button"
                       className={styles.forgotPassword}
                       onClick={() => switchView("forgotStep1")}
                     >
                       비밀번호 찾기
-                    </span>
+                    </button>
                   )}
 
-                  <button type="submit" className={styles.continueButton}>
+                  <button type="submit" className={styles.continueButton} disabled={loading}>
                     {loading ? "로그인 중..." : "로그인"}
                   </button>
                 </form>
@@ -1333,6 +1342,23 @@ function LoginPageInner() {
                     </button>
                   </div>
 
+                  {/* 비밀번호 유효성 실시간 체크 (재설정용) */}
+                  {newPassword.length > 0 && !allResetPwRulesPassed && (
+                    <div className={styles.pwRules}>
+                      {resetPwRules.map((rule) => (
+                        <div
+                          key={rule.label}
+                          className={`${styles.pwRule} ${
+                            rule.pass ? styles.pwRulePass : styles.pwRuleFail
+                          }`}
+                        >
+                          {rule.pass ? <CheckCircleIcon /> : <CircleIcon />}
+                          <span>{rule.label}</span>
+                        </div>
+                      ))}
+                    </div>
+                  )}
+
                   <div className={styles.passwordWrapper}>
                     <input
                       type={showConfirmPw ? "text" : "password"}
@@ -1365,7 +1391,10 @@ function LoginPageInner() {
                   <button
                     type="submit"
                     className={styles.continueButton}
-                    disabled={confirmPassword.length > 0 && newPassword !== confirmPassword}
+                    disabled={
+                      !allResetPwRulesPassed ||
+                      (confirmPassword.length > 0 && newPassword !== confirmPassword)
+                    }
                   >
                     {loading ? "변경 중..." : "비밀번호 재설정"}
                   </button>

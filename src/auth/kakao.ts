@@ -27,15 +27,6 @@ function getKakaoRedirectUri(): string {
   return KAKAO_REDIRECT_URI_FALLBACK;
 }
 
-// Cognito OAuth 설정
-const COGNITO_DOMAIN =
-  process.env.NEXT_PUBLIC_COGNITO_DOMAIN || "";
-const COGNITO_CLIENT_ID =
-  process.env.NEXT_PUBLIC_COGNITO_CLIENT_ID || "";
-const COGNITO_CALLBACK_URI =
-  process.env.NEXT_PUBLIC_COGNITO_CALLBACK_URI ||
-  "http://localhost:3000/api/public/auth/cognito/callback";
-
 // localStorage keys (constants.ts에서 중앙 관리)
 const KEY_KAKAO_ID = AUTH_KEYS.KAKAO_ID;
 const KEY_KAKAO_NICKNAME = AUTH_KEYS.KAKAO_NICKNAME;

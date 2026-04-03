@@ -368,6 +368,9 @@
 
   /* 비밀번호 찾기 링크 */
   .forgotPassword {
+    background: none;
+    border: none;
+    font-family: inherit;
     font-size: 14px;
     color: #D22424;
     cursor: pointer;
@@ -421,6 +424,9 @@
   }
 
   .loginErrorLink {
+    background: none;
+    border: none;
+    font-family: inherit;
     font-size: 13px;
     color: #6B7280;
     cursor: pointer;
