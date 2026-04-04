@@ -1,5 +1,5 @@
 import styles from "../login.module.css";
-import TermsConsentCheckbox from "./TermsConsentCheckbox";
+import TermsConsentCheckbox from "./terms-consent-checkbox";
 import {
   EyeIcon,
   EyeOffIcon,
@@ -30,23 +30,23 @@ interface SignupViewProps {
   setSignupPassword: (v: string) => void;
   signupPwConfirm: string;
   setSignupPwConfirm: (v: string) => void;
-  signupPwConfirmTouched: boolean;
-  setSignupPwConfirmTouched: (v: boolean) => void;
-  showSignupPw: boolean;
-  setShowSignupPw: React.Dispatch<React.SetStateAction<boolean>>;
-  showSignupPwConfirm: boolean;
-  setShowSignupPwConfirm: React.Dispatch<React.SetStateAction<boolean>>;
-  signupPwFocused: boolean;
-  setSignupPwFocused: (v: boolean) => void;
-  loading: boolean;
+  isSignupPwConfirmTouched: boolean;
+  setIsSignupPwConfirmTouched: (v: boolean) => void;
+  isSignupPwShown: boolean;
+  setIsSignupPwShown: React.Dispatch<React.SetStateAction<boolean>>;
+  isSignupPwConfirmShown: boolean;
+  setIsSignupPwConfirmShown: React.Dispatch<React.SetStateAction<boolean>>;
+  isSignupPwFocused: boolean;
+  setIsSignupPwFocused: (v: boolean) => void;
+  isLoading: boolean;
   // password rules
   pwRules: PwRule[];
   allPwRulesPassed: boolean;
-  pwRulesHidden: boolean;
-  pwRulesFading: boolean;
+  isPwRulesHidden: boolean;
+  isPwRulesFading: boolean;
   // terms
-  termsConsent: boolean;
-  setTermsConsent: (v: boolean) => void;
+  hasTermsConsent: boolean;
+  setHasTermsConsent: (v: boolean) => void;
   consentToastKey: number;
   // handlers
   handleSignup: (e: React.FormEvent) => void;
@@ -70,21 +70,21 @@ export default function SignupView({
   setSignupPassword,
   signupPwConfirm,
   setSignupPwConfirm,
-  signupPwConfirmTouched,
-  setSignupPwConfirmTouched,
-  showSignupPw,
-  setShowSignupPw,
-  showSignupPwConfirm,
-  setShowSignupPwConfirm,
-  signupPwFocused,
-  setSignupPwFocused,
-  loading,
+  isSignupPwConfirmTouched,
+  setIsSignupPwConfirmTouched,
+  isSignupPwShown,
+  setIsSignupPwShown,
+  isSignupPwConfirmShown,
+  setIsSignupPwConfirmShown,
+  isSignupPwFocused,
+  setIsSignupPwFocused,
+  isLoading,
   pwRules,
   allPwRulesPassed,
-  pwRulesHidden,
-  pwRulesFading,
-  termsConsent,
-  setTermsConsent,
+  isPwRulesHidden,
+  isPwRulesFading,
+  hasTermsConsent,
+  setHasTermsConsent,
   consentToastKey,
   handleSignup,
   handleKakaoLogin,
@@ -138,30 +138,30 @@ export default function SignupView({
 
         <div className={styles.passwordWrapper}>
           <input
-            type={showSignupPw ? "text" : "password"}
+            type={isSignupPwShown ? "text" : "password"}
             placeholder="비밀번호 (8자 이상)"
             required
             className={styles.emailInput}
             value={signupPassword}
             onChange={(e) => setSignupPassword(e.target.value)}
-            onFocus={() => setSignupPwFocused(true)}
-            onBlur={() => setSignupPwFocused(false)}
+            onFocus={() => setIsSignupPwFocused(true)}
+            onBlur={() => setIsSignupPwFocused(false)}
             aria-describedby="signup-pw-rules"
           />
           <button
             type="button"
             className={styles.passwordToggle}
-            onClick={() => setShowSignupPw((v) => !v)}
+            onClick={() => setIsSignupPwShown((v) => !v)}
             tabIndex={-1}
-            aria-label={showSignupPw ? "비밀번호 숨기기" : "비밀번호 보기"}
+            aria-label={isSignupPwShown ? "���밀번호 숨기���" : "비밀번호 보기"}
           >
-            {showSignupPw ? <EyeOffIcon /> : <EyeIcon />}
+            {isSignupPwShown ? <EyeOffIcon /> : <EyeIcon />}
           </button>
         </div>
 
         {/* 비밀번호 유효성 실시간 체크 */}
-        {(signupPwFocused || signupPassword.length > 0) && !pwRulesHidden && (
-          <div id="signup-pw-rules" className={`${styles.pwRules} ${pwRulesFading ? styles.pwRulesFadeOut : ""}`}>
+        {(isSignupPwFocused || signupPassword.length > 0) && !isPwRulesHidden && (
+          <div id="signup-pw-rules" className={`${styles.pwRules} ${isPwRulesFading ? styles.pwRulesFadeOut : ""}`}>
             {pwRules.map((rule) => (
               <div
                 key={rule.label}
@@ -179,47 +179,47 @@ export default function SignupView({
         {/* 비밀번호 확인 */}
         <div className={styles.passwordWrapper}>
           <input
-            type={showSignupPwConfirm ? "text" : "password"}
-            placeholder="비밀번호 확인"
+            type={isSignupPwConfirmShown ? "text" : "password"}
+            placeholder="비���번호 확인"
             required
             className={`${styles.emailInput} ${
-              signupPwConfirmTouched && signupPwConfirm.length > 0 && signupPassword !== signupPwConfirm
+              isSignupPwConfirmTouched && signupPwConfirm.length > 0 && signupPassword !== signupPwConfirm
                 ? styles.inputMismatch
                 : ""
             }`}
             value={signupPwConfirm}
             onChange={(e) => {
               setSignupPwConfirm(e.target.value);
-              if (!signupPwConfirmTouched) setSignupPwConfirmTouched(true);
+              if (!isSignupPwConfirmTouched) setIsSignupPwConfirmTouched(true);
             }}
           />
           <button
             type="button"
             className={styles.passwordToggle}
-            onClick={() => setShowSignupPwConfirm((v) => !v)}
+            onClick={() => setIsSignupPwConfirmShown((v) => !v)}
             tabIndex={-1}
-            aria-label={showSignupPwConfirm ? "비밀번호 숨기기" : "비밀번호 보기"}
+            aria-label={isSignupPwConfirmShown ? "비밀���호 숨기기" : "비밀번�� 보기"}
           >
-            {showSignupPwConfirm ? <EyeOffIcon /> : <EyeIcon />}
+            {isSignupPwConfirmShown ? <EyeOffIcon /> : <EyeIcon />}
           </button>
         </div>
-        {signupPwConfirmTouched && signupPwConfirm.length > 0 && signupPassword !== signupPwConfirm && (
+        {isSignupPwConfirmTouched && signupPwConfirm.length > 0 && signupPassword !== signupPwConfirm && (
           <p className={styles.pwMismatch}>비밀번호가 일치하지 않습니다</p>
         )}
 
         {/* 약관 동의 체크박스 */}
         <TermsConsentCheckbox
-          checked={termsConsent}
-          onChange={setTermsConsent}
+          checked={hasTermsConsent}
+          onChange={setHasTermsConsent}
           consentToastKey={consentToastKey}
         />
 
         <button
           type="submit"
           className={styles.continueButton}
-          disabled={loading || !allPwRulesPassed}
+          disabled={isLoading || !allPwRulesPassed}
         >
-          {loading ? "처리 중..." : "회원가입"}
+          {isLoading ? "처리 중..." : "회원가입"}
         </button>
       </form>
 
@@ -231,10 +231,10 @@ export default function SignupView({
       </div>
 
       <div className={styles.socialIcons}>
-        <button type="button" className={`${styles.socialIconBtn} ${styles.socialKakao}`} aria-label="카카오 회원가입" onClick={handleKakaoLogin}>
+        <button type="button" className={`${styles.socialIconBtn} ${styles.socialKakao}`} aria-label="카카오 회원가��" onClick={handleKakaoLogin}>
           <KakaoSymbol />
         </button>
-        <button type="button" className={`${styles.socialIconBtn} ${styles.socialNaver}`} aria-label="네이버 회원가입" onClick={handleNaverLogin}>
+        <button type="button" className={`${styles.socialIconBtn} ${styles.socialNaver}`} aria-label="��이버 회원가입" onClick={handleNaverLogin}>
           <NaverSymbol />
         </button>
         <button type="button" className={`${styles.socialIconBtn} ${styles.socialGoogle}`} aria-label="구글 회원가입" onClick={handleGoogleLogin}>

@@ -20,11 +20,11 @@ interface ForgotStep2ViewProps {
   setNewPassword: (v: string) => void;
   confirmPassword: string;
   setConfirmPassword: (v: string) => void;
-  showResetPw: boolean;
-  setShowResetPw: React.Dispatch<React.SetStateAction<boolean>>;
-  showConfirmPw: boolean;
-  setShowConfirmPw: React.Dispatch<React.SetStateAction<boolean>>;
-  loading: boolean;
+  isResetPwShown: boolean;
+  setIsResetPwShown: React.Dispatch<React.SetStateAction<boolean>>;
+  isConfirmPwShown: boolean;
+  setIsConfirmPwShown: React.Dispatch<React.SetStateAction<boolean>>;
+  isLoading: boolean;
   resetPwRules: PwRule[];
   allResetPwRulesPassed: boolean;
   handleForgotStep2: (e: React.FormEvent) => void;
@@ -40,11 +40,11 @@ export default function ForgotStep2View({
   setNewPassword,
   confirmPassword,
   setConfirmPassword,
-  showResetPw,
-  setShowResetPw,
-  showConfirmPw,
-  setShowConfirmPw,
-  loading,
+  isResetPwShown,
+  setIsResetPwShown,
+  isConfirmPwShown,
+  setIsConfirmPwShown,
+  isLoading,
   resetPwRules,
   allResetPwRulesPassed,
   handleForgotStep2,
@@ -79,7 +79,7 @@ export default function ForgotStep2View({
 
         <div className={styles.passwordWrapper}>
           <input
-            type={showResetPw ? "text" : "password"}
+            type={isResetPwShown ? "text" : "password"}
             placeholder="새 비밀번호 (8자 이상)"
             required
             className={styles.emailInput}
@@ -89,11 +89,11 @@ export default function ForgotStep2View({
           <button
             type="button"
             className={styles.passwordToggle}
-            onClick={() => setShowResetPw((v) => !v)}
+            onClick={() => setIsResetPwShown((v) => !v)}
             tabIndex={-1}
-            aria-label={showResetPw ? "비밀번호 숨기기" : "비밀번호 보기"}
+            aria-label={isResetPwShown ? "비밀번호 숨기기" : "비밀번호 보기"}
           >
-            {showResetPw ? <EyeOffIcon /> : <EyeIcon />}
+            {isResetPwShown ? <EyeOffIcon /> : <EyeIcon />}
           </button>
         </div>
 
@@ -116,7 +116,7 @@ export default function ForgotStep2View({
 
         <div className={styles.passwordWrapper}>
           <input
-            type={showConfirmPw ? "text" : "password"}
+            type={isConfirmPwShown ? "text" : "password"}
             placeholder="새 비밀번호 확인"
             required
             className={`${styles.emailInput} ${
@@ -130,11 +130,11 @@ export default function ForgotStep2View({
           <button
             type="button"
             className={styles.passwordToggle}
-            onClick={() => setShowConfirmPw((v) => !v)}
+            onClick={() => setIsConfirmPwShown((v) => !v)}
             tabIndex={-1}
-            aria-label={showConfirmPw ? "비밀번호 숨기기" : "비밀번호 보기"}
+            aria-label={isConfirmPwShown ? "비밀번호 숨기기" : "비밀번호 보기"}
           >
-            {showConfirmPw ? <EyeOffIcon /> : <EyeIcon />}
+            {isConfirmPwShown ? <EyeOffIcon /> : <EyeIcon />}
           </button>
         </div>
 
@@ -147,11 +147,12 @@ export default function ForgotStep2View({
           type="submit"
           className={styles.continueButton}
           disabled={
+            isLoading ||
             !allResetPwRulesPassed ||
             (confirmPassword.length > 0 && newPassword !== confirmPassword)
           }
         >
-          {loading ? "변경 중..." : "비밀번호 재설정"}
+          {isLoading ? "변경 중..." : "비밀번호 재설정"}
         </button>
       </form>
     </div>

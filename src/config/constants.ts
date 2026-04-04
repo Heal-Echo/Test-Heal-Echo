@@ -40,6 +40,15 @@ export const ADMIN_REGION =
 
 /**
  * ================================
+ *  Server-only: Intro Video Upstream
+ *  (서버 컴포넌트에서만 사용 — 클라이언트에 노출되지 않음)
+ * ================================
+ */
+export const PUBLIC_INTRO_VIDEOS_URL =
+  process.env.PUBLIC_INTRO_VIDEOS_URL ?? "";
+
+/**
+ * ================================
  *  Featured Video
  * ================================
  */

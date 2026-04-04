@@ -20,18 +20,18 @@ export default function HeroProgramsClient() {
   }, []);
 
   // ▶ 프로그램 카드 하이라이트 상태
-  const [highlightPrograms, setHighlightPrograms] = useState(false);
+  const [isHighlighted, setIsHighlighted] = useState(false);
 
   // ▶ Coming Soon 모달 상태
-  const [showComingSoon, setShowComingSoon] = useState(false);
+  const [isComingSoonOpen, setIsComingSoonOpen] = useState(false);
 
   // ▶ 웰니스 솔루션 보기 → 스크롤 + 하이라이트
   const handleScrollToPrograms = (e: React.MouseEvent<HTMLAnchorElement>) => {
     e.preventDefault();
 
-    setHighlightPrograms(true);
+    setIsHighlighted(true);
     setTimeout(() => {
-      setHighlightPrograms(false);
+      setIsHighlighted(false);
     }, 2000);
 
     if (typeof document !== "undefined") {
@@ -112,7 +112,7 @@ export default function HeroProgramsClient() {
           <div className={styles.programList}>
             {/* 1. 기적의 오토 밸런스 */}
             <a href={ROUTES.MIRACLE_RESET} className={styles.programCardLink}>
-              <div className={`${styles.programCard} ${highlightPrograms ? styles.programHighlight : ""}`}>
+              <div className={`${styles.programCard} ${isHighlighted ? styles.programHighlight : ""}`}>
                 <div className={styles.programImage}>
                   <Image
                     src="/assets/images/webp/balance_reset.webp"
@@ -136,10 +136,10 @@ export default function HeroProgramsClient() {
             <button
               type="button"
               className={styles.programCardButton}
-              onClick={() => setShowComingSoon(true)}
+              onClick={() => setIsComingSoonOpen(true)}
               aria-label={`${getProgramName("womans-whisper")} — Coming Soon`}
             >
-              <div className={`${styles.programCard} ${highlightPrograms ? styles.programHighlight : ""}`}>
+              <div className={`${styles.programCard} ${isHighlighted ? styles.programHighlight : ""}`}>
                 <div className={styles.programImage}>
                   <Image
                     src="/assets/images/webp/woman_condition.webp"
@@ -172,8 +172,8 @@ export default function HeroProgramsClient() {
 
       {/* Coming Soon 모달 */}
       <ComingSoonModal
-        open={showComingSoon}
-        onClose={() => setShowComingSoon(false)}
+        open={isComingSoonOpen}
+        onClose={() => setIsComingSoonOpen(false)}
       />
     </>
   );

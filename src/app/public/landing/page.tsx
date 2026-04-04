@@ -4,13 +4,13 @@ import PublicHeader from "@/components/publicSite/PublicHeader";
 import styles from "./landing.module.css";
 
 // Config imports — centralized constants
-import { FEATURED_VIDEO_ID } from "@/config/constants";
+import { FEATURED_VIDEO_ID, PUBLIC_INTRO_VIDEOS_URL, API_URL } from "@/config/constants";
 import { ROUTES } from "@/config/routes";
 import { COMPANY_INFO } from "@/config/company";
 
 // 클라이언트 상태가 필요한 섹션만 클라이언트 컴포넌트로 분리
-import HeroProgramsClient from "./HeroProgramsClient";
-import IntroVideoClient from "./IntroVideoClient";
+import HeroProgramsClient from "./hero-programs-client";
+import IntroVideoClient from "./intro-video-client";
 
 // ================================================
 // 서버 사이드: Introduction 비디오 데이터 fetch
@@ -18,16 +18,13 @@ import IntroVideoClient from "./IntroVideoClient";
 // revalidate: 3600 → 1시간 ISR 캐싱
 // ================================================
 function resolveUpstreamUrl(): string | null {
-  const directUrl = process.env.PUBLIC_INTRO_VIDEOS_URL;
-  if (directUrl && directUrl.trim().length > 0) {
-    return directUrl.trim();
+  if (PUBLIC_INTRO_VIDEOS_URL.trim().length > 0) {
+    return PUBLIC_INTRO_VIDEOS_URL.trim();
   }
 
-  const base = process.env.NEXT_PUBLIC_API_BASE_URL;
+  if (!API_URL) return null;
 
-  if (!base) return null;
-
-  return `${base.replace(/\/$/, "")}/public/videos`;
+  return `${API_URL.replace(/\/$/, "")}/public/videos`;
 }
 
 type VideoItem = {
@@ -59,9 +56,8 @@ async function fetchIntroVideo(): Promise<{
       return { videoKey: null, thumbnailKey: null, error: "소개 영상을 불러오는 중 문제가 발생했습니다." };
     }
 
-    const data = await res.json();
-    const rawItems = data?.items;
-    const items: VideoItem[] = Array.isArray(rawItems) ? rawItems : [];
+    const data: { items?: VideoItem[] } = await res.json();
+    const items: VideoItem[] = Array.isArray(data.items) ? data.items : [];
     const match = items.find((v) => v.id === FEATURED_VIDEO_ID);
 
     if (!match) {

@@ -5,7 +5,7 @@ interface ConfirmViewProps {
   banner: React.ReactNode;
   verifyCode: string;
   setVerifyCode: (v: string) => void;
-  loading: boolean;
+  isLoading: boolean;
   handleConfirmSignup: (e: React.FormEvent) => void;
   switchView: (v: "login") => void;
 }
@@ -15,7 +15,7 @@ export default function ConfirmView({
   banner,
   verifyCode,
   setVerifyCode,
-  loading,
+  isLoading,
   handleConfirmSignup,
   switchView,
 }: ConfirmViewProps) {
@@ -45,8 +45,8 @@ export default function ConfirmView({
           value={verifyCode}
           onChange={(e) => setVerifyCode(e.target.value)}
         />
-        <button type="submit" className={styles.continueButton} disabled={loading}>
-          {loading ? "확인 중..." : "인증 확인"}
+        <button type="submit" className={styles.continueButton} disabled={isLoading}>
+          {isLoading ? "확인 중..." : "인증 확인"}
         </button>
       </form>
     </div>

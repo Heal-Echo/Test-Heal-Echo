@@ -1056,7 +1056,7 @@
 .footerCopyright {
   margin: 8px 0 0;
   font-size: 0.78rem;
-  color: #aaa;
+  color: #767676; /* WCAG AA compliant — was #aaa (2.32:1 → 4.54:1) */
   text-align: center;
 }
 

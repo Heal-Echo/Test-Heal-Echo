@@ -2,15 +2,13 @@
 import { Suspense } from "react";
 import Image from "next/image";
 import PublicHeader from "@/components/publicSite/PublicHeader";
-import styles from "./login.module.css";
-import { useLoginPage } from "./useLoginPage";
-import {
-  LoginView,
-  SignupView,
-  ConfirmView,
-  ForgotStep1View,
-  ForgotStep2View,
-} from "./components";
+import styles from "./login-page.module.css";
+import { useLoginPage } from "./use-login-page";
+import LoginView from "./components/login-view";
+import SignupView from "./components/signup-view";
+import ConfirmView from "./components/confirm-view";
+import ForgotStep1View from "./components/forgot-step1-view";
+import ForgotStep2View from "./components/forgot-step2-view";
 export default function LoginPage() {
   return (
     <Suspense fallback={null}>
@@ -47,7 +45,7 @@ function LoginPageInner() {
     <>
       <PublicHeader />
       <main className={styles.loginPage}>
-        {s.socialCallbackLoading && (
+        {s.isSocialCallbackLoading && (
           <div className={styles.socialCallbackOverlay} aria-live="polite">
             <div className={styles.socialCallbackSpinner} />
             <p className={styles.socialCallbackText}>로그인 처리 중...</p>
@@ -90,11 +88,11 @@ function LoginPageInner() {
                 setLoginPassword={s.setLoginPassword}
                 loginError={s.loginError}
                 setLoginError={s.setLoginError}
-                showLoginPw={s.showLoginPw}
-                setShowLoginPw={s.setShowLoginPw}
-                loading={s.loading}
-                termsConsent={s.termsConsent}
-                setTermsConsent={s.setTermsConsent}
+                isLoginPwShown={s.isLoginPwShown}
+                setIsLoginPwShown={s.setIsLoginPwShown}
+                isLoading={s.isLoading}
+                hasTermsConsent={s.hasTermsConsent}
+                setHasTermsConsent={s.setHasTermsConsent}
                 consentToastKey={s.consentToastKey}
                 handleLogin={s.handleLogin}
                 handleKakaoLogin={s.handleKakaoLogin}
@@ -118,21 +116,21 @@ function LoginPageInner() {
                 setSignupPassword={s.setSignupPassword}
                 signupPwConfirm={s.signupPwConfirm}
                 setSignupPwConfirm={s.setSignupPwConfirm}
-                signupPwConfirmTouched={s.signupPwConfirmTouched}
-                setSignupPwConfirmTouched={s.setSignupPwConfirmTouched}
-                showSignupPw={s.showSignupPw}
-                setShowSignupPw={s.setShowSignupPw}
-                showSignupPwConfirm={s.showSignupPwConfirm}
-                setShowSignupPwConfirm={s.setShowSignupPwConfirm}
-                signupPwFocused={s.signupPwFocused}
-                setSignupPwFocused={s.setSignupPwFocused}
-                loading={s.loading}
+                isSignupPwConfirmTouched={s.isSignupPwConfirmTouched}
+                setIsSignupPwConfirmTouched={s.setIsSignupPwConfirmTouched}
+                isSignupPwShown={s.isSignupPwShown}
+                setIsSignupPwShown={s.setIsSignupPwShown}
+                isSignupPwConfirmShown={s.isSignupPwConfirmShown}
+                setIsSignupPwConfirmShown={s.setIsSignupPwConfirmShown}
+                isSignupPwFocused={s.isSignupPwFocused}
+                setIsSignupPwFocused={s.setIsSignupPwFocused}
+                isLoading={s.isLoading}
                 pwRules={s.pwRules}
                 allPwRulesPassed={s.allPwRulesPassed}
-                pwRulesHidden={s.pwRulesHidden}
-                pwRulesFading={s.pwRulesFading}
-                termsConsent={s.termsConsent}
-                setTermsConsent={s.setTermsConsent}
+                isPwRulesHidden={s.isPwRulesHidden}
+                isPwRulesFading={s.isPwRulesFading}
+                hasTermsConsent={s.hasTermsConsent}
+                setHasTermsConsent={s.setHasTermsConsent}
                 consentToastKey={s.consentToastKey}
                 handleSignup={s.handleSignup}
                 handleKakaoLogin={s.handleKakaoLogin}
@@ -148,7 +146,7 @@ function LoginPageInner() {
                 banner={renderBanner()}
                 verifyCode={s.verifyCode}
                 setVerifyCode={s.setVerifyCode}
-                loading={s.loading}
+                isLoading={s.isLoading}
                 handleConfirmSignup={s.handleConfirmSignup}
                 switchView={s.switchView}
               />
@@ -161,7 +159,7 @@ function LoginPageInner() {
                 setForgotEmail={s.setForgotEmail}
                 forgotSocialInfo={s.forgotSocialInfo}
                 setForgotSocialInfo={s.setForgotSocialInfo}
-                loading={s.loading}
+                isLoading={s.isLoading}
                 handleForgotStep1={s.handleForgotStep1}
                 handleKakaoLogin={s.handleKakaoLogin}
                 handleNaverLogin={s.handleNaverLogin}
@@ -180,11 +178,11 @@ function LoginPageInner() {
                 setNewPassword={s.setNewPassword}
                 confirmPassword={s.confirmPassword}
                 setConfirmPassword={s.setConfirmPassword}
-                showResetPw={s.showResetPw}
-                setShowResetPw={s.setShowResetPw}
-                showConfirmPw={s.showConfirmPw}
-                setShowConfirmPw={s.setShowConfirmPw}
-                loading={s.loading}
+                isResetPwShown={s.isResetPwShown}
+                setIsResetPwShown={s.setIsResetPwShown}
+                isConfirmPwShown={s.isConfirmPwShown}
+                setIsConfirmPwShown={s.setIsConfirmPwShown}
+                isLoading={s.isLoading}
                 resetPwRules={s.resetPwRules}
                 allResetPwRulesPassed={s.allResetPwRulesPassed}
                 handleForgotStep2={s.handleForgotStep2}
@@ -197,4 +195,3 @@ function LoginPageInner() {
     </>
   );
 }
-

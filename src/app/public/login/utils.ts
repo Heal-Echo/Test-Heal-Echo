@@ -1,6 +1,15 @@
 import { getSession, removeSession, getRaw, removeRaw } from "@/lib/storage";
 import { USER_API } from "@/config/constants";
 
+interface ProfileCheckResponse {
+  profileSetupDone?: boolean;
+  wellnessGoal?: string;
+  profile?: {
+    profileSetupDone?: boolean;
+    wellnessGoal?: string;
+  };
+}
+
 /** 로그인 성공 후 lastLoginAt 기록 (fire-and-forget) — Next.js API 프록시 경유 */
 export function recordLogin(idToken: string) {
   fetch("/api/user/record-login", {
@@ -31,7 +40,7 @@ export function sendPendingConsent(idToken: string) {
       method: "GET",
       headers: { Authorization: `Bearer ${idToken}` },
     })
-      .then((res) => (res.ok ? res.json() : null))
+      .then((res) => (res.ok ? (res.json() as Promise<ProfileCheckResponse>) : null))
       .then((data) => {
         if (!data) return; // 조회 실패 시 안전하게 스킵
 
@@ -62,6 +71,23 @@ export function sendPendingConsent(idToken: string) {
   } catch (err) {
     console.warn("[sendPendingConsent] unexpected error:", err);
   }
+}
+
+/** unknown 에러에서 메시지 추출 */
+export function getErrorMessage(err: unknown): string {
+  if (err instanceof Error) return err.message;
+  if (typeof err === "string") return err;
+  return "";
+}
+
+/** 비밀번호 유효성 검사 규칙 (회원가입 + 비밀번호 재설정 공용) */
+export function getPwRules(pw: string) {
+  return [
+    { label: "8자 이상", pass: pw.length >= 8 },
+    { label: "숫자 포함", pass: /\d/.test(pw) },
+    { label: "영문 대문자 포함", pass: /[A-Z]/.test(pw) },
+    { label: "특수문자 포함", pass: /[^A-Za-z0-9]/.test(pw) },
+  ];
 }
 
 /** 로그인 후 리다이렉트 경로 결정 (기본 /home) */

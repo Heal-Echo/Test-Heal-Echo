@@ -18,7 +18,7 @@ interface ForgotStep1ViewProps {
   setForgotEmail: (v: string) => void;
   forgotSocialInfo: ForgotSocialInfo | null;
   setForgotSocialInfo: (v: ForgotSocialInfo | null) => void;
-  loading: boolean;
+  isLoading: boolean;
   handleForgotStep1: (e: React.FormEvent) => void;
   handleKakaoLogin: () => void;
   handleNaverLogin: () => void;
@@ -34,7 +34,7 @@ export default function ForgotStep1View({
   setForgotEmail,
   forgotSocialInfo,
   setForgotSocialInfo,
-  loading,
+  isLoading,
   handleForgotStep1,
   handleKakaoLogin,
   handleNaverLogin,
@@ -129,8 +129,8 @@ export default function ForgotStep1View({
         )}
 
         {!forgotSocialInfo && (
-          <button type="submit" className={styles.continueButton}>
-            {loading ? "전송 중..." : "인증코드 받기"}
+          <button type="submit" className={styles.continueButton} disabled={isLoading}>
+            {isLoading ? "전송 중..." : "인증코드 받기"}
           </button>
         )}
       </form>

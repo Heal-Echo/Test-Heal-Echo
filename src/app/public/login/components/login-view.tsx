@@ -1,5 +1,5 @@
 import styles from "../login.module.css";
-import TermsConsentCheckbox from "./TermsConsentCheckbox";
+import TermsConsentCheckbox from "./terms-consent-checkbox";
 import {
   EyeIcon,
   EyeOffIcon,
@@ -19,12 +19,12 @@ interface LoginViewProps {
   setLoginPassword: (v: string) => void;
   loginError: string;
   setLoginError: (v: string) => void;
-  showLoginPw: boolean;
-  setShowLoginPw: React.Dispatch<React.SetStateAction<boolean>>;
-  loading: boolean;
+  isLoginPwShown: boolean;
+  setIsLoginPwShown: React.Dispatch<React.SetStateAction<boolean>>;
+  isLoading: boolean;
   // terms
-  termsConsent: boolean;
-  setTermsConsent: (v: boolean) => void;
+  hasTermsConsent: boolean;
+  setHasTermsConsent: (v: boolean) => void;
   consentToastKey: number;
   // handlers
   handleLogin: (e: React.FormEvent) => void;
@@ -44,11 +44,11 @@ export default function LoginView({
   setLoginPassword,
   loginError,
   setLoginError,
-  showLoginPw,
-  setShowLoginPw,
-  loading,
-  termsConsent,
-  setTermsConsent,
+  isLoginPwShown,
+  setIsLoginPwShown,
+  isLoading,
+  hasTermsConsent,
+  setHasTermsConsent,
   consentToastKey,
   handleLogin,
   handleKakaoLogin,
@@ -86,7 +86,7 @@ export default function LoginView({
 
         <div className={styles.passwordWrapper}>
           <input
-            type={showLoginPw ? "text" : "password"}
+            type={isLoginPwShown ? "text" : "password"}
             placeholder="비밀번호"
             required
             className={`${styles.emailInput} ${loginError ? styles.inputError : ""}`}
@@ -96,11 +96,11 @@ export default function LoginView({
           <button
             type="button"
             className={styles.passwordToggle}
-            onClick={() => setShowLoginPw((v) => !v)}
+            onClick={() => setIsLoginPwShown((v) => !v)}
             tabIndex={-1}
-            aria-label={showLoginPw ? "비밀번호 숨기기" : "비밀번호 보기"}
+            aria-label={isLoginPwShown ? "비밀번호 숨��기" : "비밀번호 보기"}
           >
-            {showLoginPw ? <EyeOffIcon /> : <EyeIcon />}
+            {isLoginPwShown ? <EyeOffIcon /> : <EyeIcon />}
           </button>
         </div>
 
@@ -113,7 +113,7 @@ export default function LoginView({
                 className={styles.loginErrorLink}
                 onClick={() => switchView("forgotStep1")}
               >
-                비밀번호를 잊으셨나요?
+                비밀번호를 잊��셨나요?
               </button>
               <span className={styles.loginErrorDot}>·</span>
               <button
@@ -137,8 +137,8 @@ export default function LoginView({
           </button>
         )}
 
-        <button type="submit" className={styles.continueButton} disabled={loading}>
-          {loading ? "로그인 중..." : "로그인"}
+        <button type="submit" className={styles.continueButton} disabled={isLoading}>
+          {isLoading ? "로그인 중..." : "로그인"}
         </button>
       </form>
 
@@ -151,8 +151,8 @@ export default function LoginView({
 
       {/* 소셜 로그인용 약관 동의 체크박스 */}
       <TermsConsentCheckbox
-        checked={termsConsent}
-        onChange={setTermsConsent}
+        checked={hasTermsConsent}
+        onChange={setHasTermsConsent}
         consentToastKey={consentToastKey}
       />
 
@@ -163,10 +163,10 @@ export default function LoginView({
         <button type="button" className={`${styles.socialIconBtn} ${styles.socialNaver}`} aria-label="네이버 로그인" onClick={handleNaverLogin}>
           <NaverSymbol />
         </button>
-        <button type="button" className={`${styles.socialIconBtn} ${styles.socialGoogle}`} aria-label="구글 로그인" onClick={handleGoogleLogin}>
+        <button type="button" className={`${styles.socialIconBtn} ${styles.socialGoogle}`} aria-label="구글 로��인" onClick={handleGoogleLogin}>
           <GoogleSymbol />
         </button>
-        <button type="button" className={`${styles.socialIconBtn} ${styles.socialApple}`} aria-label="애플 로그인" onClick={handleAppleLogin}>
+        <button type="button" className={`${styles.socialIconBtn} ${styles.socialApple}`} aria-label="애플 로��인" onClick={handleAppleLogin}>
           <AppleSymbol />
         </button>
       </div>
