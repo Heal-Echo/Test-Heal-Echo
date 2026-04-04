@@ -80,7 +80,6 @@ type PopupState =
 
 export default function WeeklyHabitPage() {
   const router = useRouter();
-
   const [weekNumber] = useState(() => getCurrentWeekNumber());
   const [program, setProgram] = useState<string | null>(null);
   const [popup, setPopup] = useState<PopupState>("none");

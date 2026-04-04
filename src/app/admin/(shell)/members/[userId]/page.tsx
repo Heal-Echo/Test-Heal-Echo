@@ -17,6 +17,8 @@ type UserDetail = {
   createdAt?: string;
   lastLoginAt?: string;
   adminMemo?: string;
+  programId?: string;
+  programConfirmed?: boolean;
   // 프로필 온보딩 필드
   wellnessGoal?: string;
   dietHabit?: string;
@@ -548,6 +550,14 @@ export default function MemberDetailPage() {
               </option>
             ))}
           </select>
+
+          <span style={s.label}>선택한 솔루션</span>
+          <span style={{ ...s.value, fontWeight: 600, color: user.programId ? "#4338ca" : "#9ca3af" }}>
+            {user.programId ? getProgramName(user.programId) : "미선택"}
+            {user.programConfirmed && (
+              <span style={{ ...s.onBadge, marginLeft: 8, fontSize: 11 }}>확정</span>
+            )}
+          </span>
 
           <span style={s.label}>구독 시작일</span>
           <span style={s.value}>{fmtDate(user.startDate)}</span>

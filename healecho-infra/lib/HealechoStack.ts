@@ -982,6 +982,10 @@ export class HealechoStack extends cdk.Stack {
 
     userPreferencesTable.grantReadWriteData(userPreferencesLambda);
 
+    // 관리자 회원 상세 조회에서 솔루션 선택 정보 표시
+    getUserLambda.addEnvironment("USER_PREFERENCES_TABLE_NAME", userPreferencesTable.tableName);
+    userPreferencesTable.grantReadData(getUserLambda);
+
     // GET /user/preferences — 환경설정 조회
     httpApi.addRoutes({
       path: "/user/preferences",

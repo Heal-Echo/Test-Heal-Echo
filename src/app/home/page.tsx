@@ -16,7 +16,7 @@ import { getSubscription, getSubscriptionSync } from "@/auth/subscription";
 import { PROGRAMS_LIST, PROGRAMS, getProgramName } from "@/config/programs";
 import { USER_API } from "@/config/constants";
 import * as storage from "@/lib/storage";
-import { getSelectedProgram, isSelectionConfirmed } from "@/lib/programSelection";
+import { getSelectedProgram, isSelectionConfirmed, hydrateFromAWS } from "@/lib/programSelection";
 
 // 모달은 사용자 인터랙션 시에만 필요 → dynamic import로 코드 스플리팅
 const ProgramSelectModal = dynamic(() => import("./ProgramSelectModal"), {
@@ -97,6 +97,8 @@ function HomeContent() {
       if (profileDone) {
         // pending 재시도: 스토리지에 프로필이 있지만 AWS 미전송인 경우
         await retryPendingProfileSync();
+        // 기존 사용자: 프로그램 선택 데이터가 AWS에만 있을 수 있으므로 hydrate
+        await hydrateFromAWS();
         return; // 프로필 완료 → 홈 유지
       }
 
@@ -117,15 +119,17 @@ function HomeContent() {
             // 형태 A: { profile: { wellnessGoal, ... }, profileSetupDone: true }
             // 형태 B: { wellnessGoal, ..., profileSetupDone: true } (플랫 구조)
             const profile = data.profile || data;
+            // profileSetupDone은 Lambda에서 실제 데이터 존재 여부도 함께 반영
+            // (플래그 OR 프로필 데이터(nickname, dietHabit 등) 존재 시 true)
             const setupDone = data.profileSetupDone || profile.profileSetupDone;
-            const hasWellnessGoal = profile.wellnessGoal;
 
-            if (setupDone && hasWellnessGoal) {
+            if (setupDone) {
               // AWS에 프로필 존재 → 스토리지 레이어에 hydrate
-              // wellnessGoal 확인: 이용약관 동의만 전송된 불완전 프로필 제외
               storage.setJSON("user_profile", profile);
               storage.set("profile_setup_done", "true");
               console.log("[Profile] AWS에서 프로필 hydrate 완료");
+              // 기존 사용자: 프로그램 선택 데이터도 함께 복원
+              await hydrateFromAWS();
               return; // 홈 유지
             }
           } else {

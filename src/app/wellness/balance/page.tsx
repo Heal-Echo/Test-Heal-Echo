@@ -46,6 +46,8 @@ export default function BalancePage() {
     setUserName(name);
   }, []);
 
+
+
   return (
     <div className={styles.container}>
       <Header />

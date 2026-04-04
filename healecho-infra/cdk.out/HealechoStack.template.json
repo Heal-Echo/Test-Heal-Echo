@@ -5768,7 +5768,7 @@
    "Properties": {
     "Code": {
      "S3Bucket": "cdk-hnb659fds-assets-513213802410-ap-northeast-2",
-     "S3Key": "07bd2f06e4172ebbfa0e51ceae3c55c48da060012c1eda0e21958fde542a8db0.zip"
+     "S3Key": "a4f644b417b11c67a3518aadfe8fadbcb2b6e8301c48ef9b1771afefff12a392.zip"
     },
     "Environment": {
      "Variables": {
@@ -5798,7 +5798,7 @@
    ],
    "Metadata": {
     "aws:cdk:path": "HealechoStack/AdminListUsersLambda/Resource",
-    "aws:asset:path": "asset.07bd2f06e4172ebbfa0e51ceae3c55c48da060012c1eda0e21958fde542a8db0",
+    "aws:asset:path": "asset.a4f644b417b11c67a3518aadfe8fadbcb2b6e8301c48ef9b1771afefff12a392",
     "aws:asset:is-bundled": true,
     "aws:asset:property": "Code"
    }
@@ -5913,6 +5913,30 @@
          "Arn"
         ]
        }
+      },
+      {
+       "Action": [
+        "dynamodb:BatchGetItem",
+        "dynamodb:GetRecords",
+        "dynamodb:GetShardIterator",
+        "dynamodb:Query",
+        "dynamodb:GetItem",
+        "dynamodb:Scan",
+        "dynamodb:ConditionCheckItem",
+        "dynamodb:DescribeTable"
+       ],
+       "Effect": "Allow",
+       "Resource": [
+        {
+         "Fn::GetAtt": [
+          "UserPreferencesTableA0B50479",
+          "Arn"
+         ]
+        },
+        {
+         "Ref": "AWS::NoValue"
+        }
+       ]
       }
      ],
      "Version": "2012-10-17"
@@ -5933,7 +5957,7 @@
    "Properties": {
     "Code": {
      "S3Bucket": "cdk-hnb659fds-assets-513213802410-ap-northeast-2",
-     "S3Key": "04815ad655f12ecee94889bd5337a9b037eccc2031f03669f49d48c1191d1f9b.zip"
+     "S3Key": "cfed2346d982a7dd63ef8b1f0ae8e357c4590ae910808b70239895dedc632224.zip"
     },
     "Environment": {
      "Variables": {
@@ -5945,6 +5969,9 @@
       },
       "USER_POOL_ID": {
        "Ref": "UserPool6BA7E5F2"
+      },
+      "USER_PREFERENCES_TABLE_NAME": {
+       "Ref": "UserPreferencesTableA0B50479"
       }
      }
     },
@@ -5963,7 +5990,7 @@
    ],
    "Metadata": {
     "aws:cdk:path": "HealechoStack/AdminGetUserLambda/Resource",
-    "aws:asset:path": "asset.04815ad655f12ecee94889bd5337a9b037eccc2031f03669f49d48c1191d1f9b",
+    "aws:asset:path": "asset.cfed2346d982a7dd63ef8b1f0ae8e357c4590ae910808b70239895dedc632224",
     "aws:asset:is-bundled": true,
     "aws:asset:property": "Code"
    }
@@ -10465,7 +10492,7 @@
    "Properties": {
     "Code": {
      "S3Bucket": "cdk-hnb659fds-assets-513213802410-ap-northeast-2",
-     "S3Key": "b40b10b419e3bdb55de08fd21a8087f2f8ed077eba673352da095846a89587a0.zip"
+     "S3Key": "87d939223d98bbc0add57a29ece6e255e7a858613f94ffc983928338ec6fa60c.zip"
     },
     "Environment": {
      "Variables": {
@@ -10489,7 +10516,7 @@
    ],
    "Metadata": {
     "aws:cdk:path": "HealechoStack/UserProfileLambda/Resource",
-    "aws:asset:path": "asset.b40b10b419e3bdb55de08fd21a8087f2f8ed077eba673352da095846a89587a0",
+    "aws:asset:path": "asset.87d939223d98bbc0add57a29ece6e255e7a858613f94ffc983928338ec6fa60c",
     "aws:asset:is-bundled": true,
     "aws:asset:property": "Code"
    }
@@ -12045,71 +12072,10 @@
     "aws:cdk:path": "HealechoStack/CognitoBackupRule/AllowEventRuleHealechoStackCognitoBackupLambda2C3E1D98"
    }
   },
-  "MonthlyBudget": {
-   "Type": "AWS::Budgets::Budget",
-   "Properties": {
-    "Budget": {
-     "BudgetLimit": {
-      "Amount": 300,
-      "Unit": "USD"
-     },
-     "BudgetName": "healecho-monthly-budget",
-     "BudgetType": "COST",
-     "TimeUnit": "MONTHLY"
-    },
-    "NotificationsWithSubscribers": [
-     {
-      "Notification": {
-       "ComparisonOperator": "GREATER_THAN",
-       "NotificationType": "ACTUAL",
-       "Threshold": 80,
-       "ThresholdType": "PERCENTAGE"
-      },
-      "Subscribers": [
-       {
-        "Address": "cm.lee@heal-echo.com",
-        "SubscriptionType": "EMAIL"
-       }
-      ]
-     },
-     {
-      "Notification": {
-       "ComparisonOperator": "GREATER_THAN",
-       "NotificationType": "ACTUAL",
-       "Threshold": 100,
-       "ThresholdType": "PERCENTAGE"
-      },
-      "Subscribers": [
-       {
-        "Address": "cm.lee@heal-echo.com",
-        "SubscriptionType": "EMAIL"
-       }
-      ]
-     },
-     {
-      "Notification": {
-       "ComparisonOperator": "GREATER_THAN",
-       "NotificationType": "ACTUAL",
-       "Threshold": 120,
-       "ThresholdType": "PERCENTAGE"
-      },
-      "Subscribers": [
-       {
-        "Address": "cm.lee@heal-echo.com",
-        "SubscriptionType": "EMAIL"
-       }
-      ]
-     }
-    ]
-   },
-   "Metadata": {
-    "aws:cdk:path": "HealechoStack/MonthlyBudget"
-   }
-  },
   "CDKMetadata": {
    "Type": "AWS::CDK::Metadata",
    "Properties": {
-    "Analytics": "v2:deflate64:H4sIAAAAAAAA/21SwW7bMAz9ltwVtU7b+5IMxXppA6fbNaBlxlUiS4ZEJcgE/fsgyV6MYaf3SD5CJJ9WPFQvz7xawNUtRXteKtnwsCcQZwZXdwjuiYeNF2cktj3qkRXYGSXF7Z4e4xJswGFkQhnfHq3RxMOHlZ3UayHQubcWNUnKzdukeU2a/yq+S0dWNp6k0Uk+jyNrbxp60zY8fEKjMAkyiUyYTksyPPx0aHfGqFT7yyeyVRI1zUslExkMsgPCK9wuKx62R70eZNLtCbr8zpsm7CxMc9XGU86vPX0ZK3+jjUxB37SQ23doe+ncqH71WpQNiuSgTYsnx98zTFUmoeehNmWxjPejFxaZezqAc0iOrxMwvKAmx0PtxzafztGAOPuBh03GX+BVMXQWFr5ToO+VHBW6R4Vi2vafVGSNb7s0Q/4NiUZWozPeCmR5rnQ3qbvU/OFp8Pn5SRJZVT3zaglq+AL+uPg2fseHhHMnRkX4QTQkQxIWRxIrHiQ2Nydr76ZElm7NT+7hslrx6oU/Lk5OyqX1mmSPvC74BxDveuQaAwAA"
+    "Analytics": "v2:deflate64:H4sIAAAAAAAA/22SQW8bIRCFf4vvmGSd5F7bVdRcEmud9mrNsuMNNgsrGGy5iP9eAbv1qurpvZn5EPBgxUP18syrBVzdUrTnpZIND3sCcWZwdYfgnnjYeHFGYtujHl2RnVFS3O7tsS7FBhxGJpTx7dEaTTx8WNlJvRYCnXtrUZOkvHibmNfE/Jf4Lh1Z2XiSRid8XkfW3jT0pm14+IRGYQKyiUyYTksyPPx0aHfGqDT76yezVRI1zUelExkMsgPCK9wuKx62R70eZOL2BF3e500Tdhamc9XGU+6vPX0ZK3+jjUxB37SQl+/Q9tK5kX71WpQbFOSgTYsnx9+zTFMmoeehNuViWe+hFxeZezqAc0iOr5MwvKAmx0Ptx2U+xdGAOPuBh03WX+BVedBZWfxOgb5PclXsHhWK6bb/tGJkNTrjrUCWT5FSkrpL6IenwefNJiSyqnrm1RLU8AX8cfFt/HwPSee5j0T4QTSk+JOW/JMriSc3f4rM3p8gspQsP7mHy2rFqxf+uDg5KZfWa5I98rroH+hnqnUIAwAA"
    },
    "Metadata": {
     "aws:cdk:path": "HealechoStack/CDKMetadata/Default"

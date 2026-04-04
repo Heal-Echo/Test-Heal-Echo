@@ -161,6 +161,16 @@ export const handler = async (event: any) => {
         };
       }
 
+      // 프로필 완료 판단:
+      // 1) profileSetupDone 플래그
+      // 2) 실제 프로필 데이터 존재 여부
+      // 3) profileRepairedAt 존재 = repair Lambda가 처리한 사용자 = 원래 완료였음
+      const hasProfileData = !!(
+        result.Item.wellnessGoal || result.Item.nickname || result.Item.dietHabit ||
+        result.Item.sleepHabit || result.Item.experience || result.Item.birthDate || result.Item.gender
+      );
+      const isProfileDone = !!(result.Item.profileSetupDone || hasProfileData || result.Item.profileRepairedAt);
+
       const profile = {
         wellnessGoal: result.Item.wellnessGoal || null,
         dietHabit: result.Item.dietHabit || null,
@@ -173,7 +183,7 @@ export const handler = async (event: any) => {
         pushNotification: result.Item.pushNotification ?? true,
         emailNotification: result.Item.emailNotification ?? true,
         marketingConsent: result.Item.marketingConsent ?? false,
-        profileSetupDone: result.Item.profileSetupDone ?? false,
+        profileSetupDone: isProfileDone,
         profileUpdatedAt: result.Item.profileUpdatedAt || null,
       };
 
@@ -181,7 +191,7 @@ export const handler = async (event: any) => {
         statusCode: 200,
         headers,
         body: JSON.stringify({
-          profileSetupDone: profile.profileSetupDone,
+          profileSetupDone: isProfileDone,
           profile,
         }),
       };

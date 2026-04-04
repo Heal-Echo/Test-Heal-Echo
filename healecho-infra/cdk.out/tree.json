@@ -8497,7 +8497,7 @@
                   "aws:cdk:cloudformation:props": {
                     "code": {
                       "s3Bucket": "cdk-hnb659fds-assets-513213802410-ap-northeast-2",
-                      "s3Key": "07bd2f06e4172ebbfa0e51ceae3c55c48da060012c1eda0e21958fde542a8db0.zip"
+                      "s3Key": "a4f644b417b11c67a3518aadfe8fadbcb2b6e8301c48ef9b1771afefff12a392.zip"
                     },
                     "environment": {
                       "variables": {
@@ -8671,6 +8671,30 @@
                                       "Arn"
                                     ]
                                   }
+                                },
+                                {
+                                  "Action": [
+                                    "dynamodb:BatchGetItem",
+                                    "dynamodb:GetRecords",
+                                    "dynamodb:GetShardIterator",
+                                    "dynamodb:Query",
+                                    "dynamodb:GetItem",
+                                    "dynamodb:Scan",
+                                    "dynamodb:ConditionCheckItem",
+                                    "dynamodb:DescribeTable"
+                                  ],
+                                  "Effect": "Allow",
+                                  "Resource": [
+                                    {
+                                      "Fn::GetAtt": [
+                                        "UserPreferencesTableA0B50479",
+                                        "Arn"
+                                      ]
+                                    },
+                                    {
+                                      "Ref": "AWS::NoValue"
+                                    }
+                                  ]
                                 }
                               ],
                               "Version": "2012-10-17"
@@ -8734,7 +8758,7 @@
                   "aws:cdk:cloudformation:props": {
                     "code": {
                       "s3Bucket": "cdk-hnb659fds-assets-513213802410-ap-northeast-2",
-                      "s3Key": "04815ad655f12ecee94889bd5337a9b037eccc2031f03669f49d48c1191d1f9b.zip"
+                      "s3Key": "cfed2346d982a7dd63ef8b1f0ae8e357c4590ae910808b70239895dedc632224.zip"
                     },
                     "environment": {
                       "variables": {
@@ -8746,6 +8770,9 @@
                         },
                         "USER_POOL_ID": {
                           "Ref": "UserPool6BA7E5F2"
+                        },
+                        "USER_PREFERENCES_TABLE_NAME": {
+                          "Ref": "UserPreferencesTableA0B50479"
                         }
                       }
                     },
@@ -15520,7 +15547,7 @@
                   "aws:cdk:cloudformation:props": {
                     "code": {
                       "s3Bucket": "cdk-hnb659fds-assets-513213802410-ap-northeast-2",
-                      "s3Key": "b40b10b419e3bdb55de08fd21a8087f2f8ed077eba673352da095846a89587a0.zip"
+                      "s3Key": "87d939223d98bbc0add57a29ece6e255e7a858613f94ffc983928338ec6fa60c.zip"
                     },
                     "environment": {
                       "variables": {
@@ -17932,72 +17959,6 @@
             },
             "constructInfo": {
               "fqn": "aws-cdk-lib.aws_events.Rule",
-              "version": "2.154.1"
-            }
-          },
-          "MonthlyBudget": {
-            "id": "MonthlyBudget",
-            "path": "HealechoStack/MonthlyBudget",
-            "attributes": {
-              "aws:cdk:cloudformation:type": "AWS::Budgets::Budget",
-              "aws:cdk:cloudformation:props": {
-                "budget": {
-                  "budgetName": "healecho-monthly-budget",
-                  "budgetType": "COST",
-                  "timeUnit": "MONTHLY",
-                  "budgetLimit": {
-                    "amount": 300,
-                    "unit": "USD"
-                  }
-                },
-                "notificationsWithSubscribers": [
-                  {
-                    "notification": {
-                      "comparisonOperator": "GREATER_THAN",
-                      "threshold": 80,
-                      "thresholdType": "PERCENTAGE",
-                      "notificationType": "ACTUAL"
-                    },
-                    "subscribers": [
-                      {
-                        "subscriptionType": "EMAIL",
-                        "address": "cm.lee@heal-echo.com"
-                      }
-                    ]
-                  },
-                  {
-                    "notification": {
-                      "comparisonOperator": "GREATER_THAN",
-                      "threshold": 100,
-                      "thresholdType": "PERCENTAGE",
-                      "notificationType": "ACTUAL"
-                    },
-                    "subscribers": [
-                      {
-                        "subscriptionType": "EMAIL",
-                        "address": "cm.lee@heal-echo.com"
-                      }
-                    ]
-                  },
-                  {
-                    "notification": {
-                      "comparisonOperator": "GREATER_THAN",
-                      "threshold": 120,
-                      "thresholdType": "PERCENTAGE",
-                      "notificationType": "ACTUAL"
-                    },
-                    "subscribers": [
-                      {
-                        "subscriptionType": "EMAIL",
-                        "address": "cm.lee@heal-echo.com"
-                      }
-                    ]
-                  }
-                ]
-              }
-            },
-            "constructInfo": {
-              "fqn": "aws-cdk-lib.aws_budgets.CfnBudget",
               "version": "2.154.1"
             }
           },
