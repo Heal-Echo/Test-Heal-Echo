@@ -5,6 +5,9 @@ import type { Viewport } from "next";
 export const metadata = {
   title: "Heal Echo",
   description: "Heal Echo Web Application",
+  formatDetection: {
+    telephone: false,
+  },
 };
 
 export const viewport: Viewport = {

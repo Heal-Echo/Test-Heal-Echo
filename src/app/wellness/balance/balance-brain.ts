@@ -1,4 +1,4 @@
-// src/app/wellness/balance/balanceBrain.ts
+// src/app/wellness/balance/balance-brain.ts
 // =======================================================
 // Heal Echo Balance 전용 "주차별 잠금 / 오픈" 뇌(Brain)
 // - 아직 AWS, DynamoDB, Lambda 와는 연결하지 않고
@@ -6,82 +6,13 @@
 // - 나중에 DynamoDB에서 가져온 데이터만 이 함수에 넣어주면 됩니다.
 // =======================================================
 
-/**
- * 주차별 영상 기본 정보
- * - 주차 번호와 videoId 만 있으면 됩니다.
- * - weekNumber 는 1, 2, 3 ... 처럼 오름차순으로 넣어주세요.
- */
-export type WeeklyVideoConfig = {
-    weekNumber: number;
-    videoId: string;
-  };
-  
-  /**
-   * 사용자의 시청 이벤트(플레이 기록)
-   * - playedAt 은 ISO 문자열 (예: "2025-01-01T09:00:00.000Z")
-   * - eventType 은 아직 쓰지는 않지만, 나중에 'ended' 만 카운트할 수도 있으니 남겨둡니다.
-   */
-  export type PlayEvent = {
-    videoId: string;
-    playedAt: string; // ISO 8601
-    eventType?: "impression" | "play" | "pause" | "ended" | "progress";
-  };
-  
-  /**
-   * 유저의 구독 / 무료 체험 상태
-   * - 지금은 isFreeTrial, trialEndsAt 정도만 사용합니다.
-   * - 나중에 결제 완료, 구독 기간 등도 여기에 추가할 수 있습니다.
-   */
-  export type SubscriptionInfo = {
-    isFreeTrial: boolean;
-    trialStartedAt?: string; // 옵션. 필요하면 사용
-    trialEndsAt?: string; // 무료 체험 종료일 (ISO)
-  };
-  
-  /**
-   * 한 주차(영상)에 대한 계산 결과
-   */
-  export type WeekComputedState = {
-    weekNumber: number;
-    videoId: string;
-  
-    // 이 영상이 "처음 사용자에게 오픈된 날짜"
-    openAt: string | null; // ISO or null
-  
-    // 이 주차를 기준으로 "다음 주차 영상"이 실제로 언제 열리는지
-    // (규칙 2, 3, 4를 모두 반영한 날짜)
-    nextWeekOpenAt: string | null; // ISO or null
-  
-    // "다다음 영상이 오픈되는 날짜"
-    // 규칙 6: 이 날짜가 되면 현재 영상은 잠금 처리
-    lockAt: string | null; // ISO or null
-  
-    // 오늘 기준으로
-    isOpenToday: boolean; // 오늘 시점에 이 영상을 볼 수 있는지
-    isLockedToday: boolean; // "잠긴 상태인지" (아직 안 열렸거나, 다다음 주차가 열려서 닫힌 경우)
-    isVisibleToday: boolean; // 썸네일 자체를 보여줄지 여부 (무료 체험 정책 반영)
-  
-    // UX에서 사용할 역할
-    // - past : 이미 지나간 주차(잠금되었거나, 현재 이전)
-    // - current : 지금 사용자가 따라가야 할 "현재 주차"
-    // - next : 다음에 열릴 주차
-    // - futureLocked : 아직 잠겨 있고, 썸네일만 보여줄 수 있는 미래 주차
-    role: "past" | "current" | "next" | "futureLocked";
-  
-    // 통계용 정보 (디버깅 / 추후 분석에 사용 가능)
-    playsTotal: number; // openAt 이후 전체 시청 횟수
-    playsWithinFirst7Days: number; // Day1~Day7 사이 시청 횟수
-    requirementMetWithin7Days: boolean; // "7일 안에 3회 달성" 여부
-  };
-  
-  /**
-   * 전체 Balance 상태 계산 결과
-   */
-  export type BalanceState = {
-    today: string; // ISO
-    currentWeekNumber: number | null;
-    weeks: WeekComputedState[];
-  };
+import type {
+  WeeklyVideoConfig,
+  PlayEvent,
+  WeekComputedState,
+  BalanceState,
+} from "@/types/balance";
+import type { UserSubscription } from "@/types/subscription";
   
   // 내부에서만 사용할 Date 도우미
   function addDays(date: Date, days: number) {
@@ -103,14 +34,14 @@ export type WeeklyVideoConfig = {
    * @param weeklyVideos   주차별 영상 기본 설정 (주차/영상ID 목록)
    * @param playEvents     사용자의 시청 이벤트 목록
    * @param programStartDate   사용자가 이 프로그램(Balance)을 시작한 날짜 (Week 1 오픈일) - ISO
-   * @param subscription   무료 체험 / 구독 정보
+   * @param subscription   구독 정보 (중앙 타입 UserSubscription 사용)
    * @param todayInput     (선택) 오늘 날짜. 테스트용으로 넣을 수 있고, 기본값은 new Date()
    */
   export function calculateBalanceState(
     weeklyVideos: WeeklyVideoConfig[],
     playEvents: PlayEvent[],
     programStartDate: string,
-    subscription: SubscriptionInfo,
+    subscription: UserSubscription,
     todayInput?: Date
   ): BalanceState {
     const today = todayInput ?? new Date();
@@ -150,7 +81,7 @@ export type WeeklyVideoConfig = {
         nextWeekOpenAt: Date | null;
         playsTotal: number;
         playsWithin7: number;
-        requirementMetWithin7Days: boolean;
+        isRequirementMetWithin7Days: boolean;
       } => {
         const openAt = previousNextOpen;
   
@@ -164,7 +95,7 @@ export type WeeklyVideoConfig = {
             nextWeekOpenAt: null,
             playsTotal: 0,
             playsWithin7: 0,
-            requirementMetWithin7Days: false,
+            isRequirementMetWithin7Days: false,
           };
         }
   
@@ -184,11 +115,11 @@ export type WeeklyVideoConfig = {
         const playsTotal = playsFromOpen.length;
   
         let nextWeekOpenAt: Date | null = null;
-        let requirementMetWithin7Days = false;
+        let isRequirementMetWithin7Days = false;
   
         // 규칙 2 & 3: 7일 안에 3회 이상 → Day 8 에 다음 영상 오픈
         if (playsWithin7.length >= 3) {
-          requirementMetWithin7Days = true;
+          isRequirementMetWithin7Days = true;
           nextWeekOpenAt = windowEnd;
         }
         // 규칙 4: 7일 지나도 3회를 못 채웠다면, 이후 3회를 채우는 순간 즉시 다음 영상 오픈
@@ -210,7 +141,7 @@ export type WeeklyVideoConfig = {
           nextWeekOpenAt,
           playsTotal,
           playsWithin7: playsWithin7.length,
-          requirementMetWithin7Days,
+          isRequirementMetWithin7Days,
         };
       }
     );
@@ -243,7 +174,7 @@ export type WeeklyVideoConfig = {
         isLockedToday,
         playsTotal: w.playsTotal,
         playsWithin7: w.playsWithin7,
-        requirementMetWithin7Days: w.requirementMetWithin7Days,
+        isRequirementMetWithin7Days: w.isRequirementMetWithin7Days,
       };
     });
   
@@ -288,15 +219,15 @@ export type WeeklyVideoConfig = {
     });
   
     // 7) 무료 체험에 따른 썸네일 노출 제어
-    const inFreeTrial =
-      subscription.isFreeTrial &&
-      subscription.trialEndsAt &&
-      today.getTime() <= new Date(subscription.trialEndsAt).getTime();
+    const isInFreeTrial =
+      subscription.subscriptionType === "free_trial" &&
+      subscription.trialEndDate &&
+      today.getTime() <= new Date(subscription.trialEndDate).getTime();
   
     const finalWeeks: WeekComputedState[] = withRoles.map((w) => {
       let isVisibleToday: boolean;
   
-      if (!inFreeTrial) {
+      if (!isInFreeTrial) {
         // 유료/정식 사용자: 열려 있는 주차만 우선 노출
         isVisibleToday = !!w.openAt && w.openAt.getTime() <= today.getTime();
       } else {
@@ -323,7 +254,7 @@ export type WeeklyVideoConfig = {
         role: w.role,
         playsTotal: w.playsTotal,
         playsWithinFirst7Days: w.playsWithin7,
-        requirementMetWithin7Days: w.requirementMetWithin7Days,
+        isRequirementMetWithin7Days: w.isRequirementMetWithin7Days,
       };
     });
   
@@ -354,10 +285,15 @@ export type WeeklyVideoConfig = {
     { videoId: "week1", playedAt: "2025-01-03T10:00:00.000Z" },
   ];
   
-  const exampleSub: SubscriptionInfo = {
-    isFreeTrial: true,
-    trialStartedAt: "2025-01-01T00:00:00.000Z",
-    trialEndsAt: "2025-01-08T00:00:00.000Z",
+  const exampleSub: UserSubscription = {
+    userId: "example-user",
+    programId: "autobalance",
+    subscriptionType: "free_trial",
+    startDate: "2025-01-01T00:00:00.000Z",
+    currentWeek: 1,
+    status: "active",
+    pausedAt: null,
+    trialEndDate: "2025-01-08T00:00:00.000Z",
   };
   
   const state = calculateBalanceState(

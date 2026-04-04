@@ -398,12 +398,49 @@ export async function fetchWatchRecordsFromServer(programId: string): Promise<Wa
     }
 
     const data = await res.json();
-    const items = (data.items || []) as WatchRecord[];
+    const serverItems = (data.items || []) as WatchRecord[];
 
-    // 서버 데이터로 캐시 갱신
-    saveWatchRecordsToCache(programId, items);
+    // ── 로컬↔서버 병합: 로컬에만 있는 레코드를 서버에 업로드 ──
+    // 오프라인 시청 후 다시 접속했을 때 유실 방지
+    const localItems = getWatchRecords(programId);
+    const serverKeys = new Set(
+      serverItems.map((r) => `${r.weekNumber}#${r.watchDate}`)
+    );
 
-    return items;
+    const localOnly = localItems.filter(
+      (r) => !serverKeys.has(`${r.weekNumber}#${r.watchDate}`)
+    );
+
+    // 로컬에만 있는 레코드를 서버에 비동기 업로드 (fire-and-forget)
+    if (localOnly.length > 0) {
+      for (const record of localOnly) {
+        fetch("/api/user/watch-records", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+          body: JSON.stringify({
+            programId: record.programId,
+            weekNumber: record.weekNumber,
+            watchDate: record.watchDate,
+            watchDurationSeconds: record.watchDurationSeconds,
+            isCompleted: record.isCompleted,
+          }),
+        }).catch(() => {});
+      }
+    }
+
+    // 병합된 결과를 캐시에 저장 (서버 + 로컬 전용 레코드)
+    const merged = [...serverItems, ...localOnly];
+    saveWatchRecordsToCache(programId, merged);
+
+    // 로컬 전용 레코드 업로드 완료 → pending 플래그 정리
+    if (localOnly.length > 0) {
+      storage.remove(`${KEY_WATCH_RECORDS_PENDING}_${programId}`);
+    }
+
+    return merged;
   } catch (err) {
     console.warn("[fetchWatchRecords] API error, using cache:", err);
     return getWatchRecords(programId);

@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { useRouter } from "next/navigation";
 import styles from "./balance.module.css";
 import Image from "next/image";
@@ -8,17 +8,10 @@ import Link from "next/link";
 import Header from "@/components/Header";
 import BottomTab from "@/components/BottomTab";
 
-import { isUserLoggedIn, getUserName } from "@/auth/user";
-import { getProgramName } from "@/config/programs";
+import { isUserLoggedIn } from "@/auth/user";
+import { getProgramName, PROGRAM_ID } from "@/config/programs";
 import * as storage from "@/lib/storage";
 
-/**
- * 반응형 이미지 sizes 속성
- * - 480px 이하 (스마트폰): 화면 전체 너비 사용
- * - 1024px 이하 (태블릿): 화면의 90% 너비 사용
- * - 그 이상 (데스크탑): 최대 720px 너비 사용
- * → 기기에 맞는 적절한 크기의 이미지를 자동 선택하여 로딩 속도 향상
- */
 /**
  * 반응형 이미지 sizes 속성 (5단계 브레이크포인트)
  * - 360px 이하 (초소형 모바일): 화면 전체 너비
@@ -32,7 +25,6 @@ const CARD_IMAGE_SIZES =
 
 export default function BalancePage() {
   const router = useRouter();
-  const [userName, setUserName] = useState<string | null>(null);
 
   // 🔐 로그인 확인
   useEffect(() => {
@@ -41,18 +33,10 @@ export default function BalancePage() {
     }
   }, [router]);
 
-  // 사용자 이름 가져오기
+  // balance 허브 방문 기록 (BottomTab 요가 라우팅용 — 세션 단위)
   useEffect(() => {
-    const name = getUserName();
-    setUserName(name);
+    storage.setSession("balance_hub_visited", "true");
   }, []);
-
-  // balance 허브 방문 기록 (BottomTab 요가 라우팅용)
-  useEffect(() => {
-    storage.set("balance_hub_visited", "true");
-  }, []);
-
-
 
   return (
     <div className={styles.container}>
@@ -60,7 +44,7 @@ export default function BalancePage() {
 
       <main className={styles.main}>
         <h1 className={styles.title}>
-          {getProgramName("autobalance")}
+          {getProgramName(PROGRAM_ID.AUTOBALANCE)}
         </h1>
 
         {/* ── 웰니스 솔루션 구분자 ── */}
@@ -76,7 +60,7 @@ export default function BalancePage() {
           <section className={styles.hubSection}>
             <h2 className={styles.hubSectionTitle}>위클리 솔루션</h2>
 
-            <Link href="/wellness/solution" className={styles.wideCard}>
+            <Link href="/wellness/solution" className={styles.wideCard} aria-label="위클리 솔루션 — 하루 15분, 나를 위한 맞춤 요가 클래스">
               <Image
                 src="/assets/images/webp/solutions.webp"
                 alt="위클리 솔루션"
@@ -95,7 +79,7 @@ export default function BalancePage() {
           <section className={styles.hubSection}>
             <h2 className={styles.hubSectionTitle}>위클리 해빗</h2>
 
-            <Link href="/wellness/weekly-habit" className={styles.wideCard}>
+            <Link href="/wellness/weekly-habit" className={styles.wideCard} aria-label="위클리 해빗 — 쉽게 실천 가능한 수면 습관과 식습관">
               <Image
                 src="/assets/images/webp/healing_recipe_square.webp"
                 alt="위클리 해빗"
@@ -114,7 +98,7 @@ export default function BalancePage() {
           <section className={`${styles.hubSection} ${styles.hubSectionFull}`}>
             <h2 className={styles.hubSectionTitle}>이해의 바다</h2>
 
-            <Link href="/understanding" className={styles.wideCard}>
+            <Link href="/understanding" className={styles.wideCard} aria-label="이해의 바다 — 조건없이 나를 이해하는 시간">
               <Image
                 src="/assets/images/webp/Ocean_of_Understanding_crop1.webp"
                 alt="이해의 바다"
