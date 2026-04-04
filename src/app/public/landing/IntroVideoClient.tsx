@@ -2,7 +2,7 @@
 
 import React, { useEffect, useRef, useState } from "react";
 import Image from "next/image";
-import styles from "./landing.module.css";
+import styles from "./intro-video.module.css";
 
 import { makeVideoUrl, makeThumbnailUrl } from "@/config/constants";
 

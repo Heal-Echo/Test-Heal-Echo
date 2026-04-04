@@ -3,7 +3,7 @@
 import React, { useState, useEffect } from "react";
 import dynamic from "next/dynamic";
 import Image from "next/image";
-import styles from "./landing.module.css";
+import styles from "./hero-programs.module.css";
 import { getProgramName } from "@/config/programs";
 import { ROUTES } from "@/config/routes";
 
