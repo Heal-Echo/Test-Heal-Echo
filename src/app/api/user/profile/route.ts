@@ -30,8 +30,6 @@ export async function PUT(req: Request) {
 
     const url = `${base}/user/profile`;
 
-    console.log("[User Profile PUT] upstream:", url);
-
     const res = await fetch(url, {
       method: "PUT",
       headers: {
@@ -75,8 +73,6 @@ export async function GET(req: Request) {
 
     const url = `${base}/user/profile`;
 
-    console.log("[User Profile GET] upstream:", url);
-
     const res = await fetch(url, {
       method: "GET",
       headers: {
@@ -86,7 +82,6 @@ export async function GET(req: Request) {
     });
 
     const text = await res.text();
-    console.log("[User Profile GET] status:", res.status);
 
     try {
       const parsed = JSON.parse(text);

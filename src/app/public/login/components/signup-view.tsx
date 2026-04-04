@@ -115,6 +115,7 @@ export default function SignupView({
           type="text"
           placeholder="성 (필수)"
           required
+          aria-label="성"
           className={styles.emailInput}
           value={signupFamilyName}
           onChange={(e) => setSignupFamilyName(e.target.value)}
@@ -123,6 +124,7 @@ export default function SignupView({
           type="text"
           placeholder="이름 (필수)"
           required
+          aria-label="이름"
           className={styles.emailInput}
           value={signupGivenName}
           onChange={(e) => setSignupGivenName(e.target.value)}
@@ -131,6 +133,7 @@ export default function SignupView({
           type="email"
           placeholder="이메일 주소 (필수)"
           required
+          aria-label="이메일 주소"
           className={styles.emailInput}
           value={signupEmail}
           onChange={(e) => setSignupEmail(e.target.value)}
@@ -141,6 +144,7 @@ export default function SignupView({
             type={isSignupPwShown ? "text" : "password"}
             placeholder="비밀번호 (8자 이상)"
             required
+            aria-label="비밀번호"
             className={styles.emailInput}
             value={signupPassword}
             onChange={(e) => setSignupPassword(e.target.value)}
@@ -180,8 +184,9 @@ export default function SignupView({
         <div className={styles.passwordWrapper}>
           <input
             type={isSignupPwConfirmShown ? "text" : "password"}
-            placeholder="비���번호 확인"
+            placeholder="비밀번호 확인"
             required
+            aria-label="비밀번호 확인"
             className={`${styles.emailInput} ${
               isSignupPwConfirmTouched && signupPwConfirm.length > 0 && signupPassword !== signupPwConfirm
                 ? styles.inputMismatch

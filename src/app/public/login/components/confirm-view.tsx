@@ -41,6 +41,7 @@ export default function ConfirmView({
           type="text"
           placeholder="인증 코드"
           required
+          aria-label="인증 코드"
           className={styles.emailInput}
           value={verifyCode}
           onChange={(e) => setVerifyCode(e.target.value)}

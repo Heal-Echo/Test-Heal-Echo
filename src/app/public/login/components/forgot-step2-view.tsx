@@ -72,6 +72,7 @@ export default function ForgotStep2View({
           type="text"
           placeholder="인증 코드"
           required
+          aria-label="인증 코드"
           className={styles.emailInput}
           value={resetCode}
           onChange={(e) => setResetCode(e.target.value)}
@@ -82,6 +83,7 @@ export default function ForgotStep2View({
             type={isResetPwShown ? "text" : "password"}
             placeholder="새 비밀번호 (8자 이상)"
             required
+            aria-label="새 비밀번호"
             className={styles.emailInput}
             value={newPassword}
             onChange={(e) => setNewPassword(e.target.value)}
@@ -119,6 +121,7 @@ export default function ForgotStep2View({
             type={isConfirmPwShown ? "text" : "password"}
             placeholder="새 비밀번호 확인"
             required
+            aria-label="새 비밀번호 확인"
             className={`${styles.emailInput} ${
               confirmPassword.length > 0 && newPassword !== confirmPassword
                 ? styles.inputError

@@ -59,7 +59,7 @@ export function useForgotPassword({
         if (data.methodLabel && data.signupMethod !== "social") {
           setForgotSocialInfo({
             message: `이 이메일은 ${data.methodLabel}로 가입되어 있습니다.\n${data.methodLabel} 로그인을 이용해 주세요.`,
-            method: data.signupMethod,
+            method: data.signupMethod ?? null,
           });
         } else {
           setForgotSocialInfo({

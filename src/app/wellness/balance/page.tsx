@@ -10,6 +10,7 @@ import BottomTab from "@/components/BottomTab";
 
 import { isUserLoggedIn, getUserName } from "@/auth/user";
 import { getProgramName } from "@/config/programs";
+import * as storage from "@/lib/storage";
 
 /**
  * 반응형 이미지 sizes 속성
@@ -44,6 +45,11 @@ export default function BalancePage() {
   useEffect(() => {
     const name = getUserName();
     setUserName(name);
+  }, []);
+
+  // balance 허브 방문 기록 (BottomTab 요가 라우팅용)
+  useEffect(() => {
+    storage.set("balance_hub_visited", "true");
   }, []);
 
 

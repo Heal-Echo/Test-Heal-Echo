@@ -79,6 +79,7 @@ export default function LoginView({
           type="email"
           placeholder="이메일 주소"
           required
+          aria-label="이메일 주소"
           className={`${styles.emailInput} ${loginError ? styles.inputError : ""}`}
           value={loginEmail}
           onChange={(e) => { setLoginEmail(e.target.value); setLoginError(""); }}
@@ -89,6 +90,7 @@ export default function LoginView({
             type={isLoginPwShown ? "text" : "password"}
             placeholder="비밀번호"
             required
+            aria-label="비밀번호"
             className={`${styles.emailInput} ${loginError ? styles.inputError : ""}`}
             value={loginPassword}
             onChange={(e) => { setLoginPassword(e.target.value); setLoginError(""); }}

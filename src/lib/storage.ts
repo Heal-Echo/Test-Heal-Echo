@@ -150,6 +150,45 @@ function getTrackedDynamicKeys(): string[] {
 }
 
 /**
+ * 동적 키 레지스트리에서 특정 접두사에 해당하는 키 목록을 반환합니다.
+ * - localStorage 직접 열거 없이 레지스트리를 참조
+ * - 반환되는 키는 실제 localStorage에 저장된 rawKey (userId 접미사 포함)
+ * - 향후 AsyncStorage 등에서도 동일하게 작동
+ *
+ * @param prefix - 필터링할 키 접두사 (예: "weekly_habit_sleep_log_")
+ * @returns rawKey 배열 (예: ["weekly_habit_sleep_log_2026-03-01__abc123"])
+ */
+export function getKeysByPrefix(prefix: string): string[] {
+  const allKeys = getTrackedDynamicKeys();
+  return allKeys.filter((rawKey) => {
+    // rawKey에서 userId 접미사를 제거하고 기본 키로 비교
+    const uid = getUserId();
+    const baseKey = uid ? rawKey.replace(`__${uid}`, "") : rawKey;
+    return baseKey.startsWith(prefix);
+  });
+}
+
+/**
+ * 동적 키 레지스트리에서 특정 접두사에 해당하는 키-값 쌍을 반환합니다.
+ * - getKeysByPrefix()의 확장: 값도 함께 읽어서 반환
+ * - localStorage 직접 열거 없이 레지스트리를 참조
+ *
+ * @param prefix - 필터링할 키 접두사 (예: "weekly_habit_sleep_log_")
+ * @returns { rawKey, baseKey, value } 배열
+ */
+export function getEntriesByPrefix(
+  prefix: string
+): { rawKey: string; baseKey: string; value: string | null }[] {
+  const keys = getKeysByPrefix(prefix);
+  const uid = getUserId();
+  return keys.map((rawKey) => ({
+    rawKey,
+    baseKey: uid ? rawKey.replace(`__${uid}`, "") : rawKey,
+    value: getRaw(rawKey),
+  }));
+}
+
+/**
  * 동적 키 레지스트리 자체를 삭제합니다.
  * - clearUserData() 완료 후 호출
  */
@@ -286,6 +325,9 @@ export function clearUserData(): void {
     "balance_watch_records_autobalance",
     "balance_gift_cycle_autobalance",
     // AWS pending 플래그
+    "program_selection_aws_pending",
+    "subscription_aws_pending",
+    "subscription_pending_payload",
     "balance_watch_records_aws_pending_autobalance",
     "balance_gift_cycle_aws_pending_autobalance",
   ];
@@ -350,25 +392,29 @@ export function migrateKey(key: string): void {
 
 // =======================================================
 // 10) 세션 저장소 접근 (sessionStorage 추상화)
-//    - 현재: sessionStorage 기반 (웹)
-//    - 향후: 앱 전환 시 인메모리 Map, React Navigation params,
-//            또는 AsyncStorage(임시 플래그용)로 교체 가능
+//    - 현재: sessionStorage 기반 (웹) + 인메모리 Map fallback
+//    - sessionStorage를 사용할 수 없는 환경(앱, SSR 등)에서는
+//      인메모리 Map으로 자동 전환
 //    - 용도: 리다이렉트 경로 저장, 로그아웃 출처 기록,
 //            OAuth state 검증 등 세션 단위 임시 데이터
 // =======================================================
 
+/** sessionStorage 사용 불가 시 인메모리 fallback */
+const sessionFallback = new Map<string, string>();
+
 /** sessionStorage에서 값을 읽습니다 */
 export function getSession(key: string): string | null {
-  if (!isBrowser()) return null;
+  if (!isBrowser()) return sessionFallback.get(key) ?? null;
   try {
-    return sessionStorage.getItem(key);
+    return sessionStorage.getItem(key) ?? sessionFallback.get(key) ?? null;
   } catch {
-    return null;
+    return sessionFallback.get(key) ?? null;
   }
 }
 
 /** sessionStorage에 값을 저장합니다 */
 export function setSession(key: string, value: string): void {
+  sessionFallback.set(key, value);
   if (!isBrowser()) return;
   try {
     sessionStorage.setItem(key, value);
@@ -377,6 +423,7 @@ export function setSession(key: string, value: string): void {
 
 /** sessionStorage에서 값을 삭제합니다 */
 export function removeSession(key: string): void {
+  sessionFallback.delete(key);
   if (!isBrowser()) return;
   try {
     sessionStorage.removeItem(key);
@@ -385,6 +432,7 @@ export function removeSession(key: string): void {
 
 /** sessionStorage를 전체 삭제합니다 (로그아웃 시 사용) */
 export function clearSession(): void {
+  sessionFallback.clear();
   if (!isBrowser()) return;
   try {
     sessionStorage.clear();

@@ -137,7 +137,7 @@ export function useSocialLogin({
       const label = socialProviderLabel[provider] || provider;
       showBanner(`${label} 로그인 준비 중 오류가 발생했습니다.`, "error");
     }
-  }, [hasTermsConsent]);
+  }, [hasTermsConsent, showConsentToast, showBanner]);
 
   const handleKakaoLogin = useCallback(() => handleSocialLogin("kakao"), [handleSocialLogin]);
   const handleNaverLogin = useCallback(() => handleSocialLogin("naver"), [handleSocialLogin]);

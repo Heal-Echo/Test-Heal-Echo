@@ -50,7 +50,7 @@ export function sendPendingConsent(idToken: string) {
           data.profileSetupDone || profile.profileSetupDone || profile.wellnessGoal;
 
         if (alreadyDone) {
-          console.log("[Consent] 프로필 이미 완료 → 동의 정보 전송 스킵");
+          // 이미 완성된 프로필 → 동의 정보 전송 스킵
           return; // 이미 완성된 프로필이 있으면 덮어쓰지 않음
         }
 

@@ -64,6 +64,7 @@ export default function ForgotStep1View({
           type="email"
           placeholder="이메일 주소"
           required
+          aria-label="이메일 주소"
           className={`${styles.emailInput} ${forgotSocialInfo ? styles.inputError : ""}`}
           value={forgotEmail}
           onChange={(e) => { setForgotEmail(e.target.value); setForgotSocialInfo(null); }}
