@@ -12,11 +12,12 @@ import WellnessCarousel from "./WellnessCarousel";
 
 // 사용자 인증
 import { isUserLoggedIn, getUserName, getUserInfo } from "@/auth/user";
-import { getSubscription, getSubscriptionSync } from "@/auth/subscription";
+import { getSubscription, getSubscriptionSync, retryPendingSubscriptionSync } from "@/auth/subscription";
 import { PROGRAMS_LIST, PROGRAMS, getProgramName, ProgramInfo } from "@/config/programs";
 import { USER_API } from "@/config/constants";
 import * as storage from "@/lib/storage";
-import { getSelectedProgram, isSelectionConfirmed, hydrateFromAWS } from "@/lib/programSelection";
+import { onAppResume, onNetworkRestore } from "@/lib/appLifecycle";
+import { getSelectedProgram, isSelectionConfirmed, hydrateFromAWS, retryPendingProgramSync } from "@/lib/programSelection";
 
 // 모달은 사용자 인터랙션 시에만 필요 → dynamic import로 코드 스플리팅
 const ProgramSelectModal = dynamic(() => import("./ProgramSelectModal"), {
@@ -95,8 +96,10 @@ function HomeContent() {
 
       const profileDone = storage.get("profile_setup_done");
       if (profileDone) {
-        // pending 재시도: 스토리지에 프로필이 있지만 AWS 미전송인 경우
+        // pending 재시도: 스토리지에 데이터가 있지만 AWS 미전송인 경우
         await retryPendingProfileSync();
+        await retryPendingProgramSync();
+        await retryPendingSubscriptionSync();
         // 기존 사용자: 프로그램 선택 데이터가 AWS에만 있을 수 있으므로 hydrate
         await hydrateFromAWS();
         refreshConfirmedProgram();
@@ -179,27 +182,19 @@ function HomeContent() {
   // - 지하철 등에서 인터넷이 끊겼다가 다시 연결되었을 때
   // =======================================================
   useEffect(() => {
-    if (typeof window === "undefined") return;
-
-    // 앱 복귀 감지: 다른 앱 → 다시 돌아왔을 때
-    const handleVisibilityChange = () => {
-      if (document.visibilityState === "visible") {
-        retryPendingProfileSync();
-      }
-    };
-
-    // 인터넷 복구 감지: 오프라인 → 온라인 전환 시
-    const handleOnline = () => {
+    // 앱 복귀 / 인터넷 복구 시 pending 데이터 자동 재전송
+    const retryAll = () => {
       retryPendingProfileSync();
+      retryPendingProgramSync();
+      retryPendingSubscriptionSync();
     };
 
-    document.addEventListener("visibilitychange", handleVisibilityChange);
-    window.addEventListener("online", handleOnline);
+    const cleanupResume = onAppResume(retryAll);
+    const cleanupNetwork = onNetworkRestore(retryAll);
 
-    // 언마운트 시 정리
     return () => {
-      document.removeEventListener("visibilitychange", handleVisibilityChange);
-      window.removeEventListener("online", handleOnline);
+      cleanupResume();
+      cleanupNetwork();
     };
   }, []);
 

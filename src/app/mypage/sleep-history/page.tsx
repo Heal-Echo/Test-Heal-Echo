@@ -125,16 +125,14 @@ export default function SleepHistoryPage() {
     storage.migrateKey(SLEEP_LOG_MIGRATED_KEY);
     if (storage.get(SLEEP_LOG_MIGRATED_KEY) === "done") return;
 
-    // localStorage에서 old(접두사 없는) 수면 로그 키 수집
+    // 동적 키 레지스트리에서 수면 로그 키 수집 (localStorage 직접 열거 제거)
     const localLogs: { dateKey: string; data: Record<string, unknown> }[] = [];
-    for (let i = 0; i < localStorage.length; i++) {
-      const key = localStorage.key(i);
-      if (!key || !key.startsWith(SLEEP_LOG_PREFIX)) continue;
+    const entries = storage.getEntriesByPrefix(SLEEP_LOG_PREFIX);
+    for (const { baseKey, value } of entries) {
+      if (!value) continue;
       try {
-        const dateKey = key.replace(SLEEP_LOG_PREFIX, "");
-        const raw = localStorage.getItem(key);
-        if (!raw) continue;
-        const parsed = JSON.parse(raw);
+        const dateKey = baseKey.replace(SLEEP_LOG_PREFIX, "");
+        const parsed = JSON.parse(value);
         if (parsed.sleepTime || parsed.wakeTime) {
           localLogs.push({ dateKey, data: parsed });
         }

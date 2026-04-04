@@ -21,6 +21,8 @@ const KEY_SUBSCRIPTION = "balance_subscription";
 const KEY_WATCH_RECORDS = "balance_watch_records";
 const KEY_GIFT_CYCLE = "balance_gift_cycle";
 const KEY_MIGRATION_DONE = "balance_server_migration_done";
+const KEY_SUBSCRIPTION_PENDING = "subscription_aws_pending";
+const KEY_SUBSCRIPTION_PENDING_PAYLOAD = "subscription_pending_payload";
 const KEY_WATCH_RECORDS_PENDING = "balance_watch_records_aws_pending";
 const KEY_GIFT_CYCLE_PENDING = "balance_gift_cycle_aws_pending";
 
@@ -183,9 +185,13 @@ export async function prefetchSubscriptions(): Promise<void> {
 export async function saveSubscription(sub: UserSubscription): Promise<boolean> {
   const token = await getAuthToken();
 
-  // 토큰 없으면 캐시에만 저장
+  // 캐시에 항상 저장 (로컬 우선)
+  saveSubscriptionToCache(sub);
+
+  // 토큰 없으면 pending 설정
   if (!token) {
-    saveSubscriptionToCache(sub);
+    storage.set(KEY_SUBSCRIPTION_PENDING, "true");
+    storage.setJSON(KEY_SUBSCRIPTION_PENDING_PAYLOAD, sub);
     return true;
   }
 
@@ -208,6 +214,8 @@ export async function saveSubscription(sub: UserSubscription): Promise<boolean> 
 
     if (!res.ok) {
       console.error("[saveSubscription] API failed:", res.status);
+      storage.set(KEY_SUBSCRIPTION_PENDING, "true");
+      storage.setJSON(KEY_SUBSCRIPTION_PENDING_PAYLOAD, sub);
       return false;
     }
 
@@ -218,9 +226,15 @@ export async function saveSubscription(sub: UserSubscription): Promise<boolean> 
       setMemoryCache(saved);
     }
 
+    // 성공 시 pending 플래그 제거
+    storage.remove(KEY_SUBSCRIPTION_PENDING);
+    storage.remove(KEY_SUBSCRIPTION_PENDING_PAYLOAD);
+
     return true;
   } catch (err) {
     console.error("[saveSubscription] API error:", err);
+    storage.set(KEY_SUBSCRIPTION_PENDING, "true");
+    storage.setJSON(KEY_SUBSCRIPTION_PENDING_PAYLOAD, sub);
     return false;
   }
 }
@@ -976,9 +990,71 @@ export async function getBalanceUserState(programId: string): Promise<BalanceUse
 // ─────────────────────────────────────────
 // 8) Pending 데이터 재전송 (앱 복귀 / 인터넷 복구 시)
 //    - Home 페이지의 retryPendingProfileSync() 패턴 적용
-//    - 시청 기록 + 선물 사이클의 pending 플래그 확인 → 서버 재전송
+//    - 구독 저장 + 시청 기록 + 선물 사이클의 pending 플래그 확인 → 서버 재전송
 //    - visibilitychange, online 이벤트에서 호출
 // ─────────────────────────────────────────
+
+let subscriptionSyncInProgress = false;
+
+/**
+ * 구독 저장의 pending 데이터를 서버에 재전송합니다.
+ * - pending 플래그가 있는 경우에만 실행
+ * - 중복 실행 방지를 위해 subscriptionSyncInProgress 플래그 사용
+ */
+export async function retryPendingSubscriptionSync(): Promise<void> {
+  if (!isBrowser()) return;
+  if (subscriptionSyncInProgress) return;
+
+  const pending = storage.get(KEY_SUBSCRIPTION_PENDING);
+  if (pending !== "true") return;
+
+  subscriptionSyncInProgress = true;
+
+  try {
+    const token = await getAuthToken();
+    if (!token) return;
+
+    const payload = storage.getJSON<UserSubscription>(KEY_SUBSCRIPTION_PENDING_PAYLOAD);
+    if (!payload) {
+      storage.remove(KEY_SUBSCRIPTION_PENDING);
+      return;
+    }
+
+    const res = await fetch("/api/user/subscription", {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify({
+        programId: payload.programId,
+        subscriptionType: payload.subscriptionType,
+        startDate: payload.startDate,
+        status: payload.status,
+        pausedAt: payload.pausedAt,
+        trialEndDate: payload.trialEndDate,
+      }),
+    });
+
+    if (res.ok) {
+      storage.remove(KEY_SUBSCRIPTION_PENDING);
+      storage.remove(KEY_SUBSCRIPTION_PENDING_PAYLOAD);
+      console.log("[Subscription] AWS 재업로드 성공");
+
+      const data = await res.json();
+      if (data.subscription) {
+        saveSubscriptionToCache(data.subscription as UserSubscription);
+        setMemoryCache(data.subscription as UserSubscription);
+      }
+    } else {
+      console.warn("[Subscription] AWS 재업로드 실패:", res.status);
+    }
+  } catch (err) {
+    console.warn("[Subscription] AWS 재업로드 중 에러:", err);
+  } finally {
+    subscriptionSyncInProgress = false;
+  }
+}
 
 let balanceSyncInProgress = false;
 

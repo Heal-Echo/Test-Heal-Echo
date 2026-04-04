@@ -157,10 +157,14 @@ export function syncProgramSelection(
   savePreferencesToAWS(prefsToSave);
 }
 
+// ── pending 플래그 키 ──
+const PROGRAM_AWS_PENDING_KEY = "program_selection_aws_pending";
+
 // =======================================================
-// 3) AWS preferences 저장 헬퍼 (fire-and-forget)
+// 3) AWS preferences 저장 헬퍼
 //    - weekly-habit page.tsx에서 가져온 로직
 //    - 실패해도 로컬에는 이미 저장되어 있으므로 사용자 경험에 영향 없음
+//    - 실패 시 pending 플래그 설정 → 다음 접속 시 재시도
 // =======================================================
 
 async function savePreferencesToAWS(
@@ -169,9 +173,12 @@ async function savePreferencesToAWS(
   try {
     const info = getUserInfo();
     const token = info?.idToken;
-    if (!token) return;
+    if (!token) {
+      storage.set(PROGRAM_AWS_PENDING_KEY, "true");
+      return;
+    }
 
-    await fetch(USER_API.PREFERENCES, {
+    const res = await fetch(USER_API.PREFERENCES, {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
@@ -179,8 +186,76 @@ async function savePreferencesToAWS(
       },
       body: JSON.stringify(prefs),
     });
+
+    if (res.ok) {
+      storage.remove(PROGRAM_AWS_PENDING_KEY);
+    } else {
+      storage.set(PROGRAM_AWS_PENDING_KEY, "true");
+      console.warn("[ProgramSelection] AWS 저장 실패:", res.status);
+    }
   } catch (err) {
+    storage.set(PROGRAM_AWS_PENDING_KEY, "true");
     console.warn("[ProgramSelection] AWS 저장 실패:", err);
+  }
+}
+
+// =======================================================
+// 3-1) Pending 프로그램 선택 재전송
+//      - Home 페이지의 retryPendingProfileSync() 패턴과 동일
+//      - 앱 복귀(visibilitychange), 인터넷 복구(online) 시 호출
+// =======================================================
+
+let programSyncInProgress = false;
+
+export async function retryPendingProgramSync(): Promise<void> {
+  if (typeof window === "undefined") return;
+  if (programSyncInProgress) return;
+
+  const pending = storage.get(PROGRAM_AWS_PENDING_KEY);
+  if (pending !== "true") return;
+
+  programSyncInProgress = true;
+
+  try {
+    const info = getUserInfo();
+    const token = info?.idToken;
+    if (!token) return;
+
+    // 현재 로컬 스토리지에서 프로그램 선택 데이터 수집
+    const prefs: Record<string, string> = {};
+    const selected = storage.get(SELECTED_PROGRAM_KEY);
+    if (selected) prefs[SELECTED_PROGRAM_KEY] = selected;
+    const confirmed = storage.get(PROGRAM_CONFIRMED_KEY);
+    if (confirmed) prefs[PROGRAM_CONFIRMED_KEY] = confirmed;
+    const startDate = storage.get(PROGRAM_START_KEY);
+    if (startDate) prefs[PROGRAM_START_KEY] = startDate;
+    const changeUsed = storage.get(PROGRAM_CHANGE_USED_KEY);
+    if (changeUsed) prefs[PROGRAM_CHANGE_USED_KEY] = changeUsed;
+
+    if (Object.keys(prefs).length === 0) {
+      storage.remove(PROGRAM_AWS_PENDING_KEY);
+      return;
+    }
+
+    const res = await fetch(USER_API.PREFERENCES, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify(prefs),
+    });
+
+    if (res.ok) {
+      storage.remove(PROGRAM_AWS_PENDING_KEY);
+      console.log("[ProgramSelection] AWS 재업로드 성공");
+    } else {
+      console.warn("[ProgramSelection] AWS 재업로드 실패:", res.status);
+    }
+  } catch (err) {
+    console.warn("[ProgramSelection] AWS 재업로드 중 에러:", err);
+  } finally {
+    programSyncInProgress = false;
   }
 }
 
