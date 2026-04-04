@@ -12,9 +12,20 @@ import { AUTH_KEYS } from "./constants";
 // =======================================================
 const NAVER_CLIENT_ID =
   process.env.NEXT_PUBLIC_NAVER_CLIENT_ID || "";
-const NAVER_REDIRECT_URI =
+// Callback path (origin is determined dynamically at runtime)
+const NAVER_CALLBACK_PATH = "/api/public/auth/naver/callback";
+// Server-side fallback (used in exchangeNaverCode, etc.)
+const NAVER_REDIRECT_URI_FALLBACK =
   process.env.NEXT_PUBLIC_NAVER_REDIRECT_URI ||
   "http://localhost:3000/api/public/auth/naver/callback";
+
+/** Current origin-based Naver redirect URI (client) or env fallback (server) */
+function getNaverRedirectUri(): string {
+  if (typeof window !== "undefined") {
+    return `${window.location.origin}${NAVER_CALLBACK_PATH}`;
+  }
+  return NAVER_REDIRECT_URI_FALLBACK;
+}
 
 // localStorage keys (constants.ts에서 중앙 관리)
 const KEY_NAVER_ID = AUTH_KEYS.NAVER_ID;
@@ -38,7 +49,7 @@ export function getNaverLoginUrl(state: string): string {
   // state는 서버에서 생성·저장된 CSRF 방지용 값 (외부에서 전달받음)
   const params = new URLSearchParams({
     client_id: NAVER_CLIENT_ID,
-    redirect_uri: NAVER_REDIRECT_URI,
+    redirect_uri: getNaverRedirectUri(),
     response_type: "code",
     state,
     auth_type: "reprompt",    // 매번 네이버 로그인 확인 화면 표시

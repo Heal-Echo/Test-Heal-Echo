@@ -41,6 +41,12 @@ export async function GET(
     }
 
     const program = params.program;
+    if (!/^[a-zA-Z0-9_-]+$/.test(program)) {
+      return NextResponse.json(
+        { error: "잘못된 프로그램 이름입니다." },
+        { status: 400 }
+      );
+    }
     const url = `${base}/balance/videos/${encodeURIComponent(program)}`;
 
     // ✅ Authorization 헤더 우선 (일반 사용자) + 관리자 쿠키 폴백
@@ -61,12 +67,7 @@ export async function GET(
 
     if (token) {
       headers["Authorization"] = `Bearer ${token}`;
-      console.log("[Public Balance Videos] Using token for upstream.");
-    } else {
-      console.log("[Public Balance Videos] No token. Calling upstream without Authorization.");
     }
-
-    console.log("[Public Balance Videos] Fetching from upstream:", url);
 
     const res = await fetch(url, {
       method: "GET",
@@ -74,17 +75,29 @@ export async function GET(
       cache: "no-store",
     });
 
+    if (!res.ok) {
+      console.error(`[Public Balance Videos] Upstream responded ${res.status}`);
+      const status = res.status === 404 ? 404 : 502;
+      return NextResponse.json(
+        { error: "영상 목록을 불러올 수 없습니다." },
+        { status }
+      );
+    }
+
     const text = await res.text();
 
-    let data: any = null;
+    let data: unknown = null;
     try {
       data = text ? JSON.parse(text) : null;
     } catch {
-      data = { raw: text };
+      return NextResponse.json(
+        { error: "잘못된 응답 형식입니다." },
+        { status: 502 }
+      );
     }
 
-    return NextResponse.json(data ?? {}, { status: res.status });
-  } catch (err: any) {
+    return NextResponse.json(data ?? {}, { status: 200 });
+  } catch (err: unknown) {
     console.error("[Public Balance Videos] Unexpected error:", err);
     return NextResponse.json(
       { error: "Failed to fetch public balance videos" },

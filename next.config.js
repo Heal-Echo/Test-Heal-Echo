@@ -1,4 +1,19 @@
 /** @type {import('next').NextConfig} */
+const os = require("os");
+
+/** Detect the local network IP address automatically (e.g. 192.168.x.x) */
+function getLocalIp() {
+  const interfaces = os.networkInterfaces();
+  for (const name of Object.keys(interfaces)) {
+    for (const iface of interfaces[name] || []) {
+      // Skip internal (loopback) and non-IPv4 addresses
+      if (!iface.internal && iface.family === "IPv4") {
+        return iface.address;
+      }
+    }
+  }
+  return null;
+}
 
 const isProd = process.env.NODE_ENV === "production";
 
@@ -13,7 +28,13 @@ const nextConfig = {
   // 모든 API Route / Server Component에서 Node.js runtime 사용
   experimental: {
     serverActions: {
-      allowedOrigins: ["localhost", "127.0.0.1", "192.168.45.77", "appleid.apple.com", "findable-felisa-rugose.ngrok-free.dev"],
+      allowedOrigins: [
+        "localhost",
+        "127.0.0.1",
+        ...(getLocalIp() ? [getLocalIp()] : []),
+        "appleid.apple.com",
+        "findable-felisa-rugose.ngrok-free.dev",
+      ],
     },
   },
 

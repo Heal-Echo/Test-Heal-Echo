@@ -375,9 +375,9 @@ export default async function LandingPage() {
             <span className={styles.footerBrandName}>Heal Echo</span>
           </div>
 
-          <div className={styles.footerInfo}>
+          <div className={styles.footerInfo} suppressHydrationWarning>
             <p>대표 : {COMPANY_INFO.ceo}</p>
-            <p>사업자 등록 번호 : {COMPANY_INFO.businessNumber}</p>
+            <p suppressHydrationWarning>사업자 등록 번호 : {COMPANY_INFO.businessNumber}</p>
             <p>통신판매업 신고 번호 : {COMPANY_INFO.salesRegistrationNumber}</p>
             <p>
               주소 : {COMPANY_INFO.addressLine1}

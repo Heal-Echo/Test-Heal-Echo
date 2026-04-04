@@ -75,7 +75,16 @@ export const handler = async (event: any) => {
     // → 시청 기록 저장 (같은 날+같은 주차면 덮어쓰기)
     // ─────────────────────────────────────────
     if (method === "POST") {
-      const body = JSON.parse(event.body || "{}");
+      let body: any;
+      try {
+        body = JSON.parse(event.body || "{}");
+      } catch {
+        return {
+          statusCode: 400,
+          headers,
+          body: JSON.stringify({ message: "잘못된 요청 형식입니다." }),
+        };
+      }
 
       // 필수 필드 검증
       if (!body.programId || !body.watchDate || body.weekNumber == null) {
@@ -93,18 +102,7 @@ export const handler = async (event: any) => {
       const sortKey = `${body.programId}#${body.weekNumber}#${body.watchDate}`;
       const now = new Date().toISOString();
 
-      const item = {
-        userId,
-        watchDate: sortKey, // DynamoDB 정렬 키 (복합)
-        originalDate: body.watchDate, // 원본 날짜 (YYYY-MM-DD)
-        programId: body.programId,
-        weekNumber: body.weekNumber,
-        watchDurationSeconds: body.watchDurationSeconds || 0,
-        isCompleted: body.isCompleted || false,
-        updatedAt: now,
-      };
-
-      // 기존 레코드가 있으면 createdAt 보존, 없으면 새로 생성
+      // 기존 레코드 확인 (병합 + createdAt 보존)
       const existing = await dynamo
         .get({
           TableName: TABLE,
@@ -112,12 +110,28 @@ export const handler = async (event: any) => {
         })
         .promise();
 
-      if (existing.Item) {
-        item.updatedAt = now;
-        (item as any).createdAt = existing.Item.createdAt;
-      } else {
-        (item as any).createdAt = now;
-      }
+      const prev = existing.Item;
+
+      // ── 병합 로직: 멀티 디바이스 충돌 방지 ──
+      // 오래된 디바이스가 시청 기록을 더 짧은 값으로 덮어쓰는 것을 방지
+      const prevDuration = prev?.watchDurationSeconds ?? 0;
+      const newDuration = body.watchDurationSeconds || 0;
+      const prevCompleted = prev?.isCompleted ?? false;
+      const newCompleted = body.isCompleted || false;
+
+      const item = {
+        userId,
+        watchDate: sortKey, // DynamoDB 정렬 키 (복합)
+        originalDate: body.watchDate, // 원본 날짜 (YYYY-MM-DD)
+        programId: body.programId,
+        weekNumber: body.weekNumber,
+        // watchDurationSeconds: 항상 큰 값 유지
+        watchDurationSeconds: Math.max(prevDuration, newDuration),
+        // isCompleted: 한번 완료되면 유지 (false로 되돌리지 않음)
+        isCompleted: prevCompleted || newCompleted,
+        updatedAt: now,
+        createdAt: prev?.createdAt || now,
+      };
 
       await dynamo
         .put({

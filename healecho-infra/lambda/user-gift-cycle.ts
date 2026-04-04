@@ -79,7 +79,16 @@ export const handler = async (event: any) => {
     // → 선물 사이클 저장/업데이트
     // ─────────────────────────────────────────
     if (method === "POST") {
-      const body = JSON.parse(event.body || "{}");
+      let body: any;
+      try {
+        body = JSON.parse(event.body || "{}");
+      } catch {
+        return {
+          statusCode: 400,
+          headers,
+          body: JSON.stringify({ message: "잘못된 요청 형식입니다." }),
+        };
+      }
 
       // 필수 필드 검증
       if (!body.programId || body.cycleNumber == null) {
@@ -105,17 +114,25 @@ export const handler = async (event: any) => {
         })
         .promise();
 
+      // ── 병합 로직: 멀티 디바이스 충돌 방지 ──
+      // 오래된 디바이스가 최신 진행도를 덮어쓰는 것을 방지
+      const prev = existing.Item;
+      const prevQW = prev?.qualifiedWeeks ?? 0;
+      const newQW = body.qualifiedWeeks ?? 0;
+
       const item: any = {
         userId,
         cycleKey, // DynamoDB 정렬 키 (복합)
         programId: body.programId,
         cycleNumber: body.cycleNumber,
-        qualifiedWeeks: body.qualifiedWeeks ?? 0,
-        giftUnlockedAt: body.giftUnlockedAt || null,
-        giftExpiresAt: body.giftExpiresAt || null,
-        giftVideoId: body.giftVideoId || null,
+        // qualifiedWeeks: 항상 큰 값 유지 (진행도는 절대 뒤로 가지 않음)
+        qualifiedWeeks: Math.max(prevQW, newQW),
+        // giftUnlockedAt/giftExpiresAt: 기존에 있으면 유지 (해금 상태 보존)
+        giftUnlockedAt: body.giftUnlockedAt || prev?.giftUnlockedAt || null,
+        giftExpiresAt: body.giftExpiresAt || prev?.giftExpiresAt || null,
+        giftVideoId: body.giftVideoId || prev?.giftVideoId || null,
         updatedAt: now,
-        createdAt: existing.Item?.createdAt || now,
+        createdAt: prev?.createdAt || now,
       };
 
       await dynamo

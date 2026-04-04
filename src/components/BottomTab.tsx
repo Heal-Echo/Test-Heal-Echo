@@ -46,14 +46,13 @@ export default function BottomTab() {
       return;
     }
 
-    // 솔루션 선택 완료 고객 → balance 경유 여부로 분기
-    storage.migrateKey("balance_hub_visited");
-    const hasVisitedBalance = storage.get("balance_hub_visited") === "true";
+    // 솔루션 선택 완료 고객 → balance 경유 여부로 분기 (세션 단위)
+    const hasVisitedBalance = storage.getSession("balance_hub_visited") === "true";
 
     if (hasVisitedBalance) {
       router.push("/wellness/solution");
     } else {
-      storage.set("balance_hub_visited", "true");
+      storage.setSession("balance_hub_visited", "true");
       router.push("/wellness/balance");
     }
   }

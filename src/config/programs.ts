@@ -37,6 +37,12 @@ export const PROGRAMS: Record<string, ProgramInfo> = {
   },
 };
 
+/** 프로그램 ID 상수 (하드코딩 방지용 SSOT) */
+export const PROGRAM_ID = {
+  AUTOBALANCE: "autobalance",
+  WOMANS_WHISPER: "womans-whisper",
+} as const;
+
 /** 배열 형태 (팝업·카드 목록 렌더링용) */
 export const PROGRAMS_LIST: ProgramInfo[] = Object.values(PROGRAMS);
 
