@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import styles from "./home.module.css";
@@ -17,15 +17,34 @@ export default function ProgramSelectModal({
   onShowComingSoon,
 }: ProgramSelectModalProps) {
   const router = useRouter();
+  const [isConfirming, setIsConfirming] = useState(false);
 
-  /* ESC 키로 닫기 */
+  /* ESC 키로 닫기 (확인 중에는 비활성) */
   useEffect(() => {
     const handleKey = (e: KeyboardEvent) => {
-      if (e.key === "Escape") onClose();
+      if (e.key === "Escape" && !isConfirming) onClose();
     };
     window.addEventListener("keydown", handleKey);
     return () => window.removeEventListener("keydown", handleKey);
-  }, [onClose]);
+  }, [onClose, isConfirming]);
+
+  /* 확인 메시지 표시 중 */
+  if (isConfirming) {
+    return (
+      <div className={styles.modalOverlay}>
+        <div
+          className={styles.modalContent}
+          role="status"
+          aria-live="polite"
+        >
+          <p className={styles.modalTitle}>
+            {getProgramName("autobalance")},<br />
+            무료 체험을 시작합니다.
+          </p>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className={styles.modalOverlay} onClick={onClose}>
@@ -37,16 +56,19 @@ export default function ProgramSelectModal({
         aria-label="웰니스 프로그램 선택"
       >
         <span className={styles.modalBadge}>7일 무료 체험</span>
-        <p className={styles.modalTitle}>나에게 맞는 웰니스를 선택하세요</p>
-        <p className={styles.modalSubText}>선택 즉시 맞춤 프로그램이 시작됩니다</p>
+        <p className={styles.modalTitle}>나에게 맞는 웰니스 솔루션을 선택하세요</p>
+        <p className={styles.modalSubText}>선택 즉시 맞춤 솔루션이 시작됩니다</p>
 
         <div className={styles.modalCards}>
           <button
             className={styles.modalCard}
             onClick={() => {
               syncProgramSelection("autobalance");
-              onClose();
-              router.push("/wellness/balance");
+              setIsConfirming(true);
+              setTimeout(() => {
+                onClose();
+                router.push("/wellness/balance");
+              }, 1500);
             }}
           >
             <div className={styles.modalCardImageWrap}>

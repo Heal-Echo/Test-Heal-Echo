@@ -8,19 +8,20 @@ import Image from "next/image";
 import Link from "next/link";
 import BottomTab from "@/components/BottomTab";
 import Header from "@/components/Header";
-import WellnessCarousel from "./WellnessCarousel";
+import WellnessCarousel from "./wellness-carousel";
 
 // 사용자 인증
 import { isUserLoggedIn, getUserName, getUserInfo } from "@/auth/user";
 import { getSubscription, getSubscriptionSync, retryPendingSubscriptionSync } from "@/auth/subscription";
 import { PROGRAMS_LIST, PROGRAMS, getProgramName, ProgramInfo } from "@/config/programs";
 import { USER_API } from "@/config/constants";
+import type { ProfileResponse } from "@/types/profile";
 import * as storage from "@/lib/storage";
 import { onAppResume, onNetworkRestore } from "@/lib/appLifecycle";
 import { getSelectedProgram, isSelectionConfirmed, hydrateFromAWS, retryPendingProgramSync } from "@/lib/programSelection";
 
 // 모달은 사용자 인터랙션 시에만 필요 → dynamic import로 코드 스플리팅
-const ProgramSelectModal = dynamic(() => import("./ProgramSelectModal"), {
+const ProgramSelectModal = dynamic(() => import("./program-select-modal"), {
   ssr: false,
 });
 const ComingSoonModal = dynamic(
@@ -64,7 +65,7 @@ async function retryPendingProfileSync(): Promise<void> {
 
     if (res.ok) {
       storage.remove("profile_aws_pending");
-      console.log("[Profile] AWS 재업로드 성공 (이벤트 트리거)");
+      // 성공 시 별도 로깅 불필요 (pending 플래그 제거로 충분)
     } else {
       console.warn("[Profile] AWS 재업로드 실패:", res.status);
     }
@@ -116,8 +117,8 @@ function HomeContent() {
             headers: { Authorization: `Bearer ${token}` },
           });
           if (res.ok) {
-            const data = await res.json();
-            console.log("[Profile] AWS 응답 구조:", JSON.stringify(Object.keys(data)));
+            const data: ProfileResponse = await res.json();
+            // AWS 응답 구조 확인은 개발 중에만 필요 — 프로덕션에서 제거
 
             // AWS 응답 구조 유연하게 처리:
             // 형태 A: { profile: { wellnessGoal, ... }, profileSetupDone: true }
@@ -131,7 +132,7 @@ function HomeContent() {
               // AWS에 프로필 존재 → 스토리지 레이어에 hydrate
               storage.setJSON("user_profile", profile);
               storage.set("profile_setup_done", "true");
-              console.log("[Profile] AWS에서 프로필 hydrate 완료");
+              // hydrate 완료 — 프로덕션 로깅 불필요
               // 기존 사용자: 프로그램 선택 데이터도 함께 복원
               await hydrateFromAWS();
               refreshConfirmedProgram();
@@ -201,7 +202,7 @@ function HomeContent() {
   const searchParams = useSearchParams();
 
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [highlightWellness, setHighlightWellness] = useState(false);
+  const [isHighlightWellness, setIsHighlightWellness] = useState(false);
   const [userName, setUserName] = useState<string | null>(null);
   const [showComingSoon, setShowComingSoon] = useState(false);
   const [subscribedProgram, setSubscribedProgram] = useState<{
@@ -210,7 +211,7 @@ function HomeContent() {
     image: string;
     href: string | null;
   } | null>(null);
-  const [subLoaded, setSubLoaded] = useState(false);
+  const [isSubLoaded, setIsSubLoaded] = useState(false);
   const [confirmedProgram, setConfirmedProgram] = useState<ProgramInfo | null>(null);
 
   // ▶ confirmed 상태 갱신 (browser + confirmed 고객용)
@@ -255,7 +256,7 @@ function HomeContent() {
     const cached = findSubscribed(getSubscriptionSync);
     if (cached) {
       setSubscribedProgram(cached);
-      setSubLoaded(true);
+      setIsSubLoaded(true);
     }
 
     // 2단계: 백그라운드에서 최신 데이터 갱신
@@ -273,7 +274,7 @@ function HomeContent() {
       if (fresh?.id !== cached?.id) {
         setSubscribedProgram(fresh);
       }
-      setSubLoaded(true);
+      setIsSubLoaded(true);
       // 구독이 없는 경우 confirmed 상태 체크
       if (!fresh) refreshConfirmedProgram();
     }
@@ -281,49 +282,45 @@ function HomeContent() {
     refreshSubscriptions();
   }, []);
 
+  // 이미 솔루션을 선택한 고객이면 바로 이동, 아니면 false 반환
+  function navigateIfConfirmed(): boolean {
+    const selectedId = getSelectedProgram();
+    if (selectedId && isSelectionConfirmed()) {
+      const route = PROGRAMS[selectedId]?.route;
+      if (route) {
+        router.push(route);
+        return true;
+      }
+    }
+    return false;
+  }
+
   // ▶ yoga 탭 → home 리다이렉트 시 웰니스 섹션 하이라이트
   useEffect(() => {
     if (searchParams.get("highlight") === "wellness") {
       // URL에서 query param 제거 (히스토리 오염 방지)
       window.history.replaceState(null, "", "/home");
 
-      // 이미 솔루션을 선택한 고객 → 모달 없이 바로 이동
-      const alreadySelected = getSelectedProgram();
-      if (alreadySelected && isSelectionConfirmed()) {
-        const route = PROGRAMS[alreadySelected]?.route;
-        if (route) {
-          router.push(route);
-          return;
-        }
+      if (!navigateIfConfirmed()) {
+        // 미선택 고객 → 마이 솔루션 모달 열기
+        setIsModalOpen(true);
       }
-
-      // 미선택 고객 → 마이 솔루션 모달 열기
-      setIsModalOpen(true);
     }
   }, [searchParams, router]);
 
   const handleOpenModal = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
-
-    // 이미 솔루션을 선택한 고객 → 모달 없이 바로 이동
-    const alreadySelected = getSelectedProgram();
-    if (alreadySelected && isSelectionConfirmed()) {
-      const route = PROGRAMS[alreadySelected]?.route;
-      if (route) {
-        router.push(route);
-        return;
-      }
+    if (!navigateIfConfirmed()) {
+      setIsModalOpen(true);
     }
-
-    setIsModalOpen(true);
   };
 
   const handleCloseModal = () => {
     setIsModalOpen(false);
 
-    setHighlightWellness(true);
+    setIsHighlightWellness(true);
     setTimeout(() => {
-      setHighlightWellness(false);
+      setIsHighlightWellness(false);
     }, 2000);
 
     if (typeof document !== "undefined") {
@@ -361,7 +358,7 @@ function HomeContent() {
             <Link
               href="/wellness/balance"
               className={`${styles.wellnessCard} ${
-                highlightWellness ? styles.wellnessHighlight : ""
+                isHighlightWellness ? styles.wellnessHighlight : ""
               }`}
             >
               <div className={styles.wellnessImageWrap}>
@@ -387,7 +384,7 @@ function HomeContent() {
 
             <div
               className={`${styles.wellnessCard} ${
-                highlightWellness ? styles.wellnessHighlight : ""
+                isHighlightWellness ? styles.wellnessHighlight : ""
               }`}
               onClick={() => setShowComingSoon(true)}
               role="button"
@@ -424,7 +421,7 @@ function HomeContent() {
             마이 솔루션
           </h2>
 
-          {!subLoaded ? (
+          {!isSubLoaded ? (
             /* ── 로딩 중: 빈 공간 유지 (깜빡임 방지) ── */
             <div className={styles.mySolutionCard} style={{ minHeight: 120, opacity: 0.5 }}>
               <p className={styles.mySolutionDesc}>불러오는 중...</p>

@@ -10,14 +10,16 @@ import { isUserLoggedIn, getValidUserInfo } from "@/auth/user";
 import { saveSubscription } from "@/auth/subscription";
 import type { UserSubscription } from "@/types/subscription";
 import { PROGRAMS_LIST } from "@/config/programs";
+import { TOSS_CLIENT_KEY } from "@/config/constants";
 import { setSession } from "@/lib/storage";
 import { syncProgramSelection } from "@/lib/programSelection";
 
 export default function HomePricingPage() {
   const router = useRouter();
   const [plan, setPlan] = useState<"annual" | "monthly">("annual");
-  const [loading, setLoading] = useState(false);
-  const [showProgramModal, setShowProgramModal] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+  const [isShowProgramModal, setIsShowProgramModal] = useState(false);
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
   // 보호 페이지: 로그인 확인
   useEffect(() => {
@@ -29,14 +31,15 @@ export default function HomePricingPage() {
 
   /** CTA 버튼 클릭 → 프로그램 선택 팝업 열기 */
   function handleCtaClick() {
-    setShowProgramModal(true);
+    setErrorMessage(null);
+    setIsShowProgramModal(true);
   }
 
   /** 프로그램 선택 → AWS 저장 → 빌링 카드 등록 */
   async function handleSelectProgram(programId: string) {
     try {
-      setShowProgramModal(false);
-      setLoading(true);
+      setIsShowProgramModal(false);
+      setIsLoading(true);
 
       // ★ 토큰 갱신 보장 — 만료 시 Cognito SDK로 자동 갱신
       const validInfo = await getValidUserInfo();
@@ -91,7 +94,7 @@ export default function HomePricingPage() {
         "@tosspayments/tosspayments-sdk"
       );
       const tossPayments = await loadTossPayments(
-        process.env.NEXT_PUBLIC_TOSS_CLIENT_KEY || ""
+        TOSS_CLIENT_KEY
       );
       const payment = tossPayments.payment({ customerKey });
       await payment.requestBillingAuth({
@@ -102,7 +105,8 @@ export default function HomePricingPage() {
       });
     } catch (err) {
       console.error("[HomePricing] Toss SDK error:", err);
-      setLoading(false);
+      setErrorMessage("결제 처리 중 문제가 발생했습니다. 잠시 후 다시 시도해 주세요.");
+      setIsLoading(false);
     }
   }
 
@@ -125,9 +129,8 @@ export default function HomePricingPage() {
         <div className={styles.mainCard}>
           {/* Features */}
           <div className={styles.featuresSection}>
+            <span className={styles.sectionLabel}>맞춤형 웰니스 솔루션</span>
             <ul className={styles.featureList}>
-              <span className={styles.sectionLabel}>맞춤형 웰니스 솔루션</span>
-
               <li className={styles.featureItem}>
                 <span className={styles.featureIcon}>&#10003;</span>
                 <span>솔루션별 맞춤 요가 클래스</span>
@@ -140,12 +143,14 @@ export default function HomePricingPage() {
                 <span className={styles.featureIcon}>&#10003;</span>
                 <span>마음을 위한 명상 세션</span>
               </li>
+            </ul>
 
-              <hr className={styles.sectionDivider} />
+            <hr className={styles.sectionDivider} />
 
-              <span className={styles.sectionLabel}>
-                프로그램 진행에 따라 제공
-              </span>
+            <span className={styles.sectionLabel}>
+              프로그램 진행에 따라 제공
+            </span>
+            <ul className={styles.featureList}>
 
               <li className={styles.featureItem}>
                 <span className={styles.featureIcon}>&#10003;</span>
@@ -182,6 +187,10 @@ export default function HomePricingPage() {
                 plan === "monthly" ? styles.priceOptionSelected : ""
               }`}
               onClick={() => setPlan("monthly")}
+              role="button"
+              tabIndex={0}
+              onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") setPlan("monthly"); }}
+              aria-pressed={plan === "monthly"}
             >
               <div className={styles.optionLabel}>월간</div>
               <div>
@@ -198,6 +207,10 @@ export default function HomePricingPage() {
                 plan === "annual" ? styles.priceOptionSelected : ""
               }`}
               onClick={() => setPlan("annual")}
+              role="button"
+              tabIndex={0}
+              onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") setPlan("annual"); }}
+              aria-pressed={plan === "annual"}
             >
               <span className={styles.recommendBadge}>추천</span>
               <div className={styles.optionLabel}>연간</div>
@@ -215,14 +228,22 @@ export default function HomePricingPage() {
             <button
               className={styles.ctaBtn}
               onClick={handleCtaClick}
-              disabled={loading}
+              disabled={isLoading}
             >
-              {loading
+              {isLoading
                 ? "처리 중..."
                 : plan === "annual"
                   ? "연간 플랜 시작하기"
                   : "월간 플랜 시작하기"}
             </button>
+            {errorMessage && (
+              <p
+                role="alert"
+                style={{ color: "#ef4444", fontSize: 13, marginTop: 8, textAlign: "center" }}
+              >
+                {errorMessage}
+              </p>
+            )}
           </div>
         </div>
 
@@ -268,18 +289,21 @@ export default function HomePricingPage() {
       <BottomTab />
 
       {/* ── 프로그램 선택 팝업 ── */}
-      {showProgramModal && (
+      {isShowProgramModal && (
         <div
           className={styles.programModalOverlay}
-          onClick={() => setShowProgramModal(false)}
+          onClick={() => setIsShowProgramModal(false)}
         >
           <div
             className={styles.programModalContent}
             onClick={(e) => e.stopPropagation()}
+            role="dialog"
+            aria-modal="true"
+            aria-label="웰니스 프로그램 선택"
           >
             <span className={styles.programModalBadge}>7일 무료 체험</span>
             <p className={styles.programModalTitle}>
-              나에게 맞는 웰니스를 선택하세요
+              나에게 맞는 웰니스 솔루션을 선택하세요
             </p>
             <p className={styles.programModalSub}>
               선택 즉시 카드 등록 화면으로 이동합니다

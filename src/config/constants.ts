@@ -57,6 +57,14 @@ export const FEATURED_VIDEO_ID =
 
 /**
  * ================================
+ *  Toss Payments
+ * ================================
+ */
+export const TOSS_CLIENT_KEY =
+  process.env.NEXT_PUBLIC_TOSS_CLIENT_KEY ?? "";
+
+/**
+ * ================================
  *  Public Auth API Paths (Next.js internal routes)
  * ================================
  */

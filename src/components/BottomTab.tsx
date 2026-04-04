@@ -10,7 +10,7 @@ import * as storage from "@/lib/storage";
 import { getSelectedProgram, isSelectionConfirmed } from "@/lib/programSelection";
 import ComingSoonModal from "@/components/publicSite/ComingSoonModal";
 
-const ProgramSelectModal = dynamic(() => import("@/app/home/ProgramSelectModal"), {
+const ProgramSelectModal = dynamic(() => import("@/app/home/program-select-modal"), {
   ssr: false,
 });
 
