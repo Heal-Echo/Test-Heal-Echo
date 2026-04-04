@@ -6,16 +6,19 @@ import Header from "@/components/Header";
 import BottomTab from "@/components/BottomTab";
 import styles from "./player.module.css";
 
-import { isUserLoggedIn, getUserInfo } from "@/auth/user";
+import { isUserLoggedIn, getUserInfo, getValidUserInfo } from "@/auth/user";
 import { makeVideoUrl, makeThumbnailUrl } from "@/config/constants";
 import {
   canPlayVideo,
   getBalanceUserState,
   saveWatchRecord,
+  saveSubscription,
   getGiftCycle,
   saveGiftCycle,
   countQualifyingWeeksRolling,
 } from "@/auth/subscription";
+import type { UserSubscription } from "@/types/subscription";
+import { syncProgramSelection } from "@/lib/programSelection";
 import SelfCheckSurvey, { hasSelfCheckResult } from "@/components/self-check/SelfCheckSurvey";
 
 import { extractPlayerVideoByWeek, type PlayerVideo } from "./playerBrain";
@@ -41,12 +44,19 @@ function BalancePlayerPageContent() {
   const [showTrialCTA, setShowTrialCTA] = useState(false);
   const [showStickyBanner, setShowStickyBanner] = useState(false);
   const [showExitSheet, setShowExitSheet] = useState(false);
+  const [nextWeeks, setNextWeeks] = useState<PlayerVideo[]>([]);
+  const [showFloatingBanner, setShowFloatingBanner] = useState(false);
+  const [showPreviewCard, setShowPreviewCard] = useState(false);
+  const [plan, setPlan] = useState<"annual" | "monthly">("annual");
+  const [billingLoading, setBillingLoading] = useState(false);
 
   const videoRef = useRef<HTMLVideoElement>(null);
   const hasPlayedThisSessionRef = useRef(false);
   const exitSheetShownRef = useRef(false);
   const trialFlowStartedRef = useRef(false);
   const practiceRecordSentRef = useRef(false);
+  const floatingBannerShownRef = useRef(false);
+  const previewCardShownRef = useRef(false);
 
   // 고객 유형 확인 (비동기 → useState + useEffect)
   const [subType, setSubType] = useState<string>("browser");
@@ -210,6 +220,16 @@ function BalancePlayerPageContent() {
         }
 
         setVideo(found);
+
+        // 2~3주차 데이터 추출 (1주차 browser 고객용 CTA 미리보기)
+        if (weekNumber === 1) {
+          const nw: PlayerVideo[] = [];
+          for (const w of [2, 3]) {
+            const v = extractPlayerVideoByWeek(data, w);
+            if (v) nw.push(v);
+          }
+          setNextWeeks(nw);
+        }
       } catch (e: any) {
         console.error("[Balance Player]", e);
         setError(e?.message || "영상 로딩 중 오류가 발생했습니다.");
@@ -259,9 +279,33 @@ function BalancePlayerPageContent() {
   // 영상 70% 시청 시: 실천 기록 + 시청 기록 + 선물 사이클 저장
   // ─────────────────────────────────────────
   const handleTimeUpdate = useCallback(() => {
-    if (practiceRecordSentRef.current) return;
     const vid = videoRef.current;
     if (!vid || !vid.duration || vid.duration <= 0) return;
+
+    // ── 1단계 CTA: 플로팅 배너 (20초 시점, browser 고객만) ──
+    if (
+      subType === "browser" &&
+      !floatingBannerShownRef.current &&
+      vid.currentTime >= 20
+    ) {
+      floatingBannerShownRef.current = true;
+      setShowFloatingBanner(true);
+      setTimeout(() => setShowFloatingBanner(false), 5000);
+    }
+
+    // ── 2단계 CTA: 2주차 예고 카드 (40% 시점, browser 고객만) ──
+    if (
+      subType === "browser" &&
+      !previewCardShownRef.current &&
+      vid.currentTime >= vid.duration * 0.4
+    ) {
+      previewCardShownRef.current = true;
+      setShowPreviewCard(true);
+      setTimeout(() => setShowPreviewCard(false), 3000);
+    }
+
+    // ── 기존: 70% 시청 시 실천 기록 + 시청 기록 + 선물 사이클 저장 ──
+    if (practiceRecordSentRef.current) return;
 
     if (vid.currentTime >= vid.duration * 0.7) {
       practiceRecordSentRef.current = true;
@@ -309,7 +353,7 @@ function BalancePlayerPageContent() {
         }
       });
     }
-  }, [weekNumber, program]);
+  }, [weekNumber, program, subType]);
 
   // ─────────────────────────────────────────
   // #2 영상 종료 시: 무료 체험 표시
@@ -327,11 +371,71 @@ function BalancePlayerPageContent() {
   }, [subType]);
 
   // ─────────────────────────────────────────
-  // 무료 체험 → pricing 페이지로 이동
+  // 무료 체험 → Toss SDK 직접 ��출 (pricing 경유 없음)
   // ─────────────────────────────────────────
-  const startTrialFlow = useCallback(() => {
-    router.push("/home/pricing");
-  }, [router]);
+  const startBillingAuth = useCallback(async (selectedPlan: "annual" | "monthly" = "annual") => {
+    if (billingLoading) return;
+    try {
+      trialFlowStartedRef.current = true;
+      setBillingLoading(true);
+
+      // 토큰 갱신 보장
+      const validInfo = await getValidUserInfo();
+      if (!validInfo) {
+        router.push("/public/login");
+        return;
+      }
+
+      // AWS에 구독 정보 저장 (browser_selected 상태로)
+      const subscriptionData: UserSubscription = {
+        userId: validInfo.email || "",
+        programId: program,
+        subscriptionType: "browser_selected",
+        startDate: null,
+        currentWeek: 1,
+        status: "active",
+        pausedAt: null,
+        trialEndDate: null,
+      };
+      await saveSubscription(subscriptionData);
+
+      // 솔루션 선택 동기화
+      syncProgramSelection(program);
+
+      // customerKey 생성 (토스 빌링에서 고객 식별)
+      const email = validInfo.email || "guest";
+      const customerKey = email.replace(/[^a-zA-Z0-9@._-]/g, "").slice(0, 50);
+
+      // successUrl/failUrl 구성 (기존 callback 그대로 사용)
+      const callbackBase = `${window.location.origin}/public/billing/callback`;
+      const successParams = new URLSearchParams({
+        programId: program,
+        planType: selectedPlan,
+      });
+      const failParams = new URLSearchParams({
+        status: "fail",
+        programId: program,
+        planType: selectedPlan,
+      });
+
+      // Toss SDK 로드 및 카드 등록 요청
+      const { loadTossPayments } = await import("@tosspayments/tosspayments-sdk");
+      const tossPayments = await loadTossPayments(
+        process.env.NEXT_PUBLIC_TOSS_CLIENT_KEY || ""
+      );
+      const payment = tossPayments.payment({ customerKey });
+      await payment.requestBillingAuth({
+        method: "CARD",
+        successUrl: `${callbackBase}?${successParams.toString()}`,
+        failUrl: `${callbackBase}?${failParams.toString()}`,
+        customerEmail: validInfo.email || undefined,
+      });
+    } catch (err) {
+      console.error("[PlayerCTA] Toss SDK error:", err);
+      trialFlowStartedRef.current = false;
+      setBillingLoading(false);
+    }
+  }, [program, router, billingLoading]);
 
   // 바텀 시트 닫기 → 실제로 이동
   const handleExitSheetClose = useCallback(() => {
@@ -352,7 +456,7 @@ function BalancePlayerPageContent() {
           <div className={styles.stickyBannerBtns}>
             <button
               className={styles.stickyBannerBtn}
-              onClick={startTrialFlow}
+              onClick={() => startBillingAuth()}
             >
               7일 무료 체험
             </button>
@@ -398,6 +502,46 @@ function BalancePlayerPageContent() {
                 <source src={makeVideoUrl(video.key)} type="video/mp4" />
                 브라우저가 HTML5 비디오를 지원하지 않습니다.
               </video>
+
+              {/* ── 1단계: 플로팅 배너 (20초, browser 고객) ── */}
+              {showFloatingBanner && subType === "browser" && (
+                <div
+                  className={styles.floatingBanner}
+                  onClick={() => startBillingAuth()}
+                  role="button"
+                  tabIndex={0}
+                  onKeyDown={(e) => { if (e.key === "Enter") startBillingAuth(); }}
+                >
+                  <p className={styles.floatingBannerText}>2주차부터 전체 열기</p>
+                  <span className={styles.floatingBannerArrow}>→</span>
+                </div>
+              )}
+
+              {/* ── 2단계: 2주차 예고 카드 (40%, browser 고객) ── */}
+              {showPreviewCard && subType === "browser" && nextWeeks.length > 0 && (
+                <div className={styles.previewOverlay}>
+                  <div
+                    className={styles.previewCard}
+                    onClick={() => startBillingAuth()}
+                    role="button"
+                    tabIndex={0}
+                    onKeyDown={(e) => { if (e.key === "Enter") startBillingAuth(); }}
+                  >
+                    {nextWeeks[0].thumbnailKey && (
+                      <img
+                        src={makeThumbnailUrl(nextWeeks[0].thumbnailKey)}
+                        alt={nextWeeks[0].title}
+                        className={styles.previewThumb}
+                      />
+                    )}
+                    <div className={styles.previewInfo}>
+                      <p className={styles.previewLabel}>다음 주 예고</p>
+                      <p className={styles.previewTitle}>{nextWeeks[0].title}</p>
+                      <span className={styles.previewCta}>7일 무료 체험으로 열기 →</span>
+                    </div>
+                  </div>
+                </div>
+              )}
             </div>
 
             {/* ── #2 영상 종료 후: 자가 체크 유도 프롬프트 (미완료 시) ── */}
@@ -425,23 +569,65 @@ function BalancePlayerPageContent() {
               </div>
             )}
 
-            {/* ── #2 영상 종료 후: 무료 체험 CTA (자가 체크 완료 시) ── */}
+            {/* ── #2 영상 종료 후: 무료 체험 CTA (자가 체크 완료 시, 3단계 강화) ── */}
             {showTrialCTA && !showSelfCheck && !showExitSheet && (
               <div className={styles.trialCTACard}>
                 <p className={styles.trialCTAEmoji}>✨</p>
                 <p className={styles.trialCTATitle}>
                   더 많은 변화를 경험해보세요
                 </p>
+
+                {/* 2~3주차 썸네일 미리보기 */}
+                {nextWeeks.length > 0 && (
+                  <div className={styles.trialThumbRow}>
+                    {nextWeeks.map((nw) => (
+                      <div key={nw.weekNumber} className={styles.trialThumbItem}>
+                        {nw.thumbnailKey ? (
+                          <img
+                            src={makeThumbnailUrl(nw.thumbnailKey)}
+                            alt={nw.title}
+                            className={styles.trialThumbImg}
+                          />
+                        ) : (
+                          <div className={styles.trialThumbImg} style={{ background: "#e0e0e0" }} />
+                        )}
+                        <span className={styles.trialThumbLabel}>{nw.weekNumber}주차</span>
+                      </div>
+                    ))}
+                  </div>
+                )}
+
                 <p className={styles.trialCTADesc}>
                   7일간 무료로 모든 주차의 영상을 자유롭게 시청할 수 있어요.
                   <br />
                   체험 기간 중 언제든 취소 가능합니다.
                 </p>
+
+                {/* 플랜 토글 (연간/월간) */}
+                <div className={styles.planToggle}>
+                  <button
+                    type="button"
+                    className={`${styles.planOption} ${plan === "annual" ? styles.planOptionActive : ""}`}
+                    onClick={() => setPlan("annual")}
+                  >
+                    연간 36,000원/월
+                    <span className={styles.planRecommend}>추천</span>
+                  </button>
+                  <button
+                    type="button"
+                    className={`${styles.planOption} ${plan === "monthly" ? styles.planOptionActive : ""}`}
+                    onClick={() => setPlan("monthly")}
+                  >
+                    월간 56,000원/월
+                  </button>
+                </div>
+
                 <button
                   className={styles.trialCTAPrimaryBtn}
-                  onClick={startTrialFlow}
+                  onClick={() => startBillingAuth(plan)}
+                  disabled={billingLoading}
                 >
-                  7일 무료 체험 시작하기
+                  {billingLoading ? "처리 중..." : "7일 무료 체험 시작하기"}
                 </button>
                 <button
                   className={styles.trialCTASecondaryBtn}
@@ -473,7 +659,7 @@ function BalancePlayerPageContent() {
             </p>
             <button
               className={styles.exitSheetPrimaryBtn}
-              onClick={startTrialFlow}
+              onClick={() => startBillingAuth()}
             >
               7일 무료 체험 시작하기
             </button>
@@ -500,7 +686,7 @@ function BalancePlayerPageContent() {
               onStartTrial={async () => {
                 setShowSelfCheck(false);
                 setShowPostVideoCheck(false);
-                await startTrialFlow();
+                await startBillingAuth();
               }}
               onWatchFirst={() => {
                 setShowSelfCheck(false);

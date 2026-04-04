@@ -3,11 +3,16 @@
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter, usePathname } from "next/navigation";
-import { useState, useEffect } from "react";
+import { useState } from "react";
+import dynamic from "next/dynamic";
 import styles from "./bottomTab.module.css";
-import ComingSoonModal from "@/components/publicSite/ComingSoonModal";
+import * as storage from "@/lib/storage";
 import { getSelectedProgram, isSelectionConfirmed } from "@/lib/programSelection";
-import { PROGRAMS } from "@/config/programs";
+import ComingSoonModal from "@/components/publicSite/ComingSoonModal";
+
+const ProgramSelectModal = dynamic(() => import("@/app/home/ProgramSelectModal"), {
+  ssr: false,
+});
 
 export default function BottomTab() {
   const pathname = usePathname();
@@ -24,42 +29,52 @@ export default function BottomTab() {
     { href: "/mypage", icon: "/assets/images/my_page.png", name: "mypage" },
   ];
 
-  /** yoga 탭 클릭 핸들러 */
+  /** yoga 탭 클릭 핸들러
+   * 1. 솔루션 미선택 → 팝업 표시
+   * 2. 솔루션 선택 + balance 경유 이력 있음 → /wellness/solution
+   * 3. 솔루션 선택 + balance 경유 이력 없음 → /wellness/balance (다음부터 solution)
+   */
   function handleYogaClick(e: React.MouseEvent) {
     e.preventDefault();
 
     const program = getSelectedProgram();
     const confirmed = isSelectionConfirmed();
 
-    if (program && confirmed) {
-      const route = PROGRAMS[program]?.route;
-      if (route) {
-        router.push(route);
-      } else {
-        // womans-whisper 등 아직 미지원 솔루션
-        setShowComingSoon(true);
-      }
-    } else {
-      // 무료 체험 시작 전 → home의 마이 솔루션과 동일한 안내
+    // 솔루션을 선택한 적 없는 고객 → 프로그램 선택 모달
+    if (!program || !confirmed) {
       setShowModal(true);
+      return;
+    }
+
+    // 솔루션 선택 완료 고객 → balance 경유 여부로 분기
+    storage.migrateKey("balance_hub_visited");
+    const hasVisitedBalance = storage.get("balance_hub_visited") === "true";
+
+    if (hasVisitedBalance) {
+      router.push("/wellness/solution");
+    } else {
+      storage.set("balance_hub_visited", "true");
+      router.push("/wellness/balance");
     }
   }
 
-  /** 모달 확인 → home 웰니스 섹션으로 이동 */
-  function handleModalConfirm() {
-    setShowModal(false);
-    router.push("/home?highlight=wellness");
-  }
+  /** wellness(weekly-habit) 탭 클릭 핸들러
+   * - 솔루션 미선택 → 프로그램 선택 모달
+   * - 솔루션 선택 완료 → /wellness/weekly-habit 이동
+   */
+  function handleWellnessClick(e: React.MouseEvent) {
+    e.preventDefault();
 
-  /* ESC 키로 모달 닫기 */
-  useEffect(() => {
-    if (!showModal) return;
-    const handleKey = (e: KeyboardEvent) => {
-      if (e.key === "Escape") handleModalConfirm();
-    };
-    window.addEventListener("keydown", handleKey);
-    return () => window.removeEventListener("keydown", handleKey);
-  }, [showModal]);
+    const program = getSelectedProgram();
+    const confirmed = isSelectionConfirmed();
+
+    if (!program || !confirmed) {
+      setShowModal(true);
+      return;
+    }
+
+    router.push("/wellness/weekly-habit");
+  }
 
   return (
     <>
@@ -74,13 +89,14 @@ export default function BottomTab() {
               ? pathname.startsWith("/wellness/weekly-habit")
               : pathname.startsWith(tab.href);
 
-          // yoga 탭은 Link 대신 버튼으로 처리
-          if (isYoga) {
+          // yoga, wellness 탭은 Link 대신 버튼으로 처리 (선택 여부 체크)
+          if (isYoga || isWellness) {
+            const handleClick = isYoga ? handleYogaClick : handleWellnessClick;
             return (
               <button
                 key={tab.name}
                 className={styles.tabItem}
-                onClick={handleYogaClick}
+                onClick={handleClick}
                 type="button"
               >
                 <Image
@@ -108,30 +124,17 @@ export default function BottomTab() {
         })}
       </div>
 
-      {/* 무료 체험 전 안내 모달 (home 마이 솔루션과 동일) */}
+      {/* 솔루션 미선택 고객 → Home과 동일한 프로그램 선택 모달 */}
       {showModal && (
-        <div className={styles.yogaModalOverlay} onClick={handleModalConfirm}>
-          <div
-            className={styles.yogaModalContent}
-            onClick={(e) => e.stopPropagation()}
-            role="dialog"
-            aria-modal="true"
-            aria-label="웰니스 솔루션 안내"
-          >
-            <p className={styles.yogaModalText}>
-              관심있는 웰니스 솔루션을 선택하세요.
-            </p>
-            <button
-              className={styles.yogaModalBtn}
-              onClick={handleModalConfirm}
-            >
-              확인
-            </button>
-          </div>
-        </div>
+        <ProgramSelectModal
+          onClose={() => setShowModal(false)}
+          onShowComingSoon={() => {
+            setShowModal(false);
+            setShowComingSoon(true);
+          }}
+        />
       )}
 
-      {/* Coming Soon (미지원 솔루션) */}
       <ComingSoonModal
         open={showComingSoon}
         onClose={() => setShowComingSoon(false)}

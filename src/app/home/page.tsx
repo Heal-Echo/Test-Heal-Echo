@@ -13,7 +13,7 @@ import WellnessCarousel from "./WellnessCarousel";
 // 사용자 인증
 import { isUserLoggedIn, getUserName, getUserInfo } from "@/auth/user";
 import { getSubscription, getSubscriptionSync } from "@/auth/subscription";
-import { PROGRAMS_LIST, PROGRAMS, getProgramName } from "@/config/programs";
+import { PROGRAMS_LIST, PROGRAMS, getProgramName, ProgramInfo } from "@/config/programs";
 import { USER_API } from "@/config/constants";
 import * as storage from "@/lib/storage";
 import { getSelectedProgram, isSelectionConfirmed, hydrateFromAWS } from "@/lib/programSelection";
@@ -99,6 +99,7 @@ function HomeContent() {
         await retryPendingProfileSync();
         // 기존 사용자: 프로그램 선택 데이터가 AWS에만 있을 수 있으므로 hydrate
         await hydrateFromAWS();
+        refreshConfirmedProgram();
         return; // 프로필 완료 → 홈 유지
       }
 
@@ -130,6 +131,7 @@ function HomeContent() {
               console.log("[Profile] AWS에서 프로필 hydrate 완료");
               // 기존 사용자: 프로그램 선택 데이터도 함께 복원
               await hydrateFromAWS();
+              refreshConfirmedProgram();
               return; // 홈 유지
             }
           } else {
@@ -214,6 +216,20 @@ function HomeContent() {
     href: string | null;
   } | null>(null);
   const [subLoaded, setSubLoaded] = useState(false);
+  const [confirmedProgram, setConfirmedProgram] = useState<ProgramInfo | null>(null);
+
+  // ▶ confirmed 상태 갱신 (browser + confirmed 고객용)
+  function refreshConfirmedProgram() {
+    const selectedId = getSelectedProgram();
+    if (selectedId && isSelectionConfirmed()) {
+      const prog = PROGRAMS[selectedId];
+      if (prog) {
+        setConfirmedProgram(prog);
+        return;
+      }
+    }
+    setConfirmedProgram(null);
+  }
 
   // ▶ 사용자 이름 가져오기
   useEffect(() => {
@@ -263,6 +279,8 @@ function HomeContent() {
         setSubscribedProgram(fresh);
       }
       setSubLoaded(true);
+      // 구독이 없는 경우 confirmed 상태 체크
+      if (!fresh) refreshConfirmedProgram();
     }
 
     refreshSubscriptions();
@@ -271,12 +289,23 @@ function HomeContent() {
   // ▶ yoga 탭 → home 리다이렉트 시 웰니스 섹션 하이라이트
   useEffect(() => {
     if (searchParams.get("highlight") === "wellness") {
-      // 마이 솔루션 모달 열기 (home에서 동일한 경험)
-      setIsModalOpen(true);
       // URL에서 query param 제거 (히스토리 오염 방지)
       window.history.replaceState(null, "", "/home");
+
+      // 이미 솔루션을 선택한 고객 → 모달 없이 바로 이동
+      const alreadySelected = getSelectedProgram();
+      if (alreadySelected && isSelectionConfirmed()) {
+        const route = PROGRAMS[alreadySelected]?.route;
+        if (route) {
+          router.push(route);
+          return;
+        }
+      }
+
+      // 미선택 고객 → 마이 솔루션 모달 열기
+      setIsModalOpen(true);
     }
-  }, [searchParams]);
+  }, [searchParams, router]);
 
   const handleOpenModal = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
@@ -442,8 +471,46 @@ function HomeContent() {
                 <span className={styles.subscribedCta}>시작하기 →</span>
               </div>
             </div>
+          ) : confirmedProgram ? (
+            /* ── 선택 완료 (browser + confirmed): 1주차 무료 체험 중 ── */
+            <div
+              className={styles.mySolutionConfirmed}
+              onClick={() => {
+                if (confirmedProgram.route) {
+                  router.push(confirmedProgram.route);
+                } else {
+                  setShowComingSoon(true);
+                }
+              }}
+              role="button"
+              tabIndex={0}
+              onKeyDown={(e) => {
+                if (e.key === "Enter") {
+                  if (confirmedProgram.route) {
+                    router.push(confirmedProgram.route);
+                  } else {
+                    setShowComingSoon(true);
+                  }
+                }
+              }}
+            >
+              <div className={styles.subscribedImageWrap}>
+                <Image
+                  src={confirmedProgram.image}
+                  alt={confirmedProgram.name}
+                  width={120}
+                  height={120}
+                  className={styles.subscribedImage}
+                />
+              </div>
+              <div className={styles.subscribedInfo}>
+                <span className={styles.confirmedBadge}>1주차 무료 체험 중</span>
+                <p className={styles.confirmedName}>{confirmedProgram.name}</p>
+                <span className={styles.confirmedCta}>시작하기 →</span>
+              </div>
+            </div>
           ) : (
-            /* ── 미결제: 무료 체험 CTA ── */
+            /* ── 미선택: 무료 체험 CTA ── */
             <div className={styles.mySolutionCard}>
               <span className={styles.mySolutionBadge}>7일 무료 체험</span>
               <p className={styles.mySolutionDesc}>나에게 맞는 맞춤 웰니스를 시작해 보세요</p>
