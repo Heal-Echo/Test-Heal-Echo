@@ -96,12 +96,19 @@ const EXPERIENCE_OPTIONS = [
 export default function ProfileSetupPage() {
   const router = useRouter();
 
-  // 🔐 보호 페이지: 로그인 여부 확인 + 이미 프로필 완료한 사용자는 홈으로 리다이렉트
+  // 🔐 보호 페이지: 로그인 확인 + 기존 사용자 이름/이메일 설정 + AWS 프로필 확인
+  // 단일 useEffect에서 API를 1회만 호출하여 중복 요청 방지
   useEffect(() => {
     if (!isUserLoggedIn()) {
       router.replace("/public/login");
       return;
     }
+
+    // 기존 사용자 이름/이메일을 JWT에서 가져와 폼 초기값 설정
+    const name = getUserName();
+    if (name) setNickname(name);
+    const info = getUserInfo();
+    if (info?.email) setReportEmail(info.email);
 
     // 이미 프로필 설정을 완료한 사용자는 다시 작성하지 않도록 홈으로 이동
     const profileDone = storage.get("profile_setup_done");
@@ -110,10 +117,9 @@ export default function ProfileSetupPage() {
       return;
     }
 
-    // 스토리지에 없으면 AWS에서도 확인 (다른 기기/브라우저 캐시 삭제 대응)
-    async function checkAlreadyCompleted() {
+    // 스토리지에 없으면 AWS에서 확인 (다른 기기/브라우저 캐시 삭제 대응)
+    async function loadAndCheckProfile() {
       try {
-        const info = getUserInfo();
         const token = info?.idToken;
         if (!token) return;
 
@@ -136,11 +142,11 @@ export default function ProfileSetupPage() {
           router.replace("/home");
         }
       } catch (err) {
-        console.warn("[Profile] 프로필 완료 여부 확인 실패:", err);
+        console.warn("[Profile] AWS 프로필 확인 실패:", err);
       }
     }
 
-    checkAlreadyCompleted();
+    loadAndCheckProfile();
   }, [router]);
 
   // 단계
@@ -169,59 +175,6 @@ export default function ProfileSetupPage() {
   const [pushNotification, setPushNotification] = useState(true);
   const [emailNotification, setEmailNotification] = useState(true);
   const [marketingConsent, setMarketingConsent] = useState(false);
-
-  // 기존 사용자 이름/이메일 + AWS 프로필 복원
-  useEffect(() => {
-    const name = getUserName();
-    if (name) setNickname(name);
-
-    const info = getUserInfo();
-    if (info?.email) setReportEmail(info.email);
-
-    // AWS에서 기존 프로필 불러오기 (이미 저장된 경우 복원)
-    async function loadProfile() {
-      try {
-        const token = info?.idToken;
-        if (!token) return;
-
-        const res = await fetch("/api/user/profile", {
-          method: "GET",
-          headers: { Authorization: `Bearer ${token}` },
-        });
-
-        if (!res.ok) return;
-
-        const data: ProfileResponse = await res.json();
-        // AWS 응답 구조 유연하게 처리 (플랫 또는 중첩 구조 모두 대응)
-        const profileData = data.profile || data;
-        const isSetupDone = data.profileSetupDone || profileData.profileSetupDone;
-        if (profileData && isSetupDone) {
-          const p = profileData;
-          if (p.wellnessGoal) setWellnessGoal(p.wellnessGoal);
-          if (p.dietHabit) setDietHabit(p.dietHabit);
-          if (p.sleepHabit) setSleepHabit(p.sleepHabit);
-          if (p.experience) setExperience(p.experience);
-          if (p.nickname) setNickname(p.nickname);
-          if (p.birthDate) {
-            const parts = p.birthDate.split("-");
-            if (parts.length === 3) {
-              setBirthYear(parts[0]);
-              setBirthMonth(String(Number(parts[1])));
-              setBirthDay(String(Number(parts[2])));
-            }
-          }
-          if (p.gender) setGender(p.gender);
-          if (p.pushNotification !== undefined) setPushNotification(p.pushNotification);
-          if (p.emailNotification !== undefined) setEmailNotification(p.emailNotification);
-          if (p.marketingConsent !== undefined) setMarketingConsent(p.marketingConsent);
-        }
-      } catch (err) {
-        console.warn("[Profile] AWS에서 프로필 로드 실패:", err);
-      }
-    }
-
-    loadProfile();
-  }, []);
 
   // 연도 옵션 생성 (1940 ~ 현재년도)
   const currentYear = new Date().getFullYear();
@@ -341,7 +294,6 @@ export default function ProfileSetupPage() {
           console.warn("[Profile] AWS 저장 실패:", res.status);
           storage.set("profile_aws_pending", "true");
         } else {
-          console.log("[Profile] AWS 저장 성공");
           storage.remove("profile_aws_pending");
         }
       } else {
@@ -525,9 +477,10 @@ export default function ProfileSetupPage() {
 
             {/* 닉네임 카드 */}
             <div className={styles.card}>
-              <label className={styles.cardLabel}>힐에코에서 어떻게 불러드릴까요?</label>
+              <label htmlFor="profile-nickname" className={styles.cardLabel}>힐에코에서 어떻게 불러드릴까요?</label>
               <div className={styles.inputWithButton}>
                 <input
+                  id="profile-nickname"
                   type="text"
                   placeholder="닉네임을 입력해 주세요"
                   className={`${styles.textInput} ${!isNicknameEditing ? styles.textInputDisabled : ""}`}
@@ -557,8 +510,9 @@ export default function ProfileSetupPage() {
 
             {/* 이메일 카드 */}
             <div className={styles.card}>
-              <label className={styles.cardLabel}>주간 웰니스 리포트 수신 이메일</label>
+              <label htmlFor="profile-email" className={styles.cardLabel}>주간 웰니스 리포트 수신 이메일</label>
               <input
+                id="profile-email"
                 type="email"
                 className={`${styles.textInput} ${styles.textInputDisabled}`}
                 value={reportEmail}
