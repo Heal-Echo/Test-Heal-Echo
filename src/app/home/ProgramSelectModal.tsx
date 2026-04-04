@@ -1,5 +1,6 @@
 "use client";
 
+import { useEffect } from "react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import styles from "./home.module.css";
@@ -17,11 +18,23 @@ export default function ProgramSelectModal({
 }: ProgramSelectModalProps) {
   const router = useRouter();
 
+  /* ESC 키로 닫기 */
+  useEffect(() => {
+    const handleKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape") onClose();
+    };
+    window.addEventListener("keydown", handleKey);
+    return () => window.removeEventListener("keydown", handleKey);
+  }, [onClose]);
+
   return (
     <div className={styles.modalOverlay} onClick={onClose}>
       <div
         className={styles.modalContent}
         onClick={(e) => e.stopPropagation()}
+        role="dialog"
+        aria-modal="true"
+        aria-label="웰니스 프로그램 선택"
       >
         <span className={styles.modalBadge}>7일 무료 체험</span>
         <p className={styles.modalTitle}>나에게 맞는 웰니스를 선택하세요</p>

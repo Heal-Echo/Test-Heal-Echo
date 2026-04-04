@@ -3,8 +3,9 @@
 import React, { useState, useEffect } from "react";
 import dynamic from "next/dynamic";
 import Image from "next/image";
-import styles from "./landing.module.css";
+import styles from "./hero-programs.module.css";
 import { getProgramName } from "@/config/programs";
+import { ROUTES } from "@/config/routes";
 
 // Coming Soon 모달: 사용자가 클릭할 때만 필요하므로 지연 로딩
 const ComingSoonModal = dynamic(
@@ -19,18 +20,18 @@ export default function HeroProgramsClient() {
   }, []);
 
   // ▶ 프로그램 카드 하이라이트 상태
-  const [highlightPrograms, setHighlightPrograms] = useState(false);
+  const [isHighlighted, setIsHighlighted] = useState(false);
 
   // ▶ Coming Soon 모달 상태
-  const [showComingSoon, setShowComingSoon] = useState(false);
+  const [isComingSoonOpen, setIsComingSoonOpen] = useState(false);
 
   // ▶ 웰니스 솔루션 보기 → 스크롤 + 하이라이트
   const handleScrollToPrograms = (e: React.MouseEvent<HTMLAnchorElement>) => {
     e.preventDefault();
 
-    setHighlightPrograms(true);
+    setIsHighlighted(true);
     setTimeout(() => {
-      setHighlightPrograms(false);
+      setIsHighlighted(false);
     }, 2000);
 
     if (typeof document !== "undefined") {
@@ -64,7 +65,7 @@ export default function HeroProgramsClient() {
               </p>
 
               <div className={styles.heroCta}>
-                <a className={styles.btnPrimary} href="/public/login">
+                <a className={styles.btnPrimary} href={ROUTES.LOGIN}>
                   Heal Echo 7일 무료 체험
                 </a>
                 <a
@@ -110,8 +111,8 @@ export default function HeroProgramsClient() {
 
           <div className={styles.programList}>
             {/* 1. 기적의 오토 밸런스 */}
-            <a href="/public/miraclereset" className={styles.programCardLink}>
-              <div className={`${styles.programCard} ${highlightPrograms ? styles.programHighlight : ""}`}>
+            <a href={ROUTES.MIRACLE_RESET} className={styles.programCardLink}>
+              <div className={`${styles.programCard} ${isHighlighted ? styles.programHighlight : ""}`}>
                 <div className={styles.programImage}>
                   <Image
                     src="/assets/images/webp/balance_reset.webp"
@@ -135,10 +136,10 @@ export default function HeroProgramsClient() {
             <button
               type="button"
               className={styles.programCardButton}
-              onClick={() => setShowComingSoon(true)}
+              onClick={() => setIsComingSoonOpen(true)}
               aria-label={`${getProgramName("womans-whisper")} — Coming Soon`}
             >
-              <div className={`${styles.programCard} ${highlightPrograms ? styles.programHighlight : ""}`}>
+              <div className={`${styles.programCard} ${isHighlighted ? styles.programHighlight : ""}`}>
                 <div className={styles.programImage}>
                   <Image
                     src="/assets/images/webp/woman_condition.webp"
@@ -162,7 +163,7 @@ export default function HeroProgramsClient() {
           </div>
 
           <div className={styles.programCta}>
-            <a href="/public/login" className={styles.btnPink}>
+            <a href={ROUTES.LOGIN} className={styles.btnPink}>
               Heal Echo 7일 무료 체험
             </a>
           </div>
@@ -171,8 +172,8 @@ export default function HeroProgramsClient() {
 
       {/* Coming Soon 모달 */}
       <ComingSoonModal
-        open={showComingSoon}
-        onClose={() => setShowComingSoon(false)}
+        open={isComingSoonOpen}
+        onClose={() => setIsComingSoonOpen(false)}
       />
     </>
   );

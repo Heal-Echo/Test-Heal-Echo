@@ -13,9 +13,10 @@ import WellnessCarousel from "./WellnessCarousel";
 // 사용자 인증
 import { isUserLoggedIn, getUserName, getUserInfo } from "@/auth/user";
 import { getSubscription, getSubscriptionSync } from "@/auth/subscription";
-import { PROGRAMS_LIST, getProgramName } from "@/config/programs";
+import { PROGRAMS_LIST, PROGRAMS, getProgramName } from "@/config/programs";
+import { USER_API } from "@/config/constants";
 import * as storage from "@/lib/storage";
-import { getSelectedProgram, isSelectionConfirmed } from "@/lib/programSelection";
+import { getSelectedProgram, isSelectionConfirmed, hydrateFromAWS } from "@/lib/programSelection";
 
 // 모달은 사용자 인터랙션 시에만 필요 → dynamic import로 코드 스플리팅
 const ProgramSelectModal = dynamic(() => import("./ProgramSelectModal"), {
@@ -51,7 +52,7 @@ async function retryPendingProfileSync(): Promise<void> {
     const profile = storage.getJSON("user_profile");
     if (!profile) return;
 
-    const res = await fetch("/api/user/profile", {
+    const res = await fetch(USER_API.PROFILE, {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
@@ -96,6 +97,8 @@ function HomeContent() {
       if (profileDone) {
         // pending 재시도: 스토리지에 프로필이 있지만 AWS 미전송인 경우
         await retryPendingProfileSync();
+        // 기존 사용자: 프로그램 선택 데이터가 AWS에만 있을 수 있으므로 hydrate
+        await hydrateFromAWS();
         return; // 프로필 완료 → 홈 유지
       }
 
@@ -104,7 +107,7 @@ function HomeContent() {
         const info = getUserInfo();
         const token = info?.idToken;
         if (token) {
-          const res = await fetch("/api/user/profile", {
+          const res = await fetch(USER_API.PROFILE, {
             method: "GET",
             headers: { Authorization: `Bearer ${token}` },
           });
@@ -116,15 +119,17 @@ function HomeContent() {
             // 형태 A: { profile: { wellnessGoal, ... }, profileSetupDone: true }
             // 형태 B: { wellnessGoal, ..., profileSetupDone: true } (플랫 구조)
             const profile = data.profile || data;
+            // profileSetupDone은 Lambda에서 실제 데이터 존재 여부도 함께 반영
+            // (플래그 OR 프로필 데이터(nickname, dietHabit 등) 존재 시 true)
             const setupDone = data.profileSetupDone || profile.profileSetupDone;
-            const hasWellnessGoal = profile.wellnessGoal;
 
-            if (setupDone && hasWellnessGoal) {
+            if (setupDone) {
               // AWS에 프로필 존재 → 스토리지 레이어에 hydrate
-              // wellnessGoal 확인: 이용약관 동의만 전송된 불완전 프로필 제외
               storage.setJSON("user_profile", profile);
               storage.set("profile_setup_done", "true");
               console.log("[Profile] AWS에서 프로필 hydrate 완료");
+              // 기존 사용자: 프로그램 선택 데이터도 함께 복원
+              await hydrateFromAWS();
               return; // 홈 유지
             }
           } else {
@@ -208,6 +213,7 @@ function HomeContent() {
     image: string;
     href: string | null;
   } | null>(null);
+  const [subLoaded, setSubLoaded] = useState(false);
 
   // ▶ 사용자 이름 가져오기
   useEffect(() => {
@@ -217,12 +223,6 @@ function HomeContent() {
 
   // ▶ 구독 상태 확인: 캐시 즉시 표시 → 백그라운드 갱신
   useEffect(() => {
-    // 프로그램별 이동 경로 (향후 확장 시 여기에 추가)
-    const PROGRAM_HREF: Record<string, string | null> = {
-      autobalance: "/wellness/balance",
-      "womans-whisper": null, // 향후 설정 예정
-    };
-
     function findSubscribed(
       getSub: (id: string) => { subscriptionType: string }
     ) {
@@ -233,7 +233,7 @@ function HomeContent() {
             id: prog.id,
             name: prog.name,
             image: prog.image,
-            href: PROGRAM_HREF[prog.id] ?? null,
+            href: prog.route,
           };
         }
       }
@@ -242,7 +242,10 @@ function HomeContent() {
 
     // 1단계: 캐시에서 즉시 표시 (로그인 시 prefetch된 데이터)
     const cached = findSubscribed(getSubscriptionSync);
-    if (cached) setSubscribedProgram(cached);
+    if (cached) {
+      setSubscribedProgram(cached);
+      setSubLoaded(true);
+    }
 
     // 2단계: 백그라운드에서 최신 데이터 갱신
     async function refreshSubscriptions() {
@@ -259,6 +262,7 @@ function HomeContent() {
       if (fresh?.id !== cached?.id) {
         setSubscribedProgram(fresh);
       }
+      setSubLoaded(true);
     }
 
     refreshSubscriptions();
@@ -280,7 +284,7 @@ function HomeContent() {
     // 이미 솔루션을 선택한 고객 → 모달 없이 바로 이동
     const alreadySelected = getSelectedProgram();
     if (alreadySelected && isSelectionConfirmed()) {
-      const route = alreadySelected === "autobalance" ? "/wellness/balance" : null;
+      const route = PROGRAMS[alreadySelected]?.route;
       if (route) {
         router.push(route);
         return;
@@ -396,7 +400,12 @@ function HomeContent() {
             마이 솔루션
           </h2>
 
-          {subscribedProgram ? (
+          {!subLoaded ? (
+            /* ── 로딩 중: 빈 공간 유지 (깜빡임 방지) ── */
+            <div className={styles.mySolutionCard} style={{ minHeight: 120, opacity: 0.5 }}>
+              <p className={styles.mySolutionDesc}>불러오는 중...</p>
+            </div>
+          ) : subscribedProgram ? (
             /* ── 결제 완료: 구독 프로그램 카드 ── */
             <div
               className={styles.mySolutionSubscribed}

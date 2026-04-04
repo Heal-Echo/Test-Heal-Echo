@@ -694,7 +694,8 @@
    "Properties": {
     "CorsConfiguration": {
      "AllowHeaders": [
-      "*"
+      "Authorization",
+      "Content-Type"
      ],
      "AllowMethods": [
       "GET",
@@ -705,7 +706,7 @@
       "OPTIONS"
      ],
      "AllowOrigins": [
-      "*"
+      "http://localhost:3000"
      ]
     },
     "Name": "HealechoHttpApi",
@@ -5767,7 +5768,7 @@
    "Properties": {
     "Code": {
      "S3Bucket": "cdk-hnb659fds-assets-513213802410-ap-northeast-2",
-     "S3Key": "07bd2f06e4172ebbfa0e51ceae3c55c48da060012c1eda0e21958fde542a8db0.zip"
+     "S3Key": "a4f644b417b11c67a3518aadfe8fadbcb2b6e8301c48ef9b1771afefff12a392.zip"
     },
     "Environment": {
      "Variables": {
@@ -5797,7 +5798,7 @@
    ],
    "Metadata": {
     "aws:cdk:path": "HealechoStack/AdminListUsersLambda/Resource",
-    "aws:asset:path": "asset.07bd2f06e4172ebbfa0e51ceae3c55c48da060012c1eda0e21958fde542a8db0",
+    "aws:asset:path": "asset.a4f644b417b11c67a3518aadfe8fadbcb2b6e8301c48ef9b1771afefff12a392",
     "aws:asset:is-bundled": true,
     "aws:asset:property": "Code"
    }
@@ -5912,6 +5913,30 @@
          "Arn"
         ]
        }
+      },
+      {
+       "Action": [
+        "dynamodb:BatchGetItem",
+        "dynamodb:GetRecords",
+        "dynamodb:GetShardIterator",
+        "dynamodb:Query",
+        "dynamodb:GetItem",
+        "dynamodb:Scan",
+        "dynamodb:ConditionCheckItem",
+        "dynamodb:DescribeTable"
+       ],
+       "Effect": "Allow",
+       "Resource": [
+        {
+         "Fn::GetAtt": [
+          "UserPreferencesTableA0B50479",
+          "Arn"
+         ]
+        },
+        {
+         "Ref": "AWS::NoValue"
+        }
+       ]
       }
      ],
      "Version": "2012-10-17"
@@ -5932,7 +5957,7 @@
    "Properties": {
     "Code": {
      "S3Bucket": "cdk-hnb659fds-assets-513213802410-ap-northeast-2",
-     "S3Key": "04815ad655f12ecee94889bd5337a9b037eccc2031f03669f49d48c1191d1f9b.zip"
+     "S3Key": "cfed2346d982a7dd63ef8b1f0ae8e357c4590ae910808b70239895dedc632224.zip"
     },
     "Environment": {
      "Variables": {
@@ -5944,6 +5969,9 @@
       },
       "USER_POOL_ID": {
        "Ref": "UserPool6BA7E5F2"
+      },
+      "USER_PREFERENCES_TABLE_NAME": {
+       "Ref": "UserPreferencesTableA0B50479"
       }
      }
     },
@@ -5962,7 +5990,7 @@
    ],
    "Metadata": {
     "aws:cdk:path": "HealechoStack/AdminGetUserLambda/Resource",
-    "aws:asset:path": "asset.04815ad655f12ecee94889bd5337a9b037eccc2031f03669f49d48c1191d1f9b",
+    "aws:asset:path": "asset.cfed2346d982a7dd63ef8b1f0ae8e357c4590ae910808b70239895dedc632224",
     "aws:asset:is-bundled": true,
     "aws:asset:property": "Code"
    }
@@ -8226,7 +8254,7 @@
    "Properties": {
     "Code": {
      "S3Bucket": "cdk-hnb659fds-assets-513213802410-ap-northeast-2",
-     "S3Key": "cf24938a8ccc32a9fcec24f924a8af4b0b1a7589d7ac292fc59da51d396532b0.zip"
+     "S3Key": "834d67d2aa80014041dfe79a034270db6714af9219d3f1f17297518d85fe2ee3.zip"
     },
     "Environment": {
      "Variables": {
@@ -8250,7 +8278,7 @@
    ],
    "Metadata": {
     "aws:cdk:path": "HealechoStack/UserPreferencesLambda/Resource",
-    "aws:asset:path": "asset.cf24938a8ccc32a9fcec24f924a8af4b0b1a7589d7ac292fc59da51d396532b0",
+    "aws:asset:path": "asset.834d67d2aa80014041dfe79a034270db6714af9219d3f1f17297518d85fe2ee3",
     "aws:asset:is-bundled": true,
     "aws:asset:property": "Code"
    }
@@ -8586,6 +8614,34 @@
        ]
       },
       {
+       "Action": [
+        "dynamodb:BatchGetItem",
+        "dynamodb:GetRecords",
+        "dynamodb:GetShardIterator",
+        "dynamodb:Query",
+        "dynamodb:GetItem",
+        "dynamodb:Scan",
+        "dynamodb:ConditionCheckItem",
+        "dynamodb:BatchWriteItem",
+        "dynamodb:PutItem",
+        "dynamodb:UpdateItem",
+        "dynamodb:DeleteItem",
+        "dynamodb:DescribeTable"
+       ],
+       "Effect": "Allow",
+       "Resource": [
+        {
+         "Fn::GetAtt": [
+          "GiftCyclesTable573D8678",
+          "Arn"
+         ]
+        },
+        {
+         "Ref": "AWS::NoValue"
+        }
+       ]
+      },
+      {
        "Action": "cognito-idp:AdminDeleteUser",
        "Effect": "Allow",
        "Resource": {
@@ -8614,7 +8670,7 @@
    "Properties": {
     "Code": {
      "S3Bucket": "cdk-hnb659fds-assets-513213802410-ap-northeast-2",
-     "S3Key": "d1deed49261c1057ebb6e2247bd16083eb2861676299f5eb14544f60b9058c45.zip"
+     "S3Key": "ee9e8f620ec340d3796f0edc1623ce117018c7301d66f16bf91122d741419b1a.zip"
     },
     "Environment": {
      "Variables": {
@@ -8650,6 +8706,9 @@
       },
       "USER_PREFERENCES_TABLE_NAME": {
        "Ref": "UserPreferencesTableA0B50479"
+      },
+      "GIFT_CYCLES_TABLE_NAME": {
+       "Ref": "GiftCyclesTable573D8678"
       }
      }
     },
@@ -8669,7 +8728,7 @@
    ],
    "Metadata": {
     "aws:cdk:path": "HealechoStack/AdminDeleteUserLambda/Resource",
-    "aws:asset:path": "asset.d1deed49261c1057ebb6e2247bd16083eb2861676299f5eb14544f60b9058c45",
+    "aws:asset:path": "asset.ee9e8f620ec340d3796f0edc1623ce117018c7301d66f16bf91122d741419b1a",
     "aws:asset:is-bundled": true,
     "aws:asset:property": "Code"
    }
@@ -8760,7 +8819,7 @@
    "Properties": {
     "Code": {
      "S3Bucket": "cdk-hnb659fds-assets-513213802410-ap-northeast-2",
-     "S3Key": "459b2e111810ca36508bef1462a9a304d1a95b76ea35cd669915a1da1b4e8425.zip"
+     "S3Key": "916be3745df950399bc8cfbe57973c358f6c4e44543ae900ed0ba750dc23d160.zip"
     },
     "Environment": {
      "Variables": {
@@ -8784,7 +8843,7 @@
    ],
    "Metadata": {
     "aws:cdk:path": "HealechoStack/UserSubscriptionLambda/Resource",
-    "aws:asset:path": "asset.459b2e111810ca36508bef1462a9a304d1a95b76ea35cd669915a1da1b4e8425",
+    "aws:asset:path": "asset.916be3745df950399bc8cfbe57973c358f6c4e44543ae900ed0ba750dc23d160",
     "aws:asset:is-bundled": true,
     "aws:asset:property": "Code"
    }
@@ -10035,6 +10094,62 @@
        ]
       },
       {
+       "Action": [
+        "dynamodb:BatchGetItem",
+        "dynamodb:GetRecords",
+        "dynamodb:GetShardIterator",
+        "dynamodb:Query",
+        "dynamodb:GetItem",
+        "dynamodb:Scan",
+        "dynamodb:ConditionCheckItem",
+        "dynamodb:BatchWriteItem",
+        "dynamodb:PutItem",
+        "dynamodb:UpdateItem",
+        "dynamodb:DeleteItem",
+        "dynamodb:DescribeTable"
+       ],
+       "Effect": "Allow",
+       "Resource": [
+        {
+         "Fn::GetAtt": [
+          "UserPreferencesTableA0B50479",
+          "Arn"
+         ]
+        },
+        {
+         "Ref": "AWS::NoValue"
+        }
+       ]
+      },
+      {
+       "Action": [
+        "dynamodb:BatchGetItem",
+        "dynamodb:GetRecords",
+        "dynamodb:GetShardIterator",
+        "dynamodb:Query",
+        "dynamodb:GetItem",
+        "dynamodb:Scan",
+        "dynamodb:ConditionCheckItem",
+        "dynamodb:BatchWriteItem",
+        "dynamodb:PutItem",
+        "dynamodb:UpdateItem",
+        "dynamodb:DeleteItem",
+        "dynamodb:DescribeTable"
+       ],
+       "Effect": "Allow",
+       "Resource": [
+        {
+         "Fn::GetAtt": [
+          "GiftCyclesTable573D8678",
+          "Arn"
+         ]
+        },
+        {
+         "Ref": "AWS::NoValue"
+        }
+       ]
+      },
+      {
        "Action": "cognito-idp:AdminDeleteUser",
        "Effect": "Allow",
        "Resource": {
@@ -10063,7 +10178,7 @@
    "Properties": {
     "Code": {
      "S3Bucket": "cdk-hnb659fds-assets-513213802410-ap-northeast-2",
-     "S3Key": "99e88b3df895765544b341ee04e5d768fda0d633980d6c8c89ca39e56be32b99.zip"
+     "S3Key": "0049e900f56c25bd292e5fa51c3aa8bfad72e7fd4627423d5530a8c2848d231e.zip"
     },
     "Environment": {
      "Variables": {
@@ -10096,6 +10211,12 @@
       },
       "PRACTICE_RECORDS_TABLE_NAME": {
        "Ref": "PracticeRecordsTable5BAFBC5C"
+      },
+      "USER_PREFERENCES_TABLE_NAME": {
+       "Ref": "UserPreferencesTableA0B50479"
+      },
+      "GIFT_CYCLES_TABLE_NAME": {
+       "Ref": "GiftCyclesTable573D8678"
       }
      }
     },
@@ -10115,7 +10236,7 @@
    ],
    "Metadata": {
     "aws:cdk:path": "HealechoStack/AccountCleanupSchedulerLambda/Resource",
-    "aws:asset:path": "asset.99e88b3df895765544b341ee04e5d768fda0d633980d6c8c89ca39e56be32b99",
+    "aws:asset:path": "asset.0049e900f56c25bd292e5fa51c3aa8bfad72e7fd4627423d5530a8c2848d231e",
     "aws:asset:is-bundled": true,
     "aws:asset:property": "Code"
    }
@@ -10371,7 +10492,7 @@
    "Properties": {
     "Code": {
      "S3Bucket": "cdk-hnb659fds-assets-513213802410-ap-northeast-2",
-     "S3Key": "ddef1809b73804764a683fc2ac6f64d8d41b7cdbf89552de681e335a10e0d5d6.zip"
+     "S3Key": "87d939223d98bbc0add57a29ece6e255e7a858613f94ffc983928338ec6fa60c.zip"
     },
     "Environment": {
      "Variables": {
@@ -10395,7 +10516,7 @@
    ],
    "Metadata": {
     "aws:cdk:path": "HealechoStack/UserProfileLambda/Resource",
-    "aws:asset:path": "asset.ddef1809b73804764a683fc2ac6f64d8d41b7cdbf89552de681e335a10e0d5d6",
+    "aws:asset:path": "asset.87d939223d98bbc0add57a29ece6e255e7a858613f94ffc983928338ec6fa60c",
     "aws:asset:is-bundled": true,
     "aws:asset:property": "Code"
    }

@@ -12,6 +12,7 @@ import {
   aws_events as events,
   aws_events_targets as targets,
   aws_backup as backup,                           // ✅ 백업: AWS Backup 서비스
+  aws_budgets as budgets,                         // ✅ 비용 알림
 } from "aws-cdk-lib";
 
 import * as path from "path";
@@ -262,10 +263,13 @@ export class HealechoStack extends cdk.Stack {
     /* ===============================
        HTTP API
     =============================== */
+    // CORS: 환경변수로 허용 origin 관리 (dev: localhost, prod: 실제 도메인)
+    const allowedOrigin = process.env.ALLOWED_ORIGIN || "http://localhost:3000";
+
     const httpApi = new HttpApi(this, "HealechoHttpApi", {
       apiName: "HealechoHttpApi",
       corsPreflight: {
-        allowOrigins: ["*"],
+        allowOrigins: [allowedOrigin],
         allowMethods: [
           CorsHttpMethod.GET,
           CorsHttpMethod.POST,
@@ -274,7 +278,7 @@ export class HealechoStack extends cdk.Stack {
           CorsHttpMethod.DELETE,
           CorsHttpMethod.OPTIONS,
         ],
-        allowHeaders: ["*"],
+        allowHeaders: ["Authorization", "Content-Type"],
       },
     });
 
@@ -978,6 +982,10 @@ export class HealechoStack extends cdk.Stack {
 
     userPreferencesTable.grantReadWriteData(userPreferencesLambda);
 
+    // 관리자 회원 상세 조회에서 솔루션 선택 정보 표시
+    getUserLambda.addEnvironment("USER_PREFERENCES_TABLE_NAME", userPreferencesTable.tableName);
+    userPreferencesTable.grantReadData(getUserLambda);
+
     // GET /user/preferences — 환경설정 조회
     httpApi.addRoutes({
       path: "/user/preferences",
@@ -1014,6 +1022,7 @@ export class HealechoStack extends cdk.Stack {
         USER_SLEEP_LOG_TABLE_NAME: userSleepLogTable.tableName,
         PRACTICE_RECORDS_TABLE_NAME: practiceRecordsTable.tableName,
         USER_PREFERENCES_TABLE_NAME: userPreferencesTable.tableName,
+        GIFT_CYCLES_TABLE_NAME: giftCyclesTable.tableName,
       },
     });
 
@@ -1027,6 +1036,7 @@ export class HealechoStack extends cdk.Stack {
     selfCheckResultsTable.grantReadWriteData(adminDeleteUserLambda);
     userSleepLogTable.grantReadWriteData(adminDeleteUserLambda);
     practiceRecordsTable.grantReadWriteData(adminDeleteUserLambda);
+    giftCyclesTable.grantReadWriteData(adminDeleteUserLambda);
 
     adminDeleteUserLambda.addToRolePolicy(new iam.PolicyStatement({
       actions: ["cognito-idp:AdminDeleteUser"],
@@ -1206,6 +1216,8 @@ export class HealechoStack extends cdk.Stack {
         SELFCHECK_RESULTS_TABLE_NAME: selfCheckResultsTable.tableName,
         USER_SLEEP_LOG_TABLE_NAME: userSleepLogTable.tableName,
         PRACTICE_RECORDS_TABLE_NAME: practiceRecordsTable.tableName,
+        USER_PREFERENCES_TABLE_NAME: userPreferencesTable.tableName,
+        GIFT_CYCLES_TABLE_NAME: giftCyclesTable.tableName,
       },
     });
 
@@ -1218,6 +1230,8 @@ export class HealechoStack extends cdk.Stack {
     selfCheckResultsTable.grantReadWriteData(accountCleanupSchedulerLambda);
     userSleepLogTable.grantReadWriteData(accountCleanupSchedulerLambda);
     practiceRecordsTable.grantReadWriteData(accountCleanupSchedulerLambda);
+    userPreferencesTable.grantReadWriteData(accountCleanupSchedulerLambda);
+    giftCyclesTable.grantReadWriteData(accountCleanupSchedulerLambda);
 
     const cognitoDeletePolicy = new iam.PolicyStatement({
       actions: ["cognito-idp:AdminDeleteUser"],
@@ -1482,6 +1496,65 @@ export class HealechoStack extends cdk.Stack {
       schedule: events.Schedule.cron({ minute: "0", hour: "17" }),
       targets: [new targets.LambdaFunction(cognitoBackupLambda)],
     });
+
+    /* ===============================
+       비용 알림 (AWS Budgets → 이메일 직접 전송)
+       SNS 구독 확인 불필요 — Budgets가 직접 이메일 발송
+    =============================== */
+
+    // 알림 받을 이메일: cdk deploy 시 BUDGET_ALERT_EMAIL 환경변수로 전달
+    // 예: BUDGET_ALERT_EMAIL=you@example.com npx cdk deploy
+    const alertEmail = process.env.BUDGET_ALERT_EMAIL || "";
+
+    if (alertEmail) {
+      // 월 $300 예산 + 80%, 100%, 120% 알림
+      new budgets.CfnBudget(this, "MonthlyBudget", {
+        budget: {
+          budgetName: "healecho-monthly-budget",
+          budgetType: "COST",
+          timeUnit: "MONTHLY",
+          budgetLimit: {
+            amount: 300,
+            unit: "USD",
+          },
+        },
+        notificationsWithSubscribers: [
+          {
+            notification: {
+              comparisonOperator: "GREATER_THAN",
+              threshold: 80,
+              thresholdType: "PERCENTAGE",
+              notificationType: "ACTUAL",
+            },
+            subscribers: [
+              { subscriptionType: "EMAIL", address: alertEmail },
+            ],
+          },
+          {
+            notification: {
+              comparisonOperator: "GREATER_THAN",
+              threshold: 100,
+              thresholdType: "PERCENTAGE",
+              notificationType: "ACTUAL",
+            },
+            subscribers: [
+              { subscriptionType: "EMAIL", address: alertEmail },
+            ],
+          },
+          {
+            notification: {
+              comparisonOperator: "GREATER_THAN",
+              threshold: 120,
+              thresholdType: "PERCENTAGE",
+              notificationType: "ACTUAL",
+            },
+            subscribers: [
+              { subscriptionType: "EMAIL", address: alertEmail },
+            ],
+          },
+        ],
+      });
+    }
 
     /* ===============================
        Outputs

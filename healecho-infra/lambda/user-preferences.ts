@@ -23,9 +23,9 @@ type PreferencesBody = Partial<Record<string, string | boolean | null>>;
 
 export const handler = async (event: any) => {
   const method = event.requestContext?.http?.method || event.httpMethod;
+  // CORS는 API Gateway corsPreflight에서 처리 → Lambda에서는 Content-Type만 설정
   const headers = {
     "Content-Type": "application/json",
-    "Access-Control-Allow-Origin": "*",
   };
 
   try {
@@ -67,7 +67,16 @@ export const handler = async (event: any) => {
 
     // PUT /user/preferences — 환경설정 부분 업데이트
     if (method === "PUT") {
-      const body: PreferencesBody = JSON.parse(event.body || "{}");
+      let body: PreferencesBody;
+      try {
+        body = JSON.parse(event.body || "{}");
+      } catch {
+        return {
+          statusCode: 400,
+          headers,
+          body: JSON.stringify({ message: "Invalid JSON body" }),
+        };
+      }
       const now = new Date().toISOString();
 
       // 화이트리스트에 없는 키 필터링

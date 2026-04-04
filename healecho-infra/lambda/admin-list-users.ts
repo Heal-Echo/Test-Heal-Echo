@@ -101,6 +101,16 @@ export const handler = async (event: any) => {
             subCurrentWeek = latestSub.currentWeek || null;
           }
 
+          // 프로필 완료 판단:
+          // 1) profileSetupDone 플래그
+          // 2) 실제 프로필 데이터 존재 여부 (nickname, dietHabit 등)
+          // 3) profileRepairedAt 존재 = repair Lambda가 처리 = 원래 profileSetupDone=true였던 사용자
+          const hasProfileData = !!(
+            dbData.wellnessGoal || dbData.nickname || dbData.dietHabit ||
+            dbData.sleepHabit || dbData.experience || dbData.birthDate || dbData.gender
+          );
+          const isProfileDone = !!(dbData.profileSetupDone || hasProfileData || dbData.profileRepairedAt);
+
           return {
             ...cu,
             subscriptionType: subType,
@@ -111,7 +121,7 @@ export const handler = async (event: any) => {
             adminMemo: dbData.adminMemo || "",
             programId: subProgramId,
             // 프로필 온보딩 필드 (전체)
-            profileSetupDone: dbData.profileSetupDone || false,
+            profileSetupDone: isProfileDone,
             wellnessGoal: dbData.wellnessGoal || null,
             dietHabit: dbData.dietHabit || null,
             sleepHabit: dbData.sleepHabit || null,

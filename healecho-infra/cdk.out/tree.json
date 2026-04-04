@@ -1029,7 +1029,8 @@
                   "aws:cdk:cloudformation:props": {
                     "corsConfiguration": {
                       "allowHeaders": [
-                        "*"
+                        "Authorization",
+                        "Content-Type"
                       ],
                       "allowMethods": [
                         "GET",
@@ -1040,7 +1041,7 @@
                         "OPTIONS"
                       ],
                       "allowOrigins": [
-                        "*"
+                        "http://localhost:3000"
                       ]
                     },
                     "name": "HealechoHttpApi",
@@ -8496,7 +8497,7 @@
                   "aws:cdk:cloudformation:props": {
                     "code": {
                       "s3Bucket": "cdk-hnb659fds-assets-513213802410-ap-northeast-2",
-                      "s3Key": "07bd2f06e4172ebbfa0e51ceae3c55c48da060012c1eda0e21958fde542a8db0.zip"
+                      "s3Key": "a4f644b417b11c67a3518aadfe8fadbcb2b6e8301c48ef9b1771afefff12a392.zip"
                     },
                     "environment": {
                       "variables": {
@@ -8670,6 +8671,30 @@
                                       "Arn"
                                     ]
                                   }
+                                },
+                                {
+                                  "Action": [
+                                    "dynamodb:BatchGetItem",
+                                    "dynamodb:GetRecords",
+                                    "dynamodb:GetShardIterator",
+                                    "dynamodb:Query",
+                                    "dynamodb:GetItem",
+                                    "dynamodb:Scan",
+                                    "dynamodb:ConditionCheckItem",
+                                    "dynamodb:DescribeTable"
+                                  ],
+                                  "Effect": "Allow",
+                                  "Resource": [
+                                    {
+                                      "Fn::GetAtt": [
+                                        "UserPreferencesTableA0B50479",
+                                        "Arn"
+                                      ]
+                                    },
+                                    {
+                                      "Ref": "AWS::NoValue"
+                                    }
+                                  ]
                                 }
                               ],
                               "Version": "2012-10-17"
@@ -8733,7 +8758,7 @@
                   "aws:cdk:cloudformation:props": {
                     "code": {
                       "s3Bucket": "cdk-hnb659fds-assets-513213802410-ap-northeast-2",
-                      "s3Key": "04815ad655f12ecee94889bd5337a9b037eccc2031f03669f49d48c1191d1f9b.zip"
+                      "s3Key": "cfed2346d982a7dd63ef8b1f0ae8e357c4590ae910808b70239895dedc632224.zip"
                     },
                     "environment": {
                       "variables": {
@@ -8745,6 +8770,9 @@
                         },
                         "USER_POOL_ID": {
                           "Ref": "UserPool6BA7E5F2"
+                        },
+                        "USER_PREFERENCES_TABLE_NAME": {
+                          "Ref": "UserPreferencesTableA0B50479"
                         }
                       }
                     },
@@ -12449,7 +12477,7 @@
                   "aws:cdk:cloudformation:props": {
                     "code": {
                       "s3Bucket": "cdk-hnb659fds-assets-513213802410-ap-northeast-2",
-                      "s3Key": "cf24938a8ccc32a9fcec24f924a8af4b0b1a7589d7ac292fc59da51d396532b0.zip"
+                      "s3Key": "834d67d2aa80014041dfe79a034270db6714af9219d3f1f17297518d85fe2ee3.zip"
                     },
                     "environment": {
                       "variables": {
@@ -12838,6 +12866,34 @@
                                   ]
                                 },
                                 {
+                                  "Action": [
+                                    "dynamodb:BatchGetItem",
+                                    "dynamodb:GetRecords",
+                                    "dynamodb:GetShardIterator",
+                                    "dynamodb:Query",
+                                    "dynamodb:GetItem",
+                                    "dynamodb:Scan",
+                                    "dynamodb:ConditionCheckItem",
+                                    "dynamodb:BatchWriteItem",
+                                    "dynamodb:PutItem",
+                                    "dynamodb:UpdateItem",
+                                    "dynamodb:DeleteItem",
+                                    "dynamodb:DescribeTable"
+                                  ],
+                                  "Effect": "Allow",
+                                  "Resource": [
+                                    {
+                                      "Fn::GetAtt": [
+                                        "GiftCyclesTable573D8678",
+                                        "Arn"
+                                      ]
+                                    },
+                                    {
+                                      "Ref": "AWS::NoValue"
+                                    }
+                                  ]
+                                },
+                                {
                                   "Action": "cognito-idp:AdminDeleteUser",
                                   "Effect": "Allow",
                                   "Resource": {
@@ -12909,7 +12965,7 @@
                   "aws:cdk:cloudformation:props": {
                     "code": {
                       "s3Bucket": "cdk-hnb659fds-assets-513213802410-ap-northeast-2",
-                      "s3Key": "d1deed49261c1057ebb6e2247bd16083eb2861676299f5eb14544f60b9058c45.zip"
+                      "s3Key": "ee9e8f620ec340d3796f0edc1623ce117018c7301d66f16bf91122d741419b1a.zip"
                     },
                     "environment": {
                       "variables": {
@@ -12945,6 +13001,9 @@
                         },
                         "USER_PREFERENCES_TABLE_NAME": {
                           "Ref": "UserPreferencesTableA0B50479"
+                        },
+                        "GIFT_CYCLES_TABLE_NAME": {
+                          "Ref": "GiftCyclesTable573D8678"
                         }
                       }
                     },
@@ -13127,7 +13186,7 @@
                   "aws:cdk:cloudformation:props": {
                     "code": {
                       "s3Bucket": "cdk-hnb659fds-assets-513213802410-ap-northeast-2",
-                      "s3Key": "459b2e111810ca36508bef1462a9a304d1a95b76ea35cd669915a1da1b4e8425.zip"
+                      "s3Key": "916be3745df950399bc8cfbe57973c358f6c4e44543ae900ed0ba750dc23d160.zip"
                     },
                     "environment": {
                       "variables": {
@@ -14883,6 +14942,62 @@
                                   ]
                                 },
                                 {
+                                  "Action": [
+                                    "dynamodb:BatchGetItem",
+                                    "dynamodb:GetRecords",
+                                    "dynamodb:GetShardIterator",
+                                    "dynamodb:Query",
+                                    "dynamodb:GetItem",
+                                    "dynamodb:Scan",
+                                    "dynamodb:ConditionCheckItem",
+                                    "dynamodb:BatchWriteItem",
+                                    "dynamodb:PutItem",
+                                    "dynamodb:UpdateItem",
+                                    "dynamodb:DeleteItem",
+                                    "dynamodb:DescribeTable"
+                                  ],
+                                  "Effect": "Allow",
+                                  "Resource": [
+                                    {
+                                      "Fn::GetAtt": [
+                                        "UserPreferencesTableA0B50479",
+                                        "Arn"
+                                      ]
+                                    },
+                                    {
+                                      "Ref": "AWS::NoValue"
+                                    }
+                                  ]
+                                },
+                                {
+                                  "Action": [
+                                    "dynamodb:BatchGetItem",
+                                    "dynamodb:GetRecords",
+                                    "dynamodb:GetShardIterator",
+                                    "dynamodb:Query",
+                                    "dynamodb:GetItem",
+                                    "dynamodb:Scan",
+                                    "dynamodb:ConditionCheckItem",
+                                    "dynamodb:BatchWriteItem",
+                                    "dynamodb:PutItem",
+                                    "dynamodb:UpdateItem",
+                                    "dynamodb:DeleteItem",
+                                    "dynamodb:DescribeTable"
+                                  ],
+                                  "Effect": "Allow",
+                                  "Resource": [
+                                    {
+                                      "Fn::GetAtt": [
+                                        "GiftCyclesTable573D8678",
+                                        "Arn"
+                                      ]
+                                    },
+                                    {
+                                      "Ref": "AWS::NoValue"
+                                    }
+                                  ]
+                                },
+                                {
                                   "Action": "cognito-idp:AdminDeleteUser",
                                   "Effect": "Allow",
                                   "Resource": {
@@ -14954,7 +15069,7 @@
                   "aws:cdk:cloudformation:props": {
                     "code": {
                       "s3Bucket": "cdk-hnb659fds-assets-513213802410-ap-northeast-2",
-                      "s3Key": "99e88b3df895765544b341ee04e5d768fda0d633980d6c8c89ca39e56be32b99.zip"
+                      "s3Key": "0049e900f56c25bd292e5fa51c3aa8bfad72e7fd4627423d5530a8c2848d231e.zip"
                     },
                     "environment": {
                       "variables": {
@@ -14987,6 +15102,12 @@
                         },
                         "PRACTICE_RECORDS_TABLE_NAME": {
                           "Ref": "PracticeRecordsTable5BAFBC5C"
+                        },
+                        "USER_PREFERENCES_TABLE_NAME": {
+                          "Ref": "UserPreferencesTableA0B50479"
+                        },
+                        "GIFT_CYCLES_TABLE_NAME": {
+                          "Ref": "GiftCyclesTable573D8678"
                         }
                       }
                     },
@@ -15426,7 +15547,7 @@
                   "aws:cdk:cloudformation:props": {
                     "code": {
                       "s3Bucket": "cdk-hnb659fds-assets-513213802410-ap-northeast-2",
-                      "s3Key": "ddef1809b73804764a683fc2ac6f64d8d41b7cdbf89552de681e335a10e0d5d6.zip"
+                      "s3Key": "87d939223d98bbc0add57a29ece6e255e7a858613f94ffc983928338ec6fa60c.zip"
                     },
                     "environment": {
                       "variables": {

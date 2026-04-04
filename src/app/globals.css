@@ -15,8 +15,33 @@
   --color-text: #000;
   --color-bg: #fff;
   --color-primary: #00D6F5;
+  --color-primary-hover: #00c2de;
   --color-secondary: #8A2BE2;
   --color-tertiary: #FF69B4;
+
+  /* 상태 색상 */
+  --color-error: #DC2626;
+  --color-error-dark: #991B1B;
+  --color-error-bg: #FEF2F2;
+  --color-error-border: #FECACA;
+  --color-success: #059669;
+  --color-success-dark: #065F46;
+  --color-success-bg: #ECFDF5;
+  --color-success-border: #A7F3D0;
+  --color-accent: #D22424;
+  --color-accent-hover: #a81c1c;
+
+  /* 중립 색상 */
+  --color-muted: #9CA3AF;
+  --color-border: #D0D0D0;
+  --color-border-light: #E0E0E0;
+  --color-disabled-bg: #E5E7EB;
+  --color-disabled-text: #9CA3AF;
+
+  /* 소셜 브랜드 색상 */
+  --color-kakao: #FEE500;
+  --color-naver: #03C75A;
+  --color-apple: #000000;
 
   /* 폰트 변수 (fonts.ts에서 주입됨) */
   --font-sans: var(--font-noto);

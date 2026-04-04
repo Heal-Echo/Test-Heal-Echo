@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
-import styles from "./profileSetup.module.css";
+import styles from "./profile-setup.module.css";
 import Header from "@/components/Header";
 import { isUserLoggedIn, getUserName, getUserInfo } from "@/auth/user";
 import { getProgramName } from "@/config/programs";
@@ -18,6 +18,36 @@ import * as storage from "@/lib/storage";
 // ============================================================
 
 type Step = 1 | 2 | 3 | 4 | 5;
+
+/** API GET /api/user/profile 응답 타입 */
+interface ProfileResponse {
+  profileSetupDone?: boolean;
+  profile?: ProfileData;
+  wellnessGoal?: string;
+  dietHabit?: string;
+  sleepHabit?: string;
+  experience?: string;
+  nickname?: string;
+  birthDate?: string;
+  gender?: string;
+  pushNotification?: boolean;
+  emailNotification?: boolean;
+  marketingConsent?: boolean;
+}
+
+interface ProfileData {
+  profileSetupDone?: boolean;
+  wellnessGoal?: string;
+  dietHabit?: string;
+  sleepHabit?: string;
+  experience?: string;
+  nickname?: string;
+  birthDate?: string;
+  gender?: string;
+  pushNotification?: boolean;
+  emailNotification?: boolean;
+  marketingConsent?: boolean;
+}
 
 // 성별 옵션
 const GENDER_OPTIONS = [
@@ -94,12 +124,12 @@ export default function ProfileSetupPage() {
 
         if (!res.ok) return;
 
-        const data = await res.json();
+        const data: ProfileResponse = await res.json();
         // AWS 응답 구조 유연하게 처리 (플랫 또는 중첩 구조 모두 대응)
         const profile = data.profile || data;
-        const setupDone = data.profileSetupDone || profile.profileSetupDone;
+        const isSetupDone = data.profileSetupDone || profile.profileSetupDone;
 
-        if (setupDone && profile.wellnessGoal) {
+        if (isSetupDone && profile.wellnessGoal) {
           // AWS에 완료된 프로필 존재 → 스토리지 복원 후 홈으로 이동
           storage.setJSON("user_profile", profile);
           storage.set("profile_setup_done", "true");
@@ -130,7 +160,7 @@ export default function ProfileSetupPage() {
 
   // Step 5: 닉네임 + 이메일 + 생년월일/성별 + 알림/마케팅
   const [nickname, setNickname] = useState("");
-  const [nicknameEditing, setNicknameEditing] = useState(false);
+  const [isNicknameEditing, setIsNicknameEditing] = useState(false);
   const [reportEmail, setReportEmail] = useState("");
   const [birthYear, setBirthYear] = useState("");
   const [birthMonth, setBirthMonth] = useState("");
@@ -161,11 +191,11 @@ export default function ProfileSetupPage() {
 
         if (!res.ok) return;
 
-        const data = await res.json();
+        const data: ProfileResponse = await res.json();
         // AWS 응답 구조 유연하게 처리 (플랫 또는 중첩 구조 모두 대응)
         const profileData = data.profile || data;
-        const setupDone = data.profileSetupDone || profileData.profileSetupDone;
-        if (profileData && setupDone) {
+        const isSetupDone = data.profileSetupDone || profileData.profileSetupDone;
+        if (profileData && isSetupDone) {
           const p = profileData;
           if (p.wellnessGoal) setWellnessGoal(p.wellnessGoal);
           if (p.dietHabit) setDietHabit(p.dietHabit);
@@ -243,16 +273,23 @@ export default function ProfileSetupPage() {
   }
 
   // 저장 중 상태
-  const [saving, setSaving] = useState(false);
+  const [isSaving, setIsSaving] = useState(false);
 
   // 완료 (프로필 AWS 저장 + 스토리지 레이어 백업 + 홈으로 이동)
+  const isStep5Valid = nickname.trim().length > 0;
+
   async function handleComplete() {
-    if (saving) return;
-    setSaving(true);
+    if (isSaving || !isStep5Valid) return;
+    setIsSaving(true);
 
     // 회원가입 시 임시 저장된 동의 기록 불러오기
     // ✅ storage 추상화 레이어 경유 — 앱 전환 시 AsyncStorage 등으로 자동 대응
-    let consentData: Record<string, any> = {};
+    let consentData: {
+      marketingConsent?: boolean;
+      termsConsent?: boolean;
+      termsConsentAt?: string;
+      marketingConsentAt?: string | null;
+    } = {};
     try {
       const pending = storage.getRaw("pending_consent");
       if (pending) {
@@ -316,7 +353,7 @@ export default function ProfileSetupPage() {
       storage.set("profile_aws_pending", "true");
     }
 
-    setSaving(false);
+    setIsSaving(false);
     router.replace("/home");
   }
 
@@ -493,19 +530,19 @@ export default function ProfileSetupPage() {
                 <input
                   type="text"
                   placeholder="닉네임을 입력해 주세요"
-                  className={`${styles.textInput} ${!nicknameEditing ? styles.textInputDisabled : ""}`}
+                  className={`${styles.textInput} ${!isNicknameEditing ? styles.textInputDisabled : ""}`}
                   value={nickname}
                   onChange={(e) => setNickname(e.target.value)}
                   maxLength={20}
-                  disabled={!nicknameEditing}
+                  disabled={!isNicknameEditing}
                 />
                 <button
                   type="button"
-                  className={`${styles.editButton} ${nicknameEditing ? styles.editButtonActive : ""}`}
-                  onClick={() => setNicknameEditing(!nicknameEditing)}
-                  aria-label={nicknameEditing ? "확인" : "수정"}
+                  className={`${styles.editButton} ${isNicknameEditing ? styles.editButtonActive : ""}`}
+                  onClick={() => setIsNicknameEditing(!isNicknameEditing)}
+                  aria-label={isNicknameEditing ? "확인" : "수정"}
                 >
-                  {nicknameEditing ? "확인" : (
+                  {isNicknameEditing ? "확인" : (
                     <svg width="22" height="22" viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg">
                       <polygon points="14,50 50,14 56,20 20,56" fill="#FFD93D" stroke="#E6B800" strokeWidth="1.5" />
                       <polygon points="50,14 56,20 62,8 56,2" fill="#C19A6B" stroke="#A67B5B" strokeWidth="1" />
@@ -541,6 +578,7 @@ export default function ProfileSetupPage() {
                     className={styles.selectInput}
                     value={birthYear}
                     onChange={(e) => setBirthYear(e.target.value)}
+                    aria-label="출생 연도"
                   >
                     <option value="">년</option>
                     {yearOptions.map((y) => (
@@ -552,6 +590,7 @@ export default function ProfileSetupPage() {
                   <select
                     className={styles.selectInput}
                     value={birthMonth}
+                    aria-label="출생 월"
                     onChange={(e) => {
                       setBirthMonth(e.target.value);
                       const newMax = getDaysInMonth(Number(birthYear), Number(e.target.value));
@@ -569,6 +608,7 @@ export default function ProfileSetupPage() {
                     className={styles.selectInput}
                     value={birthDay}
                     onChange={(e) => setBirthDay(e.target.value)}
+                    aria-label="출생 일"
                   >
                     <option value="">일</option>
                     {dayOptions.map((d) => (
@@ -659,9 +699,9 @@ export default function ProfileSetupPage() {
                 type="button"
                 className={styles.nextButton}
                 onClick={handleComplete}
-                disabled={saving}
+                disabled={isSaving || !isStep5Valid}
               >
-                {saving ? "저장 중..." : "시작하기"}
+                {isSaving ? "저장 중..." : "시작하기"}
               </button>
             </div>
           </div>

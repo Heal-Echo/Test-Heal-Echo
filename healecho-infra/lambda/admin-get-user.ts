@@ -6,6 +6,7 @@ const dynamo = new AWS.DynamoDB.DocumentClient();
 const USER_POOL_ID = process.env.USER_POOL_ID as string;
 const USERS_TABLE = process.env.USERS_TABLE_NAME as string;
 const WATCH_TABLE = process.env.WATCH_RECORDS_TABLE_NAME as string;
+const PREFERENCES_TABLE = process.env.USER_PREFERENCES_TABLE_NAME as string;
 
 export const handler = async (event: any) => {
   try {
@@ -58,8 +59,17 @@ export const handler = async (event: any) => {
 
     const dbData = dbRes.Item || {};
 
+    // 프로필 완료 판단:
+    // 1) profileSetupDone 플래그
+    // 2) 실제 프로필 데이터 존재 여부
+    // 3) profileRepairedAt 존재 = repair Lambda가 처리한 사용자 = 원래 완료였음
+    const hasProfileData = !!(
+      dbData.wellnessGoal || dbData.nickname || dbData.dietHabit ||
+      dbData.sleepHabit || dbData.experience || dbData.birthDate || dbData.gender
+    );
+
     // 병합: Cognito 기본 정보 + DynamoDB 추가 정보
-    const user = {
+    const user: Record<string, any> = {
       ...cognitoData,
       ...dbData,
       userId,
@@ -70,6 +80,7 @@ export const handler = async (event: any) => {
       createdAt: cognitoData.createdAt || dbData.createdAt || "",
       subscriptionType: dbData.subscriptionType || "browser",
       status: dbData.status || "active",
+      profileSetupDone: !!(dbData.profileSetupDone || hasProfileData || dbData.profileRepairedAt),
     };
 
     if (!cognitoData.userId && !dbRes.Item) {
@@ -78,6 +89,25 @@ export const handler = async (event: any) => {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ message: "User not found" }),
       };
+    }
+
+    // ── UserPreferencesTable에서 솔루션 선택 정보 조회 ──
+    try {
+      const prefsRes = await dynamo
+        .get({ TableName: PREFERENCES_TABLE, Key: { userId } })
+        .promise();
+
+      if (prefsRes.Item) {
+        const prefs = prefsRes.Item;
+        if (prefs.weekly_habit_selected_program) {
+          user.programId = prefs.weekly_habit_selected_program;
+        }
+        if (prefs.weekly_habit_program_confirmed === "true") {
+          user.programConfirmed = true;
+        }
+      }
+    } catch (e) {
+      console.warn("Preferences lookup failed:", e);
     }
 
     // ── 시청 기록 (최근 90일) ──

@@ -3,9 +3,14 @@ import Image from "next/image";
 import PublicHeader from "@/components/publicSite/PublicHeader";
 import styles from "./landing.module.css";
 
+// Config imports — centralized constants
+import { FEATURED_VIDEO_ID, PUBLIC_INTRO_VIDEOS_URL, API_URL } from "@/config/constants";
+import { ROUTES } from "@/config/routes";
+import { COMPANY_INFO } from "@/config/company";
+
 // 클라이언트 상태가 필요한 섹션만 클라이언트 컴포넌트로 분리
-import HeroProgramsClient from "./HeroProgramsClient";
-import IntroVideoClient from "./IntroVideoClient";
+import HeroProgramsClient from "./hero-programs-client";
+import IntroVideoClient from "./intro-video-client";
 
 // ================================================
 // 서버 사이드: Introduction 비디오 데이터 fetch
@@ -13,19 +18,13 @@ import IntroVideoClient from "./IntroVideoClient";
 // revalidate: 3600 → 1시간 ISR 캐싱
 // ================================================
 function resolveUpstreamUrl(): string | null {
-  const directUrl = process.env.PUBLIC_INTRO_VIDEOS_URL;
-  if (directUrl && directUrl.trim().length > 0) {
-    return directUrl.trim();
+  if (PUBLIC_INTRO_VIDEOS_URL.trim().length > 0) {
+    return PUBLIC_INTRO_VIDEOS_URL.trim();
   }
 
-  const base =
-    process.env.NEXT_PUBLIC_API_BASE_URL ||
-    process.env.NEXT_PUBLIC_ADMIN_API_GATEWAY_URL ||
-    process.env.ADMIN_API_GATEWAY_URL;
+  if (!API_URL) return null;
 
-  if (!base) return null;
-
-  return `${base.replace(/\/$/, "")}/public/videos`;
+  return `${API_URL.replace(/\/$/, "")}/public/videos`;
 }
 
 type VideoItem = {
@@ -57,9 +56,8 @@ async function fetchIntroVideo(): Promise<{
       return { videoKey: null, thumbnailKey: null, error: "소개 영상을 불러오는 중 문제가 발생했습니다." };
     }
 
-    const data = await res.json();
-    const items: VideoItem[] = data?.items ?? [];
-    const FEATURED_VIDEO_ID = "featured";
+    const data: { items?: VideoItem[] } = await res.json();
+    const items: VideoItem[] = Array.isArray(data.items) ? data.items : [];
     const match = items.find((v) => v.id === FEATURED_VIDEO_ID);
 
     if (!match) {
@@ -87,12 +85,12 @@ export default async function LandingPage() {
       <PublicHeader />
 
       {/* Hero + Programs + ComingSoon 모달 (클라이언트) */}
-      <Suspense fallback={<div style={{ minHeight: "60vh" }} />}>
+      <Suspense fallback={<div style={{ minHeight: "60vh" }} aria-busy="true" />}>
         <HeroProgramsClient />
       </Suspense>
 
       {/* Introduction Video (클라이언트 — 재생 제어만 담당) */}
-      <Suspense fallback={<div style={{ minHeight: "200px" }} />}>
+      <Suspense fallback={<div style={{ minHeight: "200px" }} aria-busy="true" />}>
         <IntroVideoClient
           videoKey={introVideoData.videoKey}
           thumbnailKey={introVideoData.thumbnailKey}
@@ -299,10 +297,10 @@ export default async function LandingPage() {
             </div>
 
             {/* CTA */}
-            <a href="/public/login" className={styles.whyCardCta}>
+            <a href={ROUTES.LOGIN} className={styles.whyCardCta}>
               지금 시작하기 →
             </a>
-            <a href="/public/pricing" className={styles.whyCardPricing}>
+            <a href={ROUTES.PRICING} className={styles.whyCardPricing}>
               가격 안내 보기
             </a>
           </div>
@@ -355,7 +353,7 @@ export default async function LandingPage() {
               </p>
             </div>
 
-            <a className={styles.empathyCta} href="/public/login">
+            <a className={styles.empathyCta} href={ROUTES.LOGIN}>
               지금, 나를 위한 변화 시작하기
             </a>
           </div>
@@ -378,16 +376,18 @@ export default async function LandingPage() {
           </div>
 
           <div className={styles.footerInfo}>
-            <p>대표 : 이춘무</p>
-            <p>사업자 등록 번호 : 881-04-03516</p>
-            <p>통신판매업 신고 번호 :</p>
+            <p>대표 : {COMPANY_INFO.ceo}</p>
+            <p>사업자 등록 번호 : {COMPANY_INFO.businessNumber}</p>
+            <p>통신판매업 신고 번호 : {COMPANY_INFO.salesRegistrationNumber}</p>
             <p>
-              주소 : 서울특별시 영등포구 국회대로68길 23,
-              <span className={styles.blockOnMobile}>3층 308호(여의도동, 정원빌딩)</span>
+              주소 : {COMPANY_INFO.addressLine1}
+              <span className={styles.blockOnMobile}>{COMPANY_INFO.addressLine2}</span>
             </p>
           </div>
 
-          <p className={styles.footerCopyright}>&copy; 2025 Heal Echo. All rights reserved.</p>
+          <p className={styles.footerCopyright}>
+            &copy; 2025 {COMPANY_INFO.name}. All rights reserved.
+          </p>
         </div>
       </footer>
     </div>

@@ -8,28 +8,7 @@ export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
 
 import { NextResponse } from "next/server";
-
-function resolveUpstreamBase(): string | null {
-  const base =
-    process.env.NEXT_PUBLIC_API_BASE_URL ||
-    process.env.NEXT_PUBLIC_ADMIN_API_GATEWAY_URL ||
-    process.env.ADMIN_API_GATEWAY_URL;
-
-  if (!base) return null;
-  return base.replace(/\/$/, "");
-}
-
-/**
- * 사용자 토큰을 Authorization 헤더에서 추출
- * 프론트엔드에서 Bearer 토큰으로 전달
- */
-function extractToken(req: Request): string | null {
-  const authHeader = req.headers.get("authorization");
-  if (!authHeader) return null;
-  // "Bearer xxx..." 형태에서 토큰 추출
-  const parts = authHeader.split(" ");
-  return parts.length === 2 ? parts[1] : null;
-}
+import { resolveUpstreamBase, extractToken, validatePutBody } from "@/lib/apiProxy";
 
 export async function PUT(req: Request) {
   try {
@@ -46,7 +25,9 @@ export async function PUT(req: Request) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
-    const rawBody = await req.text();
+    const { body: rawBody, error: validationError } = await validatePutBody(req);
+    if (validationError) return validationError;
+
     const url = `${base}/user/profile`;
 
     console.log("[User Profile PUT] upstream:", url);
@@ -105,11 +86,10 @@ export async function GET(req: Request) {
     });
 
     const text = await res.text();
-    console.log("[User Profile GET] status:", res.status, "raw response:", text.slice(0, 500));
+    console.log("[User Profile GET] status:", res.status);
 
     try {
       const parsed = JSON.parse(text);
-      console.log("[User Profile GET] parsed keys:", Object.keys(parsed), "profileSetupDone:", parsed.profileSetupDone, "profile?:", !!parsed.profile);
       return NextResponse.json(parsed, { status: res.status });
     } catch {
       return NextResponse.json({ raw: text }, { status: res.status });

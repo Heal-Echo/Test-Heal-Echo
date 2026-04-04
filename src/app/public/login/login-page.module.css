@@ -1,0 +1,298 @@
+/* =========================================================
+   LOGIN PAGE — 페이지 레이아웃 + 배너 + 소셜 콜백 (page.tsx 전용)
+   ※ 폼 요소 스타일은 login.module.css 참조
+========================================================= */
+
+/* 페이지 전체 래퍼
+   ※ 100dvh: 모바일 키보드가 올라올 때 실제 화면 높이 반영
+   ※ 100vh 폴백: dvh 미지원 브라우저 대응
+   ※ align-items: flex-start → mainContent가 전체 높이까지 늘어나는 것 방지 */
+.loginPage {
+  min-height: 100vh;
+  min-height: 100dvh;
+  padding: 0;
+  background-color: var(--color-bg);
+  color: var(--color-text);
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  overflow-x: hidden;
+}
+
+/* 메인 컨텐츠: 좌우 분할 — stretch로 좌우 패널 높이 동기화
+   ※ 높이 기준 = 우측 폼 카드 (좌측에 min-height 없으므로 폼이 기준) */
+.mainContent {
+  width: 100%;
+  max-width: 1080px;
+  margin-top: 64px; /* 헤더 높이만큼 */
+  display: flex;
+  align-items: stretch;
+  padding: 0 24px 12px;
+  box-sizing: border-box;
+  gap: 24px;
+}
+
+/* =========================================================
+   LEFT FRAME — 브랜드 비주얼 영역
+========================================================= */
+/* 좌측 패널: 너비 45% 비율, 높이는 부모 stretch로 우측 폼과 동기화 */
+.leftFrame {
+  flex: 0 0 45%;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  border-radius: 24px;
+  background: linear-gradient(
+    135deg,
+    rgba(0, 214, 245, 0.9) 0%,
+    rgba(138, 43, 226, 0.85) 50%,
+    rgba(255, 105, 180, 0.8) 100%
+  );
+}
+
+/* 배경 이미지 — Next.js Image fill 모드 */
+.leftBgImage {
+  object-fit: cover;
+  opacity: 0.35;
+  mix-blend-mode: overlay;
+}
+
+/* 브랜드 콘텐츠 오버레이 */
+.leftContent {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 24px;
+  padding: 40px;
+  text-align: center;
+  max-width: 420px;
+}
+
+/* 로고 이미지 */
+.leftLogo {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  object-fit: cover;
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.2);
+  border: 3px solid rgba(255, 255, 255, 0.5);
+}
+
+/* 브랜드 이름 */
+.leftBrand {
+  font-family: var(--font-serif, "PlayfairDisplay", serif);
+  font-size: 32px;
+  font-weight: 900;
+  color: #fff;
+  letter-spacing: 0.02em;
+  margin: 0;
+  text-shadow: 0 2px 12px rgba(0, 0, 0, 0.15);
+}
+
+/* 슬로건 */
+.leftSlogan {
+  font-size: 17px;
+  font-weight: 500;
+  color: rgba(255, 255, 255, 0.92);
+  line-height: 1.7;
+  margin: 0;
+  text-shadow: 0 1px 8px rgba(0, 0, 0, 0.1);
+  word-break: keep-all;
+}
+
+/* 하단 장식선 */
+.leftAccent {
+  width: 48px;
+  height: 3px;
+  border-radius: 3px;
+  background: rgba(255, 255, 255, 0.6);
+  margin-top: 8px;
+}
+
+/* =========================================================
+   RIGHT FRAME — 폼 영역 (외부 래퍼)
+========================================================= */
+.rightFrame {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  padding: 0 32px;
+  background: var(--color-bg);
+}
+
+/* =========================================================
+   인라인 배너 (성공 / 에러)
+========================================================= */
+.banner {
+  width: 100%;
+  padding: 14px 16px;
+  border-radius: 12px;
+  font-size: 14px;
+  font-weight: 500;
+  text-align: center;
+  box-sizing: border-box;
+  animation: bannerSlideIn 0.3s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  line-height: 1.5;
+}
+
+.bannerMessage {
+  flex: 1;
+}
+
+.bannerClose {
+  flex-shrink: 0;
+  background: none;
+  border: none;
+  font-size: 14px;
+  cursor: pointer;
+  color: inherit;
+  opacity: 0.6;
+  padding: 0 2px;
+  line-height: 1;
+  transition: opacity 0.2s ease;
+}
+
+.bannerClose:hover {
+  opacity: 1;
+}
+
+.bannerClose:active {
+  opacity: 0.4;
+}
+
+.bannerSuccess {
+  background: var(--color-success-bg);
+  color: var(--color-success-dark);
+  border: 1px solid var(--color-success-border);
+}
+
+.bannerError {
+  background: var(--color-error-bg);
+  color: var(--color-error-dark);
+  border: 1px solid var(--color-error-border);
+}
+
+@keyframes bannerSlideIn {
+  from {
+    opacity: 0;
+    transform: translateY(-8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* =========================================================
+   Social Callback Loading Overlay
+========================================================= */
+.socialCallbackOverlay {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  background: rgba(255, 255, 255, 0.85);
+  backdrop-filter: blur(4px);
+}
+
+.socialCallbackSpinner {
+  width: 40px;
+  height: 40px;
+  border: 3px solid var(--color-border-light);
+  border-top-color: var(--color-primary);
+  border-radius: 50%;
+  animation: spinCallback 0.8s linear infinite;
+}
+
+.socialCallbackText {
+  font-size: 15px;
+  color: var(--color-text);
+  font-weight: 500;
+}
+
+@keyframes spinCallback {
+  to { transform: rotate(360deg); }
+}
+
+/* =========================================================
+   반응형: 모바일 (768px 이하)
+========================================================= */
+@media (max-width: 768px) {
+  .mainContent {
+    flex-direction: column;
+    margin-top: 8px;
+    padding: 0;
+  }
+
+  .leftFrame {
+    display: none;
+  }
+
+  .rightFrame {
+    padding: 0 max(16px, env(safe-area-inset-right, 0px)) 0 max(16px, env(safe-area-inset-left, 0px));
+    padding-bottom: calc(60px + env(safe-area-inset-bottom, 0px));
+    align-items: flex-start;
+  }
+}
+
+/* =========================================================
+   반응형: 소형 모바일 (480px 이하)
+========================================================= */
+@media (max-width: 480px) {
+  .rightFrame {
+    padding: 0 max(12px, env(safe-area-inset-right, 0px)) 0 max(12px, env(safe-area-inset-left, 0px));
+    padding-bottom: calc(48px + env(safe-area-inset-bottom, 0px));
+  }
+}
+
+/* =========================================================
+   반응형: 태블릿 (769px ~ 1024px)
+========================================================= */
+@media (min-width: 769px) and (max-width: 1024px) {
+  .mainContent {
+    padding: 24px 16px;
+    gap: 24px;
+  }
+
+  .leftFrame {
+    flex: 0 0 38%;
+  }
+
+  .leftBrand {
+    font-size: 26px;
+  }
+
+  .leftSlogan {
+    font-size: 15px;
+  }
+
+  .leftLogo {
+    width: 64px;
+    height: 64px;
+  }
+
+  .rightFrame {
+    padding: 20px 20px;
+  }
+}
+
+/* =========================================================
+   터치 기기: hover 끈적임 방지
+========================================================= */
+@media (hover: none) {
+  .bannerClose:hover {
+    opacity: 0.7;
+  }
+}

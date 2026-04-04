@@ -2,7 +2,7 @@
 
 import React, { useEffect, useRef, useState } from "react";
 import Image from "next/image";
-import styles from "./landing.module.css";
+import styles from "./intro-video.module.css";
 
 import { makeVideoUrl, makeThumbnailUrl } from "@/config/constants";
 
@@ -22,19 +22,19 @@ export default function IntroVideoClient({
   const videoRef = useRef<HTMLVideoElement | null>(null);
 
   // ▶ 비디오 활성화 상태 (재생 버튼 클릭 전까지 video 태그 미생성)
-  const [videoActivated, setVideoActivated] = useState(false);
+  const [isVideoActivated, setIsVideoActivated] = useState(false);
 
   // ▶ 비디오 재생 에러 상태
-  const [playbackError, setPlaybackError] = useState(false);
+  const [hasPlaybackError, setHasPlaybackError] = useState(false);
 
   // ▶ 비디오 재생 완료 상태
-  const [videoEnded, setVideoEnded] = useState(false);
+  const [isVideoEnded, setIsVideoEnded] = useState(false);
 
   // ▶ 오버레이 재생 버튼 — 클릭 시 비디오 활성화
   const handleOverlayPlay = () => {
-    setPlaybackError(false);
-    setVideoEnded(false);
-    setVideoActivated(true);
+    setHasPlaybackError(false);
+    setIsVideoEnded(false);
+    setIsVideoActivated(true);
   };
 
   // ▶ 다시 보기 — 영상을 처음으로 되돌려 재생
@@ -43,22 +43,22 @@ export default function IntroVideoClient({
       videoRef.current.currentTime = 0;
       videoRef.current.play().catch(() => {});
     }
-    setVideoEnded(false);
+    setIsVideoEnded(false);
   };
 
   // ▶ 비디오 로딩/재생 에러 핸들러
   const handleVideoError = () => {
-    setPlaybackError(true);
+    setHasPlaybackError(true);
   };
 
   // ▶ 비디오 활성화 후 자동 재생
   useEffect(() => {
-    if (videoActivated && videoRef.current) {
+    if (isVideoActivated && videoRef.current) {
       videoRef.current.play().catch(() => {
         // autoplay blocked or source error — handled by onError
       });
     }
-  }, [videoActivated]);
+  }, [isVideoActivated]);
 
   return (
     <section id="introduction" className={styles.introSection}>
@@ -84,7 +84,7 @@ export default function IntroVideoClient({
           {/* 영상 있음: 재생 전에는 썸네일만, 재생 후에는 비디오 */}
           {!error && videoKey && (
             <>
-              {!videoActivated ? (
+              {!isVideoActivated ? (
                 /* 썸네일 + 재생 버튼 (비디오 파일 미로드) */
                 <div className={styles.introThumbnailWrap}>
                   {thumbnailKey && (
@@ -103,7 +103,7 @@ export default function IntroVideoClient({
                     aria-label="영상 재생"
                   />
                 </div>
-              ) : playbackError ? (
+              ) : hasPlaybackError ? (
                 /* 비디오 로딩/재생 실패 시 안내 */
                 <div className={styles.introPlaceholder}>
                   <p className={styles.introMsgError}>
@@ -130,7 +130,7 @@ export default function IntroVideoClient({
                     controlsList="nodownload"
                     preload="metadata"
                     onError={handleVideoError}
-                    onEnded={() => setVideoEnded(true)}
+                    onEnded={() => setIsVideoEnded(true)}
                   >
                     <source
                       src={makeVideoUrl(videoKey)}
@@ -139,7 +139,7 @@ export default function IntroVideoClient({
                     브라우저가 HTML5 비디오를 지원하지 않습니다.
                   </video>
 
-                  {videoEnded && (
+                  {isVideoEnded && (
                     <button
                       type="button"
                       className={styles.videoReplayBtn}

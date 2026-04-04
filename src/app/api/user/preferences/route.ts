@@ -8,23 +8,7 @@ export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
 
 import { NextResponse } from "next/server";
-
-function resolveUpstreamBase(): string | null {
-  const base =
-    process.env.NEXT_PUBLIC_API_BASE_URL ||
-    process.env.NEXT_PUBLIC_ADMIN_API_GATEWAY_URL ||
-    process.env.ADMIN_API_GATEWAY_URL;
-
-  if (!base) return null;
-  return base.replace(/\/$/, "");
-}
-
-function extractToken(req: Request): string | null {
-  const authHeader = req.headers.get("authorization");
-  if (!authHeader) return null;
-  const parts = authHeader.split(" ");
-  return parts.length === 2 ? parts[1] : null;
-}
+import { resolveUpstreamBase, extractToken, validatePutBody } from "@/lib/apiProxy";
 
 export async function GET(req: Request) {
   try {
@@ -82,7 +66,9 @@ export async function PUT(req: Request) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
-    const rawBody = await req.text();
+    const { body: rawBody, error: validationError } = await validatePutBody(req);
+    if (validationError) return validationError;
+
     const url = `${base}/user/preferences`;
 
     const res = await fetch(url, {

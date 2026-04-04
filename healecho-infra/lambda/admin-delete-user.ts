@@ -1,7 +1,7 @@
 // healecho-infra/lambda/admin-delete-user.ts
 // ==========================================
 // 관리자 회원 삭제 Lambda
-// Cognito 즉시 삭제 + DynamoDB 8개 테이블 익명화
+// Cognito 즉시 삭제 + DynamoDB 11개 테이블 익명화
 // ==========================================
 // account-cleanup-scheduler.ts 와 동일한 익명화 전략 적용
 // 관리자 판단에 의한 삭제이므로 유예 기간 없이 즉시 처리
@@ -22,6 +22,9 @@ const HABIT_TRACKING_TABLE = process.env.USER_HABIT_TRACKING_TABLE_NAME as strin
 const PSQI_TABLE = process.env.PSQI_RESULTS_TABLE_NAME as string;
 const SELFCHECK_TABLE = process.env.SELFCHECK_RESULTS_TABLE_NAME as string;
 const SLEEP_LOG_TABLE = process.env.USER_SLEEP_LOG_TABLE_NAME as string;
+const PRACTICE_RECORDS_TABLE = process.env.PRACTICE_RECORDS_TABLE_NAME as string;
+const PREFERENCES_TABLE = process.env.USER_PREFERENCES_TABLE_NAME as string;
+const GIFT_CYCLES_TABLE = process.env.GIFT_CYCLES_TABLE_NAME as string;
 
 /** userId → 익명 ID 생성 (결정적, 비가역) */
 function generateAnonId(userId: string): string {
@@ -161,7 +164,37 @@ async function anonymizeUser(userId: string, anonId: string): Promise<void> {
     });
   }
 
-  // ── 8) UsersTable: PII 제거, 분석용 필드 보존 ──
+  // ── 8) PracticeRecordsTable ──
+  const practices = await queryByUserId(PRACTICE_RECORDS_TABLE, userId);
+  for (const pr of practices) {
+    const anonymized = { ...pr, userId: anonId, anonymizedAt: now };
+    await putAnonymized(PRACTICE_RECORDS_TABLE, anonymized);
+    await deleteRecord(PRACTICE_RECORDS_TABLE, {
+      userId: pr.userId,
+      recordKey: pr.recordKey,
+    });
+  }
+
+  // ── 9) UserPreferencesTable (정렬키 없음, userId만) ──
+  const prefs = await queryByUserId(PREFERENCES_TABLE, userId);
+  for (const pref of prefs) {
+    const anonymized = { ...pref, userId: anonId, anonymizedAt: now };
+    await putAnonymized(PREFERENCES_TABLE, anonymized);
+    await deleteRecord(PREFERENCES_TABLE, { userId: pref.userId });
+  }
+
+  // ── 10) GiftCyclesTable ──
+  const gifts = await queryByUserId(GIFT_CYCLES_TABLE, userId);
+  for (const g of gifts) {
+    const anonymized = { ...g, userId: anonId, anonymizedAt: now };
+    await putAnonymized(GIFT_CYCLES_TABLE, anonymized);
+    await deleteRecord(GIFT_CYCLES_TABLE, {
+      userId: g.userId,
+      cycleKey: g.cycleKey,
+    });
+  }
+
+  // ── 11) UsersTable: PII 제거, 분석용 필드 보존 ──
   await dynamo
     .update({
       TableName: USERS_TABLE,
@@ -202,7 +235,7 @@ export const handler = async (event: any) => {
     const anonId = generateAnonId(userId);
     console.log("[AdminDeleteUser] Anonymizing:", userId, "→", anonId);
 
-    // 1) DynamoDB 8개 테이블 익명화
+    // 1) DynamoDB 11개 테이블 익명화
     await anonymizeUser(userId, anonId);
 
     // 2) Cognito 사용자 완전 삭제

@@ -549,6 +549,7 @@ export default function UnderstandingPage() {
   // ─────────────────────────────────────────
   // 렌더링
   // ─────────────────────────────────────────
+
   return (
     <div className={styles.container}>
       <Header />
