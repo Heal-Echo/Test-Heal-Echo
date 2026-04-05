@@ -1,0 +1,203 @@
+/* ===========================
+   Why Heal Echo
+=========================== */
+.eyebrowPink {
+  color: var(--color-tertiary);
+  font-weight: 800;
+  letter-spacing: 0.04em;
+}
+
+.whySection {
+  padding: clamp(56px, 8vw, 96px) 0;
+  scroll-margin-top: 90px;
+}
+
+.whyHead {
+  text-align: center;
+  display: grid;
+  gap: 8px;
+  margin-bottom: 36px;
+}
+
+/* Why 카드 (1개 통합) */
+.whyCard {
+  max-width: 640px;
+  margin: 0 auto;
+  padding: 40px 44px;
+  border: 1px solid rgba(0, 0, 0, 0.06);
+  border-radius: 24px;
+  background: linear-gradient(160deg, rgba(0, 214, 245, 0.03) 0%, rgba(138, 43, 226, 0.03) 100%);
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.06);
+}
+
+.whyCardGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.whyCardGroupTitle {
+  margin: 0;
+  font-weight: 800;
+  font-size: clamp(16px, 1.8vw, 20px);
+  color: #00b4d8;
+}
+
+.whyCardList {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.whyCardList li {
+  position: relative;
+  padding-left: 18px;
+  font-size: clamp(15px, 1.5vw, 17px);
+  font-weight: 600;
+  line-height: 1.65;
+  color: #111 !important;
+}
+
+.whyCardList li::before {
+  content: "✦";
+  position: absolute;
+  left: 0;
+  top: 0.4em;
+  color: #8a2be2;
+  font-size: 10px;
+}
+
+.whyCardDivider {
+  height: 1px;
+  margin: 28px 0;
+  background: rgba(0, 0, 0, 0.08);
+}
+
+.whyCardCta {
+  display: block;
+  margin-top: 32px;
+  padding: 16px 0;
+  text-align: center;
+  font-weight: 800;
+  font-size: clamp(15px, 1.5vw, 17px);
+  color: #fff;
+  background: linear-gradient(135deg, #00d6f5, #8a2be2);
+  border-radius: 14px;
+  text-decoration: none;
+  box-shadow: 0 6px 20px rgba(0, 214, 245, 0.3);
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.whyCardCta:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 28px rgba(0, 214, 245, 0.4);
+}
+
+.whyCardCta:active {
+  transform: translateY(-1px);
+  opacity: 0.85;
+}
+
+.whyCardCta:focus-visible {
+  outline: 3px solid #00d6f5;
+  outline-offset: 3px;
+}
+
+.whyCardPricing {
+  display: block;
+  margin-top: 12px;
+  text-align: center;
+  font-size: clamp(13px, 1.3vw, 15px);
+  color: #767676; /* WCAG AA compliant — was #888 (3.54:1 → 4.54:1) */
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+.whyCardPricing:hover {
+  color: #8a2be2;
+  text-decoration: underline;
+}
+
+/* 반응형 */
+@media (max-width: 480px) {
+  .whyCard {
+    padding: 28px 24px;
+    border-radius: 20px;
+  }
+
+  /* 터치 타겟 보장 (Apple HIG 44px) */
+  .whyCardCta {
+    padding: 12px 0;
+  }
+  .whyCardPricing {
+    min-height: 44px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+}
+
+/* 반응형: 태블릿 (641px ~ 1024px) */
+@media (min-width: 641px) and (max-width: 1024px) {
+  .whyCard {
+    max-width: 680px;
+    padding: 44px 48px;
+  }
+}
+
+/* 반응형: 대형 모바일 (481px ~ 640px) */
+@media (min-width: 481px) and (max-width: 640px) {
+  .whyCard {
+    padding: 32px 28px;
+  }
+}
+
+/* 반응형: 초소형 모바일 (≤ 360px) */
+@media (max-width: 360px) {
+  .whyCard {
+    padding: 24px 18px;
+    border-radius: 18px;
+  }
+
+  .whyCardList li {
+    font-size: 14px;
+    padding-left: 16px;
+  }
+
+  .whyCardCta {
+    padding: 11px 0;
+    font-size: 14px;
+    border-radius: 12px;
+  }
+
+  .whyCardPricing {
+    font-size: 12px;
+  }
+}
+
+/* 가로 모드 (Landscape) 최적화 */
+@media (orientation: landscape) and (max-height: 500px) {
+  .whySection {
+    padding: 40px 0;
+  }
+}
+
+/* 터치 기기 — hover 끈적임 방지 */
+@media (hover: none) {
+  .whyCardCta:hover {
+    transform: none;
+    box-shadow: 0 6px 20px rgba(0, 214, 245, 0.3);
+  }
+}
+
+/* 접근성: 움직임 줄이기 */
+@media (prefers-reduced-motion: reduce) {
+  .whyCardCta {
+    transition: none;
+  }
+}

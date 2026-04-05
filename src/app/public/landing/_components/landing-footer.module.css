@@ -1,0 +1,88 @@
+/* ===========================
+   Footer
+=========================== */
+.footer {
+  padding: 48px 0 calc(36px + env(safe-area-inset-bottom, 0px));
+  border-top: 1px solid rgba(0, 0, 0, 0.06);
+}
+
+.footerInner {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+}
+
+.footerBrand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.footerLogo {
+  border-radius: 8px;
+}
+
+.footerBrandName {
+  font-family: "PlayfairDisplay", serif;
+  font-weight: 900;
+  font-size: 18px;
+  color: var(--color-text);
+}
+
+.footerInfo {
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.footerInfo p {
+  margin: 0;
+  font-size: 0.82rem;
+  color: #888;
+  line-height: 1.6;
+}
+
+.footerCopyright {
+  margin: 8px 0 0;
+  font-size: 0.78rem;
+  color: #767676; /* WCAG AA compliant — was #aaa (2.32:1 → 4.54:1) */
+  text-align: center;
+}
+
+/* 반응형: 태블릿 (641px ~ 1024px) */
+@media (min-width: 641px) and (max-width: 1024px) {
+  .footer {
+    padding: 56px 0 calc(40px + env(safe-area-inset-bottom, 0px));
+  }
+}
+
+/* 반응형: 대형 모바일 (481px ~ 640px) */
+@media (min-width: 481px) and (max-width: 640px) {
+  .footer {
+    padding: 40px 0 calc(32px + env(safe-area-inset-bottom, 0px));
+  }
+}
+
+/* 반응형: 초소형 모바일 (≤ 360px) */
+@media (max-width: 360px) {
+  .footerBrandName {
+    font-size: 16px;
+  }
+
+  .footerInfo p {
+    font-size: 0.78rem;
+  }
+
+  .footerCopyright {
+    font-size: 0.72rem;
+  }
+}
+
+/* 가로 모드 (Landscape) 최적화 */
+@media (orientation: landscape) and (max-height: 500px) {
+  .footer {
+    padding: 32px 0 calc(24px + env(safe-area-inset-bottom, 0px));
+  }
+}
