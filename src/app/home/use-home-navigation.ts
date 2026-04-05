@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
-import { getSelectedProgram, isSelectionConfirmed } from "@/lib/programSelection";
+import { getSelectedProgram, isSelectionConfirmed } from "@/lib/program-selection";
 import { PROGRAMS } from "@/config/programs";
 
 export function useHomeNavigation() {

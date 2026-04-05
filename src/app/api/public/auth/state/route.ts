@@ -29,19 +29,13 @@ export async function POST(request: NextRequest) {
     const { provider } = body;
 
     if (!provider || !["kakao", "naver", "google", "apple"].includes(provider)) {
-      return NextResponse.json(
-        { error: "유효하지 않은 provider" },
-        { status: 400 }
-      );
+      return NextResponse.json({ error: "유효하지 않은 provider" }, { status: 400 });
     }
 
     const state = createOAuthState(provider);
 
     return NextResponse.json({ state });
   } catch {
-    return NextResponse.json(
-      { error: "state 생성 실패" },
-      { status: 500 }
-    );
+    return NextResponse.json({ error: "state 생성 실패" }, { status: 500 });
   }
 }

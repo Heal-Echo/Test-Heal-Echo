@@ -223,7 +223,9 @@
 }
 
 @keyframes spinCallback {
-  to { transform: rotate(360deg); }
+  to {
+    transform: rotate(360deg);
+  }
 }
 
 /* =========================================================
@@ -241,7 +243,8 @@
   }
 
   .rightFrame {
-    padding: 0 max(16px, env(safe-area-inset-right, 0px)) 0 max(16px, env(safe-area-inset-left, 0px));
+    padding: 0 max(16px, env(safe-area-inset-right, 0px)) 0
+      max(16px, env(safe-area-inset-left, 0px));
     padding-bottom: calc(60px + env(safe-area-inset-bottom, 0px));
     align-items: flex-start;
   }
@@ -252,7 +255,8 @@
 ========================================================= */
 @media (max-width: 480px) {
   .rightFrame {
-    padding: 0 max(12px, env(safe-area-inset-right, 0px)) 0 max(12px, env(safe-area-inset-left, 0px));
+    padding: 0 max(12px, env(safe-area-inset-right, 0px)) 0
+      max(12px, env(safe-area-inset-left, 0px));
     padding-bottom: calc(48px + env(safe-area-inset-bottom, 0px));
   }
 }

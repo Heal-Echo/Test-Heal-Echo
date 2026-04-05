@@ -27,25 +27,16 @@ function resolveUpstreamBase(): string | null {
   return base.replace(/\/$/, "");
 }
 
-export async function GET(
-  _req: Request,
-  { params }: { params: { program: string } }
-) {
+export async function GET(_req: Request, { params }: { params: { program: string } }) {
   try {
     const base = resolveUpstreamBase();
     if (!base) {
-      return NextResponse.json(
-        { error: "Upstream base URL is not configured." },
-        { status: 500 }
-      );
+      return NextResponse.json({ error: "Upstream base URL is not configured." }, { status: 500 });
     }
 
     const program = params.program;
     if (!/^[a-zA-Z0-9_-]+$/.test(program)) {
-      return NextResponse.json(
-        { error: "잘못된 프로그램 이름입니다." },
-        { status: 400 }
-      );
+      return NextResponse.json({ error: "잘못된 프로그램 이름입니다." }, { status: 400 });
     }
     const url = `${base}/balance/videos/${encodeURIComponent(program)}`;
 
@@ -78,10 +69,7 @@ export async function GET(
     if (!res.ok) {
       console.error(`[Public Balance Videos] Upstream responded ${res.status}`);
       const status = res.status === 404 ? 404 : 502;
-      return NextResponse.json(
-        { error: "영상 목록을 불러올 수 없습니다." },
-        { status }
-      );
+      return NextResponse.json({ error: "영상 목록을 불러올 수 없습니다." }, { status });
     }
 
     const text = await res.text();
@@ -90,18 +78,12 @@ export async function GET(
     try {
       data = text ? JSON.parse(text) : null;
     } catch {
-      return NextResponse.json(
-        { error: "잘못된 응답 형식입니다." },
-        { status: 502 }
-      );
+      return NextResponse.json({ error: "잘못된 응답 형식입니다." }, { status: 502 });
     }
 
     return NextResponse.json(data ?? {}, { status: 200 });
   } catch (err: unknown) {
     console.error("[Public Balance Videos] Unexpected error:", err);
-    return NextResponse.json(
-      { error: "Failed to fetch public balance videos" },
-      { status: 500 }
-    );
+    return NextResponse.json({ error: "Failed to fetch public balance videos" }, { status: 500 });
   }
 }

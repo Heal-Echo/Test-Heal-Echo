@@ -65,11 +65,7 @@ export default function LoginView({
 
       <div className={styles.subtitleFrame}>
         <span className={styles.subtitleLeft}>처음 오셨나요?</span>
-        <button
-          type="button"
-          className={styles.subtitleRight}
-          onClick={() => switchView("signup")}
-        >
+        <button type="button" className={styles.subtitleRight} onClick={() => switchView("signup")}>
           회원가입
         </button>
       </div>
@@ -82,7 +78,10 @@ export default function LoginView({
           aria-label="이메일 주소"
           className={`${styles.emailInput} ${loginError ? styles.inputError : ""}`}
           value={loginEmail}
-          onChange={(e) => { setLoginEmail(e.target.value); setLoginError(""); }}
+          onChange={(e) => {
+            setLoginEmail(e.target.value);
+            setLoginError("");
+          }}
         />
 
         <div className={styles.passwordWrapper}>
@@ -93,7 +92,10 @@ export default function LoginView({
             aria-label="비밀번호"
             className={`${styles.emailInput} ${loginError ? styles.inputError : ""}`}
             value={loginPassword}
-            onChange={(e) => { setLoginPassword(e.target.value); setLoginError(""); }}
+            onChange={(e) => {
+              setLoginPassword(e.target.value);
+              setLoginError("");
+            }}
           />
           <button
             type="button"
@@ -159,16 +161,36 @@ export default function LoginView({
       />
 
       <div className={styles.socialIcons}>
-        <button type="button" className={`${styles.socialIconBtn} ${styles.socialKakao}`} aria-label="카카오 로그인" onClick={handleKakaoLogin}>
+        <button
+          type="button"
+          className={`${styles.socialIconBtn} ${styles.socialKakao}`}
+          aria-label="카카오 로그인"
+          onClick={handleKakaoLogin}
+        >
           <KakaoSymbol />
         </button>
-        <button type="button" className={`${styles.socialIconBtn} ${styles.socialNaver}`} aria-label="네이버 로그인" onClick={handleNaverLogin}>
+        <button
+          type="button"
+          className={`${styles.socialIconBtn} ${styles.socialNaver}`}
+          aria-label="네이버 로그인"
+          onClick={handleNaverLogin}
+        >
           <NaverSymbol />
         </button>
-        <button type="button" className={`${styles.socialIconBtn} ${styles.socialGoogle}`} aria-label="구글 로��인" onClick={handleGoogleLogin}>
+        <button
+          type="button"
+          className={`${styles.socialIconBtn} ${styles.socialGoogle}`}
+          aria-label="구글 로��인"
+          onClick={handleGoogleLogin}
+        >
           <GoogleSymbol />
         </button>
-        <button type="button" className={`${styles.socialIconBtn} ${styles.socialApple}`} aria-label="애플 로��인" onClick={handleAppleLogin}>
+        <button
+          type="button"
+          className={`${styles.socialIconBtn} ${styles.socialApple}`}
+          aria-label="애플 로��인"
+          onClick={handleAppleLogin}
+        >
           <AppleSymbol />
         </button>
       </div>

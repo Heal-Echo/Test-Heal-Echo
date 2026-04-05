@@ -5,17 +5,14 @@ import Image from "next/image";
 import { useRouter } from "next/navigation";
 import styles from "./home.module.css";
 import { getProgramName } from "@/config/programs";
-import { syncProgramSelection } from "@/lib/programSelection";
+import { syncProgramSelection } from "@/lib/program-selection";
 
 interface ProgramSelectModalProps {
   onClose: () => void;
   onShowComingSoon: () => void;
 }
 
-export default function ProgramSelectModal({
-  onClose,
-  onShowComingSoon,
-}: ProgramSelectModalProps) {
+export default function ProgramSelectModal({ onClose, onShowComingSoon }: ProgramSelectModalProps) {
   const router = useRouter();
   const [isConfirming, setIsConfirming] = useState(false);
 
@@ -32,11 +29,7 @@ export default function ProgramSelectModal({
   if (isConfirming) {
     return (
       <div className={styles.modalOverlay}>
-        <div
-          className={styles.modalContent}
-          role="status"
-          aria-live="polite"
-        >
+        <div className={styles.modalContent} role="status" aria-live="polite">
           <p className={styles.modalTitle}>
             {getProgramName("autobalance")},<br />
             무료 체험을 시작합니다.
@@ -102,9 +95,7 @@ export default function ProgramSelectModal({
                 className={styles.modalCardImage}
               />
             </div>
-            <span className={styles.modalCardName}>
-              {getProgramName("womans-whisper")}
-            </span>
+            <span className={styles.modalCardName}>{getProgramName("womans-whisper")}</span>
             <span className={styles.modalCardCta}>시작하기 →</span>
           </button>
         </div>

@@ -10,11 +10,7 @@ import type { BalanceListItem, BalanceVideo } from "@/types/balance";
 function getItems(apiResponse: unknown): unknown[] {
   if (!apiResponse) return [];
   if (Array.isArray(apiResponse)) return apiResponse;
-  if (
-    typeof apiResponse === "object" &&
-    apiResponse !== null &&
-    "items" in apiResponse
-  ) {
+  if (typeof apiResponse === "object" && apiResponse !== null && "items" in apiResponse) {
     const obj = apiResponse as { items?: unknown };
     if (Array.isArray(obj.items)) return obj.items;
   }
@@ -25,12 +21,7 @@ function normalize(raw: unknown): BalanceVideo | null {
   if (!raw || typeof raw !== "object") return null;
   const item = raw as Record<string, unknown>;
 
-  if (
-    !item.program ||
-    item.weekNumber === undefined ||
-    !item.videoId ||
-    !item.key
-  ) {
+  if (!item.program || item.weekNumber === undefined || !item.videoId || !item.key) {
     return null;
   }
 

@@ -27,11 +27,7 @@ export default function ConfirmView({
 
       <div className={styles.subtitleFrame}>
         <span className={styles.subtitleLeft}></span>
-        <button
-          type="button"
-          className={styles.subtitleRight}
-          onClick={() => switchView("login")}
-        >
+        <button type="button" className={styles.subtitleRight} onClick={() => switchView("login")}>
           로그인으로 돌아가기
         </button>
       </div>

@@ -1,11 +1,6 @@
 // src/api/client.ts
 import axios from "axios";
-import type {
-  ApiListResponse,
-  UploadInitResponse,
-  Video,
-  VideoMetaUpdate,
-} from "@/types/video";
+import type { ApiListResponse, UploadInitResponse, Video, VideoMetaUpdate } from "@/types/video";
 
 // ========================================================================
 // Axios instances
@@ -32,9 +27,7 @@ const publicApi = axios.create({
 // Admin videos
 // ========================================================================
 
-export async function listVideos(
-  nextToken?: string
-): Promise<ApiListResponse<Video>> {
+export async function listVideos(nextToken?: string): Promise<ApiListResponse<Video>> {
   const { data } = await adminApi.get("/videos", { params: { nextToken } });
   return data;
 }
@@ -87,10 +80,7 @@ export async function completeUpload(
   return data;
 }
 
-export async function updateVideo(
-  videoId: string,
-  patch: VideoMetaUpdate
-): Promise<Video> {
+export async function updateVideo(videoId: string, patch: VideoMetaUpdate): Promise<Video> {
   const { data } = await adminApi.patch(`/videos/${videoId}`, patch);
   return data;
 }
@@ -110,9 +100,7 @@ export type BalanceVideo = Video & {
   isPublished?: boolean;
 };
 
-export async function listBalanceVideos(
-  program: string
-): Promise<{ items: BalanceVideo[] }> {
+export async function listBalanceVideos(program: string): Promise<{ items: BalanceVideo[] }> {
   const { data } = await balanceAdminApi.get(`/videos/${program}`);
   return data;
 }
@@ -146,17 +134,12 @@ export async function updateBalanceVideo(
     isPublished?: boolean;
   }
 ) {
-  const { data } = await balanceAdminApi.patch(
-    `/videos/${program}/${weekNumber}`,
-    patch
-  );
+  const { data } = await balanceAdminApi.patch(`/videos/${program}/${weekNumber}`, patch);
   return data;
 }
 
 export async function deleteBalanceVideo(program: string, weekNumber: number) {
-  const { data } = await balanceAdminApi.delete(
-    `/videos/${program}/${weekNumber}`
-  );
+  const { data } = await balanceAdminApi.delete(`/videos/${program}/${weekNumber}`);
   return data;
 }
 
@@ -214,10 +197,7 @@ export async function createWeeklyHabitContent(
     habitItems?: HabitItem[];
   }
 ) {
-  const { data } = await weeklyHabitAdminApi.post(
-    `/${program}/${weekNumber}`,
-    payload
-  );
+  const { data } = await weeklyHabitAdminApi.post(`/${program}/${weekNumber}`, payload);
   return data;
 }
 
@@ -232,20 +212,12 @@ export async function updateWeeklyHabitContent(
     habitItems?: HabitItem[];
   }
 ) {
-  const { data } = await weeklyHabitAdminApi.put(
-    `/${program}/${weekNumber}`,
-    payload
-  );
+  const { data } = await weeklyHabitAdminApi.put(`/${program}/${weekNumber}`, payload);
   return data;
 }
 
-export async function deleteWeeklyHabitContent(
-  program: string,
-  weekNumber: number
-) {
-  const { data } = await weeklyHabitAdminApi.delete(
-    `/${program}/${weekNumber}`
-  );
+export async function deleteWeeklyHabitContent(program: string, weekNumber: number) {
+  const { data } = await weeklyHabitAdminApi.delete(`/${program}/${weekNumber}`);
   return data;
 }
 
@@ -280,20 +252,12 @@ export async function saveSleepHabitContent(
   weekNumber: number,
   payload: { habits: string[] }
 ) {
-  const { data } = await sleepHabitAdminApi.put(
-    `/${program}/${weekNumber}`,
-    payload
-  );
+  const { data } = await sleepHabitAdminApi.put(`/${program}/${weekNumber}`, payload);
   return data;
 }
 
-export async function deleteSleepHabitContent(
-  program: string,
-  weekNumber: number
-) {
-  const { data } = await sleepHabitAdminApi.delete(
-    `/${program}/${weekNumber}`
-  );
+export async function deleteSleepHabitContent(program: string, weekNumber: number) {
+  const { data } = await sleepHabitAdminApi.delete(`/${program}/${weekNumber}`);
   return data;
 }
 

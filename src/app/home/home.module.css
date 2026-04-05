@@ -110,11 +110,7 @@
   left: 0;
   right: 0;
   padding: 14px 10px;
-  background: linear-gradient(
-    to top,
-    rgba(0, 0, 0, 0.6) 0%,
-    rgba(0, 0, 0, 0) 100%
-  );
+  background: linear-gradient(to top, rgba(0, 0, 0, 0.6) 0%, rgba(0, 0, 0, 0) 100%);
   display: flex;
   align-items: flex-end;
   justify-content: space-between;
@@ -155,7 +151,7 @@
 
 .wellnessAlert {
   padding: 5px 8px;
-  background: #00D6F5;
+  background: #00d6f5;
   border-radius: 6px;
   font-size: 12px;
   font-weight: 800;
@@ -168,7 +164,7 @@
 
 /* 웰니스 카드 하이라이트 */
 .wellnessHighlight .wellnessImageWrap {
-  border: 2px solid #FF69B4 !important;
+  border: 2px solid #ff69b4 !important;
   transition: border 0.3s ease-in-out;
 }
 
@@ -231,7 +227,9 @@
   box-shadow: 0 6px 24px rgba(255, 105, 180, 0.35);
   border: none;
   cursor: pointer;
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
   animation: ctaGlow 2.5s ease-in-out infinite;
 }
 
@@ -254,11 +252,14 @@
 }
 
 @keyframes ctaGlow {
-  0%, 100% {
+  0%,
+  100% {
     box-shadow: 0 6px 24px rgba(255, 105, 180, 0.35);
   }
   50% {
-    box-shadow: 0 8px 36px rgba(255, 105, 180, 0.55), 0 0 16px rgba(255, 105, 180, 0.2);
+    box-shadow:
+      0 8px 36px rgba(255, 105, 180, 0.55),
+      0 0 16px rgba(255, 105, 180, 0.2);
   }
 }
 
@@ -279,7 +280,9 @@
   border: 1.5px solid rgba(107, 158, 120, 0.2);
   padding: 16px;
   cursor: pointer;
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
 }
 
 .mySolutionSubscribed:active {
@@ -339,7 +342,9 @@
   border: 1.5px solid rgba(80, 120, 200, 0.18);
   padding: 16px;
   cursor: pointer;
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
 }
 
 .mySolutionConfirmed:active {
@@ -462,11 +467,7 @@
   left: 0;
   right: 0;
   padding: 10px 12px;
-  background: linear-gradient(
-    to top,
-    rgba(0, 0, 0, 0.55) 0%,
-    rgba(0, 0, 0, 0) 100%
-  );
+  background: linear-gradient(to top, rgba(0, 0, 0, 0.55) 0%, rgba(0, 0, 0, 0) 100%);
 }
 
 .carouselDesc {
@@ -596,7 +597,10 @@
   border-radius: 18px;
   border: 1.5px solid rgba(0, 0, 0, 0.06);
   cursor: pointer;
-  transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease,
+    border-color 0.2s ease;
 }
 
 .modalCard:hover,
@@ -636,8 +640,12 @@
 }
 
 @keyframes fadeIn {
-  from { opacity: 0; }
-  to { opacity: 1; }
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
 }
 
 @keyframes slideUp {

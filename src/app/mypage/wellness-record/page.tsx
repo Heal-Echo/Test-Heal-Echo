@@ -2,8 +2,8 @@
 
 import React, { useEffect, useState, useCallback, useMemo } from "react";
 import { useRouter } from "next/navigation";
-import Header from "@/components/Header";
-import BottomTab from "@/components/BottomTab";
+import Header from "@/components/header";
+import BottomTab from "@/components/bottom-tab";
 import styles from "./wellness-record.module.css";
 import { isUserLoggedIn } from "@/auth/user";
 import { getSubscription } from "@/auth/subscription";
@@ -66,13 +66,53 @@ function getSignalIntensity(categories: { percent: number }[]): number {
   return Math.min(100, Math.round(avg + spreadBonus));
 }
 
-function getSignalGrade(intensity: number): { grade: string; label: string; shortLabel: string; color: string } {
-  if (intensity === 0) return { grade: "S", label: "신호 없음", shortLabel: "균형이 잘 유지되고 있어요", color: "#059669" };
-  if (intensity <= 20) return { grade: "A", label: "약한 신호", shortLabel: "가벼운 신호가 감지되고 있어요", color: "#10b981" };
-  if (intensity <= 40) return { grade: "B", label: "보통 신호", shortLabel: "몸이 보내는 신호에 귀 기울여 주세요", color: "#f59e0b" };
-  if (intensity <= 60) return { grade: "C", label: "주의 신호", shortLabel: "자율신경이 균형을 잃어가고 있어요", color: "#f97316" };
-  if (intensity <= 80) return { grade: "D", label: "강한 신호", shortLabel: "적극적인 균형 회복이 필요해요", color: "#ef4444" };
-  return { grade: "F", label: "매우 강한 신호", shortLabel: "지금 바로 시작하는 게 중요해요", color: "#dc2626" };
+function getSignalGrade(intensity: number): {
+  grade: string;
+  label: string;
+  shortLabel: string;
+  color: string;
+} {
+  if (intensity === 0)
+    return {
+      grade: "S",
+      label: "신호 없음",
+      shortLabel: "균형이 잘 유지되고 있어요",
+      color: "#059669",
+    };
+  if (intensity <= 20)
+    return {
+      grade: "A",
+      label: "약한 신호",
+      shortLabel: "가벼운 신호가 감지되고 있어요",
+      color: "#10b981",
+    };
+  if (intensity <= 40)
+    return {
+      grade: "B",
+      label: "보통 신호",
+      shortLabel: "몸이 보내는 신호에 귀 기울여 주세요",
+      color: "#f59e0b",
+    };
+  if (intensity <= 60)
+    return {
+      grade: "C",
+      label: "주의 신호",
+      shortLabel: "자율신경이 균형을 잃어가고 있어요",
+      color: "#f97316",
+    };
+  if (intensity <= 80)
+    return {
+      grade: "D",
+      label: "강한 신호",
+      shortLabel: "적극적인 균형 회복이 필요해요",
+      color: "#ef4444",
+    };
+  return {
+    grade: "F",
+    label: "매우 강한 신호",
+    shortLabel: "지금 바로 시작하는 게 중요해요",
+    color: "#dc2626",
+  };
 }
 
 function getPSQIQualityLabel(total: number): { label: string; color: string; grade: string } {
@@ -109,7 +149,7 @@ function parseTimeToHour(hhmm: string, isBedtime: boolean): number | null {
 
 /** 소수 시간 → "HH:MM" */
 function hourToLabel(h: number): string {
-  let hr = h < 0 ? h + 24 : h;
+  const hr = h < 0 ? h + 24 : h;
   const hh = Math.floor(hr);
   const mm = Math.round((hr - hh) * 60);
   return `${hh.toString().padStart(2, "0")}:${mm.toString().padStart(2, "0")}`;
@@ -169,73 +209,116 @@ export default function WellnessRecordPage() {
   useEffect(() => {
     let completed = 0;
     const total = 6;
-    const checkDone = () => { completed++; if (completed >= total) setLoading(false); };
+    const checkDone = () => {
+      completed++;
+      if (completed >= total) setLoading(false);
+    };
 
     const userToken = storage.getRaw("user_id_token");
-    const authHeaders: Record<string, string> = userToken ? { Authorization: `Bearer ${userToken}` } : {};
+    const authHeaders: Record<string, string> = userToken
+      ? { Authorization: `Bearer ${userToken}` }
+      : {};
 
     // 1) 실천 기록
     (async () => {
       try {
-        const res = await fetch("/api/user/practice-record", { method: "GET", cache: "no-store", headers: authHeaders });
+        const res = await fetch("/api/user/practice-record", {
+          method: "GET",
+          cache: "no-store",
+          headers: authHeaders,
+        });
         if (res.ok) {
           const data = await res.json();
           setPracticeItems(data.items || []);
         }
-      } catch (err) { console.error("실천 기록 조회 실패:", err); }
-      finally { checkDone(); }
+      } catch (err) {
+        console.error("실천 기록 조회 실패:", err);
+      } finally {
+        checkDone();
+      }
     })();
 
     // 2) 자가체크 결과
     (async () => {
       try {
-        const res = await fetch("/api/user/selfcheck-result", { method: "GET", cache: "no-store", headers: authHeaders });
+        const res = await fetch("/api/user/selfcheck-result", {
+          method: "GET",
+          cache: "no-store",
+          headers: authHeaders,
+        });
         if (res.ok) {
           const data = await res.json();
-          const items: SelfCheckResultItem[] = Array.isArray(data) ? data : data.items || data.results || [];
+          const items: SelfCheckResultItem[] = Array.isArray(data)
+            ? data
+            : data.items || data.results || [];
           items.sort((a, b) => a.testDate.localeCompare(b.testDate));
           setSelfCheckResults(items);
         }
-      } catch (err) { console.error("자가 체크 조회 실패:", err); }
-      finally { checkDone(); }
+      } catch (err) {
+        console.error("자가 체크 조회 실패:", err);
+      } finally {
+        checkDone();
+      }
     })();
 
     // 3) PSQI 결과
     (async () => {
       try {
-        const res = await fetch("/api/user/psqi-result", { method: "GET", cache: "no-store", headers: authHeaders });
+        const res = await fetch("/api/user/psqi-result", {
+          method: "GET",
+          cache: "no-store",
+          headers: authHeaders,
+        });
         if (res.ok) {
           const data = await res.json();
           const items: PSQIResult[] = Array.isArray(data) ? data : data.items || data.results || [];
           items.sort((a, b) => a.testDate.localeCompare(b.testDate));
           setPsqiResults(items);
         }
-      } catch (err) { console.error("PSQI 조회 실패:", err); }
-      finally { checkDone(); }
+      } catch (err) {
+        console.error("PSQI 조회 실패:", err);
+      } finally {
+        checkDone();
+      }
     })();
 
     // 4) 수면 로그
     (async () => {
       try {
-        const res = await fetch("/api/user/sleep-log", { method: "GET", cache: "no-store", headers: authHeaders });
+        const res = await fetch("/api/user/sleep-log", {
+          method: "GET",
+          cache: "no-store",
+          headers: authHeaders,
+        });
         if (res.ok) {
           const data = await res.json();
-          const items: SleepLogItem[] = (data.items || []);
+          const items: SleepLogItem[] = data.items || [];
           items.sort((a: SleepLogItem, b: SleepLogItem) => a.logKey.localeCompare(b.logKey));
           setSleepLogs(items);
         }
-      } catch (err) { console.error("수면 로그 조회 실패:", err); }
-      finally { checkDone(); }
+      } catch (err) {
+        console.error("수면 로그 조회 실패:", err);
+      } finally {
+        checkDone();
+      }
     })();
 
     // 5) 습관 설정
     (async () => {
       try {
-        const res = await fetch("/api/user/sleep-log/config", { method: "GET", cache: "no-store", headers: authHeaders });
+        const res = await fetch("/api/user/sleep-log/config", {
+          method: "GET",
+          cache: "no-store",
+          headers: authHeaders,
+        });
         if (res.ok) {
           const data = await res.json();
           const items: string[] = data.item?.habitItems || data.habitItems || [];
-          if (items.length > 0) { setHabitItems(items); checkDone(); return; }
+          if (items.length > 0) {
+            setHabitItems(items);
+            checkDone();
+            return;
+          }
         }
       } catch {}
       // 폴백: storage 레이어에서 사용자별 커스텀 습관 항목 조회
@@ -244,7 +327,11 @@ export default function WellnessRecordPage() {
         const saved = storage.get("weekly_habit_custom_items");
         if (saved) {
           const items: string[] = JSON.parse(saved);
-          if (items.length > 0) { setHabitItems(items); checkDone(); return; }
+          if (items.length > 0) {
+            setHabitItems(items);
+            checkDone();
+            return;
+          }
         }
       } catch {}
       setHabitItems(["핸드폰 멀리두고 자기"]);
@@ -256,15 +343,27 @@ export default function WellnessRecordPage() {
       try {
         const sub = await getSubscription("autobalance");
         setSubscription(sub);
-      } catch (err) { console.error("구독 조회 실패:", err); }
-      finally { checkDone(); }
+      } catch (err) {
+        console.error("구독 조회 실패:", err);
+      } finally {
+        checkDone();
+      }
     })();
   }, []);
 
   // ─── 파생 데이터 ───
-  const solutionDates = useMemo(() => new Set(practiceItems.filter((i) => i.type === "solution").map((i) => i.date)), [practiceItems]);
-  const habitDates = useMemo(() => new Set(practiceItems.filter((i) => i.type === "habit").map((i) => i.date)), [practiceItems]);
-  const understandingDates = useMemo(() => new Set(practiceItems.filter((i) => i.type === "understanding").map((i) => i.date)), [practiceItems]);
+  const solutionDates = useMemo(
+    () => new Set(practiceItems.filter((i) => i.type === "solution").map((i) => i.date)),
+    [practiceItems]
+  );
+  const habitDates = useMemo(
+    () => new Set(practiceItems.filter((i) => i.type === "habit").map((i) => i.date)),
+    [practiceItems]
+  );
+  const understandingDates = useMemo(
+    () => new Set(practiceItems.filter((i) => i.type === "understanding").map((i) => i.date)),
+    [practiceItems]
+  );
 
   const todayStr = toDateStr(now.getFullYear(), now.getMonth(), now.getDate());
 
@@ -272,7 +371,11 @@ export default function WellnessRecordPage() {
   const wellnessScore = useMemo(() => {
     const thirtyDaysAgo = new Date();
     thirtyDaysAgo.setDate(thirtyDaysAgo.getDate() - 30);
-    const thirtyStr = toDateStr(thirtyDaysAgo.getFullYear(), thirtyDaysAgo.getMonth(), thirtyDaysAgo.getDate());
+    const thirtyStr = toDateStr(
+      thirtyDaysAgo.getFullYear(),
+      thirtyDaysAgo.getMonth(),
+      thirtyDaysAgo.getDate()
+    );
 
     // 요가 (솔루션 실천 — 최근 30일 실천일 / 30 * 100)
     const recentSolution = new Set<string>();
@@ -303,15 +406,15 @@ export default function WellnessRecordPage() {
     // 마음습관 (이해의 바다 실천 + 자가체크 역산 — 복합 점수)
     const recentUnderstanding = new Set<string>();
     practiceItems.forEach((item) => {
-      if (item.type === "understanding" && item.date >= thirtyStr) recentUnderstanding.add(item.date);
+      if (item.type === "understanding" && item.date >= thirtyStr)
+        recentUnderstanding.add(item.date);
     });
     const mindPractice = Math.min(100, Math.round((recentUnderstanding.size / 30) * 100));
-    const latestSC = selfCheckResults.length > 0 ? selfCheckResults[selfCheckResults.length - 1] : null;
+    const latestSC =
+      selfCheckResults.length > 0 ? selfCheckResults[selfCheckResults.length - 1] : null;
     const mindBalance = latestSC ? Math.max(0, 100 - getSignalIntensity(latestSC.categories)) : 0;
     // 실천 60% + 밸런스 40% (데이터 없으면 실천만)
-    const mindScore = latestSC
-      ? Math.round(mindPractice * 0.6 + mindBalance * 0.4)
-      : mindPractice;
+    const mindScore = latestSC ? Math.round(mindPractice * 0.6 + mindBalance * 0.4) : mindPractice;
 
     // 종합 (4축 평균)
     const overall = Math.round((yogaScore + sleepScore + dietScore + mindScore) / 4);
@@ -328,12 +431,14 @@ export default function WellnessRecordPage() {
   }, [selfCheckResults, psqiResults, practiceItems, sleepLogs]);
 
   // 스코어 색상
-  const scoreColor = wellnessScore.overall >= 70 ? "#10b981" : wellnessScore.overall >= 40 ? "#f59e0b" : "#ef4444";
+  const scoreColor =
+    wellnessScore.overall >= 70 ? "#10b981" : wellnessScore.overall >= 40 ? "#f59e0b" : "#ef4444";
 
   // ❷ 변화 하이라이트
   const changeHighlight = useMemo(() => {
     const firstSC = selfCheckResults.length > 0 ? selfCheckResults[0] : null;
-    const lastSC = selfCheckResults.length > 0 ? selfCheckResults[selfCheckResults.length - 1] : null;
+    const lastSC =
+      selfCheckResults.length > 0 ? selfCheckResults[selfCheckResults.length - 1] : null;
     const firstPSQI = psqiResults.length > 0 ? psqiResults[0] : null;
     const lastPSQI = psqiResults.length > 0 ? psqiResults[psqiResults.length - 1] : null;
 
@@ -352,7 +457,11 @@ export default function WellnessRecordPage() {
     const weekStart = new Date();
     weekStart.setDate(weekStart.getDate() - weekStart.getDay());
     weekStart.setHours(0, 0, 0, 0);
-    const weekStartStr = toDateStr(weekStart.getFullYear(), weekStart.getMonth(), weekStart.getDate());
+    const weekStartStr = toDateStr(
+      weekStart.getFullYear(),
+      weekStart.getMonth(),
+      weekStart.getDate()
+    );
 
     let solutionCount = 0;
     let habitCount = 0;
@@ -378,17 +487,29 @@ export default function WellnessRecordPage() {
       avgSleepHours = Math.round((totalHours / weekLogs.length) * 10) / 10;
     }
 
-    return { solutionCount, habitCount, seaCount, avgSleepHours, hasSleepData: weekLogs.length > 0 };
+    return {
+      solutionCount,
+      habitCount,
+      seaCount,
+      avgSleepHours,
+      hasSleepData: weekLogs.length > 0,
+    };
   }, [practiceItems, sleepLogs]);
 
   // ❺ 자율신경 밸런스 추이
-  const selfCheckWithIntensity = useMemo(() =>
-    selfCheckResults.map((r) => ({ ...r, intensity: getSignalIntensity(r.categories) })),
+  const selfCheckWithIntensity = useMemo(
+    () => selfCheckResults.map((r) => ({ ...r, intensity: getSignalIntensity(r.categories) })),
     [selfCheckResults]
   );
 
-  const latestSC = selfCheckWithIntensity.length > 0 ? selfCheckWithIntensity[selfCheckWithIntensity.length - 1] : null;
-  const prevSC = selfCheckWithIntensity.length > 1 ? selfCheckWithIntensity[selfCheckWithIntensity.length - 2] : null;
+  const latestSC =
+    selfCheckWithIntensity.length > 0
+      ? selfCheckWithIntensity[selfCheckWithIntensity.length - 1]
+      : null;
+  const prevSC =
+    selfCheckWithIntensity.length > 1
+      ? selfCheckWithIntensity[selfCheckWithIntensity.length - 2]
+      : null;
 
   let scTrendDirection: "improved" | "same" | "worsened" | null = null;
   if (latestSC && prevSC) {
@@ -418,15 +539,19 @@ export default function WellnessRecordPage() {
   const sleepMonthData = useMemo(() => {
     const totalDays = daysInMonthUtil(sleepYear, sleepMonth);
     const monthPrefix = `${sleepYear}-${String(sleepMonth + 1).padStart(2, "0")}`;
-    const filtered = sleepLogs.filter((l) => l.logKey.startsWith(monthPrefix) && l.sleepTime && l.wakeTime);
+    const filtered = sleepLogs.filter(
+      (l) => l.logKey.startsWith(monthPrefix) && l.sleepTime && l.wakeTime
+    );
 
-    return filtered.map((l) => {
-      const day = parseInt(l.logKey.split("-")[2], 10);
-      const bed = parseTimeToHour(l.sleepTime, true);
-      const wake = parseTimeToHour(l.wakeTime, false);
-      const hours = bed !== null && wake !== null ? wake - bed : 0;
-      return { day, bed, wake, hours, logKey: l.logKey };
-    }).filter((d) => d.bed !== null && d.wake !== null);
+    return filtered
+      .map((l) => {
+        const day = parseInt(l.logKey.split("-")[2], 10);
+        const bed = parseTimeToHour(l.sleepTime, true);
+        const wake = parseTimeToHour(l.wakeTime, false);
+        const hours = bed !== null && wake !== null ? wake - bed : 0;
+        return { day, bed, wake, hours, logKey: l.logKey };
+      })
+      .filter((d) => d.bed !== null && d.wake !== null);
   }, [sleepLogs, sleepYear, sleepMonth]);
 
   const isNextSleepDisabled = sleepYear === now.getFullYear() && sleepMonth === now.getMonth();
@@ -448,12 +573,18 @@ export default function WellnessRecordPage() {
       const weekStart = new Date(weekEnd);
       weekStart.setDate(weekStart.getDate() - 6);
 
-      const weekStartStr = toDateStr(weekStart.getFullYear(), weekStart.getMonth(), weekStart.getDate());
+      const weekStartStr = toDateStr(
+        weekStart.getFullYear(),
+        weekStart.getMonth(),
+        weekStart.getDate()
+      );
       const weekEndStr = toDateStr(weekEnd.getFullYear(), weekEnd.getMonth(), weekEnd.getDate());
       const label = `${weekStart.getMonth() + 1}/${weekStart.getDate()}~`;
 
       const habitsCount: Record<string, number> = {};
-      habitItems.forEach((h) => { habitsCount[h] = 0; });
+      habitItems.forEach((h) => {
+        habitsCount[h] = 0;
+      });
 
       sleepLogs.forEach((l) => {
         if (l.logKey >= weekStartStr && l.logKey <= weekEndStr && l.checkedHabits) {
@@ -477,14 +608,20 @@ export default function WellnessRecordPage() {
   // ─── 달력 네비게이션 ───
   const goToPrevMonth = useCallback(() => {
     setCalMonth((prev) => {
-      if (prev === 0) { setCalYear((y) => y - 1); return 11; }
+      if (prev === 0) {
+        setCalYear((y) => y - 1);
+        return 11;
+      }
       return prev - 1;
     });
   }, []);
 
   const goToNextMonth = useCallback(() => {
     setCalMonth((prev) => {
-      if (prev === 11) { setCalYear((y) => y + 1); return 0; }
+      if (prev === 11) {
+        setCalYear((y) => y + 1);
+        return 0;
+      }
       return prev + 1;
     });
   }, []);
@@ -536,52 +673,102 @@ export default function WellnessRecordPage() {
             <svg viewBox="0 0 260 260" className={styles.radarSvg}>
               {/* 배경 거미줄 (20, 40, 60, 80, 100) */}
               {[20, 40, 60, 80, 100].map((level) => {
-                const cx = 130, cy = 130, maxR = 90;
+                const cx = 130,
+                  cy = 130,
+                  maxR = 90;
                 const r = (level / 100) * maxR;
-                const angles = [0, 1, 2, 3].map((i) => (Math.PI / 2) + (i * 2 * Math.PI) / 4);
-                const pts = angles.map((a) => `${cx + r * Math.cos(a)},${cy - r * Math.sin(a)}`).join(" ");
+                const angles = [0, 1, 2, 3].map((i) => Math.PI / 2 + (i * 2 * Math.PI) / 4);
+                const pts = angles
+                  .map((a) => `${cx + r * Math.cos(a)},${cy - r * Math.sin(a)}`)
+                  .join(" ");
                 return (
-                  <polygon key={level} points={pts} fill="none" stroke="#e5e7eb" strokeWidth={level === 100 ? "1" : "0.5"} />
+                  <polygon
+                    key={level}
+                    points={pts}
+                    fill="none"
+                    stroke="#e5e7eb"
+                    strokeWidth={level === 100 ? "1" : "0.5"}
+                  />
                 );
               })}
 
               {/* 축 선 */}
               {[0, 1, 2, 3].map((i) => {
-                const cx = 130, cy = 130, maxR = 90;
-                const a = (Math.PI / 2) + (i * 2 * Math.PI) / 4;
+                const cx = 130,
+                  cy = 130,
+                  maxR = 90;
+                const a = Math.PI / 2 + (i * 2 * Math.PI) / 4;
                 return (
-                  <line key={i} x1={cx} y1={cy} x2={cx + maxR * Math.cos(a)} y2={cy - maxR * Math.sin(a)} stroke="#e5e7eb" strokeWidth="0.5" />
+                  <line
+                    key={i}
+                    x1={cx}
+                    y1={cy}
+                    x2={cx + maxR * Math.cos(a)}
+                    y2={cy - maxR * Math.sin(a)}
+                    stroke="#e5e7eb"
+                    strokeWidth="0.5"
+                  />
                 );
               })}
 
               {/* 눈금 라벨 (20, 40, 60, 80, 100) */}
               {[20, 40, 60, 80, 100].map((level) => {
-                const cx = 130, cy = 130, maxR = 90;
+                const cx = 130,
+                  cy = 130,
+                  maxR = 90;
                 const r = (level / 100) * maxR;
                 return (
-                  <text key={level} x={cx + 3} y={cy - r + 3} fontSize="8" fill="#d1d5db" textAnchor="start">{level}</text>
+                  <text
+                    key={level}
+                    x={cx + 3}
+                    y={cy - r + 3}
+                    fontSize="8"
+                    fill="#d1d5db"
+                    textAnchor="start"
+                  >
+                    {level}
+                  </text>
                 );
               })}
 
               {/* 데이터 영역 (채우기) */}
               {(() => {
-                const cx = 130, cy = 130, maxR = 90;
+                const cx = 130,
+                  cy = 130,
+                  maxR = 90;
                 const axes = wellnessScore.axes;
-                const pts = axes.map((axis, i) => {
-                  const a = (Math.PI / 2) + (i * 2 * Math.PI) / 4;
-                  const r = (axis.score / 100) * maxR;
-                  return `${cx + r * Math.cos(a)},${cy - r * Math.sin(a)}`;
-                }).join(" ");
+                const pts = axes
+                  .map((axis, i) => {
+                    const a = Math.PI / 2 + (i * 2 * Math.PI) / 4;
+                    const r = (axis.score / 100) * maxR;
+                    return `${cx + r * Math.cos(a)},${cy - r * Math.sin(a)}`;
+                  })
+                  .join(" ");
                 return (
                   <>
-                    <polygon points={pts} fill="rgba(99,102,241,0.15)" stroke="rgba(99,102,241,0.5)" strokeWidth="1.5" />
+                    <polygon
+                      points={pts}
+                      fill="rgba(99,102,241,0.15)"
+                      stroke="rgba(99,102,241,0.5)"
+                      strokeWidth="1.5"
+                    />
                     {/* 데이터 포인트 */}
                     {axes.map((axis, i) => {
-                      const a = (Math.PI / 2) + (i * 2 * Math.PI) / 4;
+                      const a = Math.PI / 2 + (i * 2 * Math.PI) / 4;
                       const r = (axis.score / 100) * maxR;
                       const x = cx + r * Math.cos(a);
                       const y = cy - r * Math.sin(a);
-                      return <circle key={axis.key} cx={x} cy={y} r="3.5" fill="rgba(99,102,241,0.8)" stroke="#ffffff" strokeWidth="1.5" />;
+                      return (
+                        <circle
+                          key={axis.key}
+                          cx={x}
+                          cy={y}
+                          r="3.5"
+                          fill="rgba(99,102,241,0.8)"
+                          stroke="#ffffff"
+                          strokeWidth="1.5"
+                        />
+                      );
                     })}
                   </>
                 );
@@ -589,15 +776,25 @@ export default function WellnessRecordPage() {
 
               {/* 축 라벨 (아이콘 + 텍스트) */}
               {wellnessScore.axes.map((axis, i) => {
-                const cx = 130, cy = 130, labelR = 108;
-                const a = (Math.PI / 2) + (i * 2 * Math.PI) / 4;
+                const cx = 130,
+                  cy = 130,
+                  labelR = 108;
+                const a = Math.PI / 2 + (i * 2 * Math.PI) / 4;
                 const lx = cx + labelR * Math.cos(a);
                 const ly = cy - labelR * Math.sin(a);
                 // 위치 보정
                 const anchor = i === 0 ? "middle" : i === 1 ? "end" : i === 2 ? "middle" : "start";
                 const dy = i === 0 ? -6 : i === 2 ? 14 : 4;
                 return (
-                  <text key={axis.key} x={lx} y={ly + dy} textAnchor={anchor} fontSize="11" fontWeight="600" fill="#374151">
+                  <text
+                    key={axis.key}
+                    x={lx}
+                    y={ly + dy}
+                    textAnchor={anchor}
+                    fontSize="11"
+                    fontWeight="600"
+                    fill="#374151"
+                  >
                     {axis.label}
                   </text>
                 );
@@ -608,7 +805,9 @@ export default function WellnessRecordPage() {
           {/* 종합 점수 + 범례 */}
           <div className={styles.radarFooter}>
             <div className={styles.radarOverall}>
-              <span className={styles.radarOverallNum} style={{ color: scoreColor }}>{wellnessScore.overall}</span>
+              <span className={styles.radarOverallNum} style={{ color: scoreColor }}>
+                {wellnessScore.overall}
+              </span>
               <span className={styles.radarOverallLabel}>종합 점수</span>
             </div>
             <div className={styles.radarLegend}>
@@ -616,7 +815,9 @@ export default function WellnessRecordPage() {
                 <div key={axis.key} className={styles.radarLegendItem}>
                   <span className={styles.radarLegendIcon}>{axis.icon}</span>
                   <span className={styles.radarLegendLabel}>{axis.label}</span>
-                  <span className={styles.radarLegendValue} style={{ color: axis.color }}>{axis.score}</span>
+                  <span className={styles.radarLegendValue} style={{ color: axis.color }}>
+                    {axis.score}
+                  </span>
                 </div>
               ))}
             </div>
@@ -632,44 +833,87 @@ export default function WellnessRecordPage() {
             </div>
             <div className={styles.highlightGrid}>
               {/* 자율신경 변화 */}
-              {changeHighlight.scHasMultiple && changeHighlight.scFirst !== null && changeHighlight.scLast !== null && (
-                <div className={styles.highlightCard}>
-                  <p className={styles.highlightLabel}>불균형 신호</p>
-                  <div className={styles.highlightValueRow}>
-                    <span className={styles.highlightBefore}>{changeHighlight.scFirst}%</span>
-                    <span className={styles.highlightArrow}>→</span>
-                    <span className={styles.highlightAfter} style={{ color: getSignalGrade(changeHighlight.scLast).color }}>
-                      {changeHighlight.scLast}%
-                    </span>
+              {changeHighlight.scHasMultiple &&
+                changeHighlight.scFirst !== null &&
+                changeHighlight.scLast !== null && (
+                  <div className={styles.highlightCard}>
+                    <p className={styles.highlightLabel}>불균형 신호</p>
+                    <div className={styles.highlightValueRow}>
+                      <span className={styles.highlightBefore}>{changeHighlight.scFirst}%</span>
+                      <span className={styles.highlightArrow}>→</span>
+                      <span
+                        className={styles.highlightAfter}
+                        style={{ color: getSignalGrade(changeHighlight.scLast).color }}
+                      >
+                        {changeHighlight.scLast}%
+                      </span>
+                    </div>
+                    {(() => {
+                      const diff = changeHighlight.scFirst! - changeHighlight.scLast!;
+                      if (diff > 0)
+                        return (
+                          <p className={styles.highlightChange} style={{ color: "#10b981" }}>
+                            {diff}%p 개선
+                          </p>
+                        );
+                      if (diff < 0)
+                        return (
+                          <p className={styles.highlightChange} style={{ color: "#ef4444" }}>
+                            {Math.abs(diff)}%p 상승
+                          </p>
+                        );
+                      return (
+                        <p className={styles.highlightChange} style={{ color: "#9ca3af" }}>
+                          변화 없음
+                        </p>
+                      );
+                    })()}
                   </div>
-                  {(() => {
-                    const diff = changeHighlight.scFirst! - changeHighlight.scLast!;
-                    if (diff > 0) return <p className={styles.highlightChange} style={{ color: "#10b981" }}>{diff}%p 개선</p>;
-                    if (diff < 0) return <p className={styles.highlightChange} style={{ color: "#ef4444" }}>{Math.abs(diff)}%p 상승</p>;
-                    return <p className={styles.highlightChange} style={{ color: "#9ca3af" }}>변화 없음</p>;
-                  })()}
-                </div>
-              )}
+                )}
 
               {/* PSQI 변화 */}
-              {changeHighlight.psqiHasMultiple && changeHighlight.psqiFirst !== null && changeHighlight.psqiLast !== null && (
-                <div className={styles.highlightCard}>
-                  <p className={styles.highlightLabel}>수면 품질</p>
-                  <div className={styles.highlightValueRow}>
-                    <span className={styles.highlightBefore}>{changeHighlight.psqiFirst}</span>
-                    <span className={styles.highlightArrow}>→</span>
-                    <span className={styles.highlightAfter} style={{ color: getPSQIQualityLabel(psqiResults[psqiResults.length - 1].total).color }}>
-                      {changeHighlight.psqiLast}
-                    </span>
+              {changeHighlight.psqiHasMultiple &&
+                changeHighlight.psqiFirst !== null &&
+                changeHighlight.psqiLast !== null && (
+                  <div className={styles.highlightCard}>
+                    <p className={styles.highlightLabel}>수면 품질</p>
+                    <div className={styles.highlightValueRow}>
+                      <span className={styles.highlightBefore}>{changeHighlight.psqiFirst}</span>
+                      <span className={styles.highlightArrow}>→</span>
+                      <span
+                        className={styles.highlightAfter}
+                        style={{
+                          color: getPSQIQualityLabel(psqiResults[psqiResults.length - 1].total)
+                            .color,
+                        }}
+                      >
+                        {changeHighlight.psqiLast}
+                      </span>
+                    </div>
+                    {(() => {
+                      const diff =
+                        Math.round((changeHighlight.psqiLast! - changeHighlight.psqiFirst!) * 10) /
+                        10;
+                      if (diff > 0)
+                        return (
+                          <p className={styles.highlightChange} style={{ color: "#10b981" }}>
+                            +{diff}점 개선
+                          </p>
+                        );
+                      if (diff < 0)
+                        return (
+                          <p className={styles.highlightChange} style={{ color: "#ef4444" }}>
+                            {diff}점 하락
+                          </p>
+                        );
+                      return (
+                        <p className={styles.highlightChange} style={{ color: "#9ca3af" }}>
+                          변화 없음
+                        </p>
+                      );
+                    })()}
                   </div>
-                  {(() => {
-                    const diff = Math.round((changeHighlight.psqiLast! - changeHighlight.psqiFirst!) * 10) / 10;
-                    if (diff > 0) return <p className={styles.highlightChange} style={{ color: "#10b981" }}>+{diff}점 개선</p>;
-                    if (diff < 0) return <p className={styles.highlightChange} style={{ color: "#ef4444" }}>{diff}점 하락</p>;
-                    return <p className={styles.highlightChange} style={{ color: "#9ca3af" }}>변화 없음</p>;
-                  })()}
-                </div>
-              )}
+                )}
             </div>
           </section>
         )}
@@ -684,21 +928,24 @@ export default function WellnessRecordPage() {
             <div className={styles.weeklyItem}>
               <div className={styles.weeklyItemIcon}>🧘</div>
               <div className={styles.weeklyItemValue}>
-                {weeklyReport.solutionCount}<span className={styles.weeklyItemUnit}>회</span>
+                {weeklyReport.solutionCount}
+                <span className={styles.weeklyItemUnit}>회</span>
               </div>
               <div className={styles.weeklyItemLabel}>솔루션</div>
             </div>
             <div className={styles.weeklyItem}>
               <div className={styles.weeklyItemIcon}>🌙</div>
               <div className={styles.weeklyItemValue}>
-                {weeklyReport.habitCount}<span className={styles.weeklyItemUnit}>회</span>
+                {weeklyReport.habitCount}
+                <span className={styles.weeklyItemUnit}>회</span>
               </div>
               <div className={styles.weeklyItemLabel}>해빗</div>
             </div>
             <div className={styles.weeklyItem}>
               <div className={styles.weeklyItemIcon}>🌊</div>
               <div className={styles.weeklyItemValue}>
-                {weeklyReport.seaCount}<span className={styles.weeklyItemUnit}>회</span>
+                {weeklyReport.seaCount}
+                <span className={styles.weeklyItemUnit}>회</span>
               </div>
               <div className={styles.weeklyItemLabel}>이해의 바다</div>
             </div>
@@ -706,7 +953,9 @@ export default function WellnessRecordPage() {
               <div className={styles.weeklyItemIcon}>😴</div>
               <div className={styles.weeklyItemValue}>
                 {weeklyReport.hasSleepData ? weeklyReport.avgSleepHours : "-"}
-                <span className={styles.weeklyItemUnit}>{weeklyReport.hasSleepData ? "시간" : ""}</span>
+                <span className={styles.weeklyItemUnit}>
+                  {weeklyReport.hasSleepData ? "시간" : ""}
+                </span>
               </div>
               <div className={styles.weeklyItemLabel}>평균 수면</div>
             </div>
@@ -721,14 +970,22 @@ export default function WellnessRecordPage() {
           </div>
 
           <div className={styles.calendarNav}>
-            <button className={styles.calendarNavBtn} onClick={goToPrevMonth} aria-label="이전 달">‹</button>
-            <span className={styles.calendarMonth}>{calYear}년 {calMonth + 1}월</span>
-            <button className={styles.calendarNavBtn} onClick={goToNextMonth} aria-label="다음 달">›</button>
+            <button className={styles.calendarNavBtn} onClick={goToPrevMonth} aria-label="이전 달">
+              ‹
+            </button>
+            <span className={styles.calendarMonth}>
+              {calYear}년 {calMonth + 1}월
+            </span>
+            <button className={styles.calendarNavBtn} onClick={goToNextMonth} aria-label="다음 달">
+              ›
+            </button>
           </div>
 
           <div className={styles.calendarWeekdays}>
             {WEEKDAYS.map((day) => (
-              <div key={day} className={styles.weekdayCell}>{day}</div>
+              <div key={day} className={styles.weekdayCell}>
+                {day}
+              </div>
             ))}
           </div>
 
@@ -747,7 +1004,11 @@ export default function WellnessRecordPage() {
 
               return (
                 <div key={day} className={styles.dayCell}>
-                  <div className={[styles.dayNumber, isToday ? styles.dayToday : ""].filter(Boolean).join(" ")}>
+                  <div
+                    className={[styles.dayNumber, isToday ? styles.dayToday : ""]
+                      .filter(Boolean)
+                      .join(" ")}
+                  >
                     {day}
                   </div>
                   {hasDots && (
@@ -789,74 +1050,190 @@ export default function WellnessRecordPage() {
             <div className={styles.emptyState}>
               <div className={styles.emptyIcon}>🔍</div>
               <p className={styles.emptyText}>아직 자율신경 자가 체크 기록이 없습니다.</p>
-              <p className={styles.emptyHint}>웰니스 솔루션에서 자가 체크를 완료하면 여기에 표시됩니다.</p>
-              <button className={styles.emptyCta} onClick={() => router.push("/wellness/solution")}>자가 체크 하러가기</button>
+              <p className={styles.emptyHint}>
+                웰니스 솔루션에서 자가 체크를 완료하면 여기에 표시됩니다.
+              </p>
+              <button className={styles.emptyCta} onClick={() => router.push("/wellness/solution")}>
+                자가 체크 하러가기
+              </button>
             </div>
           ) : (
             <>
-              {latestSC && (() => {
-                const gradeInfo = getSignalGrade(latestSC.intensity);
-                return (
-                  <div className={styles.scLatest}>
-                    <div className={styles.scScoreWrap}>
-                      <div className={styles.scScoreCircle} style={{ borderColor: gradeInfo.color }}>
-                        <span className={styles.scScoreNum} style={{ color: gradeInfo.color }}>{latestSC.intensity}</span>
-                        <span className={styles.scScoreMax}>%</span>
-                      </div>
-                      <div className={styles.scGradeRow}>
-                        <span className={styles.scGradeBadge} style={{ background: gradeInfo.color }}>{gradeInfo.grade}</span>
-                        <span className={styles.scQualityBadge} style={{ background: gradeInfo.color }}>{gradeInfo.label}</span>
-                      </div>
-                    </div>
-                    <div className={styles.scLatestInfo}>
-                      <span className={styles.scLatestDate}>최근 체크: {formatShortDate(latestSC.testDate)}</span>
-                      <span className={styles.scShortLabel} style={{ color: gradeInfo.color }}>{gradeInfo.shortLabel}</span>
-                      {scTrendDirection && prevSC && (
-                        <div className={styles.scTrend}>
-                          <span className={styles.scTrendArrow} style={{
-                            color: scTrendDirection === "improved" ? "#10b981" : scTrendDirection === "worsened" ? "#ef4444" : "#9ca3af",
-                          }}>
-                            {scTrendDirection === "improved" ? "▲" : scTrendDirection === "worsened" ? "▼" : "─"}
+              {latestSC &&
+                (() => {
+                  const gradeInfo = getSignalGrade(latestSC.intensity);
+                  return (
+                    <div className={styles.scLatest}>
+                      <div className={styles.scScoreWrap}>
+                        <div
+                          className={styles.scScoreCircle}
+                          style={{ borderColor: gradeInfo.color }}
+                        >
+                          <span className={styles.scScoreNum} style={{ color: gradeInfo.color }}>
+                            {latestSC.intensity}
                           </span>
-                          <span className={styles.scTrendText} style={{
-                            color: scTrendDirection === "improved" ? "#10b981" : scTrendDirection === "worsened" ? "#ef4444" : "#9ca3af",
-                          }}>
-                            {(() => {
-                              const diff = Math.abs(latestSC.intensity - prevSC.intensity);
-                              return scTrendDirection === "improved" ? `${diff}%p 개선` : scTrendDirection === "worsened" ? `${diff}%p 상승` : "변화 없음";
-                            })()}
+                          <span className={styles.scScoreMax}>%</span>
+                        </div>
+                        <div className={styles.scGradeRow}>
+                          <span
+                            className={styles.scGradeBadge}
+                            style={{ background: gradeInfo.color }}
+                          >
+                            {gradeInfo.grade}
+                          </span>
+                          <span
+                            className={styles.scQualityBadge}
+                            style={{ background: gradeInfo.color }}
+                          >
+                            {gradeInfo.label}
                           </span>
                         </div>
-                      )}
+                      </div>
+                      <div className={styles.scLatestInfo}>
+                        <span className={styles.scLatestDate}>
+                          최근 체크: {formatShortDate(latestSC.testDate)}
+                        </span>
+                        <span className={styles.scShortLabel} style={{ color: gradeInfo.color }}>
+                          {gradeInfo.shortLabel}
+                        </span>
+                        {scTrendDirection && prevSC && (
+                          <div className={styles.scTrend}>
+                            <span
+                              className={styles.scTrendArrow}
+                              style={{
+                                color:
+                                  scTrendDirection === "improved"
+                                    ? "#10b981"
+                                    : scTrendDirection === "worsened"
+                                      ? "#ef4444"
+                                      : "#9ca3af",
+                              }}
+                            >
+                              {scTrendDirection === "improved"
+                                ? "▲"
+                                : scTrendDirection === "worsened"
+                                  ? "▼"
+                                  : "─"}
+                            </span>
+                            <span
+                              className={styles.scTrendText}
+                              style={{
+                                color:
+                                  scTrendDirection === "improved"
+                                    ? "#10b981"
+                                    : scTrendDirection === "worsened"
+                                      ? "#ef4444"
+                                      : "#9ca3af",
+                              }}
+                            >
+                              {(() => {
+                                const diff = Math.abs(latestSC.intensity - prevSC.intensity);
+                                return scTrendDirection === "improved"
+                                  ? `${diff}%p 개선`
+                                  : scTrendDirection === "worsened"
+                                    ? `${diff}%p 상승`
+                                    : "변화 없음";
+                              })()}
+                            </span>
+                          </div>
+                        )}
+                      </div>
                     </div>
-                  </div>
-                );
-              })()}
+                  );
+                })()}
 
               {scChartData.length >= 2 && (
                 <div className={styles.scChartWrap}>
-                  <svg viewBox={`0 0 ${chartW} ${chartH}`} className={styles.scChart} preserveAspectRatio="xMidYMid meet">
-                    <rect x={padX} y={padY} width={innerW} height={innerH * 0.2} fill="rgba(16,185,129,0.06)" />
-                    <rect x={padX} y={padY + innerH * 0.2} width={innerW} height={innerH * 0.2} fill="rgba(245,158,11,0.06)" />
-                    <rect x={padX} y={padY + innerH * 0.4} width={innerW} height={innerH * 0.6} fill="rgba(239,68,68,0.04)" />
-                    <line x1={padX} y1={padY + innerH * 0.2} x2={padX + innerW} y2={padY + innerH * 0.2} stroke="rgba(16,185,129,0.2)" strokeDasharray="3,3" strokeWidth="1" />
+                  <svg
+                    viewBox={`0 0 ${chartW} ${chartH}`}
+                    className={styles.scChart}
+                    preserveAspectRatio="xMidYMid meet"
+                  >
+                    <rect
+                      x={padX}
+                      y={padY}
+                      width={innerW}
+                      height={innerH * 0.2}
+                      fill="rgba(16,185,129,0.06)"
+                    />
+                    <rect
+                      x={padX}
+                      y={padY + innerH * 0.2}
+                      width={innerW}
+                      height={innerH * 0.2}
+                      fill="rgba(245,158,11,0.06)"
+                    />
+                    <rect
+                      x={padX}
+                      y={padY + innerH * 0.4}
+                      width={innerW}
+                      height={innerH * 0.6}
+                      fill="rgba(239,68,68,0.04)"
+                    />
+                    <line
+                      x1={padX}
+                      y1={padY + innerH * 0.2}
+                      x2={padX + innerW}
+                      y2={padY + innerH * 0.2}
+                      stroke="rgba(16,185,129,0.2)"
+                      strokeDasharray="3,3"
+                      strokeWidth="1"
+                    />
                     <polyline
-                      points={scChartData.map((r, i) => {
-                        const x = padX + (scChartData.length === 1 ? innerW / 2 : (i / (scChartData.length - 1)) * innerW);
-                        const y = padY + (r.intensity / 100) * innerH;
-                        return `${x},${y}`;
-                      }).join(" ")}
-                      fill="none" stroke="rgba(34,197,94,0.4)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"
+                      points={scChartData
+                        .map((r, i) => {
+                          const x =
+                            padX +
+                            (scChartData.length === 1
+                              ? innerW / 2
+                              : (i / (scChartData.length - 1)) * innerW);
+                          const y = padY + (r.intensity / 100) * innerH;
+                          return `${x},${y}`;
+                        })
+                        .join(" ")}
+                      fill="none"
+                      stroke="rgba(34,197,94,0.4)"
+                      strokeWidth="2"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
                     />
                     {scChartData.map((r, i) => {
-                      const x = padX + (scChartData.length === 1 ? innerW / 2 : (i / (scChartData.length - 1)) * innerW);
+                      const x =
+                        padX +
+                        (scChartData.length === 1
+                          ? innerW / 2
+                          : (i / (scChartData.length - 1)) * innerW);
                       const y = padY + (r.intensity / 100) * innerH;
                       const gi = getSignalGrade(r.intensity);
                       return (
                         <g key={r.testDate}>
-                          <circle cx={x} cy={y} r={i === scChartData.length - 1 ? 5 : 3.5} fill={gi.color} stroke="#fff" strokeWidth="1.5" />
-                          <text x={x} y={y - 8} textAnchor="middle" fontSize="9" fontWeight="700" fill={gi.color}>{r.intensity}%</text>
-                          <text x={x} y={chartH - 1} textAnchor="middle" fontSize="8" fill="rgba(107,114,128,0.7)">{formatShortDate(r.testDate)}</text>
+                          <circle
+                            cx={x}
+                            cy={y}
+                            r={i === scChartData.length - 1 ? 5 : 3.5}
+                            fill={gi.color}
+                            stroke="#fff"
+                            strokeWidth="1.5"
+                          />
+                          <text
+                            x={x}
+                            y={y - 8}
+                            textAnchor="middle"
+                            fontSize="9"
+                            fontWeight="700"
+                            fill={gi.color}
+                          >
+                            {r.intensity}%
+                          </text>
+                          <text
+                            x={x}
+                            y={chartH - 1}
+                            textAnchor="middle"
+                            fontSize="8"
+                            fill="rgba(107,114,128,0.7)"
+                          >
+                            {formatShortDate(r.testDate)}
+                          </text>
                         </g>
                       );
                     })}
@@ -883,39 +1260,99 @@ export default function WellnessRecordPage() {
             <div className={styles.emptyState}>
               <div className={styles.emptyIcon}>😴</div>
               <p className={styles.emptyText}>아직 수면 품질 검사 기록이 없습니다.</p>
-              <p className={styles.emptyHint}>위클리 해빗에서 PSQI 검사를 완료하면 여기에 표시됩니다.</p>
-              <button className={styles.emptyCta} onClick={() => router.push("/wellness/weekly-habit")}>PSQI 검사 하러가기</button>
+              <p className={styles.emptyHint}>
+                위클리 해빗에서 PSQI 검사를 완료하면 여기에 표시됩니다.
+              </p>
+              <button
+                className={styles.emptyCta}
+                onClick={() => router.push("/wellness/weekly-habit")}
+              >
+                PSQI 검사 하러가기
+              </button>
             </div>
           ) : (
             <>
               {latestPSQI && (
                 <div className={styles.psqiLatest}>
                   <div className={styles.psqiScoreWrap}>
-                    <div className={styles.psqiScoreCircle} style={{ borderColor: getPSQIQualityLabel(latestPSQI.total).color }}>
-                      <span className={styles.psqiScoreNum} style={{ color: getPSQIQualityLabel(latestPSQI.total).color }}>{toScore10(latestPSQI.total)}</span>
+                    <div
+                      className={styles.psqiScoreCircle}
+                      style={{ borderColor: getPSQIQualityLabel(latestPSQI.total).color }}
+                    >
+                      <span
+                        className={styles.psqiScoreNum}
+                        style={{ color: getPSQIQualityLabel(latestPSQI.total).color }}
+                      >
+                        {toScore10(latestPSQI.total)}
+                      </span>
                       <span className={styles.psqiScoreMax}>/10</span>
                     </div>
                     <div className={styles.psqiGradeRow}>
-                      <span className={styles.psqiGradeBadge} style={{ background: getPSQIQualityLabel(latestPSQI.total).color }}>{getPSQIQualityLabel(latestPSQI.total).grade}</span>
-                      <span className={styles.psqiQualityBadge} style={{ background: getPSQIQualityLabel(latestPSQI.total).color }}>{getPSQIQualityLabel(latestPSQI.total).label}</span>
+                      <span
+                        className={styles.psqiGradeBadge}
+                        style={{ background: getPSQIQualityLabel(latestPSQI.total).color }}
+                      >
+                        {getPSQIQualityLabel(latestPSQI.total).grade}
+                      </span>
+                      <span
+                        className={styles.psqiQualityBadge}
+                        style={{ background: getPSQIQualityLabel(latestPSQI.total).color }}
+                      >
+                        {getPSQIQualityLabel(latestPSQI.total).label}
+                      </span>
                     </div>
                   </div>
                   <div className={styles.psqiLatestInfo}>
-                    <span className={styles.psqiLatestDate}>최근 검사: {formatShortDate(latestPSQI.testDate)}</span>
-                    <span className={styles.psqiGapText} style={{ color: getPSQIQualityLabel(latestPSQI.total).color }}>목표까지 {getGapScore(latestPSQI.total)}점</span>
+                    <span className={styles.psqiLatestDate}>
+                      최근 검사: {formatShortDate(latestPSQI.testDate)}
+                    </span>
+                    <span
+                      className={styles.psqiGapText}
+                      style={{ color: getPSQIQualityLabel(latestPSQI.total).color }}
+                    >
+                      목표까지 {getGapScore(latestPSQI.total)}점
+                    </span>
                     {psqiTrendDirection && prevPSQI && (
                       <div className={styles.psqiTrend}>
-                        <span className={styles.psqiTrendArrow} style={{
-                          color: psqiTrendDirection === "improved" ? "#10b981" : psqiTrendDirection === "worsened" ? "#ef4444" : "#9ca3af",
-                        }}>
-                          {psqiTrendDirection === "improved" ? "▲" : psqiTrendDirection === "worsened" ? "▼" : "─"}
+                        <span
+                          className={styles.psqiTrendArrow}
+                          style={{
+                            color:
+                              psqiTrendDirection === "improved"
+                                ? "#10b981"
+                                : psqiTrendDirection === "worsened"
+                                  ? "#ef4444"
+                                  : "#9ca3af",
+                          }}
+                        >
+                          {psqiTrendDirection === "improved"
+                            ? "▲"
+                            : psqiTrendDirection === "worsened"
+                              ? "▼"
+                              : "─"}
                         </span>
-                        <span className={styles.psqiTrendText} style={{
-                          color: psqiTrendDirection === "improved" ? "#10b981" : psqiTrendDirection === "worsened" ? "#ef4444" : "#9ca3af",
-                        }}>
+                        <span
+                          className={styles.psqiTrendText}
+                          style={{
+                            color:
+                              psqiTrendDirection === "improved"
+                                ? "#10b981"
+                                : psqiTrendDirection === "worsened"
+                                  ? "#ef4444"
+                                  : "#9ca3af",
+                          }}
+                        >
                           {(() => {
-                            const scoreDiff = Math.abs(Math.round((toScore10(latestPSQI.total) - toScore10(prevPSQI.total)) * 10) / 10);
-                            return psqiTrendDirection === "improved" ? `${scoreDiff}점 개선` : psqiTrendDirection === "worsened" ? `${scoreDiff}점 하락` : "변화 없음";
+                            const scoreDiff = Math.abs(
+                              Math.round(
+                                (toScore10(latestPSQI.total) - toScore10(prevPSQI.total)) * 10
+                              ) / 10
+                            );
+                            return psqiTrendDirection === "improved"
+                              ? `${scoreDiff}점 개선`
+                              : psqiTrendDirection === "worsened"
+                                ? `${scoreDiff}점 하락`
+                                : "변화 없음";
                           })()}
                         </span>
                       </div>
@@ -926,28 +1363,96 @@ export default function WellnessRecordPage() {
 
               {psqiChartData.length >= 2 && (
                 <div className={styles.psqiChartWrap}>
-                  <svg viewBox={`0 0 ${chartW} ${chartH}`} className={styles.psqiChart} preserveAspectRatio="xMidYMid meet">
-                    <rect x={padX} y={padY} width={innerW} height={innerH * (5 / 21)} fill="rgba(16,185,129,0.06)" />
-                    <rect x={padX} y={padY + innerH * (5 / 21)} width={innerW} height={innerH * (5 / 21)} fill="rgba(245,158,11,0.06)" />
-                    <rect x={padX} y={padY + innerH * (10 / 21)} width={innerW} height={innerH * (11 / 21)} fill="rgba(239,68,68,0.04)" />
-                    <line x1={padX} y1={padY + innerH * (5 / 21)} x2={padX + innerW} y2={padY + innerH * (5 / 21)} stroke="rgba(16,185,129,0.2)" strokeDasharray="3,3" strokeWidth="1" />
+                  <svg
+                    viewBox={`0 0 ${chartW} ${chartH}`}
+                    className={styles.psqiChart}
+                    preserveAspectRatio="xMidYMid meet"
+                  >
+                    <rect
+                      x={padX}
+                      y={padY}
+                      width={innerW}
+                      height={innerH * (5 / 21)}
+                      fill="rgba(16,185,129,0.06)"
+                    />
+                    <rect
+                      x={padX}
+                      y={padY + innerH * (5 / 21)}
+                      width={innerW}
+                      height={innerH * (5 / 21)}
+                      fill="rgba(245,158,11,0.06)"
+                    />
+                    <rect
+                      x={padX}
+                      y={padY + innerH * (10 / 21)}
+                      width={innerW}
+                      height={innerH * (11 / 21)}
+                      fill="rgba(239,68,68,0.04)"
+                    />
+                    <line
+                      x1={padX}
+                      y1={padY + innerH * (5 / 21)}
+                      x2={padX + innerW}
+                      y2={padY + innerH * (5 / 21)}
+                      stroke="rgba(16,185,129,0.2)"
+                      strokeDasharray="3,3"
+                      strokeWidth="1"
+                    />
                     <polyline
-                      points={psqiChartData.map((r, i) => {
-                        const x = padX + (psqiChartData.length === 1 ? innerW / 2 : (i / (psqiChartData.length - 1)) * innerW);
-                        const y = padY + (r.total / 21) * innerH;
-                        return `${x},${y}`;
-                      }).join(" ")}
-                      fill="none" stroke="rgba(99,102,241,0.4)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"
+                      points={psqiChartData
+                        .map((r, i) => {
+                          const x =
+                            padX +
+                            (psqiChartData.length === 1
+                              ? innerW / 2
+                              : (i / (psqiChartData.length - 1)) * innerW);
+                          const y = padY + (r.total / 21) * innerH;
+                          return `${x},${y}`;
+                        })
+                        .join(" ")}
+                      fill="none"
+                      stroke="rgba(99,102,241,0.4)"
+                      strokeWidth="2"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
                     />
                     {psqiChartData.map((r, i) => {
-                      const x = padX + (psqiChartData.length === 1 ? innerW / 2 : (i / (psqiChartData.length - 1)) * innerW);
+                      const x =
+                        padX +
+                        (psqiChartData.length === 1
+                          ? innerW / 2
+                          : (i / (psqiChartData.length - 1)) * innerW);
                       const y = padY + (r.total / 21) * innerH;
                       const quality = getPSQIQualityLabel(r.total);
                       return (
                         <g key={r.testDate}>
-                          <circle cx={x} cy={y} r={i === psqiChartData.length - 1 ? 5 : 3.5} fill={quality.color} stroke="#fff" strokeWidth="1.5" />
-                          <text x={x} y={y - 8} textAnchor="middle" fontSize="9" fontWeight="700" fill={quality.color}>{toScore10(r.total)}</text>
-                          <text x={x} y={chartH - 1} textAnchor="middle" fontSize="8" fill="rgba(107,114,128,0.7)">{formatShortDate(r.testDate)}</text>
+                          <circle
+                            cx={x}
+                            cy={y}
+                            r={i === psqiChartData.length - 1 ? 5 : 3.5}
+                            fill={quality.color}
+                            stroke="#fff"
+                            strokeWidth="1.5"
+                          />
+                          <text
+                            x={x}
+                            y={y - 8}
+                            textAnchor="middle"
+                            fontSize="9"
+                            fontWeight="700"
+                            fill={quality.color}
+                          >
+                            {toScore10(r.total)}
+                          </text>
+                          <text
+                            x={x}
+                            y={chartH - 1}
+                            textAnchor="middle"
+                            fontSize="8"
+                            fill="rgba(107,114,128,0.7)"
+                          >
+                            {formatShortDate(r.testDate)}
+                          </text>
                         </g>
                       );
                     })}
@@ -974,20 +1479,39 @@ export default function WellnessRecordPage() {
             <div className={styles.emptyState}>
               <div className={styles.emptyIcon}>🌙</div>
               <p className={styles.emptyText}>아직 수면 기록이 없습니다.</p>
-              <p className={styles.emptyHint}>위클리 해빗에서 수면 로그를 기록하면 여기에 표시됩니다.</p>
+              <p className={styles.emptyHint}>
+                위클리 해빗에서 수면 로그를 기록하면 여기에 표시됩니다.
+              </p>
             </div>
           ) : (
             <>
               <div className={styles.sleepChartNav}>
-                <button className={styles.sleepChartNavBtn} onClick={() => {
-                  if (sleepMonth === 0) { setSleepYear((y) => y - 1); setSleepMonth(11); }
-                  else setSleepMonth((m) => m - 1);
-                }}>‹</button>
-                <span className={styles.sleepChartMonth}>{sleepYear}년 {sleepMonth + 1}월</span>
-                <button className={styles.sleepChartNavBtn} disabled={isNextSleepDisabled} onClick={() => {
-                  if (sleepMonth === 11) { setSleepYear((y) => y + 1); setSleepMonth(0); }
-                  else setSleepMonth((m) => m + 1);
-                }}>›</button>
+                <button
+                  className={styles.sleepChartNavBtn}
+                  onClick={() => {
+                    if (sleepMonth === 0) {
+                      setSleepYear((y) => y - 1);
+                      setSleepMonth(11);
+                    } else setSleepMonth((m) => m - 1);
+                  }}
+                >
+                  ‹
+                </button>
+                <span className={styles.sleepChartMonth}>
+                  {sleepYear}년 {sleepMonth + 1}월
+                </span>
+                <button
+                  className={styles.sleepChartNavBtn}
+                  disabled={isNextSleepDisabled}
+                  onClick={() => {
+                    if (sleepMonth === 11) {
+                      setSleepYear((y) => y + 1);
+                      setSleepMonth(0);
+                    } else setSleepMonth((m) => m + 1);
+                  }}
+                >
+                  ›
+                </button>
               </div>
 
               {sleepMonthData.length === 0 ? (
@@ -996,15 +1520,22 @@ export default function WellnessRecordPage() {
                 </div>
               ) : (
                 <>
-                  <svg viewBox="0 0 300 140" className={styles.sleepChartSvg} preserveAspectRatio="xMidYMid meet">
+                  <svg
+                    viewBox="0 0 300 140"
+                    className={styles.sleepChartSvg}
+                    preserveAspectRatio="xMidYMid meet"
+                  >
                     {/* Y축 기준선 (시간) */}
                     {[-2, 0, 2, 4, 6, 8, 10].map((h) => {
-                      const yMin = -4; const yMax = 12;
+                      const yMin = -4;
+                      const yMax = 12;
                       const y = 15 + ((h - yMin) / (yMax - yMin)) * 110;
                       return (
                         <g key={h}>
                           <line x1="30" y1={y} x2="290" y2={y} stroke="#f3f4f6" strokeWidth="0.5" />
-                          <text x="26" y={y + 3} textAnchor="end" fontSize="7" fill="#9ca3af">{hourToLabel(h)}</text>
+                          <text x="26" y={y + 3} textAnchor="end" fontSize="7" fill="#9ca3af">
+                            {hourToLabel(h)}
+                          </text>
                         </g>
                       );
                     })}
@@ -1012,14 +1543,25 @@ export default function WellnessRecordPage() {
                     {sleepMonthData.map((d, i) => {
                       const totalDays = daysInMonthUtil(sleepYear, sleepMonth);
                       const x = 30 + ((d.day - 1) / (totalDays - 1)) * 260;
-                      const yMin = -4; const yMax = 12;
-                      const bedY = d.bed !== null ? 15 + ((d.bed - yMin) / (yMax - yMin)) * 110 : null;
-                      const wakeY = d.wake !== null ? 15 + ((d.wake - yMin) / (yMax - yMin)) * 110 : null;
+                      const yMin = -4;
+                      const yMax = 12;
+                      const bedY =
+                        d.bed !== null ? 15 + ((d.bed - yMin) / (yMax - yMin)) * 110 : null;
+                      const wakeY =
+                        d.wake !== null ? 15 + ((d.wake - yMin) / (yMax - yMin)) * 110 : null;
 
                       return (
                         <g key={d.logKey}>
                           {bedY !== null && wakeY !== null && (
-                            <line x1={x} y1={bedY} x2={x} y2={wakeY} stroke="rgba(99,102,241,0.15)" strokeWidth="3" strokeLinecap="round" />
+                            <line
+                              x1={x}
+                              y1={bedY}
+                              x2={x}
+                              y2={wakeY}
+                              stroke="rgba(99,102,241,0.15)"
+                              strokeWidth="3"
+                              strokeLinecap="round"
+                            />
                           )}
                           {bedY !== null && <circle cx={x} cy={bedY} r="2.5" fill="#6366f1" />}
                           {wakeY !== null && <circle cx={x} cy={wakeY} r="2.5" fill="#f59e0b" />}
@@ -1030,24 +1572,38 @@ export default function WellnessRecordPage() {
                     {sleepMonthData.length >= 2 && (
                       <>
                         <polyline
-                          points={sleepMonthData.filter((d) => d.bed !== null).map((d) => {
-                            const totalDays = daysInMonthUtil(sleepYear, sleepMonth);
-                            const x = 30 + ((d.day - 1) / (totalDays - 1)) * 260;
-                            const yMin = -4; const yMax = 12;
-                            const y = 15 + ((d.bed! - yMin) / (yMax - yMin)) * 110;
-                            return `${x},${y}`;
-                          }).join(" ")}
-                          fill="none" stroke="rgba(99,102,241,0.3)" strokeWidth="1" strokeLinecap="round"
+                          points={sleepMonthData
+                            .filter((d) => d.bed !== null)
+                            .map((d) => {
+                              const totalDays = daysInMonthUtil(sleepYear, sleepMonth);
+                              const x = 30 + ((d.day - 1) / (totalDays - 1)) * 260;
+                              const yMin = -4;
+                              const yMax = 12;
+                              const y = 15 + ((d.bed! - yMin) / (yMax - yMin)) * 110;
+                              return `${x},${y}`;
+                            })
+                            .join(" ")}
+                          fill="none"
+                          stroke="rgba(99,102,241,0.3)"
+                          strokeWidth="1"
+                          strokeLinecap="round"
                         />
                         <polyline
-                          points={sleepMonthData.filter((d) => d.wake !== null).map((d) => {
-                            const totalDays = daysInMonthUtil(sleepYear, sleepMonth);
-                            const x = 30 + ((d.day - 1) / (totalDays - 1)) * 260;
-                            const yMin = -4; const yMax = 12;
-                            const y = 15 + ((d.wake! - yMin) / (yMax - yMin)) * 110;
-                            return `${x},${y}`;
-                          }).join(" ")}
-                          fill="none" stroke="rgba(245,158,11,0.3)" strokeWidth="1" strokeLinecap="round"
+                          points={sleepMonthData
+                            .filter((d) => d.wake !== null)
+                            .map((d) => {
+                              const totalDays = daysInMonthUtil(sleepYear, sleepMonth);
+                              const x = 30 + ((d.day - 1) / (totalDays - 1)) * 260;
+                              const yMin = -4;
+                              const yMax = 12;
+                              const y = 15 + ((d.wake! - yMin) / (yMax - yMin)) * 110;
+                              return `${x},${y}`;
+                            })
+                            .join(" ")}
+                          fill="none"
+                          stroke="rgba(245,158,11,0.3)"
+                          strokeWidth="1"
+                          strokeLinecap="round"
                         />
                       </>
                     )}
@@ -1056,7 +1612,11 @@ export default function WellnessRecordPage() {
                       const totalDays = daysInMonthUtil(sleepYear, sleepMonth);
                       if (d > totalDays) return null;
                       const x = 30 + ((d - 1) / (totalDays - 1)) * 260;
-                      return <text key={d} x={x} y={135} textAnchor="middle" fontSize="7" fill="#9ca3af">{d}일</text>;
+                      return (
+                        <text key={d} x={x} y={135} textAnchor="middle" fontSize="7" fill="#9ca3af">
+                          {d}일
+                        </text>
+                      );
                     })}
                   </svg>
                   <div className={styles.sleepChartLegend}>
@@ -1085,13 +1645,15 @@ export default function WellnessRecordPage() {
           <div className={styles.solutionStats}>
             <div className={styles.solutionStat}>
               <div className={styles.solutionStatValue}>
-                {solutionSummary.currentWeek}<span className={styles.solutionStatUnit}>주차</span>
+                {solutionSummary.currentWeek}
+                <span className={styles.solutionStatUnit}>주차</span>
               </div>
               <div className={styles.solutionStatLabel}>현재 진행</div>
             </div>
             <div className={styles.solutionStat}>
               <div className={styles.solutionStatValue}>
-                {solutionSummary.totalDays}<span className={styles.solutionStatUnit}>일</span>
+                {solutionSummary.totalDays}
+                <span className={styles.solutionStatUnit}>일</span>
               </div>
               <div className={styles.solutionStatLabel}>총 실천</div>
             </div>
@@ -1111,7 +1673,9 @@ export default function WellnessRecordPage() {
                       styles.weekDot,
                       isComplete ? styles.weekDotComplete : "",
                       isCurrent ? styles.weekDotCurrent : "",
-                    ].filter(Boolean).join(" ")}
+                    ]
+                      .filter(Boolean)
+                      .join(" ")}
                   >
                     {weekNum}
                   </div>
@@ -1138,14 +1702,20 @@ export default function WellnessRecordPage() {
           ) : (
             <>
               {/* 스택 바 차트 */}
-              <svg viewBox="0 0 280 120" className={styles.habitChartSvg} preserveAspectRatio="xMidYMid meet">
+              <svg
+                viewBox="0 0 280 120"
+                className={styles.habitChartSvg}
+                preserveAspectRatio="xMidYMid meet"
+              >
                 {/* Y축 가이드 */}
                 {[0, 2, 4, 6].map((v) => {
                   const y = 100 - (v / 7) * 80;
                   return (
                     <g key={v}>
                       <line x1="30" y1={y} x2="270" y2={y} stroke="#f3f4f6" strokeWidth="0.5" />
-                      <text x="26" y={y + 3} textAnchor="end" fontSize="8" fill="#9ca3af">{v}</text>
+                      <text x="26" y={y + 3} textAnchor="end" fontSize="8" fill="#9ca3af">
+                        {v}
+                      </text>
                     </g>
                   );
                 })}
@@ -1154,7 +1724,14 @@ export default function WellnessRecordPage() {
                 {habitChartData.map((week, wi) => {
                   const barX = 50 + wi * 58;
                   const barW = 36;
-                  const habitColors = ["#22c55e", "#10b981", "#059669", "#047857", "#065f46", "#064e3b"];
+                  const habitColors = [
+                    "#22c55e",
+                    "#10b981",
+                    "#059669",
+                    "#047857",
+                    "#065f46",
+                    "#064e3b",
+                  ];
                   let cumY = 100;
 
                   return (
@@ -1176,7 +1753,15 @@ export default function WellnessRecordPage() {
                           />
                         );
                       })}
-                      <text x={barX + barW / 2} y={112} textAnchor="middle" fontSize="7" fill="#9ca3af">{week.label}</text>
+                      <text
+                        x={barX + barW / 2}
+                        y={112}
+                        textAnchor="middle"
+                        fontSize="7"
+                        fill="#9ca3af"
+                      >
+                        {week.label}
+                      </text>
                     </g>
                   );
                 })}
@@ -1187,8 +1772,13 @@ export default function WellnessRecordPage() {
                   const colors = ["#22c55e", "#10b981", "#059669", "#047857", "#065f46"];
                   return (
                     <div key={h} className={styles.habitLegendItem}>
-                      <div className={styles.habitLegendDot} style={{ background: colors[i % colors.length] }} />
-                      <span className={styles.habitLegendText}>{h.length > 8 ? h.slice(0, 8) + "…" : h}</span>
+                      <div
+                        className={styles.habitLegendDot}
+                        style={{ background: colors[i % colors.length] }}
+                      />
+                      <span className={styles.habitLegendText}>
+                        {h.length > 8 ? h.slice(0, 8) + "…" : h}
+                      </span>
                     </div>
                   );
                 })}
@@ -1208,26 +1798,29 @@ export default function WellnessRecordPage() {
             <div className={styles.emptyState}>
               <div className={styles.emptyIcon}>🧘‍♀️</div>
               <p className={styles.emptyText}>아직 이해의 바다 실천 기록이 없습니다.</p>
-              <p className={styles.emptyHint}>이해의 바다에서 명상/몰입을 시작하면 여기에 표시됩니다.</p>
+              <p className={styles.emptyHint}>
+                이해의 바다에서 명상/몰입을 시작하면 여기에 표시됩니다.
+              </p>
             </div>
           ) : (
             <div className={styles.seaStats}>
               <div className={styles.seaStat}>
                 <div className={styles.seaStatValue}>
-                  {seaSummary.totalSessions}<span className={styles.seaStatUnit}>회</span>
+                  {seaSummary.totalSessions}
+                  <span className={styles.seaStatUnit}>회</span>
                 </div>
                 <div className={styles.seaStatLabel}>총 이용 횟수</div>
               </div>
               <div className={styles.seaStat}>
                 <div className={styles.seaStatValue}>
-                  {Math.round(seaSummary.totalSessions * 15)}<span className={styles.seaStatUnit}>분</span>
+                  {Math.round(seaSummary.totalSessions * 15)}
+                  <span className={styles.seaStatUnit}>분</span>
                 </div>
                 <div className={styles.seaStatLabel}>예상 명상 시간</div>
               </div>
             </div>
           )}
         </section>
-
       </main>
 
       <div className={styles.tabPadding} />

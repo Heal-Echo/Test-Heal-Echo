@@ -1,1002 +1,1010 @@
 /* src/app/mypage/mypage.module.css */
 
 .container {
-    display: flex;
-    flex-direction: column;
-    min-height: 100vh;
-    max-width: 480px;
-    margin: 0 auto;
-    background-color: #ffffff;
-    position: relative;
-  }
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  max-width: 480px;
+  margin: 0 auto;
+  background-color: #ffffff;
+  position: relative;
+}
 
-  .main {
-    flex: 1;
-    padding: 16px 20px 0;
-    box-sizing: border-box;
-  }
+.main {
+  flex: 1;
+  padding: 16px 20px 0;
+  box-sizing: border-box;
+}
 
-  /* 설정 버튼 (우측 상단) */
-  .settingsRow {
-    display: flex;
-    justify-content: flex-end;
-    margin-bottom: 12px;
-  }
+/* 설정 버튼 (우측 상단) */
+.settingsRow {
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: 12px;
+}
 
-  .settingsBtn {
-    width: 36px;
-    height: 36px;
-    border-radius: 50%;
-    border: none;
-    background: #f3f4f6;
-    color: #6b7280;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    transition: background 0.15s ease, color 0.15s ease;
-  }
+.settingsBtn {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  border: none;
+  background: #f3f4f6;
+  color: #6b7280;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition:
+    background 0.15s ease,
+    color 0.15s ease;
+}
 
-  .settingsBtn:hover {
-    background: #e5e7eb;
-    color: #374151;
-  }
+.settingsBtn:hover {
+  background: #e5e7eb;
+  color: #374151;
+}
 
-  .settingsBtn:active {
-    transform: scale(0.94);
-  }
+.settingsBtn:active {
+  transform: scale(0.94);
+}
 
-  /* ===========================================
+/* ===========================================
      통합 실천 캘린더
      =========================================== */
-  .calendarSection {
-    margin-bottom: 24px;
-    border-radius: 20px;
-    background: linear-gradient(145deg, #0f1724, #162035);
-    padding: 20px 16px 16px;
-    color: #ffffff;
-  }
+.calendarSection {
+  margin-bottom: 24px;
+  border-radius: 20px;
+  background: linear-gradient(145deg, #0f1724, #162035);
+  padding: 20px 16px 16px;
+  color: #ffffff;
+}
 
-  /* 달력 헤더 */
-  .calendarHeader {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    margin-bottom: 18px;
-  }
+/* 달력 헤더 */
+.calendarHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 18px;
+}
 
-  .calendarTitleRow {
-    display: flex;
-    align-items: center;
-    gap: 6px;
-  }
+.calendarTitleRow {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
 
-  .calendarEmoji {
-    font-size: 18px;
-    line-height: 1;
-  }
+.calendarEmoji {
+  font-size: 18px;
+  line-height: 1;
+}
 
-  .calendarTitle {
-    font-size: 15px;
-    font-weight: 700;
-    color: #ffffff;
-    letter-spacing: 0.5px;
-  }
+.calendarTitle {
+  font-size: 15px;
+  font-weight: 700;
+  color: #ffffff;
+  letter-spacing: 0.5px;
+}
 
-  .calendarNav {
-    display: flex;
-    align-items: center;
-    gap: 4px;
-  }
+.calendarNav {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
 
-  .calendarNavBtn {
-    width: 28px;
-    height: 28px;
-    border-radius: 50%;
-    border: none;
-    background: rgba(255, 255, 255, 0.08);
-    color: rgba(255, 255, 255, 0.7);
-    font-size: 16px;
-    font-weight: 600;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    transition: background 0.15s ease;
-    line-height: 1;
-  }
+.calendarNavBtn {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  border: none;
+  background: rgba(255, 255, 255, 0.08);
+  color: rgba(255, 255, 255, 0.7);
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.15s ease;
+  line-height: 1;
+}
 
-  .calendarNavBtn:hover {
-    background: rgba(255, 255, 255, 0.15);
-    color: #ffffff;
-  }
+.calendarNavBtn:hover {
+  background: rgba(255, 255, 255, 0.15);
+  color: #ffffff;
+}
 
-  .calendarMonth {
-    font-size: 13px;
-    font-weight: 600;
-    color: rgba(255, 255, 255, 0.85);
-    min-width: 80px;
-    text-align: center;
-  }
+.calendarMonth {
+  font-size: 13px;
+  font-weight: 600;
+  color: rgba(255, 255, 255, 0.85);
+  min-width: 80px;
+  text-align: center;
+}
 
-  /* 요일 헤더 */
-  .calendarWeekdays {
-    display: grid;
-    grid-template-columns: repeat(7, 1fr);
-    margin-bottom: 6px;
-  }
+/* 요일 헤더 */
+.calendarWeekdays {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  margin-bottom: 6px;
+}
 
-  .weekdayCell {
-    text-align: center;
-    font-size: 11px;
-    font-weight: 500;
-    color: rgba(255, 255, 255, 0.35);
-    padding: 4px 0;
-  }
+.weekdayCell {
+  text-align: center;
+  font-size: 11px;
+  font-weight: 500;
+  color: rgba(255, 255, 255, 0.35);
+  padding: 4px 0;
+}
 
-  /* 날짜 그리드 */
-  .calendarGrid {
-    display: grid;
-    grid-template-columns: repeat(7, 1fr);
-    row-gap: 2px;
-  }
+/* 날짜 그리드 */
+.calendarGrid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  row-gap: 2px;
+}
 
-  .dayCell {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: flex-start;
-    padding: 3px 0 2px;
-    min-height: 44px;
-  }
+.dayCell {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  padding: 3px 0 2px;
+  min-height: 44px;
+}
 
-  .dayNumber {
-    width: 30px;
-    height: 30px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 13px;
-    font-weight: 500;
-    color: rgba(255, 255, 255, 0.55);
-    border-radius: 50%;
-    transition: all 0.2s ease;
-  }
+.dayNumber {
+  width: 30px;
+  height: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 13px;
+  font-weight: 500;
+  color: rgba(255, 255, 255, 0.55);
+  border-radius: 50%;
+  transition: all 0.2s ease;
+}
 
-  /* 오늘 날짜 */
-  .dayToday {
-    border: 1.5px solid rgba(255, 255, 255, 0.5);
-    color: rgba(255, 255, 255, 0.9);
-    font-weight: 600;
-  }
+/* 오늘 날짜 */
+.dayToday {
+  border: 1.5px solid rgba(255, 255, 255, 0.5);
+  color: rgba(255, 255, 255, 0.9);
+  font-weight: 600;
+}
 
-  /* ── 도트 행 (날짜 아래 3색 도트) ── */
-  .dotRow {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 3px;
-    margin-top: 2px;
-    height: 6px;
-  }
+/* ── 도트 행 (날짜 아래 3색 도트) ── */
+.dotRow {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 3px;
+  margin-top: 2px;
+  height: 6px;
+}
 
-  /* 웰니스 솔루션 도트 (에메랄드 그린) */
-  .dotWellness {
-    width: 5px;
-    height: 5px;
-    border-radius: 50%;
-    background: linear-gradient(135deg, #10b981, #34d399);
-    flex-shrink: 0;
-  }
+/* 웰니스 솔루션 도트 (에메랄드 그린) */
+.dotWellness {
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #10b981, #34d399);
+  flex-shrink: 0;
+}
 
-  /* 위클리 해빗 도트 (인디고) */
-  .dotHabit {
-    width: 5px;
-    height: 5px;
-    border-radius: 50%;
-    background: linear-gradient(135deg, #6366f1, #818cf8);
-    flex-shrink: 0;
-  }
+/* 위클리 해빗 도트 (인디고) */
+.dotHabit {
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #6366f1, #818cf8);
+  flex-shrink: 0;
+}
 
-  /* 이해의 바다 도트 (스카이 블루) */
-  .dotPlay {
-    width: 5px;
-    height: 5px;
-    border-radius: 50%;
-    background: linear-gradient(135deg, #0ea5e9, #38bdf8);
-    flex-shrink: 0;
-  }
+/* 이해의 바다 도트 (스카이 블루) */
+.dotPlay {
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #0ea5e9, #38bdf8);
+  flex-shrink: 0;
+}
 
-  /* ── 범례 (Legend) ── */
-  .calendarLegend {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 6px 16px;
-    margin-top: 14px;
-    padding-top: 12px;
-    border-top: 1px solid rgba(255, 255, 255, 0.06);
-  }
+/* ── 범례 (Legend) ── */
+.calendarLegend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px 16px;
+  margin-top: 14px;
+  padding-top: 12px;
+  border-top: 1px solid rgba(255, 255, 255, 0.06);
+}
 
-  .legendItem {
-    display: flex;
-    align-items: center;
-    gap: 6px;
-  }
+.legendItem {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
 
-  .legendDotWellness {
-    width: 8px;
-    height: 8px;
-    border-radius: 50%;
-    background: linear-gradient(135deg, #10b981, #34d399);
-    flex-shrink: 0;
-  }
+.legendDotWellness {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #10b981, #34d399);
+  flex-shrink: 0;
+}
 
-  .legendDotHabit {
-    width: 8px;
-    height: 8px;
-    border-radius: 50%;
-    background: linear-gradient(135deg, #6366f1, #818cf8);
-    flex-shrink: 0;
-  }
+.legendDotHabit {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #6366f1, #818cf8);
+  flex-shrink: 0;
+}
 
-  .legendDotPlay {
-    width: 8px;
-    height: 8px;
-    border-radius: 50%;
-    background: linear-gradient(135deg, #0ea5e9, #38bdf8);
-    flex-shrink: 0;
-  }
+.legendDotPlay {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #0ea5e9, #38bdf8);
+  flex-shrink: 0;
+}
 
-  .legendText {
-    font-size: 11px;
-    color: rgba(255, 255, 255, 0.5);
-    font-weight: 500;
-  }
+.legendText {
+  font-size: 11px;
+  color: rgba(255, 255, 255, 0.5);
+  font-weight: 500;
+}
 
-  /* ===========================================
+/* ===========================================
      자율신경 밸런스 추이 섹션
      =========================================== */
-  .scSection {
-    margin-bottom: 24px;
-    border-radius: 20px;
-    background: #ffffff;
-    padding: 20px 16px 16px;
-    border: 1px solid #e5e7eb;
-    box-shadow: 0 1px 8px rgba(0, 0, 0, 0.04);
-  }
+.scSection {
+  margin-bottom: 24px;
+  border-radius: 20px;
+  background: #ffffff;
+  padding: 20px 16px 16px;
+  border: 1px solid #e5e7eb;
+  box-shadow: 0 1px 8px rgba(0, 0, 0, 0.04);
+}
 
-  .scHeader {
-    display: flex;
-    align-items: center;
-    gap: 6px;
-    margin-bottom: 16px;
-  }
+.scHeader {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-bottom: 16px;
+}
 
-  .scEmoji {
-    font-size: 18px;
-    line-height: 1;
-  }
+.scEmoji {
+  font-size: 18px;
+  line-height: 1;
+}
 
-  .scTitle {
-    font-size: 15px;
-    font-weight: 700;
-    color: #14532d;
-    letter-spacing: 0.3px;
-  }
+.scTitle {
+  font-size: 15px;
+  font-weight: 700;
+  color: #14532d;
+  letter-spacing: 0.3px;
+}
 
-  /* 빈 상태 */
-  .scEmpty {
-    text-align: center;
-    padding: 20px 0;
-  }
+/* 빈 상태 */
+.scEmpty {
+  text-align: center;
+  padding: 20px 0;
+}
 
-  .scEmptyIcon {
-    font-size: 32px;
-    margin-bottom: 8px;
-  }
+.scEmptyIcon {
+  font-size: 32px;
+  margin-bottom: 8px;
+}
 
-  .scEmptyText {
-    font-size: 14px;
-    color: #6b7280;
-    font-weight: 500;
-    margin-bottom: 4px;
-  }
+.scEmptyText {
+  font-size: 14px;
+  color: #6b7280;
+  font-weight: 500;
+  margin-bottom: 4px;
+}
 
-  .scEmptyHint {
-    font-size: 12px;
-    color: #9ca3af;
-    line-height: 1.5;
-  }
+.scEmptyHint {
+  font-size: 12px;
+  color: #9ca3af;
+  line-height: 1.5;
+}
 
-  /* 최신 신호 강도 카드 */
-  .scLatest {
-    display: flex;
-    align-items: center;
-    gap: 16px;
-    padding: 16px;
-    border-radius: 16px;
-    background: linear-gradient(145deg, #f0fdf4, #ecfdf5);
-    border: 1px solid #bbf7d0;
-    margin-bottom: 16px;
-  }
+/* 최신 신호 강도 카드 */
+.scLatest {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 16px;
+  border-radius: 16px;
+  background: linear-gradient(145deg, #f0fdf4, #ecfdf5);
+  border: 1px solid #bbf7d0;
+  margin-bottom: 16px;
+}
 
-  .scScoreWrap {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 6px;
-    flex-shrink: 0;
-  }
+.scScoreWrap {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  flex-shrink: 0;
+}
 
-  .scScoreCircle {
-    width: 64px;
-    height: 64px;
-    border-radius: 50%;
-    border: 3px solid;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    background: #ffffff;
-  }
+.scScoreCircle {
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  border: 3px solid;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: #ffffff;
+}
 
-  .scScoreNum {
-    font-size: 22px;
-    font-weight: 800;
-    line-height: 1;
-  }
+.scScoreNum {
+  font-size: 22px;
+  font-weight: 800;
+  line-height: 1;
+}
 
-  .scScoreMax {
-    font-size: 10px;
-    color: #9ca3af;
-    font-weight: 500;
-  }
+.scScoreMax {
+  font-size: 10px;
+  color: #9ca3af;
+  font-weight: 500;
+}
 
-  .scGradeRow {
-    display: flex;
-    align-items: center;
-    gap: 6px;
-  }
+.scGradeRow {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
 
-  .scGradeBadge {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    width: 26px;
-    height: 26px;
-    border-radius: 6px;
-    color: #ffffff;
-    font-size: 15px;
-    font-weight: 800;
-    letter-spacing: -0.5px;
-  }
+.scGradeBadge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 26px;
+  height: 26px;
+  border-radius: 6px;
+  color: #ffffff;
+  font-size: 15px;
+  font-weight: 800;
+  letter-spacing: -0.5px;
+}
 
-  .scQualityBadge {
-    display: inline-block;
-    padding: 2px 10px;
-    border-radius: 999px;
-    color: #ffffff;
-    font-size: 11px;
-    font-weight: 700;
-  }
+.scQualityBadge {
+  display: inline-block;
+  padding: 2px 10px;
+  border-radius: 999px;
+  color: #ffffff;
+  font-size: 11px;
+  font-weight: 700;
+}
 
-  .scShortLabel {
-    font-size: 12px;
-    font-weight: 600;
-    line-height: 1.4;
-  }
+.scShortLabel {
+  font-size: 12px;
+  font-weight: 600;
+  line-height: 1.4;
+}
 
-  .scLatestInfo {
-    display: flex;
-    flex-direction: column;
-    gap: 6px;
-    flex: 1;
-    min-width: 0;
-  }
+.scLatestInfo {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  flex: 1;
+  min-width: 0;
+}
 
-  .scLatestDate {
-    font-size: 12px;
-    color: #6b7280;
-    font-weight: 500;
-  }
+.scLatestDate {
+  font-size: 12px;
+  color: #6b7280;
+  font-weight: 500;
+}
 
-  .scTrend {
-    display: flex;
-    align-items: center;
-    gap: 4px;
-  }
+.scTrend {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
 
-  .scTrendArrow {
-    font-size: 14px;
-    font-weight: 700;
-    line-height: 1;
-  }
+.scTrendArrow {
+  font-size: 14px;
+  font-weight: 700;
+  line-height: 1;
+}
 
-  .scTrendText {
-    font-size: 13px;
-    font-weight: 600;
-  }
+.scTrendText {
+  font-size: 13px;
+  font-weight: 600;
+}
 
-  /* 트렌드 차트 */
-  .scChartWrap {
-    margin-bottom: 16px;
-    padding: 12px 0;
-    border-radius: 12px;
-    background: #fafbfc;
-    border: 1px solid #f3f4f6;
-  }
+/* 트렌드 차트 */
+.scChartWrap {
+  margin-bottom: 16px;
+  padding: 12px 0;
+  border-radius: 12px;
+  background: #fafbfc;
+  border: 1px solid #f3f4f6;
+}
 
-  .scChart {
-    display: block;
-    width: 100%;
-    height: auto;
-    max-height: 100px;
-  }
+.scChart {
+  display: block;
+  width: 100%;
+  height: auto;
+  max-height: 100px;
+}
 
-  .scChartLegend {
-    display: flex;
-    justify-content: center;
-    gap: 12px;
-    margin-top: 6px;
-    padding-top: 6px;
-  }
+.scChartLegend {
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+  margin-top: 6px;
+  padding-top: 6px;
+}
 
-  .scChartLegendGood {
-    font-size: 10px;
-    color: #10b981;
-    font-weight: 500;
-  }
+.scChartLegendGood {
+  font-size: 10px;
+  color: #10b981;
+  font-weight: 500;
+}
 
-  .scChartLegendNormal {
-    font-size: 10px;
-    color: #f59e0b;
-    font-weight: 500;
-  }
+.scChartLegendNormal {
+  font-size: 10px;
+  color: #f59e0b;
+  font-weight: 500;
+}
 
-  .scChartLegendBad {
-    font-size: 10px;
-    color: #ef4444;
-    font-weight: 500;
-  }
+.scChartLegendBad {
+  font-size: 10px;
+  color: #ef4444;
+  font-weight: 500;
+}
 
-  /* 최근 체크 결과 상세 보기 버튼 */
-  .scDetailBtn {
-    display: block;
-    width: 100%;
-    padding: 10px 0;
-    border-radius: 12px;
-    border: 1.5px solid #22c55e;
-    background: transparent;
-    color: #22c55e;
-    font-size: 13px;
-    font-weight: 600;
-    cursor: pointer;
-    margin-bottom: 16px;
-    transition: background 0.15s ease, color 0.15s ease;
-  }
+/* 최근 체크 결과 상세 보기 버튼 */
+.scDetailBtn {
+  display: block;
+  width: 100%;
+  padding: 10px 0;
+  border-radius: 12px;
+  border: 1.5px solid #22c55e;
+  background: transparent;
+  color: #22c55e;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  margin-bottom: 16px;
+  transition:
+    background 0.15s ease,
+    color 0.15s ease;
+}
 
-  .scDetailBtn:hover {
-    background: #22c55e;
-    color: #ffffff;
-  }
+.scDetailBtn:hover {
+  background: #22c55e;
+  color: #ffffff;
+}
 
-  .scDetailBtn:active {
-    transform: scale(0.98);
-  }
+.scDetailBtn:active {
+  transform: scale(0.98);
+}
 
-  /* ===========================================
+/* ===========================================
      수면 품질 (PSQI) 이력 섹션
      =========================================== */
-  .psqiSection {
-    margin-bottom: 24px;
-    border-radius: 20px;
-    background: #ffffff;
-    padding: 20px 16px 16px;
-    border: 1px solid #e5e7eb;
-    box-shadow: 0 1px 8px rgba(0, 0, 0, 0.04);
-  }
+.psqiSection {
+  margin-bottom: 24px;
+  border-radius: 20px;
+  background: #ffffff;
+  padding: 20px 16px 16px;
+  border: 1px solid #e5e7eb;
+  box-shadow: 0 1px 8px rgba(0, 0, 0, 0.04);
+}
 
-  .psqiHeader {
-    display: flex;
-    align-items: center;
-    gap: 6px;
-    margin-bottom: 16px;
-  }
+.psqiHeader {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-bottom: 16px;
+}
 
-  .psqiEmoji {
-    font-size: 18px;
-    line-height: 1;
-  }
+.psqiEmoji {
+  font-size: 18px;
+  line-height: 1;
+}
 
-  .psqiTitle {
-    font-size: 15px;
-    font-weight: 700;
-    color: #1e1b4b;
-    letter-spacing: 0.3px;
-  }
+.psqiTitle {
+  font-size: 15px;
+  font-weight: 700;
+  color: #1e1b4b;
+  letter-spacing: 0.3px;
+}
 
-  /* 빈 상태 */
-  .psqiEmpty {
-    text-align: center;
-    padding: 20px 0;
-  }
+/* 빈 상태 */
+.psqiEmpty {
+  text-align: center;
+  padding: 20px 0;
+}
 
-  .psqiEmptyIcon {
-    font-size: 32px;
-    margin-bottom: 8px;
-  }
+.psqiEmptyIcon {
+  font-size: 32px;
+  margin-bottom: 8px;
+}
 
-  .psqiEmptyText {
-    font-size: 14px;
-    color: #6b7280;
-    font-weight: 500;
-    margin-bottom: 4px;
-  }
+.psqiEmptyText {
+  font-size: 14px;
+  color: #6b7280;
+  font-weight: 500;
+  margin-bottom: 4px;
+}
 
-  .psqiEmptyHint {
-    font-size: 12px;
-    color: #9ca3af;
-    line-height: 1.5;
-  }
+.psqiEmptyHint {
+  font-size: 12px;
+  color: #9ca3af;
+  line-height: 1.5;
+}
 
-  /* 최신 점수 카드 */
-  .psqiLatest {
-    display: flex;
-    align-items: center;
-    gap: 16px;
-    padding: 16px;
-    border-radius: 16px;
-    background: linear-gradient(145deg, #f5f3ff, #eef2ff);
-    border: 1px solid #e0e7ff;
-    margin-bottom: 16px;
-  }
+/* 최신 점수 카드 */
+.psqiLatest {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 16px;
+  border-radius: 16px;
+  background: linear-gradient(145deg, #f5f3ff, #eef2ff);
+  border: 1px solid #e0e7ff;
+  margin-bottom: 16px;
+}
 
-  .psqiScoreWrap {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 6px;
-    flex-shrink: 0;
-  }
+.psqiScoreWrap {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  flex-shrink: 0;
+}
 
-  .psqiScoreCircle {
-    width: 64px;
-    height: 64px;
-    border-radius: 50%;
-    border: 3px solid;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    background: #ffffff;
-  }
+.psqiScoreCircle {
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  border: 3px solid;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: #ffffff;
+}
 
-  .psqiScoreNum {
-    font-size: 24px;
-    font-weight: 800;
-    line-height: 1;
-  }
+.psqiScoreNum {
+  font-size: 24px;
+  font-weight: 800;
+  line-height: 1;
+}
 
-  .psqiScoreMax {
-    font-size: 10px;
-    color: #9ca3af;
-    font-weight: 500;
-  }
+.psqiScoreMax {
+  font-size: 10px;
+  color: #9ca3af;
+  font-weight: 500;
+}
 
-  .psqiGradeRow {
-    display: flex;
-    align-items: center;
-    gap: 6px;
-  }
+.psqiGradeRow {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
 
-  .psqiGradeBadge {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    width: 26px;
-    height: 26px;
-    border-radius: 6px;
-    color: #ffffff;
-    font-size: 15px;
-    font-weight: 800;
-    letter-spacing: -0.5px;
-  }
+.psqiGradeBadge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 26px;
+  height: 26px;
+  border-radius: 6px;
+  color: #ffffff;
+  font-size: 15px;
+  font-weight: 800;
+  letter-spacing: -0.5px;
+}
 
-  .psqiQualityBadge {
-    display: inline-block;
-    padding: 2px 10px;
-    border-radius: 999px;
-    color: #ffffff;
-    font-size: 11px;
-    font-weight: 700;
-  }
+.psqiQualityBadge {
+  display: inline-block;
+  padding: 2px 10px;
+  border-radius: 999px;
+  color: #ffffff;
+  font-size: 11px;
+  font-weight: 700;
+}
 
-  .psqiGapText {
-    font-size: 12px;
-    font-weight: 600;
-  }
+.psqiGapText {
+  font-size: 12px;
+  font-weight: 600;
+}
 
-  .psqiLatestInfo {
-    display: flex;
-    flex-direction: column;
-    gap: 6px;
-    flex: 1;
-    min-width: 0;
-  }
+.psqiLatestInfo {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  flex: 1;
+  min-width: 0;
+}
 
-  .psqiLatestDate {
-    font-size: 12px;
-    color: #6b7280;
-    font-weight: 500;
-  }
+.psqiLatestDate {
+  font-size: 12px;
+  color: #6b7280;
+  font-weight: 500;
+}
 
-  .psqiTrend {
-    display: flex;
-    align-items: center;
-    gap: 4px;
-  }
+.psqiTrend {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
 
-  .psqiTrendArrow {
-    font-size: 14px;
-    font-weight: 700;
-    line-height: 1;
-  }
+.psqiTrendArrow {
+  font-size: 14px;
+  font-weight: 700;
+  line-height: 1;
+}
 
-  .psqiTrendText {
-    font-size: 13px;
-    font-weight: 600;
-  }
+.psqiTrendText {
+  font-size: 13px;
+  font-weight: 600;
+}
 
-  /* 트렌드 차트 */
-  .psqiChartWrap {
-    margin-bottom: 16px;
-    padding: 12px 0;
-    border-radius: 12px;
-    background: #fafbfc;
-    border: 1px solid #f3f4f6;
-  }
+/* 트렌드 차트 */
+.psqiChartWrap {
+  margin-bottom: 16px;
+  padding: 12px 0;
+  border-radius: 12px;
+  background: #fafbfc;
+  border: 1px solid #f3f4f6;
+}
 
-  .psqiChart {
-    display: block;
-    width: 100%;
-    height: auto;
-    max-height: 100px;
-  }
+.psqiChart {
+  display: block;
+  width: 100%;
+  height: auto;
+  max-height: 100px;
+}
 
-  .psqiChartLegend {
-    display: flex;
-    justify-content: center;
-    gap: 12px;
-    margin-top: 6px;
-    padding-top: 6px;
-  }
+.psqiChartLegend {
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+  margin-top: 6px;
+  padding-top: 6px;
+}
 
-  .psqiChartLegendGood {
-    font-size: 10px;
-    color: #10b981;
-    font-weight: 500;
-  }
+.psqiChartLegendGood {
+  font-size: 10px;
+  color: #10b981;
+  font-weight: 500;
+}
 
-  .psqiChartLegendNormal {
-    font-size: 10px;
-    color: #f59e0b;
-    font-weight: 500;
-  }
+.psqiChartLegendNormal {
+  font-size: 10px;
+  color: #f59e0b;
+  font-weight: 500;
+}
 
-  .psqiChartLegendBad {
-    font-size: 10px;
-    color: #ef4444;
-    font-weight: 500;
-  }
+.psqiChartLegendBad {
+  font-size: 10px;
+  color: #ef4444;
+  font-weight: 500;
+}
 
-  /* 나의 수면 기록 돌아보기 버튼 */
-  .psqiDetailBtn {
-    display: block;
-    width: 100%;
-    padding: 10px 0;
-    border-radius: 12px;
-    border: 1.5px solid #6366f1;
-    background: transparent;
-    color: #6366f1;
-    font-size: 13px;
-    font-weight: 600;
-    cursor: pointer;
-    margin-bottom: 16px;
-    transition: background 0.15s ease, color 0.15s ease;
-  }
+/* 나의 수면 기록 돌아보기 버튼 */
+.psqiDetailBtn {
+  display: block;
+  width: 100%;
+  padding: 10px 0;
+  border-radius: 12px;
+  border: 1.5px solid #6366f1;
+  background: transparent;
+  color: #6366f1;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  margin-bottom: 16px;
+  transition:
+    background 0.15s ease,
+    color 0.15s ease;
+}
 
-  .psqiDetailBtn:hover {
-    background: #6366f1;
-    color: #ffffff;
-  }
+.psqiDetailBtn:hover {
+  background: #6366f1;
+  color: #ffffff;
+}
 
-  .psqiDetailBtn:active {
-    transform: scale(0.98);
-  }
+.psqiDetailBtn:active {
+  transform: scale(0.98);
+}
 
-  /* PSQI 상세 그래프 */
-  .psqiDetailWrap {
-    margin-bottom: 16px;
-    padding: 16px 12px;
-    border-radius: 14px;
-    background: #fafbfc;
-    border: 1px solid #e5e7eb;
-  }
+/* PSQI 상세 그래프 */
+.psqiDetailWrap {
+  margin-bottom: 16px;
+  padding: 16px 12px;
+  border-radius: 14px;
+  background: #fafbfc;
+  border: 1px solid #e5e7eb;
+}
 
-  .psqiDetailTitle {
-    font-size: 14px;
-    font-weight: 700;
-    color: #1e1b4b;
-    margin-bottom: 4px;
-  }
+.psqiDetailTitle {
+  font-size: 14px;
+  font-weight: 700;
+  color: #1e1b4b;
+  margin-bottom: 4px;
+}
 
-  .psqiDetailDesc {
-    font-size: 11px;
-    color: #9ca3af;
-    margin-bottom: 12px;
-  }
+.psqiDetailDesc {
+  font-size: 11px;
+  color: #9ca3af;
+  margin-bottom: 12px;
+}
 
-  .psqiDetailChartBox {
-    overflow-x: auto;
-  }
+.psqiDetailChartBox {
+  overflow-x: auto;
+}
 
-  .psqiDetailChart {
-    display: block;
-    width: 100%;
-    min-width: 280px;
-    height: auto;
-    max-height: 200px;
-  }
+.psqiDetailChart {
+  display: block;
+  width: 100%;
+  min-width: 280px;
+  height: auto;
+  max-height: 200px;
+}
 
-  .psqiDetailLegend {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: 10px;
-    margin-top: 10px;
-    padding-top: 8px;
-    border-top: 1px solid #f3f4f6;
-  }
+.psqiDetailLegend {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 10px;
+  margin-top: 10px;
+  padding-top: 8px;
+  border-top: 1px solid #f3f4f6;
+}
 
-  /* 이력 목록 */
-  .psqiHistory {
-    display: flex;
-    flex-direction: column;
-    gap: 0;
-  }
+/* 이력 목록 */
+.psqiHistory {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
 
-  .psqiHistoryItem {
-    display: flex;
-    align-items: flex-start;
-    gap: 12px;
-    padding: 10px 0;
-    border-bottom: 1px solid #f3f4f6;
-  }
+.psqiHistoryItem {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 10px 0;
+  border-bottom: 1px solid #f3f4f6;
+}
 
-  .psqiHistoryItem:last-child {
-    border-bottom: none;
-    padding-bottom: 0;
-  }
+.psqiHistoryItem:last-child {
+  border-bottom: none;
+  padding-bottom: 0;
+}
 
-  .psqiHistoryDot {
-    width: 10px;
-    height: 10px;
-    border-radius: 50%;
-    flex-shrink: 0;
-    margin-top: 3px;
-  }
+.psqiHistoryDot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  flex-shrink: 0;
+  margin-top: 3px;
+}
 
-  .psqiHistoryContent {
-    display: flex;
-    flex-direction: column;
-    gap: 2px;
-    flex: 1;
-    min-width: 0;
-  }
+.psqiHistoryContent {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  flex: 1;
+  min-width: 0;
+}
 
-  .psqiHistoryTop {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-  }
+.psqiHistoryTop {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
 
-  .psqiHistoryDate {
-    font-size: 13px;
-    color: #374151;
-    font-weight: 500;
-  }
+.psqiHistoryDate {
+  font-size: 13px;
+  color: #374151;
+  font-weight: 500;
+}
 
-  .psqiHistoryScore {
-    font-size: 14px;
-    font-weight: 700;
-  }
+.psqiHistoryScore {
+  font-size: 14px;
+  font-weight: 700;
+}
 
-  .psqiHistoryGrade {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    width: 18px;
-    height: 18px;
-    border-radius: 4px;
-    color: #ffffff;
-    font-size: 10px;
-    font-weight: 800;
-  }
+.psqiHistoryGrade {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 18px;
+  height: 18px;
+  border-radius: 4px;
+  color: #ffffff;
+  font-size: 10px;
+  font-weight: 800;
+}
 
-  .psqiHistoryBadge {
-    display: inline-block;
-    padding: 1px 8px;
-    border-radius: 999px;
-    color: #ffffff;
-    font-size: 10px;
-    font-weight: 600;
-  }
+.psqiHistoryBadge {
+  display: inline-block;
+  padding: 1px 8px;
+  border-radius: 999px;
+  color: #ffffff;
+  font-size: 10px;
+  font-weight: 600;
+}
 
-  .psqiHistoryDiff {
-    font-size: 11px;
-    font-weight: 600;
-  }
+.psqiHistoryDiff {
+  font-size: 11px;
+  font-weight: 600;
+}
 
-  /* 프로필 영역 */
-  .profileSection {
-    display: flex;
-    align-items: center;
-    padding: 16px 14px;
-    border-radius: 16px;
-    background: #f5f7fb;
-    margin-bottom: 24px;
-  }
+/* 프로필 영역 */
+.profileSection {
+  display: flex;
+  align-items: center;
+  padding: 16px 14px;
+  border-radius: 16px;
+  background: #f5f7fb;
+  margin-bottom: 24px;
+}
 
-  .profileAvatar {
-    width: 56px;
-    height: 56px;
-    border-radius: 50%;
-    overflow: hidden;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background: #e4ebff;
-    margin-right: 12px;
-  }
+.profileAvatar {
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #e4ebff;
+  margin-right: 12px;
+}
 
-  .profileText {
-    display: flex;
-    flex-direction: column;
-    gap: 4px;
-  }
+.profileText {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
 
-  .profileTitle {
-    font-size: 16px;
-    font-weight: 600;
-    color: #111827;
-  }
+.profileTitle {
+  font-size: 16px;
+  font-weight: 600;
+  color: #111827;
+}
 
-  .profileSub {
-    font-size: 12px;
-    color: #6b7280;
-    line-height: 1.4;
-  }
+.profileSub {
+  font-size: 12px;
+  color: #6b7280;
+  line-height: 1.4;
+}
 
-  /* 공통 섹션 */
-  .section {
-    margin-bottom: 24px;
-  }
+/* 공통 섹션 */
+.section {
+  margin-bottom: 24px;
+}
 
-  .sectionTitle {
-    font-size: 14px;
-    font-weight: 600;
-    color: #374151;
-    margin-bottom: 10px;
-  }
+.sectionTitle {
+  font-size: 14px;
+  font-weight: 600;
+  color: #374151;
+  margin-bottom: 10px;
+}
 
-  /* 카드 */
-  .card {
-    padding: 14px 14px 12px;
-    border-radius: 14px;
-    background-color: #f9fafb;
-    border: 1px solid #e5e7eb;
-  }
+/* 카드 */
+.card {
+  padding: 14px 14px 12px;
+  border-radius: 14px;
+  background-color: #f9fafb;
+  border: 1px solid #e5e7eb;
+}
 
-  .cardTitle {
-    font-size: 13px;
-    font-weight: 600;
-    color: #111827;
-    margin-bottom: 6px;
-  }
+.cardTitle {
+  font-size: 13px;
+  font-weight: 600;
+  color: #111827;
+  margin-bottom: 6px;
+}
 
-  .cardText {
-    font-size: 12px;
-    color: #6b7280;
-    line-height: 1.5;
-  }
+.cardText {
+  font-size: 12px;
+  color: #6b7280;
+  line-height: 1.5;
+}
 
-  /* 로그아웃 버튼 */
-  .logoutButton {
-    width: 100%;
-    padding: 12px 0;
-    border-radius: 999px;
-    border: none;
-    background: linear-gradient(90deg, #f97373, #fb7185);
-    color: #ffffff;
-    font-size: 14px;
-    font-weight: 600;
-    cursor: pointer;
-    margin-top: 4px;
-    margin-bottom: 8px;
-    box-shadow: 0 8px 16px rgba(248, 113, 113, 0.3);
-    transition: transform 0.08s ease-out, box-shadow 0.08s ease-out,
-      opacity 0.08s ease-out;
-  }
+/* 로그아웃 버튼 */
+.logoutButton {
+  width: 100%;
+  padding: 12px 0;
+  border-radius: 999px;
+  border: none;
+  background: linear-gradient(90deg, #f97373, #fb7185);
+  color: #ffffff;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  margin-top: 4px;
+  margin-bottom: 8px;
+  box-shadow: 0 8px 16px rgba(248, 113, 113, 0.3);
+  transition:
+    transform 0.08s ease-out,
+    box-shadow 0.08s ease-out,
+    opacity 0.08s ease-out;
+}
 
-  .logoutButton:hover {
-    transform: translateY(-1px);
-    box-shadow: 0 10px 18px rgba(248, 113, 113, 0.4);
-    opacity: 0.96;
-  }
+.logoutButton:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 10px 18px rgba(248, 113, 113, 0.4);
+  opacity: 0.96;
+}
 
-  .logoutButton:active {
-    transform: translateY(0);
-    box-shadow: 0 4px 10px rgba(248, 113, 113, 0.25);
-    opacity: 0.9;
-  }
+.logoutButton:active {
+  transform: translateY(0);
+  box-shadow: 0 4px 10px rgba(248, 113, 113, 0.25);
+  opacity: 0.9;
+}
 
-  .logoutHint {
-    font-size: 11px;
-    color: #9ca3af;
-    line-height: 1.5;
-  }
+.logoutHint {
+  font-size: 11px;
+  color: #9ca3af;
+  line-height: 1.5;
+}
 
-  /* ══════════════════════════════════════════
+/* ══════════════════════════════════════════
      나만의 웰니스 기록 전체 보기 버튼
      ══════════════════════════════════════════ */
-  .wellnessRecordSection {
-    margin-top: 16px;
-    padding: 0 4px;
-  }
+.wellnessRecordSection {
+  margin-top: 16px;
+  padding: 0 4px;
+}
 
-  .wellnessRecordBtn {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 6px;
-    width: 100%;
-    padding: 14px 24px;
-    border-radius: 12px;
-    border: none;
-    background: linear-gradient(135deg, #00d6f5, #8a2be2);
-    color: #ffffff;
-    font-size: 15px;
-    font-weight: 700;
-    cursor: pointer;
-    transition: all 0.2s ease;
-    box-shadow: 0 4px 16px rgba(138, 43, 226, 0.3);
-    -webkit-tap-highlight-color: transparent;
-  }
+.wellnessRecordBtn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  width: 100%;
+  padding: 14px 24px;
+  border-radius: 12px;
+  border: none;
+  background: linear-gradient(135deg, #00d6f5, #8a2be2);
+  color: #ffffff;
+  font-size: 15px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  box-shadow: 0 4px 16px rgba(138, 43, 226, 0.3);
+  -webkit-tap-highlight-color: transparent;
+}
 
-  .wellnessRecordBtn:hover {
-    box-shadow: 0 6px 24px rgba(138, 43, 226, 0.4);
-    transform: translateY(-1px);
-  }
+.wellnessRecordBtn:hover {
+  box-shadow: 0 6px 24px rgba(138, 43, 226, 0.4);
+  transform: translateY(-1px);
+}
 
-  .wellnessRecordBtn:active {
-    transform: scale(0.97);
-    box-shadow: 0 2px 8px rgba(138, 43, 226, 0.3);
-  }
+.wellnessRecordBtn:active {
+  transform: scale(0.97);
+  box-shadow: 0 2px 8px rgba(138, 43, 226, 0.3);
+}
 
-  .wellnessRecordBtnText {
-    line-height: 1;
-  }
+.wellnessRecordBtnText {
+  line-height: 1;
+}
 
-  .wellnessRecordBtnArrow {
-    flex-shrink: 0;
-    transition: transform 0.2s ease;
-  }
+.wellnessRecordBtnArrow {
+  flex-shrink: 0;
+  transition: transform 0.2s ease;
+}
 
-  .wellnessRecordBtn:hover .wellnessRecordBtnArrow {
-    transform: translateX(2px);
-  }
+.wellnessRecordBtn:hover .wellnessRecordBtnArrow {
+  transform: translateX(2px);
+}
 
-  /* BottomTab과 겹치지 않도록 여백 */
-  .tabPadding {
-    height: 72px; /* BottomTab 높이와 맞춰서 여백 확보 */
-  }
+/* BottomTab과 겹치지 않도록 여백 */
+.tabPadding {
+  height: 72px; /* BottomTab 높이와 맞춰서 여백 확보 */
+}

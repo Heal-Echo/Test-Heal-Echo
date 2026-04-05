@@ -207,9 +207,10 @@ export function useProfileSetup() {
       experience: experience || "not_selected",
       nickname: nickname.trim(),
       reportEmail: reportEmail.trim(),
-      birthDate: birthYear && birthMonth && birthDay
-        ? `${birthYear}-${String(birthMonth).padStart(2, "0")}-${String(birthDay).padStart(2, "0")}`
-        : null,
+      birthDate:
+        birthYear && birthMonth && birthDay
+          ? `${birthYear}-${String(birthMonth).padStart(2, "0")}-${String(birthDay).padStart(2, "0")}`
+          : null,
       gender: gender || null,
       pushNotification,
       emailNotification,

@@ -8,7 +8,7 @@ import type { UserSubscription } from "@/types/subscription";
 import { PROGRAMS_LIST } from "@/config/programs";
 import { TOSS_CLIENT_KEY } from "@/config/constants";
 import { setSession } from "@/lib/storage";
-import { syncProgramSelection } from "@/lib/programSelection";
+import { syncProgramSelection } from "@/lib/program-selection";
 
 export function usePricingBilling(plan: "annual" | "monthly") {
   const router = useRouter();
@@ -55,9 +55,7 @@ export function usePricingBilling(plan: "annual" | "monthly") {
 
       // customerKey 생성 (토스 빌링에서 고객 식별에 사용)
       const email = validInfo.email || "guest";
-      const customerKey = email
-        .replace(/[^a-zA-Z0-9@._-]/g, "")
-        .slice(0, 50);
+      const customerKey = email.replace(/[^a-zA-Z0-9@._-]/g, "").slice(0, 50);
 
       // ★ successUrl에 programId, planType을 쿼리 파라미터로 전달
       const callbackBase = `${window.location.origin}/public/billing/callback`;
@@ -75,9 +73,7 @@ export function usePricingBilling(plan: "annual" | "monthly") {
       const programName = selectedProgram?.name || "힐에코 웰니스 솔루션";
 
       // ★ 토스 페이먼츠 SDK — 빌링(자동결제) 카드 등록
-      const { loadTossPayments } = await import(
-        "@tosspayments/tosspayments-sdk"
-      );
+      const { loadTossPayments } = await import("@tosspayments/tosspayments-sdk");
       const tossPayments = await loadTossPayments(TOSS_CLIENT_KEY);
       const payment = tossPayments.payment({ customerKey });
       await payment.requestBillingAuth({

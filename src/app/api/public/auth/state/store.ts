@@ -28,15 +28,18 @@ const stateStore = getStateStore();
 
 // 만료된 state 정리 (10분마다)
 if (!(globalThis as any).__oauth_state_cleanup__) {
-  (globalThis as any).__oauth_state_cleanup__ = setInterval(() => {
-    const now = Date.now();
-    const store = getStateStore();
-    for (const [key, entry] of store) {
-      if (now - entry.createdAt > STATE_TTL_MS) {
-        store.delete(key);
+  (globalThis as any).__oauth_state_cleanup__ = setInterval(
+    () => {
+      const now = Date.now();
+      const store = getStateStore();
+      for (const [key, entry] of store) {
+        if (now - entry.createdAt > STATE_TTL_MS) {
+          store.delete(key);
+        }
       }
-    }
-  }, 10 * 60 * 1000);
+    },
+    10 * 60 * 1000
+  );
 }
 
 // =======================================================

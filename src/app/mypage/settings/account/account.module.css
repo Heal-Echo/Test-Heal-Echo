@@ -43,8 +43,12 @@
   flex-shrink: 0;
 }
 
-.backBtn:hover { background: #f3f4f6; }
-.backBtn:active { transform: scale(0.94); }
+.backBtn:hover {
+  background: #f3f4f6;
+}
+.backBtn:active {
+  transform: scale(0.94);
+}
 
 .pageTitle {
   flex: 1;
@@ -180,8 +184,12 @@
   white-space: nowrap;
 }
 
-.saveBtn:hover { background: #4f46e5; }
-.saveBtn:active { transform: scale(0.96); }
+.saveBtn:hover {
+  background: #4f46e5;
+}
+.saveBtn:active {
+  transform: scale(0.96);
+}
 
 .cancelBtn {
   padding: 8px 16px;
@@ -196,8 +204,12 @@
   white-space: nowrap;
 }
 
-.cancelBtn:hover { background: #f3f4f6; }
-.cancelBtn:active { transform: scale(0.96); }
+.cancelBtn:hover {
+  background: #f3f4f6;
+}
+.cancelBtn:active {
+  transform: scale(0.96);
+}
 
 /* 인증 블록 */
 .verifyBlock {

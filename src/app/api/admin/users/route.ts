@@ -28,8 +28,7 @@ export async function GET(req: Request) {
       );
     }
 
-    const token =
-      cookies().get(process.env.ADMIN_AUTH_COOKIE || "heal_admin_auth")?.value;
+    const token = cookies().get(process.env.ADMIN_AUTH_COOKIE || "heal_admin_auth")?.value;
 
     if (!token) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
@@ -59,9 +58,6 @@ export async function GET(req: Request) {
     }
   } catch (err) {
     console.error("[Admin Users] Unexpected error:", err);
-    return NextResponse.json(
-      { error: "Failed to fetch users" },
-      { status: 500 }
-    );
+    return NextResponse.json({ error: "Failed to fetch users" }, { status: 500 });
   }
 }

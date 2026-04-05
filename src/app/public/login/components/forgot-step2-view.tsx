@@ -1,10 +1,5 @@
 import styles from "../login.module.css";
-import {
-  EyeIcon,
-  EyeOffIcon,
-  CheckCircleIcon,
-  CircleIcon,
-} from "@/components/icons";
+import { EyeIcon, EyeOffIcon, CheckCircleIcon, CircleIcon } from "@/components/icons";
 
 interface PwRule {
   label: string;
@@ -58,11 +53,7 @@ export default function ForgotStep2View({
 
       <div className={styles.subtitleFrame}>
         <span className={styles.subtitleLeft}></span>
-        <button
-          type="button"
-          className={styles.subtitleRight}
-          onClick={() => switchView("login")}
-        >
+        <button type="button" className={styles.subtitleRight} onClick={() => switchView("login")}>
           로그인으로 돌아가기
         </button>
       </div>
@@ -105,9 +96,7 @@ export default function ForgotStep2View({
             {resetPwRules.map((rule) => (
               <div
                 key={rule.label}
-                className={`${styles.pwRule} ${
-                  rule.pass ? styles.pwRulePass : styles.pwRuleFail
-                }`}
+                className={`${styles.pwRule} ${rule.pass ? styles.pwRulePass : styles.pwRuleFail}`}
               >
                 {rule.pass ? <CheckCircleIcon /> : <CircleIcon />}
                 <span>{rule.label}</span>
@@ -123,9 +112,7 @@ export default function ForgotStep2View({
             required
             aria-label="새 비밀번호 확인"
             className={`${styles.emailInput} ${
-              confirmPassword.length > 0 && newPassword !== confirmPassword
-                ? styles.inputError
-                : ""
+              confirmPassword.length > 0 && newPassword !== confirmPassword ? styles.inputError : ""
             }`}
             value={confirmPassword}
             onChange={(e) => setConfirmPassword(e.target.value)}

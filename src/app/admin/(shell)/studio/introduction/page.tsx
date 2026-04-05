@@ -1,9 +1,9 @@
 "use client";
 
 import { useState } from "react";
-import IntroUploader from "@/components/adminStudio/IntroUploader";
-import IntroVideoList from "@/components/adminStudio/IntroVideoList";
-import IntroVideoDetail from "@/components/adminStudio/IntroVideoDetail";
+import IntroUploader from "@/components/adminStudio/intro-uploader";
+import IntroVideoList from "@/components/adminStudio/intro-video-list";
+import IntroVideoDetail from "@/components/adminStudio/intro-video-detail";
 import type { Video } from "@/types/video";
 
 export default function IntroductionPage() {
@@ -21,11 +21,7 @@ export default function IntroductionPage() {
       <IntroVideoList onSelect={(v) => setSelected(v)} />
 
       {selected && (
-        <IntroVideoDetail
-          video={selected}
-          onChanged={refresh}
-          onClose={() => setSelected(null)}
-        />
+        <IntroVideoDetail video={selected} onChanged={refresh} onClose={() => setSelected(null)} />
       )}
     </div>
   );

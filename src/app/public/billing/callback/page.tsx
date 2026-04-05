@@ -6,7 +6,7 @@ import { isUserLoggedIn, getValidUserInfo } from "@/auth/user";
 import { getSubscription } from "@/auth/subscription";
 import styles from "./callback.module.css";
 import { setSession } from "@/lib/storage";
-import { syncProgramSelection } from "@/lib/programSelection";
+import { syncProgramSelection } from "@/lib/program-selection";
 
 type CallbackState = "processing" | "success" | "error";
 
@@ -59,10 +59,7 @@ function BillingCallbackPageContent() {
         // ★ 유효한 인증 토큰 보장 (만료 시 자동 갱신)
         const validInfo = await getValidUserInfo();
         if (!validInfo) {
-          setSession(
-            "redirect_after_login",
-            "/public/billing/callback" + window.location.search
-          );
+          setSession("redirect_after_login", "/public/billing/callback" + window.location.search);
           router.replace("/public/login");
           return;
         }
@@ -107,7 +104,6 @@ function BillingCallbackPageContent() {
         setTimeout(() => {
           router.replace("/wellness/solution");
         }, 2000);
-
       } catch (err: any) {
         console.error("[BillingCallback] Error:", err);
         setErrorMessage("카드 등록 처리 중 오류가 발생했습니다. 다시 시도해주세요.");
@@ -148,16 +144,10 @@ function BillingCallbackPageContent() {
             <h2 className={styles.title}>카드 등록 실패</h2>
             <p className={styles.desc}>{errorMessage}</p>
             <div className={styles.btnGroup}>
-              <button
-                className={styles.retryBtn}
-                onClick={() => router.push("/home/pricing")}
-              >
+              <button className={styles.retryBtn} onClick={() => router.push("/home/pricing")}>
                 다시 시도
               </button>
-              <button
-                className={styles.backBtn}
-                onClick={() => router.push("/wellness/solution")}
-              >
+              <button className={styles.backBtn} onClick={() => router.push("/wellness/solution")}>
                 돌아가기
               </button>
             </div>

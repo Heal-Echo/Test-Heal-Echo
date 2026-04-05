@@ -5,8 +5,8 @@ import React, { useEffect, useState, useMemo } from "react";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
 import styles from "./subscription.module.css";
-import Header from "@/components/Header";
-import BottomTab from "@/components/BottomTab";
+import Header from "@/components/header";
+import BottomTab from "@/components/bottom-tab";
 import { isUserLoggedIn, getUserName } from "@/auth/user";
 import { getSubscription, getWatchRecords } from "@/auth/subscription";
 import { makeThumbnailUrl } from "@/config/constants";
@@ -18,7 +18,7 @@ import {
   fetchAndHydrateSelfCheckResult,
   getSignalIntensity,
   getSignalGrade,
-} from "@/components/self-check/SelfCheckSurvey";
+} from "@/components/self-check/self-check-survey";
 
 // ── CTA 라우팅 헬퍼: "기록 보기" 계열 → /mypage/wellness-record, "시작하기" 계열 → /wellness/solution ──
 const RECORD_CTA_KEYWORDS = ["기록", "확인하기"];
@@ -36,25 +36,25 @@ function CardBrandIcon({ company }: { company: string }) {
 
   // 카드사명 → 브랜드 색상 매핑
   const brandMap: Record<string, { color: string; label: string }> = {
-    "신한": { color: "#0046FF", label: "신한" },
-    "삼성": { color: "#1428A0", label: "삼성" },
-    "현대": { color: "#003D6B", label: "현대" },
-    "kb": { color: "#FFC600", label: "KB" },
-    "kb국민": { color: "#FFC600", label: "KB" },
-    "국민": { color: "#FFC600", label: "KB" },
-    "하나": { color: "#009B8D", label: "하나" },
-    "우리": { color: "#0068B7", label: "우리" },
-    "롯데": { color: "#ED1C24", label: "롯데" },
-    "bc": { color: "#F04E37", label: "BC" },
-    "nh": { color: "#00703C", label: "NH" },
-    "nh농협": { color: "#00703C", label: "NH" },
-    "농협": { color: "#00703C", label: "NH" },
-    "씨티": { color: "#003DA5", label: "CITI" },
-    "카카오뱅크": { color: "#FEE500", label: "카뱅" },
-    "토스": { color: "#3182F6", label: "토스" },
-    "visa": { color: "#1A1F71", label: "VISA" },
-    "master": { color: "#EB001B", label: "MC" },
-    "mastercard": { color: "#EB001B", label: "MC" },
+    신한: { color: "#0046FF", label: "신한" },
+    삼성: { color: "#1428A0", label: "삼성" },
+    현대: { color: "#003D6B", label: "현대" },
+    kb: { color: "#FFC600", label: "KB" },
+    kb국민: { color: "#FFC600", label: "KB" },
+    국민: { color: "#FFC600", label: "KB" },
+    하나: { color: "#009B8D", label: "하나" },
+    우리: { color: "#0068B7", label: "우리" },
+    롯데: { color: "#ED1C24", label: "롯데" },
+    bc: { color: "#F04E37", label: "BC" },
+    nh: { color: "#00703C", label: "NH" },
+    nh농협: { color: "#00703C", label: "NH" },
+    농협: { color: "#00703C", label: "NH" },
+    씨티: { color: "#003DA5", label: "CITI" },
+    카카오뱅크: { color: "#FEE500", label: "카뱅" },
+    토스: { color: "#3182F6", label: "토스" },
+    visa: { color: "#1A1F71", label: "VISA" },
+    master: { color: "#EB001B", label: "MC" },
+    mastercard: { color: "#EB001B", label: "MC" },
   };
 
   const brand = brandMap[normalized] || { color: "#9ca3af", label: company.slice(0, 2) };
@@ -204,14 +204,8 @@ function getMotivationMessage(
     return {
       lines:
         streak === participationDays
-          ? [
-              `${streak}일 연속 실천.`,
-              `${userName}님의 웰니스 루틴이 자리잡고 있어요.`,
-            ]
-          : [
-              "꾸준한 실천이 루틴이 되고 있어요.",
-              `${userName}님의 웰니스 루틴이 자리잡고 있어요.`,
-            ],
+          ? [`${streak}일 연속 실천.`, `${userName}님의 웰니스 루틴이 자리잡고 있어요.`]
+          : ["꾸준한 실천이 루틴이 되고 있어요.", `${userName}님의 웰니스 루틴이 자리잡고 있어요.`],
       cta: "나의 웰니스 기록 보기",
       awardFooter: "웰니스 루틴이 자리잡고 있어요",
     };
@@ -235,14 +229,8 @@ function getMotivationMessage(
     return {
       lines:
         streak === participationDays
-          ? [
-              `${streak}일 연속, 몸이 달라지고 있어요.`,
-              "꾸준함이 변화를 만듭니다.",
-            ]
-          : [
-              "웰니스 루틴이 만들어지고 있어요.",
-              "꾸준함이 변화를 만듭니다.",
-            ],
+          ? [`${streak}일 연속, 몸이 달라지고 있어요.`, "꾸준함이 변화를 만듭니다."]
+          : ["웰니스 루틴이 만들어지고 있어요.", "꾸준함이 변화를 만듭니다."],
       cta: "나의 실천 기록 보기",
       awardFooter: "꾸준함이 변화를 만듭니다",
     };
@@ -268,10 +256,7 @@ function getMotivationMessage(
   // ⑤/⑬ 쉬었다가 돌아온 실천 (전체 기간 공통)
   if (participationDays >= 2 && streak === 1 && practicedToday) {
     return {
-      lines: [
-        "바쁜 하루 속에서도 다시 찾아주셨어요.",
-        "지금 이어가면 충분합니다.",
-      ],
+      lines: ["바쁜 하루 속에서도 다시 찾아주셨어요.", "지금 이어가면 충분합니다."],
       cta: "나의 실천 기록 보기",
       awardFooter: "다시 찾아주셨어요",
     };
@@ -314,10 +299,7 @@ function getMotivationMessage(
   // ⑯ 꾸준한 실천자 쉬는 중 (4일차+, participation≥3)
   if (!isEarlyPhase && participationDays >= 3 && !practicedToday) {
     return {
-      lines: [
-        `${participationDays}일의 실천이 쌓여 있어요.`,
-        "오늘도 이어가 볼까요?",
-      ],
+      lines: [`${participationDays}일의 실천이 쌓여 있어요.`, "오늘도 이어가 볼까요?"],
       cta: "오늘의 솔루션 시작하기",
       awardFooter: `${participationDays}일의 실천이 쌓여 있어요`,
     };
@@ -326,10 +308,7 @@ function getMotivationMessage(
   // ⑥/⑪ 실천한 적 있으나 오늘은 아직 (전체 기간, participation 1~2)
   if (participationDays >= 1 && !practicedToday) {
     return {
-      lines: [
-        "지난번에 시작한 여정, 아직 열려 있어요.",
-        "오늘 15분이면 다시 이어갈 수 있습니다.",
-      ],
+      lines: ["지난번에 시작한 여정, 아직 열려 있어요.", "오늘 15분이면 다시 이어갈 수 있습니다."],
       cta: "오늘의 솔루션 시작하기",
       awardFooter: "지난번 실천이 몸에 남아 있어요",
     };
@@ -342,10 +321,7 @@ function getMotivationMessage(
   // ⑩ 미참여 후반 (6~7일차)
   if (participationDays === 0 && trialDay >= 6) {
     return {
-      lines: [
-        "아직 경험하지 못한 솔루션이 있어요.",
-        "15분이면 충분합니다.",
-      ],
+      lines: ["아직 경험하지 못한 솔루션이 있어요.", "15분이면 충분합니다."],
       cta: "솔루션 경험해보기",
       awardFooter: "15분, 한 번의 시도로 변화는 시작됩니다",
     };
@@ -354,10 +330,7 @@ function getMotivationMessage(
   // ⑨ 미참여 중반 (4~5일차)
   if (participationDays === 0 && trialDay >= 4) {
     return {
-      lines: [
-        "아직 경험하지 못한 솔루션이 기다리고 있어요.",
-        "지금 시작해도 충분합니다.",
-      ],
+      lines: ["아직 경험하지 못한 솔루션이 기다리고 있어요.", "지금 시작해도 충분합니다."],
       cta: "첫 번째 솔루션 시작하기",
       awardFooter: "오늘, 나를 위한 웰니스 15분을 만드세요",
     };
@@ -365,10 +338,7 @@ function getMotivationMessage(
 
   // ① 미실천 (1~3일차 fallback)
   return {
-    lines: [
-      "오늘이 시작이에요.",
-      "하루 15분, 첫 번째 솔루션이 기다리고 있습니다.",
-    ],
+    lines: ["오늘이 시작이에요.", "하루 15분, 첫 번째 솔루션이 기다리고 있습니다."],
     cta: "첫 번째 솔루션 시작하기",
     awardFooter: "당신의 몸과 마음이 웰니스 솔루션을 기다립니다",
   };
@@ -399,8 +369,8 @@ function getPaidMotivationMessage(
       phase === "settling"
         ? [`${streak}일 연속 실천.`, "웰니스가 일상이 되고 있습니다."]
         : phase === "growing"
-        ? [`${streak}일 연속.`, `${userName}님의 루틴이 빛나고 있어요.`]
-        : [`${streak}일 연속.`, "이미 웰니스가 삶의 일부입니다."];
+          ? [`${streak}일 연속.`, `${userName}님의 루틴이 빛나고 있어요.`]
+          : [`${streak}일 연속.`, "이미 웰니스가 삶의 일부입니다."];
     return {
       lines,
       cta: "나의 웰니스 기록 보기",
@@ -416,10 +386,7 @@ function getPaidMotivationMessage(
             `${streak}일 연속, 루틴이 자리잡고 있어요.`,
             `${userName}님의 선택이 변화를 만들고 있습니다.`,
           ]
-        : [
-            "꾸준한 실천이 깊어지고 있어요.",
-            `${userName}님의 웰니스 루틴이 단단해지고 있습니다.`,
-          ];
+        : ["꾸준한 실천이 깊어지고 있어요.", `${userName}님의 웰니스 루틴이 단단해지고 있습니다.`];
     return {
       lines,
       cta: "나의 웰니스 기록 보기",
@@ -431,10 +398,7 @@ function getPaidMotivationMessage(
   if (streak >= 2 && practicedToday) {
     const lines =
       streak === participationDays
-        ? [
-            `${streak}일 연속, 몸이 달라지고 있어요.`,
-            "꾸준함이 변화를 만듭니다.",
-          ]
+        ? [`${streak}일 연속, 몸이 달라지고 있어요.`, "꾸준함이 변화를 만듭니다."]
         : ["다시 이어가는 리듬.", "꾸준함이 변화를 만듭니다."];
     return {
       lines,
@@ -446,10 +410,7 @@ function getPaidMotivationMessage(
   // P-④ 쉬다 돌아온 실천 (participation≥2, streak=1, practicedToday)
   if (participationDays >= 2 && streak === 1 && practicedToday) {
     return {
-      lines: [
-        "다시 돌아오셨군요.",
-        "쉬어가는 것도 루틴의 일부입니다.",
-      ],
+      lines: ["다시 돌아오셨군요.", "쉬어가는 것도 루틴의 일부입니다."],
       cta: "나의 실천 기록 보기",
       awardFooter: "다시 시작하는 것이 중요합니다",
     };
@@ -463,10 +424,7 @@ function getPaidMotivationMessage(
             `${userName}님의 여정이 계속되고 있어요.`,
             `이번 주도 ${userName}님의 웰니스를 함께합니다.`,
           ]
-        : [
-            "다시 시작하는 날이 새로운 1일차예요.",
-            `지금부터가 ${userName}님의 여정입니다.`,
-          ];
+        : ["다시 시작하는 날이 새로운 1일차예요.", `지금부터가 ${userName}님의 여정입니다.`];
     return {
       lines,
       cta: "오늘의 기록 확인하기",
@@ -478,10 +436,7 @@ function getPaidMotivationMessage(
   if (participationDays >= 7 && !practicedToday) {
     const lines =
       phase === "settling"
-        ? [
-            `${participationDays}일의 실천이 쌓여 있어요.`,
-            "오늘도 이어가 볼까요?",
-          ]
+        ? [`${participationDays}일의 실천이 쌓여 있어요.`, "오늘도 이어가 볼까요?"]
         : [
             `${participationDays}일의 웰니스가 ${userName}님 안에 있어요.`,
             "오늘도 15분, 이어가 볼까요?",
@@ -496,10 +451,7 @@ function getPaidMotivationMessage(
   // P-⑦ 중간 실천자 쉬는 중 (participation 3~6, !practicedToday)
   if (participationDays >= 3 && !practicedToday) {
     return {
-      lines: [
-        "지금까지의 실천은 사라지지 않아요.",
-        "오늘 15분이면 다시 이어갈 수 있습니다.",
-      ],
+      lines: ["지금까지의 실천은 사라지지 않아요.", "오늘 15분이면 다시 이어갈 수 있습니다."],
       cta: "오늘의 솔루션 시작하기",
       awardFooter: "실천의 감각이 남아 있어요",
     };
@@ -508,10 +460,7 @@ function getPaidMotivationMessage(
   // P-⑧ 저참여 쉬는 중 (participation 1~2, !practicedToday)
   if (participationDays >= 1 && !practicedToday) {
     return {
-      lines: [
-        "지난번에 시작한 여정, 아직 열려 있어요.",
-        "오늘 15분이면 다시 이어갈 수 있습니다.",
-      ],
+      lines: ["지난번에 시작한 여정, 아직 열려 있어요.", "오늘 15분이면 다시 이어갈 수 있습니다."],
       cta: "오늘의 솔루션 시작하기",
       awardFooter: `${participationDays}일의 기록이 여기 있어요`,
     };
@@ -520,14 +469,8 @@ function getPaidMotivationMessage(
   // P-⑨ 미참여 (participation=0, !practicedToday)
   const paidLines =
     phase === "settling"
-      ? [
-          `${userName}님을 위한 솔루션이 준비되어 있어요.`,
-          "하루 15분, 시작해 볼까요?",
-        ]
-      : [
-          "아직 경험하지 못한 솔루션이 기다리고 있어요.",
-          "오늘, 나를 위한 15분을 만들어보세요.",
-        ];
+      ? [`${userName}님을 위한 솔루션이 준비되어 있어요.`, "하루 15분, 시작해 볼까요?"]
+      : ["아직 경험하지 못한 솔루션이 기다리고 있어요.", "오늘, 나를 위한 15분을 만들어보세요."];
   return {
     lines: paidLines,
     cta: "첫 번째 솔루션 시작하기",
@@ -572,7 +515,11 @@ export default function SubscriptionPage() {
 
   // ── 웰니스 대시보드 카드 상태 ──
   const [selfCheckIntensity, setSelfCheckIntensity] = useState<number | null>(null);
-  const [selfCheckGrade, setSelfCheckGrade] = useState<{ grade: string; shortLabel: string; color: string } | null>(null);
+  const [selfCheckGrade, setSelfCheckGrade] = useState<{
+    grade: string;
+    shortLabel: string;
+    color: string;
+  } | null>(null);
   const [psqiScore, setPsqiScore] = useState<number | null>(null);
   const [practiceDays, setPracticeDays] = useState({
     solution: 0,
@@ -703,9 +650,7 @@ export default function SubscriptionPage() {
               // 오늘 실천 여부 판별
               const todayForPracticeCheck = new Date();
               todayForPracticeCheck.setHours(0, 0, 0, 0);
-              const didPracticeToday = allDaysSet.has(
-                toLocalDateStr(todayForPracticeCheck)
-              );
+              const didPracticeToday = allDaysSet.has(toLocalDateStr(todayForPracticeCheck));
 
               setPracticeDays({
                 solution: solDays.size,
@@ -728,18 +673,14 @@ export default function SubscriptionPage() {
             });
             if (res.ok) {
               const data = await res.json();
-              const items: BalanceVideoItem[] = Array.isArray(data)
-                ? data
-                : data?.items ?? [];
+              const items: BalanceVideoItem[] = Array.isArray(data) ? data : (data?.items ?? []);
 
               if (sub.subscriptionType === "free_trial") {
                 const week2 = items.find((v) => Number(v.weekNumber) === 2);
                 if (week2) {
                   setNextWeekContent({
                     title: week2.title,
-                    thumbnailUrl: week2.thumbnailKey
-                      ? makeThumbnailUrl(week2.thumbnailKey)
-                      : "",
+                    thumbnailUrl: week2.thumbnailKey ? makeThumbnailUrl(week2.thumbnailKey) : "",
                   });
                 }
               }
@@ -748,12 +689,8 @@ export default function SubscriptionPage() {
                 const paidDays = calcDaysElapsed(sub.startDate);
                 const currentWeek = Math.floor(paidDays / 7) + 1;
 
-                const currentWeekVideo = items.find(
-                  (v) => Number(v.weekNumber) === currentWeek
-                );
-                const nextWeekVideo = items.find(
-                  (v) => Number(v.weekNumber) === currentWeek + 1
-                );
+                const currentWeekVideo = items.find((v) => Number(v.weekNumber) === currentWeek);
+                const nextWeekVideo = items.find((v) => Number(v.weekNumber) === currentWeek + 1);
 
                 if (currentWeekVideo) {
                   setPaidCurrentWeek({
@@ -789,10 +726,7 @@ export default function SubscriptionPage() {
   }, [router]);
 
   // ── 활동 요약 (메모이제이션) ──
-  const activity = useMemo(
-    () => calcActivitySummary(watchRecords),
-    [watchRecords]
-  );
+  const activity = useMemo(() => calcActivitySummary(watchRecords), [watchRecords]);
 
   // ── 체험 기간 계산 ──
   const daysElapsed = useMemo(
@@ -848,11 +782,7 @@ export default function SubscriptionPage() {
       <main className={styles.main}>
         {/* ── 뒤로가기 + 타이틀 ── */}
         <div className={styles.topBar}>
-          <button
-            className={styles.backBtn}
-            onClick={() => router.back()}
-            aria-label="뒤로가기"
-          >
+          <button className={styles.backBtn} onClick={() => router.back()} aria-label="뒤로가기">
             <svg
               width="22"
               height="22"
@@ -886,13 +816,11 @@ export default function SubscriptionPage() {
               <h2 className={styles.welcomeTitle}>
                 하루 15분,
                 <br />
-                당신을 위한 <span className={styles.welcomeAccent}>&lsquo;맞춤 웰니스 솔루션&rsquo;</span>
+                당신을 위한{" "}
+                <span className={styles.welcomeAccent}>&lsquo;맞춤 웰니스 솔루션&rsquo;</span>
               </h2>
 
-              <button
-                className={styles.trialBox}
-                onClick={() => router.push("/home/pricing")}
-              >
+              <button className={styles.trialBox} onClick={() => router.push("/home/pricing")}>
                 <span className={styles.trialText}>7일 무료 체험</span>
                 <svg
                   width="16"
@@ -909,16 +837,15 @@ export default function SubscriptionPage() {
                 </svg>
               </button>
 
-              <p className={styles.trialGuarantee}>
-                7일 무료 체험 중 언제든 취소 가능
-              </p>
+              <p className={styles.trialGuarantee}>7일 무료 체험 중 언제든 취소 가능</p>
             </section>
 
             <section className={styles.benefitSection}>
               <p className={styles.benefitText}>
                 힐에코의 맞춤 웰니스 3세트가
                 <br />
-                매주 <span className={styles.benefitName}>{userName || "회원"}</span>님을 찾아갑니다.
+                매주 <span className={styles.benefitName}>{userName || "회원"}</span>님을
+                찾아갑니다.
               </p>
 
               <div className={styles.benefitImages}>
@@ -961,10 +888,7 @@ export default function SubscriptionPage() {
                 <br />
                 작은 시작이 큰 변화를 만듭니다.
               </p>
-              <button
-                className={styles.ctaBtn}
-                onClick={() => router.push("/home/pricing")}
-              >
+              <button className={styles.ctaBtn} onClick={() => router.push("/home/pricing")}>
                 지금, 나를 위한 변화 시작하기
               </button>
             </section>
@@ -983,9 +907,7 @@ export default function SubscriptionPage() {
                 무료 체험 중
               </div>
 
-              <p className={styles.ftProgramName}>
-                {getProgramName(subscription?.programId)}
-              </p>
+              <p className={styles.ftProgramName}>{getProgramName(subscription?.programId)}</p>
 
               {/* 개인 웰니스 대시보드 카드 */}
               <div className={styles.ftDashboard}>
@@ -1012,7 +934,9 @@ export default function SubscriptionPage() {
                         <span className={styles.ftDashboardEmpty}>미검사</span>
                         <button
                           className={styles.ftDashboardCheckBtn}
-                          onClick={() => router.push("/wellness/solution/self-check?from=subscription")}
+                          onClick={() =>
+                            router.push("/wellness/solution/self-check?from=subscription")
+                          }
                         >
                           지금 검사하기
                         </button>
@@ -1057,10 +981,19 @@ export default function SubscriptionPage() {
 
                   {/* 배지: 물결 원 + 숫자 */}
                   <div className={styles.ftAwardBadge}>
-                    <svg className={styles.ftAwardBadgeSvg} viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <svg
+                      className={styles.ftAwardBadgeSvg}
+                      viewBox="0 0 120 120"
+                      fill="none"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
                       <path
                         d={(() => {
-                          const cx = 60, cy = 60, points = 24, rOuter = 54, rInner = 48;
+                          const cx = 60,
+                            cy = 60,
+                            points = 24,
+                            rOuter = 54,
+                            rInner = 48;
                           let d = "";
                           for (let i = 0; i < points; i++) {
                             const aOuter = (i * 2 * Math.PI) / points - Math.PI / 2;
@@ -1077,7 +1010,14 @@ export default function SubscriptionPage() {
                         fill="url(#badgeFill)"
                       />
                       <defs>
-                        <linearGradient id="badgeFill" x1="60" y1="6" x2="60" y2="114" gradientUnits="userSpaceOnUse">
+                        <linearGradient
+                          id="badgeFill"
+                          x1="60"
+                          y1="6"
+                          x2="60"
+                          y2="114"
+                          gradientUnits="userSpaceOnUse"
+                        >
                           <stop offset="0%" stopColor="#00d6f5" />
                           <stop offset="100%" stopColor="#8a2be2" />
                         </linearGradient>
@@ -1109,9 +1049,7 @@ export default function SubscriptionPage() {
                     )}
                   </div>
 
-                  <span className={styles.ftAwardFooter}>
-                    {motivation.awardFooter}
-                  </span>
+                  <span className={styles.ftAwardFooter}>{motivation.awardFooter}</span>
                 </div>
               </div>
 
@@ -1132,7 +1070,10 @@ export default function SubscriptionPage() {
                 {billingInfo?.cardLast4 && (
                   <div className={styles.ftBillingRow}>
                     <span className={styles.ftBillingKey}>결제 수단</span>
-                    <span className={styles.ftBillingValue} style={{ display: "inline-flex", alignItems: "center", gap: "6px" }}>
+                    <span
+                      className={styles.ftBillingValue}
+                      style={{ display: "inline-flex", alignItems: "center", gap: "6px" }}
+                    >
                       <CardBrandIcon company={billingInfo.cardCompany} />
                       {billingInfo.cardCompany} **** {billingInfo.cardLast4}
                       <button
@@ -1154,9 +1095,7 @@ export default function SubscriptionPage() {
                 </div>
               </div>
 
-              <p className={styles.ftBillingNote}>
-                체험 기간 중에는 요금이 청구되지 않습니다.
-              </p>
+              <p className={styles.ftBillingNote}>체험 기간 중에는 요금이 청구되지 않습니다.</p>
             </section>
 
             {/* ── 섹션 2: 나의 활동 요약 ── */}
@@ -1179,9 +1118,7 @@ export default function SubscriptionPage() {
                     className={styles.ftSolutionBtn}
                     onClick={() => router.push(getCtaRoute(motivation.cta))}
                   >
-                    <span className={styles.ftSolutionBtnText}>
-                      {motivation.cta}
-                    </span>
+                    <span className={styles.ftSolutionBtnText}>{motivation.cta}</span>
                     <svg
                       width="16"
                       height="16"
@@ -1216,9 +1153,7 @@ export default function SubscriptionPage() {
                     className={styles.ftSolutionBtn}
                     onClick={() => router.push(getCtaRoute(motivation.cta))}
                   >
-                    <span className={styles.ftSolutionBtnText}>
-                      {motivation.cta}
-                    </span>
+                    <span className={styles.ftSolutionBtnText}>{motivation.cta}</span>
                     <svg
                       width="16"
                       height="16"
@@ -1239,9 +1174,7 @@ export default function SubscriptionPage() {
 
             {/* ── 섹션 3: 곧 열리는 다음 여정 ── */}
             <section className={styles.ftNextSection}>
-              <p className={styles.ftNextTitle}>
-                곧 열리는 다음 여정
-              </p>
+              <p className={styles.ftNextTitle}>곧 열리는 다음 여정</p>
 
               <div className={styles.ftNextCards}>
                 {/* 2주차 솔루션 카드 (블러 + 잠금) */}
@@ -1317,24 +1250,19 @@ export default function SubscriptionPage() {
                   </div>
                   <div className={styles.ftNextCardInfo}>
                     <span className={styles.ftNextCardBadge}>리포트</span>
-                    <span className={styles.ftNextCardTitle}>
-                      수면 분석 리포트
-                    </span>
+                    <span className={styles.ftNextCardTitle}>수면 분석 리포트</span>
                   </div>
                 </div>
               </div>
 
-              <p className={styles.ftNextNote}>
-                체험 후 자동으로 이용 가능
-              </p>
+              <p className={styles.ftNextNote}>체험 후 자동으로 이용 가능</p>
             </section>
 
             {/* ── 섹션 4: 체험 해지 ── */}
             <section className={styles.ftCancelSection}>
               <p className={styles.ftCancelDesc}>
-                체험을 해지하면 {formatDateKR(subscription.trialEndDate)}까지
-                모든 콘텐츠를 이용할 수 있으며,
-                이후 자동 결제가 취소됩니다.
+                체험을 해지하면 {formatDateKR(subscription.trialEndDate)}까지 모든 콘텐츠를 이용할
+                수 있으며, 이후 자동 결제가 취소됩니다.
               </p>
               <button
                 className={styles.ftCancelBtn}
@@ -1356,14 +1284,15 @@ export default function SubscriptionPage() {
           <>
             {/* ── 섹션 1: 구독 상태 카드 + 웰니스 대시보드 + 결제 정보 ── */}
             <section className={styles.ftStatusSection}>
-              <div className={styles.ftStatusBadge} style={{ background: "rgba(16,185,129,0.1)", color: "#059669" }}>
+              <div
+                className={styles.ftStatusBadge}
+                style={{ background: "rgba(16,185,129,0.1)", color: "#059669" }}
+              >
                 <span className={styles.ftStatusDot} style={{ background: "#059669" }} />
                 구독 중
               </div>
 
-              <p className={styles.ftProgramName}>
-                {getProgramName(subscription?.programId)}
-              </p>
+              <p className={styles.ftProgramName}>{getProgramName(subscription?.programId)}</p>
 
               {/* 개인 웰니스 대시보드 카드 */}
               <div className={styles.ftDashboard}>
@@ -1390,7 +1319,9 @@ export default function SubscriptionPage() {
                         <span className={styles.ftDashboardEmpty}>미검사</span>
                         <button
                           className={styles.ftDashboardCheckBtn}
-                          onClick={() => router.push("/wellness/solution/self-check?from=subscription")}
+                          onClick={() =>
+                            router.push("/wellness/solution/self-check?from=subscription")
+                          }
                         >
                           지금 검사하기
                         </button>
@@ -1435,10 +1366,19 @@ export default function SubscriptionPage() {
 
                   {/* 배지: 물결 원 + 숫자 */}
                   <div className={styles.ftAwardBadge}>
-                    <svg className={styles.ftAwardBadgeSvg} viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <svg
+                      className={styles.ftAwardBadgeSvg}
+                      viewBox="0 0 120 120"
+                      fill="none"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
                       <path
                         d={(() => {
-                          const cx = 60, cy = 60, points = 24, rOuter = 54, rInner = 48;
+                          const cx = 60,
+                            cy = 60,
+                            points = 24,
+                            rOuter = 54,
+                            rInner = 48;
                           let d = "";
                           for (let i = 0; i < points; i++) {
                             const aOuter = (i * 2 * Math.PI) / points - Math.PI / 2;
@@ -1455,7 +1395,14 @@ export default function SubscriptionPage() {
                         fill="url(#badgeFillPaid)"
                       />
                       <defs>
-                        <linearGradient id="badgeFillPaid" x1="60" y1="6" x2="60" y2="114" gradientUnits="userSpaceOnUse">
+                        <linearGradient
+                          id="badgeFillPaid"
+                          x1="60"
+                          y1="6"
+                          x2="60"
+                          y2="114"
+                          gradientUnits="userSpaceOnUse"
+                        >
                           <stop offset="0%" stopColor="#00d6f5" />
                           <stop offset="100%" stopColor="#8a2be2" />
                         </linearGradient>
@@ -1487,9 +1434,7 @@ export default function SubscriptionPage() {
                     )}
                   </div>
 
-                  <span className={styles.ftAwardFooter}>
-                    {paidMotivation?.awardFooter || ""}
-                  </span>
+                  <span className={styles.ftAwardFooter}>{paidMotivation?.awardFooter || ""}</span>
                 </div>
               </div>
 
@@ -1503,9 +1448,7 @@ export default function SubscriptionPage() {
                 </div>
                 <div className={styles.ftBillingRow}>
                   <span className={styles.ftBillingKey}>현재 주차</span>
-                  <span className={styles.ftBillingValue}>
-                    {weekNumber}주차
-                  </span>
+                  <span className={styles.ftBillingValue}>{weekNumber}주차</span>
                 </div>
                 <div className={styles.ftBillingRow}>
                   <span className={styles.ftBillingKey}>구독 시작일</span>
@@ -1516,7 +1459,10 @@ export default function SubscriptionPage() {
                 {billingInfo?.cardLast4 && (
                   <div className={styles.ftBillingRow}>
                     <span className={styles.ftBillingKey}>결제 수단</span>
-                    <span className={styles.ftBillingValue} style={{ display: "inline-flex", alignItems: "center", gap: "6px" }}>
+                    <span
+                      className={styles.ftBillingValue}
+                      style={{ display: "inline-flex", alignItems: "center", gap: "6px" }}
+                    >
                       <CardBrandIcon company={billingInfo.cardCompany} />
                       {billingInfo.cardCompany} **** {billingInfo.cardLast4}
                       <button
@@ -1531,16 +1477,12 @@ export default function SubscriptionPage() {
                 <div className={styles.ftBillingRow}>
                   <span className={styles.ftBillingKey}>다음 결제 예정일</span>
                   <span className={styles.ftBillingValue}>
-                    {billingInfo?.nextChargeDate
-                      ? formatDateKR(billingInfo.nextChargeDate)
-                      : "—"}
+                    {billingInfo?.nextChargeDate ? formatDateKR(billingInfo.nextChargeDate) : "—"}
                   </span>
                 </div>
               </div>
 
-              <p className={styles.ftBillingNote}>
-                다음 결제일에 자동으로 갱신됩니다.
-              </p>
+              <p className={styles.ftBillingNote}>다음 결제일에 자동으로 갱신됩니다.</p>
             </section>
 
             {/* ── 섹션 2: 나의 활동 요약 ── */}
@@ -1560,7 +1502,9 @@ export default function SubscriptionPage() {
 
                   <button
                     className={styles.ftSolutionBtn}
-                    onClick={() => router.push(getCtaRoute(paidMotivation?.cta || "솔루션 시작하기"))}
+                    onClick={() =>
+                      router.push(getCtaRoute(paidMotivation?.cta || "솔루션 시작하기"))
+                    }
                   >
                     <span className={styles.ftSolutionBtnText}>
                       {paidMotivation?.cta || "솔루션 시작하기"}
@@ -1595,7 +1539,9 @@ export default function SubscriptionPage() {
 
                   <button
                     className={styles.ftSolutionBtn}
-                    onClick={() => router.push(getCtaRoute(paidMotivation?.cta || "솔루션 이어보기"))}
+                    onClick={() =>
+                      router.push(getCtaRoute(paidMotivation?.cta || "솔루션 이어보기"))
+                    }
                   >
                     <span className={styles.ftSolutionBtnText}>
                       {paidMotivation?.cta || "솔루션 이어보기"}
@@ -1620,9 +1566,7 @@ export default function SubscriptionPage() {
 
             {/* ── 섹션 3: 나의 여정 ── */}
             <section className={styles.ftNextSection}>
-              <p className={styles.ftNextTitle}>
-                나의 여정
-              </p>
+              <p className={styles.ftNextTitle}>나의 여정</p>
 
               <div className={styles.ftNextCards}>
                 {/* 현재 주차 카드 (잠금 해제, 진행 중) */}
@@ -1648,9 +1592,7 @@ export default function SubscriptionPage() {
                         </span>
                         <span className={styles.ftNextCardProgress}>진행 중</span>
                       </div>
-                      <span className={styles.ftNextCardTitle}>
-                        {paidCurrentWeek.title}
-                      </span>
+                      <span className={styles.ftNextCardTitle}>{paidCurrentWeek.title}</span>
                     </div>
                   </div>
                 )}
@@ -1687,12 +1629,8 @@ export default function SubscriptionPage() {
                       </div>
                     </div>
                     <div className={styles.ftNextCardInfo}>
-                      <span className={styles.ftNextCardBadge}>
-                        {paidNextWeek.weekNumber}주차
-                      </span>
-                      <span className={styles.ftNextCardTitle}>
-                        {paidNextWeek.title}
-                      </span>
+                      <span className={styles.ftNextCardBadge}>{paidNextWeek.weekNumber}주차</span>
+                      <span className={styles.ftNextCardTitle}>{paidNextWeek.title}</span>
                     </div>
                   </div>
                 )}
@@ -1732,28 +1670,20 @@ export default function SubscriptionPage() {
                   </div>
                   <div className={styles.ftNextCardInfo}>
                     <span className={styles.ftNextCardBadge}>리포트</span>
-                    <span className={styles.ftNextCardTitle}>
-                      수면 분석 리포트
-                    </span>
+                    <span className={styles.ftNextCardTitle}>수면 분석 리포트</span>
                   </div>
                 </div>
               </div>
 
-              <p className={styles.ftNextNote}>
-                매주 새로운 솔루션이 열립니다
-              </p>
+              <p className={styles.ftNextNote}>매주 새로운 솔루션이 열립니다</p>
             </section>
 
             {/* ── 섹션 4: 구독 해지 ── */}
             <section className={styles.ftCancelSection}>
               <p className={styles.ftCancelDesc}>
                 구독을 해지하면 현재 결제 주기 종료일
-                {billingInfo?.nextChargeDate
-                  ? `(${formatDateKR(billingInfo.nextChargeDate)})`
-                  : ""}
-                까지
-                모든 콘텐츠를 이용할 수 있으며,
-                이후 자동 결제가 취소됩니다.
+                {billingInfo?.nextChargeDate ? `(${formatDateKR(billingInfo.nextChargeDate)})` : ""}
+                까지 모든 콘텐츠를 이용할 수 있으며, 이후 자동 결제가 취소됩니다.
               </p>
               <button
                 className={styles.ftCancelBtn}

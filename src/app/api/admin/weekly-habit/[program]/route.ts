@@ -26,10 +26,7 @@ function getAdminToken(): string | null {
   return cookies().get(cookieName)?.value ?? null;
 }
 
-export async function GET(
-  _req: Request,
-  { params }: { params: { program: string } }
-) {
+export async function GET(_req: Request, { params }: { params: { program: string } }) {
   try {
     const { program } = params;
 
@@ -70,9 +67,6 @@ export async function GET(
     }
   } catch (err) {
     console.error("[Weekly Habit Admin] Unexpected error:", err);
-    return NextResponse.json(
-      { error: "Failed to fetch weekly habit list" },
-      { status: 500 }
-    );
+    return NextResponse.json({ error: "Failed to fetch weekly habit list" }, { status: 500 });
   }
 }

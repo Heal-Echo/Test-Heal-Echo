@@ -2,12 +2,12 @@
 
 import React, { useEffect, useState, useRef, useCallback, Suspense } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
-import Header from "@/components/Header";
-import BottomTab from "@/components/BottomTab";
+import Header from "@/components/header";
+import BottomTab from "@/components/bottom-tab";
 import styles from "./player.module.css";
 
 import { isUserLoggedIn, getUserInfo, getValidUserInfo } from "@/auth/user";
-import { makeVideoUrl, makeThumbnailUrl } from "@/config/constants";
+import { makeVideoUrl, makeThumbnailUrl, TOSS_CLIENT_KEY } from "@/config/constants";
 import {
   canPlayVideo,
   getBalanceUserState,
@@ -18,10 +18,10 @@ import {
   countQualifyingWeeksRolling,
 } from "@/auth/subscription";
 import type { UserSubscription } from "@/types/subscription";
-import { syncProgramSelection } from "@/lib/programSelection";
-import SelfCheckSurvey, { hasSelfCheckResult } from "@/components/self-check/SelfCheckSurvey";
+import { syncProgramSelection } from "@/lib/program-selection";
+import SelfCheckSurvey, { hasSelfCheckResult } from "@/components/self-check/self-check-survey";
 
-import { extractPlayerVideoByWeek, type PlayerVideo } from "./playerBrain";
+import { extractPlayerVideoByWeek, type PlayerVideo } from "./player-brain";
 import * as storage from "@/lib/storage";
 import { getUserId } from "@/lib/storage";
 
@@ -77,9 +77,7 @@ function BalancePlayerPageContent() {
   })();
 
   // 고객 유형별 재생 권한 확인
-  const playPermission = weekNumber !== null
-    ? canPlayVideo(program, weekNumber)
-    : null;
+  const playPermission = weekNumber !== null ? canPlayVideo(program, weekNumber) : null;
 
   // 🔐 로그인 체크
   useEffect(() => {
@@ -208,9 +206,7 @@ function BalancePlayerPageContent() {
 
         if (!res.ok) {
           console.error("[Balance Player] public balance API error:", data);
-          throw new Error(
-            `Balance 영상 목록을 불러오지 못했습니다. (status: ${res.status})`
-          );
+          throw new Error(`Balance 영상 목록을 불러오지 못했습니다. (status: ${res.status})`);
         }
 
         const found = extractPlayerVideoByWeek(data, weekNumber);
@@ -283,11 +279,7 @@ function BalancePlayerPageContent() {
     if (!vid || !vid.duration || vid.duration <= 0) return;
 
     // ── 1단계 CTA: 플로팅 배너 (20초 시점, browser 고객만) ──
-    if (
-      subType === "browser" &&
-      !floatingBannerShownRef.current &&
-      vid.currentTime >= 20
-    ) {
+    if (subType === "browser" && !floatingBannerShownRef.current && vid.currentTime >= 20) {
       floatingBannerShownRef.current = true;
       setShowFloatingBanner(true);
       setTimeout(() => setShowFloatingBanner(false), 5000);
@@ -373,69 +365,70 @@ function BalancePlayerPageContent() {
   // ─────────────────────────────────────────
   // 무료 체험 → Toss SDK 직접 ��출 (pricing 경유 없음)
   // ─────────────────────────────────────────
-  const startBillingAuth = useCallback(async (selectedPlan: "annual" | "monthly" = "annual") => {
-    if (billingLoading) return;
-    try {
-      trialFlowStartedRef.current = true;
-      setBillingLoading(true);
+  const startBillingAuth = useCallback(
+    async (selectedPlan: "annual" | "monthly" = "annual") => {
+      if (billingLoading) return;
+      try {
+        trialFlowStartedRef.current = true;
+        setBillingLoading(true);
 
-      // 토큰 갱신 보장
-      const validInfo = await getValidUserInfo();
-      if (!validInfo) {
-        router.push("/public/login");
-        return;
+        // 토큰 갱신 보장
+        const validInfo = await getValidUserInfo();
+        if (!validInfo) {
+          router.push("/public/login");
+          return;
+        }
+
+        // AWS에 구독 정보 저장 (browser_selected 상태로)
+        const subscriptionData: UserSubscription = {
+          userId: validInfo.email || "",
+          programId: program,
+          subscriptionType: "browser_selected",
+          startDate: null,
+          currentWeek: 1,
+          status: "active",
+          pausedAt: null,
+          trialEndDate: null,
+        };
+        await saveSubscription(subscriptionData);
+
+        // 솔루션 선택 동기화
+        syncProgramSelection(program);
+
+        // customerKey 생성 (토스 빌링에서 고객 식별)
+        const email = validInfo.email || "guest";
+        const customerKey = email.replace(/[^a-zA-Z0-9@._-]/g, "").slice(0, 50);
+
+        // successUrl/failUrl 구성 (기존 callback 그대로 사용)
+        const callbackBase = `${window.location.origin}/public/billing/callback`;
+        const successParams = new URLSearchParams({
+          programId: program,
+          planType: selectedPlan,
+        });
+        const failParams = new URLSearchParams({
+          status: "fail",
+          programId: program,
+          planType: selectedPlan,
+        });
+
+        // Toss SDK 로드 및 카드 등록 요청
+        const { loadTossPayments } = await import("@tosspayments/tosspayments-sdk");
+        const tossPayments = await loadTossPayments(TOSS_CLIENT_KEY);
+        const payment = tossPayments.payment({ customerKey });
+        await payment.requestBillingAuth({
+          method: "CARD",
+          successUrl: `${callbackBase}?${successParams.toString()}`,
+          failUrl: `${callbackBase}?${failParams.toString()}`,
+          customerEmail: validInfo.email || undefined,
+        });
+      } catch (err) {
+        console.error("[PlayerCTA] Toss SDK error:", err);
+        trialFlowStartedRef.current = false;
+        setBillingLoading(false);
       }
-
-      // AWS에 구독 정보 저장 (browser_selected 상태로)
-      const subscriptionData: UserSubscription = {
-        userId: validInfo.email || "",
-        programId: program,
-        subscriptionType: "browser_selected",
-        startDate: null,
-        currentWeek: 1,
-        status: "active",
-        pausedAt: null,
-        trialEndDate: null,
-      };
-      await saveSubscription(subscriptionData);
-
-      // 솔루션 선택 동기화
-      syncProgramSelection(program);
-
-      // customerKey 생성 (토스 빌링에서 고객 식별)
-      const email = validInfo.email || "guest";
-      const customerKey = email.replace(/[^a-zA-Z0-9@._-]/g, "").slice(0, 50);
-
-      // successUrl/failUrl 구성 (기존 callback 그대로 사용)
-      const callbackBase = `${window.location.origin}/public/billing/callback`;
-      const successParams = new URLSearchParams({
-        programId: program,
-        planType: selectedPlan,
-      });
-      const failParams = new URLSearchParams({
-        status: "fail",
-        programId: program,
-        planType: selectedPlan,
-      });
-
-      // Toss SDK 로드 및 카드 등록 요청
-      const { loadTossPayments } = await import("@tosspayments/tosspayments-sdk");
-      const tossPayments = await loadTossPayments(
-        process.env.NEXT_PUBLIC_TOSS_CLIENT_KEY || ""
-      );
-      const payment = tossPayments.payment({ customerKey });
-      await payment.requestBillingAuth({
-        method: "CARD",
-        successUrl: `${callbackBase}?${successParams.toString()}`,
-        failUrl: `${callbackBase}?${failParams.toString()}`,
-        customerEmail: validInfo.email || undefined,
-      });
-    } catch (err) {
-      console.error("[PlayerCTA] Toss SDK error:", err);
-      trialFlowStartedRef.current = false;
-      setBillingLoading(false);
-    }
-  }, [program, router, billingLoading]);
+    },
+    [program, router, billingLoading]
+  );
 
   // 바텀 시트 닫기 → 실제로 이동
   const handleExitSheetClose = useCallback(() => {
@@ -454,10 +447,7 @@ function BalancePlayerPageContent() {
             지난번 영상이 도움이 되셨나요? 무료 체험으로 계속해보세요
           </p>
           <div className={styles.stickyBannerBtns}>
-            <button
-              className={styles.stickyBannerBtn}
-              onClick={() => startBillingAuth()}
-            >
+            <button className={styles.stickyBannerBtn} onClick={() => startBillingAuth()}>
               7일 무료 체험
             </button>
             <button
@@ -477,9 +467,7 @@ function BalancePlayerPageContent() {
 
         {!loading && !error && video && (
           <>
-            <h1 className={styles.title}>
-              {video.title ?? `${weekParam}주차 영상`}
-            </h1>
+            <h1 className={styles.title}>{video.title ?? `${weekParam}주차 영상`}</h1>
 
             <div className={styles.videoWrapper}>
               <video
@@ -490,11 +478,7 @@ function BalancePlayerPageContent() {
                 tabIndex={0}
                 className={styles.video}
                 controlsList="nodownload"
-                poster={
-                  video.thumbnailKey
-                    ? makeThumbnailUrl(video.thumbnailKey)
-                    : undefined
-                }
+                poster={video.thumbnailKey ? makeThumbnailUrl(video.thumbnailKey) : undefined}
                 onPlay={handlePlay}
                 onTimeUpdate={handleTimeUpdate}
                 onEnded={handleEnded}
@@ -510,7 +494,9 @@ function BalancePlayerPageContent() {
                   onClick={() => startBillingAuth()}
                   role="button"
                   tabIndex={0}
-                  onKeyDown={(e) => { if (e.key === "Enter") startBillingAuth(); }}
+                  onKeyDown={(e) => {
+                    if (e.key === "Enter") startBillingAuth();
+                  }}
                 >
                   <p className={styles.floatingBannerText}>2주차부터 전체 열기</p>
                   <span className={styles.floatingBannerArrow}>→</span>
@@ -525,7 +511,9 @@ function BalancePlayerPageContent() {
                     onClick={() => startBillingAuth()}
                     role="button"
                     tabIndex={0}
-                    onKeyDown={(e) => { if (e.key === "Enter") startBillingAuth(); }}
+                    onKeyDown={(e) => {
+                      if (e.key === "Enter") startBillingAuth();
+                    }}
                   >
                     {nextWeeks[0].thumbnailKey && (
                       <img
@@ -548,16 +536,11 @@ function BalancePlayerPageContent() {
             {showPostVideoCheck && !showSelfCheck && !showTrialCTA && (
               <div className={styles.postVideoPrompt}>
                 <p className={styles.postVideoEmoji}>🌿</p>
-                <p className={styles.postVideoTitle}>
-                  영상은 어떠셨나요?
-                </p>
+                <p className={styles.postVideoTitle}>영상은 어떠셨나요?</p>
                 <p className={styles.postVideoDesc}>
                   1분이면 나의 자율신경 건강 상태를 체크할 수 있어요.
                 </p>
-                <button
-                  className={styles.postVideoCheckBtn}
-                  onClick={() => setShowSelfCheck(true)}
-                >
+                <button className={styles.postVideoCheckBtn} onClick={() => setShowSelfCheck(true)}>
                   혹시 나도? 자가 체크하기
                 </button>
                 <button
@@ -573,9 +556,7 @@ function BalancePlayerPageContent() {
             {showTrialCTA && !showSelfCheck && !showExitSheet && (
               <div className={styles.trialCTACard}>
                 <p className={styles.trialCTAEmoji}>✨</p>
-                <p className={styles.trialCTATitle}>
-                  더 많은 변화를 경험해보세요
-                </p>
+                <p className={styles.trialCTATitle}>더 많은 변화를 경험해보세요</p>
 
                 {/* 2~3주차 썸네일 미리보기 */}
                 {nextWeeks.length > 0 && (
@@ -644,29 +625,18 @@ function BalancePlayerPageContent() {
       {/* ── #6 이탈 시: 바텀 시트 (부드러운 하단 시트, 1회만) ── */}
       {showExitSheet && (
         <div className={styles.exitSheetBackdrop} onClick={handleExitSheetClose}>
-          <div
-            className={styles.exitSheet}
-            onClick={(e) => e.stopPropagation()}
-          >
+          <div className={styles.exitSheet} onClick={(e) => e.stopPropagation()}>
             <div className={styles.exitSheetHandle} />
-            <p className={styles.exitSheetTitle}>
-              잠깐, 이런 건 어때요?
-            </p>
+            <p className={styles.exitSheetTitle}>잠깐, 이런 건 어때요?</p>
             <p className={styles.exitSheetDesc}>
               7일 동안 모든 영상을 무료로 시청할 수 있어요.
               <br />
               부담 없이 체험해보세요.
             </p>
-            <button
-              className={styles.exitSheetPrimaryBtn}
-              onClick={() => startBillingAuth()}
-            >
+            <button className={styles.exitSheetPrimaryBtn} onClick={() => startBillingAuth()}>
               7일 무료 체험 시작하기
             </button>
-            <button
-              className={styles.exitSheetSecondaryBtn}
-              onClick={handleExitSheetClose}
-            >
+            <button className={styles.exitSheetSecondaryBtn} onClick={handleExitSheetClose}>
               괜찮아요, 다음에 할게요
             </button>
           </div>
@@ -699,7 +669,6 @@ function BalancePlayerPageContent() {
 
       <div className={styles.tabPadding}></div>
       <BottomTab />
-
     </div>
   );
 }

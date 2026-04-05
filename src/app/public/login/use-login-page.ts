@@ -7,12 +7,7 @@ import { useEmailLogin } from "./use-email-login";
 import { useSignup } from "./use-signup";
 import { useForgotPassword } from "./use-forgot-password";
 
-export type View =
-  | "login"
-  | "signup"
-  | "confirm"
-  | "forgotStep1"
-  | "forgotStep2";
+export type View = "login" | "signup" | "confirm" | "forgotStep1" | "forgotStep2";
 
 type BannerType = "success" | "error";
 
@@ -108,15 +103,18 @@ export function useLoginPage() {
   });
 
   // 뷰 전환 (전체 상태 리셋)
-  const switchView = useCallback((v: View) => {
-    setBanner(null);
-    setIsLoading(false);
-    emailLogin.reset();
-    signup.reset();
-    forgotPw.reset();
-    setViewKey((k) => k + 1);
-    setView(v);
-  }, [emailLogin.reset, signup.reset, forgotPw.reset]);
+  const switchView = useCallback(
+    (v: View) => {
+      setBanner(null);
+      setIsLoading(false);
+      emailLogin.reset();
+      signup.reset();
+      forgotPw.reset();
+      setViewKey((k) => k + 1);
+      setView(v);
+    },
+    [emailLogin.reset, signup.reset, forgotPw.reset]
+  );
 
   switchViewRef.current = switchView;
 

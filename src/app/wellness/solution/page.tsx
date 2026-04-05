@@ -3,13 +3,20 @@
 import React, { useEffect, useMemo, useState, useCallback } from "react";
 import { useRouter } from "next/navigation";
 import styles from "./balance.module.css";
-import Header from "@/components/Header";
-import BottomTab from "@/components/BottomTab";
+import Header from "@/components/header";
+import BottomTab from "@/components/bottom-tab";
 
 import { isUserLoggedIn, getUserName, getUserInfo } from "@/auth/user";
 import * as storage from "@/lib/storage";
 import { makeThumbnailUrl } from "@/config/constants";
-import SelfCheckSurvey, { hasSelfCheckResult, getSavedSelfCheckResult, fetchAndHydrateSelfCheckResult, getSignalIntensity, getSignalGrade, retryPendingSelfCheckSync } from "@/components/self-check/SelfCheckSurvey";
+import SelfCheckSurvey, {
+  hasSelfCheckResult,
+  getSavedSelfCheckResult,
+  fetchAndHydrateSelfCheckResult,
+  getSignalIntensity,
+  getSignalGrade,
+  retryPendingSelfCheckSync,
+} from "@/components/self-check/self-check-survey";
 import {
   getBalanceUserState,
   canPlayVideo,
@@ -23,7 +30,7 @@ import {
 } from "@/auth/subscription";
 import { getProgramName } from "@/config/programs";
 import type { BalanceUserState } from "@/types/subscription";
-import { getSelectedProgram } from "@/lib/programSelection";
+import { getSelectedProgram } from "@/lib/program-selection";
 
 type BalanceItem = {
   program: string;
@@ -35,8 +42,6 @@ type BalanceItem = {
   description?: string;
   isPublished?: boolean;
 };
-
-
 
 // ─────────────────────────────────────────
 // 달력 유틸 (mypage 패턴 기반)
@@ -66,7 +71,9 @@ export default function SolutionPage() {
   const [showLockedTrialCTA, setShowLockedTrialCTA] = useState(false);
   const [showStickyBanner, setShowStickyBanner] = useState(false);
 
-  const [thumbByWeek, setThumbByWeek] = useState<Record<number, { url: string; title: string }>>({});
+  const [thumbByWeek, setThumbByWeek] = useState<Record<number, { url: string; title: string }>>(
+    {}
+  );
   const [loadingThumbs, setLoadingThumbs] = useState(false);
   const [userName, setUserName] = useState<string | null>(null);
 
@@ -104,9 +111,26 @@ export default function SolutionPage() {
   // 고객 상태 조회
   // ─────────────────────────────────────────
   const [userState, setUserState] = useState<BalanceUserState>({
-    subscription: { userId: "", programId: program, subscriptionType: "browser", startDate: null, currentWeek: 1, status: "active", pausedAt: null, trialEndDate: null },
+    subscription: {
+      userId: "",
+      programId: program,
+      subscriptionType: "browser",
+      startDate: null,
+      currentWeek: 1,
+      status: "active",
+      pausedAt: null,
+      trialEndDate: null,
+    },
     watchRecords: [],
-    giftCycle: { userId: "", programId: program, cycleNumber: 1, qualifiedWeeks: 0, giftUnlockedAt: null, giftExpiresAt: null, giftVideoId: null },
+    giftCycle: {
+      userId: "",
+      programId: program,
+      cycleNumber: 1,
+      qualifiedWeeks: 0,
+      giftUnlockedAt: null,
+      giftExpiresAt: null,
+      giftVideoId: null,
+    },
     isGiftWeek: false,
     daysWatchedThisWeek: 0,
     qualifiedWeeksRolling: 0,
@@ -190,7 +214,7 @@ export default function SolutionPage() {
         }
 
         const data = await res.json();
-        const items: BalanceItem[] = Array.isArray(data) ? data : data?.items ?? [];
+        const items: BalanceItem[] = Array.isArray(data) ? data : (data?.items ?? []);
 
         const next: Record<number, { url: string; title: string }> = {};
         for (const v of items) {
@@ -233,10 +257,7 @@ export default function SolutionPage() {
         return;
       }
       if (result.reason === "week_locked") {
-        const remaining = daysUntilNextWeek(
-          userState.subscription.startDate,
-          currentWeek
-        );
+        const remaining = daysUntilNextWeek(userState.subscription.startDate, currentWeek);
         alert(`${remaining}일 후에 열립니다.`);
         return;
       }
@@ -279,7 +300,12 @@ export default function SolutionPage() {
 
   // 응원 메시지 (최근 7일 시청 일수 + 달성 주수 기반)
   const encouragement = useMemo(
-    () => getEncouragementMessage(userState.daysInRecentWindow, userState.qualifiedWeeksRolling, userName),
+    () =>
+      getEncouragementMessage(
+        userState.daysInRecentWindow,
+        userState.qualifiedWeeksRolling,
+        userName
+      ),
     [userState.daysInRecentWindow, userState.qualifiedWeeksRolling, userName]
   );
 
@@ -350,10 +376,7 @@ export default function SolutionPage() {
             <button className={styles.stickyBannerBtn} onClick={startTrialFlow}>
               7일 무료 체험
             </button>
-            <button
-              className={styles.stickyBannerClose}
-              onClick={() => setShowStickyBanner(false)}
-            >
+            <button className={styles.stickyBannerClose} onClick={() => setShowStickyBanner(false)}>
               ✕
             </button>
           </div>
@@ -364,7 +387,7 @@ export default function SolutionPage() {
         <h1 className={styles.title}>{getProgramName(program)}</h1>
 
         {/* ── 자가 체크: 미완료 → 시작 카드 / 완료 → 결과 카드 ── */}
-        {!showSelfCheck && (
+        {!showSelfCheck &&
           (() => {
             const savedResult = getSavedSelfCheckResult();
             if (!savedResult) {
@@ -399,19 +422,29 @@ export default function SolutionPage() {
                 onClick={() => router.push("/wellness/solution/self-check/result")}
                 role="button"
                 tabIndex={0}
-                onKeyDown={(e) => { if (e.key === "Enter") router.push("/wellness/solution/self-check/result"); }}
+                onKeyDown={(e) => {
+                  if (e.key === "Enter") router.push("/wellness/solution/self-check/result");
+                }}
               >
                 <div className={styles.resultCardScoreSection}>
-                  <div className={styles.resultCardScoreCircle} style={{ borderColor: gradeInfo.color }}>
+                  <div
+                    className={styles.resultCardScoreCircle}
+                    style={{ borderColor: gradeInfo.color }}
+                  >
                     <span className={styles.resultCardScoreNum} style={{ color: gradeInfo.color }}>
                       {intensity}
                     </span>
-                    <span className={styles.resultCardScoreUnit} style={{ color: gradeInfo.color }}>%</span>
+                    <span className={styles.resultCardScoreUnit} style={{ color: gradeInfo.color }}>
+                      %
+                    </span>
                   </div>
                   <div className={styles.resultCardScoreInfo}>
                     <span className={styles.resultCardScoreLabel}>불균형 신호 강도</span>
                     <div className={styles.resultCardGradeRow}>
-                      <span className={styles.resultCardGradeBadge} style={{ background: gradeInfo.color }}>
+                      <span
+                        className={styles.resultCardGradeBadge}
+                        style={{ background: gradeInfo.color }}
+                      >
                         {gradeInfo.grade}
                       </span>
                       <span className={styles.resultCardGap} style={{ color: gradeInfo.color }}>
@@ -423,8 +456,7 @@ export default function SolutionPage() {
                 <span className={styles.resultCardArrow}>›</span>
               </section>
             );
-          })()
-        )}
+          })()}
 
         {/* ── 현재 주차 영상 (썸네일 1개 + 제목) ── */}
         <section className={styles.currentVideoSection}>
@@ -433,7 +465,9 @@ export default function SolutionPage() {
             onClick={handleVideoClick}
             role="button"
             tabIndex={0}
-            onKeyDown={(e) => { if (e.key === "Enter") handleVideoClick(); }}
+            onKeyDown={(e) => {
+              if (e.key === "Enter") handleVideoClick();
+            }}
           >
             <div className={styles.thumbnailWrapper}>
               <img
@@ -491,17 +525,13 @@ export default function SolutionPage() {
         {subType === "paid" && (
           <section className={styles.weekProgressSection}>
             <div className={styles.weekProgressBar}>
-              <div className={styles.weekProgressLabel}>
-                이번 주 실천
-              </div>
+              <div className={styles.weekProgressLabel}>이번 주 실천</div>
               <div className={styles.weekProgressDots}>
                 {[1, 2, 3, 4, 5, 6, 7].map((day) => (
                   <div
                     key={day}
                     className={`${styles.progressDot} ${
-                      day <= userState.daysWatchedThisWeek
-                        ? styles.progressDotFilled
-                        : ""
+                      day <= userState.daysWatchedThisWeek ? styles.progressDotFilled : ""
                     } ${day === 3 ? styles.progressDotTarget : ""}`}
                   />
                 ))}
@@ -521,8 +551,8 @@ export default function SolutionPage() {
           <section className={styles.giftDateSection}>
             <p className={styles.giftDateTitle}>🎁 4주 뒤, 선물 하나.</p>
             <p className={styles.giftDateText}>
-              {userName || "회원"}님,{" "}
-              <strong>{formatKoreanDate(expectedGiftDate)}</strong>까지 주 3일만 함께해요!
+              {userName || "회원"}님, <strong>{formatKoreanDate(expectedGiftDate)}</strong>까지 주
+              3일만 함께해요!
             </p>
           </section>
         )}
@@ -581,9 +611,7 @@ export default function SolutionPage() {
 
               return (
                 <div key={day} className={styles.dayCell}>
-                  {isGiftDay && (
-                    <span className={styles.giftDrop}>🎁</span>
-                  )}
+                  {isGiftDay && <span className={styles.giftDrop}>🎁</span>}
                   <div
                     className={[
                       styles.dayNumber,
@@ -616,10 +644,9 @@ export default function SolutionPage() {
               {(() => {
                 const cycleBase = Math.floor((currentWeek - 1) / 4) * 4;
                 const weekInCycle = ((currentWeek - 1) % 4) + 1;
-                return cycleBase > 0
-                  ? `${cycleBase}+${weekInCycle}주차`
-                  : `${weekInCycle}주차`;
-              })()} {userState.daysWatchedThisWeek}일 실천
+                return cycleBase > 0 ? `${cycleBase}+${weekInCycle}주차` : `${weekInCycle}주차`;
+              })()}{" "}
+              {userState.daysWatchedThisWeek}일 실천
             </span>
           </div>
         </section>
@@ -638,9 +665,7 @@ export default function SolutionPage() {
         <div className={styles.selfCheckOverlay}>
           <div className={styles.lockedTrialModal}>
             <p className={styles.lockedTrialEmoji}>🔓</p>
-            <p className={styles.lockedTrialTitle}>
-              이 콘텐츠는 무료 체험으로 열 수 있어요
-            </p>
+            <p className={styles.lockedTrialTitle}>이 콘텐츠는 무료 체험으로 열 수 있어요</p>
             <p className={styles.lockedTrialDesc}>
               7일간 무료로 모든 주차의 영상을 자유롭게 시청할 수 있어요.
               <br />

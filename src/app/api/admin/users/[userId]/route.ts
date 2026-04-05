@@ -21,14 +21,10 @@ function resolveAdminApiBase(): string | null {
 }
 
 function getToken() {
-  return cookies().get(process.env.ADMIN_AUTH_COOKIE || "heal_admin_auth")
-    ?.value;
+  return cookies().get(process.env.ADMIN_AUTH_COOKIE || "heal_admin_auth")?.value;
 }
 
-export async function GET(
-  _req: Request,
-  { params }: { params: { userId: string } }
-) {
+export async function GET(_req: Request, { params }: { params: { userId: string } }) {
   try {
     const base = resolveAdminApiBase();
     if (!base) {
@@ -64,17 +60,11 @@ export async function GET(
     }
   } catch (err) {
     console.error("[Admin GetUser] Unexpected error:", err);
-    return NextResponse.json(
-      { error: "Failed to fetch user" },
-      { status: 500 }
-    );
+    return NextResponse.json({ error: "Failed to fetch user" }, { status: 500 });
   }
 }
 
-export async function PATCH(
-  req: Request,
-  { params }: { params: { userId: string } }
-) {
+export async function PATCH(req: Request, { params }: { params: { userId: string } }) {
   try {
     const base = resolveAdminApiBase();
     if (!base) {
@@ -113,17 +103,11 @@ export async function PATCH(
     }
   } catch (err) {
     console.error("[Admin UpdateUser] Unexpected error:", err);
-    return NextResponse.json(
-      { error: "Failed to update user" },
-      { status: 500 }
-    );
+    return NextResponse.json({ error: "Failed to update user" }, { status: 500 });
   }
 }
 
-export async function DELETE(
-  _req: Request,
-  { params }: { params: { userId: string } }
-) {
+export async function DELETE(_req: Request, { params }: { params: { userId: string } }) {
   try {
     const base = resolveAdminApiBase();
     if (!base) {
@@ -159,9 +143,6 @@ export async function DELETE(
     }
   } catch (err) {
     console.error("[Admin DeleteUser] Unexpected error:", err);
-    return NextResponse.json(
-      { error: "Failed to delete user" },
-      { status: 500 }
-    );
+    return NextResponse.json({ error: "Failed to delete user" }, { status: 500 });
   }
 }

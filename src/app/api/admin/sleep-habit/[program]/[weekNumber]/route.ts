@@ -38,9 +38,7 @@ async function forwardJson(
     headers: {
       Accept: "application/json",
       Authorization: `Bearer ${token}`,
-      ...(method === "GET" || method === "DELETE"
-        ? {}
-        : { "Content-Type": "application/json" }),
+      ...(method === "GET" || method === "DELETE" ? {} : { "Content-Type": "application/json" }),
     },
     body: method === "GET" || method === "DELETE" ? undefined : bodyText,
     cache: "no-store",
@@ -89,10 +87,7 @@ export async function GET(_req: Request, { params }: Ctx) {
     return NextResponse.json(json ?? {}, { status: res.status });
   } catch (err) {
     console.error("[Sleep Habit Admin GET] error:", err);
-    return NextResponse.json(
-      { error: "Failed to fetch sleep habit content" },
-      { status: 500 }
-    );
+    return NextResponse.json({ error: "Failed to fetch sleep habit content" }, { status: 500 });
   }
 }
 
@@ -122,10 +117,7 @@ export async function PUT(req: Request, { params }: Ctx) {
     return NextResponse.json(json ?? {}, { status: res.status });
   } catch (err) {
     console.error("[Sleep Habit Admin PUT] error:", err);
-    return NextResponse.json(
-      { error: "Failed to update sleep habit content" },
-      { status: 500 }
-    );
+    return NextResponse.json({ error: "Failed to update sleep habit content" }, { status: 500 });
   }
 }
 
@@ -154,9 +146,6 @@ export async function DELETE(_req: Request, { params }: Ctx) {
     return NextResponse.json(json ?? {}, { status: res.status });
   } catch (err) {
     console.error("[Sleep Habit Admin DELETE] error:", err);
-    return NextResponse.json(
-      { error: "Failed to delete sleep habit content" },
-      { status: 500 }
-    );
+    return NextResponse.json({ error: "Failed to delete sleep habit content" }, { status: 500 });
   }
 }

@@ -49,8 +49,7 @@ export async function GET() {
       );
       return NextResponse.json(
         {
-          error:
-            "Public videos upstream URL is not configured. (환경변수 설정 필요)",
+          error: "Public videos upstream URL is not configured. (환경변수 설정 필요)",
         },
         { status: 500 }
       );
@@ -72,10 +71,7 @@ export async function GET() {
     try {
       data = text ? JSON.parse(text) : null;
     } catch (e) {
-      console.warn(
-        "[Public Videos API] Upstream response is not valid JSON. Raw text:",
-        text
-      );
+      console.warn("[Public Videos API] Upstream response is not valid JSON. Raw text:", text);
     }
 
     if (!res.ok) {
@@ -101,9 +97,6 @@ export async function GET() {
     return NextResponse.json(data ?? {}, { status: 200 });
   } catch (err: any) {
     console.error("[Public Videos API] Unexpected error:", err);
-    return NextResponse.json(
-      { error: "Failed to fetch public videos" },
-      { status: 500 }
-    );
+    return NextResponse.json({ error: "Failed to fetch public videos" }, { status: 500 });
   }
 }

@@ -31,17 +31,11 @@ function getUserToken(req: Request): string | null {
   return cookies().get(cookieName)?.value ?? null;
 }
 
-export async function GET(
-  req: Request,
-  { params }: { params: { weekNumber: string } }
-) {
+export async function GET(req: Request, { params }: { params: { weekNumber: string } }) {
   try {
     const base = resolveUpstreamBase();
     if (!base) {
-      return NextResponse.json(
-        { error: "Upstream base URL is not configured." },
-        { status: 500 }
-      );
+      return NextResponse.json({ error: "Upstream base URL is not configured." }, { status: 500 });
     }
 
     const token = getUserToken(req);
@@ -77,9 +71,6 @@ export async function GET(
     }
   } catch (err) {
     console.error("[User Habit Tracking GET] error:", err);
-    return NextResponse.json(
-      { error: "Failed to fetch habit tracking records" },
-      { status: 500 }
-    );
+    return NextResponse.json({ error: "Failed to fetch habit tracking records" }, { status: 500 });
   }
 }

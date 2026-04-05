@@ -218,9 +218,7 @@ function BarChart({
           <div style={s.barCount}>{count}</div>
         </div>
       ))}
-      {entries.length === 0 && (
-        <p style={{ color: "#d1d5db", fontSize: 13 }}>데이터 없음</p>
-      )}
+      {entries.length === 0 && <p style={{ color: "#d1d5db", fontSize: 13 }}>데이터 없음</p>}
     </div>
   );
 }
@@ -348,11 +346,7 @@ export default function AdminDashboardPage() {
         {/* 경험 수준 분포 */}
         <div style={s.chartCard}>
           <div style={s.chartTitle}>경험 수준 분포</div>
-          <BarChart
-            data={stats.experienceDistribution}
-            labels={EXP_LABEL}
-            color="#8b5cf6"
-          />
+          <BarChart data={stats.experienceDistribution} labels={EXP_LABEL} color="#8b5cf6" />
         </div>
       </div>
 
@@ -360,21 +354,13 @@ export default function AdminDashboardPage() {
         {/* 식습관 분포 */}
         <div style={s.chartCard}>
           <div style={s.chartTitle}>식습관 분포</div>
-          <BarChart
-            data={stats.dietDistribution}
-            labels={DIET_LABEL}
-            color="#f59e0b"
-          />
+          <BarChart data={stats.dietDistribution} labels={DIET_LABEL} color="#f59e0b" />
         </div>
 
         {/* 수면습관 분포 */}
         <div style={s.chartCard}>
           <div style={s.chartTitle}>수면습관 분포</div>
-          <BarChart
-            data={stats.sleepDistribution}
-            labels={SLEEP_LABEL}
-            color="#3b82f6"
-          />
+          <BarChart data={stats.sleepDistribution} labels={SLEEP_LABEL} color="#3b82f6" />
         </div>
       </div>
 
@@ -382,11 +368,7 @@ export default function AdminDashboardPage() {
         {/* 성별 분포 */}
         <div style={s.chartCard}>
           <div style={s.chartTitle}>성별 분포</div>
-          <BarChart
-            data={stats.genderDistribution}
-            labels={GENDER_LABEL}
-            color="#14b8a6"
-          />
+          <BarChart data={stats.genderDistribution} labels={GENDER_LABEL} color="#14b8a6" />
         </div>
 
         {/* 최근 7일 가입 추이 */}
@@ -405,9 +387,7 @@ export default function AdminDashboardPage() {
                     transition: "height 0.4s ease",
                   }}
                 />
-                <div style={s.trendLabel}>
-                  {date.slice(5).replace("-", "/")}
-                </div>
+                <div style={s.trendLabel}>{date.slice(5).replace("-", "/")}</div>
               </div>
             ))}
           </div>

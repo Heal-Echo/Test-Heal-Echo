@@ -1,45 +1,5 @@
-/* ===========================
-   Shared: 공통 유틸리티 (landing.module.css와 동일)
-   — CSS Modules 파일별 해싱으로 인해 복제 필요
-=========================== */
-
-/* 공통 컨테이너 */
-.container {
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 0 max(var(--container-padding, 16px), env(safe-area-inset-right, 0px)) 0 max(var(--container-padding, 16px), env(safe-area-inset-left, 0px));
-}
-
-/* btnPrimary — 재시도 버튼용 */
-.btnPrimary {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  padding: 12px 24px;
-  border-radius: 999px;
-  font-weight: 700;
-  font-size: 15px;
-  text-decoration: none;
-  background: linear-gradient(135deg, #00d6f5, #00c4e0);
-  color: #000;
-  box-shadow: 0 4px 16px rgba(0, 214, 245, 0.3);
-  transition: box-shadow 0.25s ease, transform 0.2s ease;
-}
-
-.btnPrimary:hover {
-  box-shadow: 0 6px 24px rgba(0, 214, 245, 0.4);
-  transform: translateY(-2px);
-}
-
-.btnPrimary:active {
-  transform: translateY(-1px);
-  opacity: 0.85;
-}
-
-.btnPrimary:focus-visible {
-  outline: 3px solid #00d6f5;
-  outline-offset: 3px;
-}
+/* 공통 스타일(.container, .blockOnMobile, .sectionTitle, .btnPrimary)은
+   shared.module.css로 분리됨 */
 
 /* ===========================
    Intro Video Section
@@ -129,7 +89,9 @@
   box-shadow:
     0 2px 8px rgba(0, 0, 0, 0.04),
     0 16px 56px rgba(0, 0, 0, 0.08);
-  transition: box-shadow 0.3s ease, border-color 0.3s ease;
+  transition:
+    box-shadow 0.3s ease,
+    border-color 0.3s ease;
 }
 
 .introVideoCard:hover {
@@ -195,7 +157,9 @@
 }
 
 @keyframes introSpin {
-  to { transform: rotate(360deg); }
+  to {
+    transform: rotate(360deg);
+  }
 }
 
 .introMsg {
@@ -226,7 +190,9 @@
   justify-content: center;
   align-items: center;
   box-shadow: 0 6px 24px rgba(0, 214, 245, 0.35);
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
   z-index: 2;
 }
 
@@ -275,7 +241,9 @@
   justify-content: center;
   align-items: center;
   box-shadow: 0 6px 24px rgba(0, 214, 245, 0.35);
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
   z-index: 2;
 }
 
@@ -301,16 +269,14 @@
 =========================== */
 @media (hover: none) {
   .introVideoCard:hover {
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04), 0 16px 56px rgba(0, 0, 0, 0.08);
+    box-shadow:
+      0 2px 8px rgba(0, 0, 0, 0.04),
+      0 16px 56px rgba(0, 0, 0, 0.08);
     border-color: rgba(0, 0, 0, 0.06);
   }
   .videoOverlayCenter:hover {
     transform: translate(-50%, -50%);
     box-shadow: 0 6px 24px rgba(0, 214, 245, 0.35);
-  }
-  .btnPrimary:hover {
-    transform: none;
-    box-shadow: 0 4px 16px rgba(0, 214, 245, 0.3);
   }
 }
 
@@ -365,31 +331,12 @@
   .introPlaceholder {
     padding: 60px 16px;
   }
-
-  /* 터치 타겟 보장 */
-  .btnPrimary {
-    position: relative;
-  }
-  .btnPrimary::after {
-    content: "";
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    min-width: 100%;
-    min-height: 44px;
-  }
 }
 
 /* ===========================
    반응형: 태블릿 (641px ~ 1024px)
 =========================== */
 @media (min-width: 641px) and (max-width: 1024px) {
-  .container {
-    max-width: var(--container-max-width-tablet, 960px);
-    padding: 0 max(var(--container-padding, 24px), env(safe-area-inset-right, 0px)) 0 max(var(--container-padding, 24px), env(safe-area-inset-left, 0px));
-  }
-
   .introVideoCard {
     max-width: 720px;
   }
@@ -399,10 +346,6 @@
    반응형: 대형 모바일 (481px ~ 640px)
 =========================== */
 @media (min-width: 481px) and (max-width: 640px) {
-  .container {
-    padding: 0 max(var(--container-padding, 20px), env(safe-area-inset-right, 0px)) 0 max(var(--container-padding, 20px), env(safe-area-inset-left, 0px));
-  }
-
   .introVideoCard {
     padding: 12px;
   }
@@ -412,10 +355,6 @@
    반응형: 초소형 모바일 (≤ 360px)
 =========================== */
 @media (max-width: 360px) {
-  .container {
-    padding: 0 max(var(--container-padding, 12px), env(safe-area-inset-right, 0px)) 0 max(var(--container-padding, 12px), env(safe-area-inset-left, 0px));
-  }
-
   .introVideoCard {
     padding: 10px;
     border-radius: 18px;
@@ -453,12 +392,13 @@
    접근성: 움직임 줄이기
 =========================== */
 @media (prefers-reduced-motion: reduce) {
-  .introVideoCard,
-  .btnPrimary {
+  .introVideoCard {
     transition: none;
   }
 
   @keyframes introSpin {
-    to { transform: rotate(360deg); }
+    to {
+      transform: rotate(360deg);
+    }
   }
 }

@@ -17,7 +17,8 @@
    본문
 =========================== */
 .main {
-  padding: 20px max(var(--container-padding, 16px), env(safe-area-inset-right, 0px)) 20px max(var(--container-padding, 16px), env(safe-area-inset-left, 0px));
+  padding: 20px max(var(--container-padding, 16px), env(safe-area-inset-right, 0px)) 20px
+    max(var(--container-padding, 16px), env(safe-area-inset-left, 0px));
   display: flex;
   flex-direction: column;
   gap: 24px;
@@ -118,7 +119,9 @@
   overflow: hidden;
   box-shadow: 0 2px 12px rgba(0, 0, 0, 0.06);
   border: 1px solid rgba(0, 0, 0, 0.04);
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
 }
 
 /* 데스크탑(마우스 있는 기기)에서만 hover 효과 */
@@ -149,11 +152,7 @@
   left: 0;
   right: 0;
   padding: 16px 18px;
-  background: linear-gradient(
-    to top,
-    rgba(0, 0, 0, 0.55) 0%,
-    rgba(0, 0, 0, 0) 100%
-  );
+  background: linear-gradient(to top, rgba(0, 0, 0, 0.55) 0%, rgba(0, 0, 0, 0) 100%);
 }
 
 .wideCardText {
@@ -185,7 +184,8 @@
   }
 
   .main {
-    padding: 28px max(var(--container-padding, 24px), env(safe-area-inset-right, 0px)) 28px max(var(--container-padding, 24px), env(safe-area-inset-left, 0px));
+    padding: 28px max(var(--container-padding, 24px), env(safe-area-inset-right, 0px)) 28px
+      max(var(--container-padding, 24px), env(safe-area-inset-left, 0px));
     gap: 28px;
   }
 
@@ -237,7 +237,8 @@
 =========================== */
 @media (min-width: 481px) and (max-width: 640px) {
   .main {
-    padding: 20px max(var(--container-padding, 20px), env(safe-area-inset-right, 0px)) 20px max(var(--container-padding, 20px), env(safe-area-inset-left, 0px));
+    padding: 20px max(var(--container-padding, 20px), env(safe-area-inset-right, 0px)) 20px
+      max(var(--container-padding, 20px), env(safe-area-inset-left, 0px));
     gap: 22px;
   }
 
@@ -252,7 +253,8 @@
 =========================== */
 @media (max-width: 480px) {
   .main {
-    padding: 16px max(var(--container-padding, 16px), env(safe-area-inset-right, 0px)) 16px max(var(--container-padding, 16px), env(safe-area-inset-left, 0px));
+    padding: 16px max(var(--container-padding, 16px), env(safe-area-inset-right, 0px)) 16px
+      max(var(--container-padding, 16px), env(safe-area-inset-left, 0px));
     gap: 20px;
   }
 
@@ -284,7 +286,8 @@
 =========================== */
 @media (max-width: 360px) {
   .main {
-    padding: 12px max(var(--container-padding, 12px), env(safe-area-inset-right, 0px)) 12px max(var(--container-padding, 12px), env(safe-area-inset-left, 0px));
+    padding: 12px max(var(--container-padding, 12px), env(safe-area-inset-right, 0px)) 12px
+      max(var(--container-padding, 12px), env(safe-area-inset-left, 0px));
     gap: 16px;
   }
 

@@ -1,68 +1,9 @@
-/* ===========================
-   Shared: 공통 유틸리티 (landing.module.css와 동일)
-   — CSS Modules 파일별 해싱으로 인해 복제 필요
-=========================== */
-
-/* 반응형 줄바꿈 — 모바일에서만 줄바꿈 */
-.blockOnMobile {
-  display: inline;
-}
-
-@media (max-width: 480px) {
-  .blockOnMobile {
-    display: block;
-  }
-}
-
-/* 공통 컨테이너 */
-.container {
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 0 max(var(--container-padding, 16px), env(safe-area-inset-right, 0px)) 0 max(var(--container-padding, 16px), env(safe-area-inset-left, 0px));
-}
-
-/* 섹션 타이틀 */
-.sectionTitle {
-  font-family: var(--font-serif);
-  font-weight: 900;
-  font-size: clamp(22px, 3vw, 32px);
-  text-align: center;
-  margin-bottom: 0;
-}
+/* 공통 스타일(.container, .blockOnMobile, .sectionTitle, .btnPrimary)은
+   shared.module.css로 분리됨 */
 
 /* ===========================
    Buttons
 =========================== */
-.btnPrimary {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  padding: 12px 24px;
-  border-radius: 999px;
-  font-weight: 700;
-  font-size: 15px;
-  text-decoration: none;
-  background: linear-gradient(135deg, #00d6f5, #00c4e0);
-  color: #000;
-  box-shadow: 0 4px 16px rgba(0, 214, 245, 0.3);
-  transition: box-shadow 0.25s ease, transform 0.2s ease;
-}
-
-.btnPrimary:hover {
-  box-shadow: 0 6px 24px rgba(0, 214, 245, 0.4);
-  transform: translateY(-2px);
-}
-
-.btnPrimary:active {
-  transform: translateY(-1px);
-  opacity: 0.85;
-}
-
-.btnPrimary:focus-visible {
-  outline: 3px solid #00d6f5;
-  outline-offset: 3px;
-}
-
 .btnPinkOutline {
   display: inline-flex;
   align-items: center;
@@ -71,10 +12,14 @@
   border-radius: 999px;
   font-weight: 700;
   font-size: 15px;
-  border: 2px solid #FF69B4;
+  border: 2px solid #ff69b4;
   text-decoration: none;
-  color: #FF69B4;
-  transition: background 0.25s ease, color 0.25s ease, box-shadow 0.25s ease, transform 0.2s ease;
+  color: #ff69b4;
+  transition:
+    background 0.25s ease,
+    color 0.25s ease,
+    box-shadow 0.25s ease,
+    transform 0.2s ease;
 }
 
 .btnPinkOutline:hover {
@@ -89,7 +34,7 @@
 }
 
 .btnPinkOutline:focus-visible {
-  outline: 3px solid #FF69B4;
+  outline: 3px solid #ff69b4;
   outline-offset: 3px;
 }
 
@@ -103,7 +48,9 @@
   font-weight: 700;
   font-size: 15px;
   box-shadow: 0 4px 16px rgba(255, 105, 180, 0.3);
-  transition: box-shadow 0.25s ease, transform 0.2s ease;
+  transition:
+    box-shadow 0.25s ease,
+    transform 0.2s ease;
 }
 
 .btnPink:hover {
@@ -328,7 +275,7 @@
 }
 
 .programHighlight {
-  border: 3px solid #FF69B4 !important;
+  border: 3px solid #ff69b4 !important;
   transition: border 0.3s ease-in-out;
 }
 
@@ -364,7 +311,10 @@
   font-size: 1rem;
   overflow: hidden;
   box-shadow: 0 8px 24px rgba(0, 0, 0, 0.06);
-  transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+  transition:
+    transform 0.3s ease,
+    box-shadow 0.3s ease,
+    border-color 0.3s ease;
 }
 
 .programCard:hover {
@@ -406,11 +356,7 @@
   flex-direction: column;
   justify-content: flex-end;
   padding: 24px;
-  background: linear-gradient(
-    to top,
-    rgba(0, 0, 0, 0.65) 0%,
-    rgba(0, 0, 0, 0) 60%
-  );
+  background: linear-gradient(to top, rgba(0, 0, 0, 0.65) 0%, rgba(0, 0, 0, 0) 60%);
   color: #fff;
 }
 
@@ -453,7 +399,7 @@
   bottom: 20px;
   right: 20px;
   padding: 6px 14px;
-  background: #00D6F5;
+  background: #00d6f5;
   border-radius: 8px;
   font-size: 14px;
   font-weight: 800;
@@ -583,10 +529,6 @@
   .programCard:hover .programImage img {
     transform: none;
   }
-  .btnPrimary:hover {
-    transform: none;
-    box-shadow: 0 4px 16px rgba(0, 214, 245, 0.3);
-  }
   .btnPinkOutline:hover {
     transform: none;
     box-shadow: none;
@@ -618,11 +560,9 @@
    모바일: 터치 타겟 보장 (Apple HIG 44px)
 =========================== */
 @media (max-width: 480px) {
-  .btnPrimary,
   .btnPinkOutline {
     position: relative;
   }
-  .btnPrimary::after,
   .btnPinkOutline::after {
     content: "";
     position: absolute;
@@ -638,7 +578,7 @@
     flex-wrap: nowrap;
     gap: 8px;
   }
-  .heroCta .btnPrimary,
+  .heroCta .heroCtaBtn,
   .heroCta .btnPinkOutline {
     padding: 10px 16px;
     font-size: 13px;
@@ -650,11 +590,6 @@
    반응형: 태블릿 (641px ~ 1024px)
 =========================== */
 @media (min-width: 641px) and (max-width: 1024px) {
-  .container {
-    max-width: var(--container-max-width-tablet, 960px);
-    padding: 0 max(var(--container-padding, 24px), env(safe-area-inset-right, 0px)) 0 max(var(--container-padding, 24px), env(safe-area-inset-left, 0px));
-  }
-
   .hero {
     padding: clamp(56px, 8vw, 96px) 0 clamp(36px, 5vw, 64px);
   }
@@ -672,10 +607,6 @@
    반응형: 대형 모바일 (481px ~ 640px)
 =========================== */
 @media (min-width: 481px) and (max-width: 640px) {
-  .container {
-    padding: 0 max(var(--container-padding, 20px), env(safe-area-inset-right, 0px)) 0 max(var(--container-padding, 20px), env(safe-area-inset-left, 0px));
-  }
-
   .heroGrid {
     grid-template-columns: 1fr;
     gap: 32px;
@@ -707,10 +638,6 @@
    반응형: 초소형 모바일 (≤ 360px)
 =========================== */
 @media (max-width: 360px) {
-  .container {
-    padding: 0 max(var(--container-padding, 12px), env(safe-area-inset-right, 0px)) 0 max(var(--container-padding, 12px), env(safe-area-inset-left, 0px));
-  }
-
   .hero {
     padding: clamp(32px, 6vw, 56px) 0 clamp(24px, 4vw, 40px);
   }
@@ -729,7 +656,7 @@
     gap: 6px;
   }
 
-  .heroCta .btnPrimary,
+  .heroCta .heroCtaBtn,
   .heroCta .btnPinkOutline {
     padding: 8px 12px;
     font-size: 12px;
@@ -740,10 +667,6 @@
     left: 8px;
     right: -8px;
     bottom: -8px;
-  }
-
-  .sectionTitle {
-    font-size: clamp(18px, 5vw, 22px);
   }
 
   .programList {
@@ -810,7 +733,6 @@
 =========================== */
 @media (prefers-reduced-motion: reduce) {
   .programCard,
-  .btnPrimary,
   .btnPinkOutline,
   .btnPink {
     transition: none;

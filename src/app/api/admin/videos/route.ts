@@ -16,10 +16,7 @@ const cookieName = process.env.ADMIN_AUTH_COOKIE || "heal_admin_auth";
 
 export async function GET() {
   if (!gatewayBase) {
-    return NextResponse.json(
-      { error: "Public API Gateway URL not configured" },
-      { status: 500 }
-    );
+    return NextResponse.json({ error: "Public API Gateway URL not configured" }, { status: 500 });
   }
 
   // 🔐 관리자 인증은 유지 (접근 제어용)

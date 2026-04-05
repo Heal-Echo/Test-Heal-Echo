@@ -1,6 +1,8 @@
 import { Suspense } from "react";
 import Image from "next/image";
-import PublicHeader from "@/components/publicSite/PublicHeader";
+import Link from "next/link";
+import PublicHeader from "@/components/publicSite/public-header";
+import shared from "./shared.module.css";
 import styles from "./landing.module.css";
 
 // Config imports — centralized constants
@@ -53,7 +55,11 @@ async function fetchIntroVideo(): Promise<{
 
     if (!res.ok) {
       console.error("[Landing] Upstream returned:", res.status);
-      return { videoKey: null, thumbnailKey: null, error: "소개 영상을 불러오는 중 문제가 발생했습니다." };
+      return {
+        videoKey: null,
+        thumbnailKey: null,
+        error: "소개 영상을 불러오는 중 문제가 발생했습니다.",
+      };
     }
 
     const data: { items?: VideoItem[] } = await res.json();
@@ -70,8 +76,15 @@ async function fetchIntroVideo(): Promise<{
       error: null,
     };
   } catch (err) {
-    console.error("[Landing] Failed to fetch intro video:", err);
-    return { videoKey: null, thumbnailKey: null, error: "소개 영상을 불러오는 중 문제가 발생했습니다." };
+    console.error(
+      "[Landing] Failed to fetch intro video:",
+      err instanceof Error ? err.message : "Unknown error"
+    );
+    return {
+      videoKey: null,
+      thumbnailKey: null,
+      error: "소개 영상을 불러오는 중 문제가 발생했습니다.",
+    };
   }
 }
 
@@ -102,12 +115,12 @@ export default async function LandingPage() {
           Member's Benefit (서버)
       ============================ */}
       <section id="member-benefit" className={styles.benefitSection}>
-        <div className={styles.container}>
+        <div className={shared.container}>
           <div className={styles.benefitHead}>
             <p className={styles.eyebrowPink}>Member&#39;s Benefit</p>
-            <h2 className={styles.sectionTitle}>
-              <span className={styles.benefitTitleAccent}>힐에코</span>의
-              &#39;<span className={styles.benefitTitleHighlight}>맞춤 웰니스 3세트</span>&#39;
+            <h2 className={shared.sectionTitle}>
+              <span className={styles.benefitTitleAccent}>힐에코</span>의 &#39;
+              <span className={styles.benefitTitleHighlight}>맞춤 웰니스 3세트</span>&#39;
             </h2>
             <p className={styles.benefitSub}>
               힐에코의 웰니스 솔루션은 &#39;맞춤 웰니스 3세트&#39;로 구성됩니다.
@@ -134,7 +147,7 @@ export default async function LandingPage() {
                 <h3 className={styles.benefitTitle}>위클리 솔루션</h3>
                 <p className={styles.benefitDesc}>
                   솔루션별 가장 효과적인
-                  <span className={styles.blockOnMobile}>맞춤 효과 클래스</span>
+                  <span className={shared.blockOnMobile}>맞춤 효과 클래스</span>
                 </p>
               </div>
             </li>
@@ -155,7 +168,7 @@ export default async function LandingPage() {
                 <h3 className={styles.benefitTitle}>위클리 해빗</h3>
                 <p className={styles.benefitDesc}>
                   쉽게 실천 가능한
-                  <span className={styles.blockOnMobile}>수면 습관과 식습관</span>
+                  <span className={shared.blockOnMobile}>수면 습관과 식습관</span>
                 </p>
               </div>
             </li>
@@ -176,7 +189,7 @@ export default async function LandingPage() {
                 <h3 className={styles.benefitTitle}>이해의 바다</h3>
                 <p className={styles.benefitDesc}>
                   조건없이
-                  <span className={styles.blockOnMobile}>나를 이해하는 시간</span>
+                  <span className={shared.blockOnMobile}>나를 이해하는 시간</span>
                 </p>
               </div>
             </li>
@@ -185,7 +198,7 @@ export default async function LandingPage() {
           <div className={styles.benefitNoteBox}>
             <p className={styles.benefitNote}>
               ※ 솔루션들은 <strong>단계별로 차근차근 오픈</strong>되어
-              <span className={styles.blockOnMobile}>매우 따라하기 쉽습니다.</span>
+              <span className={shared.blockOnMobile}>매우 따라하기 쉽습니다.</span>
             </p>
           </div>
         </div>
@@ -195,7 +208,7 @@ export default async function LandingPage() {
           Research Evidence (서버)
       ============================ */}
       <section className={styles.evidenceSection}>
-        <div className={styles.container}>
+        <div className={shared.container}>
           <h2 className={styles.evidenceTitle}>
             힐에코의 맞춤 웰니스 3세트,
             <br />
@@ -209,14 +222,16 @@ export default async function LandingPage() {
               <div className={styles.evidenceBody}>
                 <p className={styles.evidenceDesc}>
                   주 2~3회 요가 수련자는
-                  <span className={styles.blockOnMobile}>대조군 대비 69%의 스트레스 지수 감소</span>
+                  <span className={shared.blockOnMobile}>대조군 대비 69%의 스트레스 지수 감소</span>
                 </p>
                 <p className={styles.evidenceSource}>
                   Frontiers in Psychiatry, 2024 — 13건 RCT, 1,026명 메타분석
                 </p>
                 <p className={styles.evidenceLink}>
                   → 힐에코의 위클리 솔루션은 주 3회,
-                  <span className={styles.blockOnMobile}>하루 15분 맞춤 요가 클래스를 제공합니다</span>
+                  <span className={shared.blockOnMobile}>
+                    하루 15분 맞춤 요가 클래스를 제공합니다
+                  </span>
                 </p>
               </div>
             </div>
@@ -228,9 +243,7 @@ export default async function LandingPage() {
                 <p className={styles.evidenceDesc}>
                   수면 습관 교육만으로 8주 만에 수면의 질 점수 43% 개선
                 </p>
-                <p className={styles.evidenceSource}>
-                  TPM, 2025 — RCT, 140명, 8주간
-                </p>
+                <p className={styles.evidenceSource}>TPM, 2025 — RCT, 140명, 8주간</p>
                 <p className={styles.evidenceLink}>
                   → 힐에코의 위클리 해빗은 매주 실천 가능한 수면·식습관을 설계합니다
                 </p>
@@ -246,9 +259,7 @@ export default async function LandingPage() {
                 <p className={styles.evidenceDesc}>
                   자기 이해 훈련 — 스트레스·불안 감소 효과 &#39;중간 이상&#39; 확인
                 </p>
-                <p className={styles.evidenceSource}>
-                  Mindfulness, 2023 — 56건 RCT 메타분석
-                </p>
+                <p className={styles.evidenceSource}>Mindfulness, 2023 — 56건 RCT 메타분석</p>
                 <p className={styles.evidenceLink}>
                   → 힐에코의 이해의 바다는 조건 없이 나를 이해하는 시간을 만듭니다
                 </p>
@@ -262,12 +273,12 @@ export default async function LandingPage() {
           Why Heal Echo (서버)
       ============================ */}
       <section id="why-healecho" className={styles.whySection}>
-        <div className={styles.container}>
+        <div className={shared.container}>
           <div className={styles.whyHead}>
             <p className={styles.eyebrowPink}>Why Heal Echo</p>
-            <h2 className={styles.sectionTitle}>
+            <h2 className={shared.sectionTitle}>
               당신에게 필요한 것은
-              <span className={styles.blockOnMobile}>&#39;맞춤 웰니스 솔루션&#39;입니다.</span>
+              <span className={shared.blockOnMobile}>&#39;맞춤 웰니스 솔루션&#39;입니다.</span>
             </h2>
           </div>
 
@@ -297,12 +308,12 @@ export default async function LandingPage() {
             </div>
 
             {/* CTA */}
-            <a href={ROUTES.LOGIN} className={styles.whyCardCta}>
+            <Link href={ROUTES.LOGIN} className={styles.whyCardCta}>
               지금 시작하기 →
-            </a>
-            <a href={ROUTES.PRICING} className={styles.whyCardPricing}>
+            </Link>
+            <Link href={ROUTES.PRICING} className={styles.whyCardPricing}>
               가격 안내 보기
-            </a>
+            </Link>
           </div>
         </div>
       </section>
@@ -311,7 +322,7 @@ export default async function LandingPage() {
           Empathy Section (서버)
       ============================ */}
       <section className={styles.empathySection}>
-        <div className={styles.container}>
+        <div className={shared.container}>
           <div className={styles.empathyFrame}>
             <div className={styles.empathyItem}>
               <div className={styles.empathyAvatar}>
@@ -353,16 +364,16 @@ export default async function LandingPage() {
               </p>
             </div>
 
-            <a className={styles.empathyCta} href={ROUTES.LOGIN}>
+            <Link className={styles.empathyCta} href={ROUTES.LOGIN}>
               지금, 나를 위한 변화 시작하기
-            </a>
+            </Link>
           </div>
         </div>
       </section>
 
       {/* Footer (서버) */}
       <footer className={styles.footer}>
-        <div className={`${styles.container} ${styles.footerInner}`}>
+        <div className={`${shared.container} ${styles.footerInner}`}>
           <div className={styles.footerBrand}>
             <Image
               src="/assets/images/webp/Logo_HealEcho.webp"
@@ -381,7 +392,7 @@ export default async function LandingPage() {
             <p>통신판매업 신고 번호 : {COMPANY_INFO.salesRegistrationNumber}</p>
             <p>
               주소 : {COMPANY_INFO.addressLine1}
-              <span className={styles.blockOnMobile}>{COMPANY_INFO.addressLine2}</span>
+              <span className={shared.blockOnMobile}>{COMPANY_INFO.addressLine2}</span>
             </p>
           </div>
 

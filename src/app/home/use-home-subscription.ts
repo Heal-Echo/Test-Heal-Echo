@@ -3,7 +3,7 @@
 import { useState, useEffect } from "react";
 import { getSubscription, getSubscriptionSync } from "@/auth/subscription";
 import { PROGRAMS_LIST, PROGRAMS, ProgramInfo } from "@/config/programs";
-import { getSelectedProgram, isSelectionConfirmed } from "@/lib/programSelection";
+import { getSelectedProgram, isSelectionConfirmed } from "@/lib/program-selection";
 
 export function useHomeSubscription() {
   const [subscribedProgram, setSubscribedProgram] = useState<{
@@ -30,9 +30,7 @@ export function useHomeSubscription() {
 
   // ▶ 구독 상태 확인: 캐시 즉시 표시 → 백그라운드 갱신
   useEffect(() => {
-    function findSubscribed(
-      getSub: (id: string) => { subscriptionType: string }
-    ) {
+    function findSubscribed(getSub: (id: string) => { subscriptionType: string }) {
       for (const prog of PROGRAMS_LIST) {
         const sub = getSub(prog.id);
         if (sub.subscriptionType === "free_trial" || sub.subscriptionType === "paid") {
@@ -56,9 +54,7 @@ export function useHomeSubscription() {
 
     // 2단계: 백그라운드에서 최신 데이터 갱신
     async function refreshSubscriptions() {
-      const results = await Promise.all(
-        PROGRAMS_LIST.map((prog) => getSubscription(prog.id))
-      );
+      const results = await Promise.all(PROGRAMS_LIST.map((prog) => getSubscription(prog.id)));
 
       const fresh = findSubscribed((id) => {
         const idx = PROGRAMS_LIST.findIndex((p) => p.id === id);

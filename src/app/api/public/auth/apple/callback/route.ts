@@ -41,13 +41,9 @@ const APPLE_REDIRECT_URI = process.env.NEXT_PUBLIC_APPLE_REDIRECT_URI || "";
 // ─── Cognito 설정 (카카오/네이버/구글과 동일한 User Pool 사용) ───
 const REGION = process.env.NEXT_PUBLIC_COGNITO_REGION || "ap-northeast-2";
 const USER_POOL_ID =
-  process.env.COGNITO_ADMIN_USER_POOL_ID ||
-  process.env.NEXT_PUBLIC_COGNITO_USER_POOL_ID ||
-  "";
+  process.env.COGNITO_ADMIN_USER_POOL_ID || process.env.NEXT_PUBLIC_COGNITO_USER_POOL_ID || "";
 const CLIENT_ID =
-  process.env.COGNITO_ADMIN_CLIENT_ID ||
-  process.env.NEXT_PUBLIC_COGNITO_CLIENT_ID ||
-  "";
+  process.env.COGNITO_ADMIN_CLIENT_ID || process.env.NEXT_PUBLIC_COGNITO_CLIENT_ID || "";
 
 const cognitoClient = new CognitoIdentityProviderClient({ region: REGION });
 
@@ -109,8 +105,11 @@ const SOCIAL_SALT = process.env.SOCIAL_PASSWORD_SALT || "";
 
 function applePassword(appleSub: string): string {
   if (!SOCIAL_SALT) return applePasswordLegacy(appleSub);
-  const hash = crypto.createHmac("sha256", SOCIAL_SALT)
-    .update(`apple:${appleSub}`).digest("hex").substring(0, 20);
+  const hash = crypto
+    .createHmac("sha256", SOCIAL_SALT)
+    .update(`apple:${appleSub}`)
+    .digest("hex")
+    .substring(0, 20);
   return `Ap!${hash}_HE`;
 }
 
@@ -170,10 +169,7 @@ async function createCognitoUser(params: {
 }
 
 // ─── Cognito 사용자 속성 업데이트 ───
-async function updateCognitoUser(params: {
-  email: string;
-  nickname: string;
-}): Promise<void> {
+async function updateCognitoUser(params: { email: string; nickname: string }): Promise<void> {
   const attributes: { Name: string; Value: string }[] = [];
   if (params.nickname) {
     attributes.push({ Name: "nickname", Value: params.nickname });
@@ -266,24 +262,18 @@ export async function POST(request: NextRequest) {
 
     // 사용자가 애플 로그인을 취소한 경우
     if (error) {
-      return NextResponse.redirect(
-        new URL("/public/login?apple_error=cancelled", baseUrl)
-      );
+      return NextResponse.redirect(new URL("/public/login?apple_error=cancelled", baseUrl));
     }
 
     // 인증 코드가 없는 경우
     if (!code || !state) {
-      return NextResponse.redirect(
-        new URL("/public/login?apple_error=no_code", baseUrl)
-      );
+      return NextResponse.redirect(new URL("/public/login?apple_error=no_code", baseUrl));
     }
 
     // CSRF 방지: 서버에 저장된 state와 대조 검증
     const stateProvider = verifyOAuthState(state);
     if (stateProvider !== "apple") {
-      return NextResponse.redirect(
-        new URL("/public/login?apple_error=invalid_state", baseUrl)
-      );
+      return NextResponse.redirect(new URL("/public/login?apple_error=invalid_state", baseUrl));
     }
 
     // Step 1: Apple client_secret 생성
@@ -373,11 +363,7 @@ export async function POST(request: NextRequest) {
     }
 
     // Step 5: 일회용 교환 코드로 프론트엔드에 전달
-    const authCode = createAuthCode(
-      cognitoTokens.IdToken,
-      cognitoTokens.AccessToken,
-      "apple"
-    );
+    const authCode = createAuthCode(cognitoTokens.IdToken, cognitoTokens.AccessToken, "apple");
 
     const loginPageUrl = new URL("/public/login", baseUrl);
     loginPageUrl.searchParams.set("auth_code", authCode);

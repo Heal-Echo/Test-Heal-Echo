@@ -3,8 +3,8 @@
 import React, { useState, useEffect, Suspense } from "react";
 import dynamic from "next/dynamic";
 import styles from "./home.module.css";
-import BottomTab from "@/components/BottomTab";
-import Header from "@/components/Header";
+import BottomTab from "@/components/bottom-tab";
+import Header from "@/components/header";
 import WellnessCarousel from "./wellness-carousel";
 import WellnessSection from "./wellness-section";
 import MySolutionSection from "./my-solution-section";
@@ -16,10 +16,9 @@ import { useHomeNavigation } from "./use-home-navigation";
 const ProgramSelectModal = dynamic(() => import("./program-select-modal"), {
   ssr: false,
 });
-const ComingSoonModal = dynamic(
-  () => import("@/components/publicSite/ComingSoonModal"),
-  { ssr: false }
-);
+const ComingSoonModal = dynamic(() => import("@/components/publicSite/coming-soon-modal"), {
+  ssr: false,
+});
 
 function HomeContent() {
   const [userName, setUserName] = useState<string | null>(null);
@@ -92,10 +91,7 @@ function HomeContent() {
           }}
         />
       )}
-      <ComingSoonModal
-        open={showComingSoon}
-        onClose={() => setShowComingSoon(false)}
-      />
+      <ComingSoonModal open={showComingSoon} onClose={() => setShowComingSoon(false)} />
     </div>
   );
 }

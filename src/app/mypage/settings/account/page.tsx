@@ -4,8 +4,8 @@
 import React, { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import styles from "./account.module.css";
-import Header from "@/components/Header";
-import BottomTab from "@/components/BottomTab";
+import Header from "@/components/header";
+import BottomTab from "@/components/bottom-tab";
 import {
   isUserLoggedIn,
   getUserInfo,
@@ -84,8 +84,7 @@ export default function AccountPage() {
       setName(trimmed);
       setEditingName(false);
     } catch (err: any) {
-      const msg =
-        err?.message || "이름 변경에 실패했습니다. 다시 시도해 주세요.";
+      const msg = err?.message || "이름 변경에 실패했습니다. 다시 시도해 주세요.";
       setNameError(msg);
     } finally {
       setNameSaving(false);
@@ -202,9 +201,7 @@ export default function AccountPage() {
       } else if (code === "LimitExceededException") {
         setPasswordError("요청이 너무 많습니다. 잠시 후 다시 시도해 주세요.");
       } else {
-        setPasswordError(
-          err?.message || "비밀번호 변경에 실패했습니다. 다시 시도해 주세요."
-        );
+        setPasswordError(err?.message || "비밀번호 변경에 실패했습니다. 다시 시도해 주세요.");
       }
     } finally {
       setPasswordSaving(false);
@@ -221,12 +218,17 @@ export default function AccountPage() {
       <main className={styles.main}>
         {/* ── 뒤로가기 + 타이틀 ── */}
         <div className={styles.topBar}>
-          <button
-            className={styles.backBtn}
-            onClick={() => router.back()}
-            aria-label="뒤로가기"
-          >
-            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+          <button className={styles.backBtn} onClick={() => router.back()} aria-label="뒤로가기">
+            <svg
+              width="22"
+              height="22"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            >
               <path d="M15 18l-6-6 6-6" />
             </svg>
           </button>
@@ -253,11 +255,7 @@ export default function AccountPage() {
                     autoFocus
                     disabled={nameSaving}
                   />
-                  <button
-                    className={styles.saveBtn}
-                    onClick={handleNameSave}
-                    disabled={nameSaving}
-                  >
+                  <button className={styles.saveBtn} onClick={handleNameSave} disabled={nameSaving}>
                     {nameSaving ? "저장 중..." : "저장"}
                   </button>
                   <button
@@ -271,9 +269,7 @@ export default function AccountPage() {
                     취소
                   </button>
                 </div>
-                {nameError && (
-                  <p className={styles.errorText}>{nameError}</p>
-                )}
+                {nameError && <p className={styles.errorText}>{nameError}</p>}
               </div>
             ) : (
               <div className={styles.infoValueRow}>
@@ -299,9 +295,7 @@ export default function AccountPage() {
 
             {emailStep === "enterEmail" && (
               <div className={styles.verifyBlock}>
-                <p className={styles.verifyText}>
-                  새로운 이메일 주소를 입력해 주세요.
-                </p>
+                <p className={styles.verifyText}>새로운 이메일 주소를 입력해 주세요.</p>
                 <input
                   className={styles.editInput}
                   type="email"
@@ -311,9 +305,7 @@ export default function AccountPage() {
                   autoFocus
                   disabled={emailSaving}
                 />
-                {emailError && (
-                  <p className={styles.errorText}>{emailError}</p>
-                )}
+                {emailError && <p className={styles.errorText}>{emailError}</p>}
                 <div className={styles.verifyActions}>
                   <button
                     className={styles.saveBtn}
@@ -335,9 +327,7 @@ export default function AccountPage() {
 
             {emailStep === "enterCode" && (
               <div className={styles.verifyBlock}>
-                <p className={styles.verifyText}>
-                  {newEmail}로 발송된 인증 코드를 입력해 주세요.
-                </p>
+                <p className={styles.verifyText}>{newEmail}로 발송된 인증 코드를 입력해 주세요.</p>
                 <input
                   className={styles.editInput}
                   placeholder="인증 코드"
@@ -346,9 +336,7 @@ export default function AccountPage() {
                   autoFocus
                   disabled={emailSaving}
                 />
-                {emailError && (
-                  <p className={styles.errorText}>{emailError}</p>
-                )}
+                {emailError && <p className={styles.errorText}>{emailError}</p>}
                 <div className={styles.verifyActions}>
                   <button
                     className={styles.saveBtn}
@@ -426,9 +414,7 @@ export default function AccountPage() {
                 onChange={(e) => setPasswordConfirm(e.target.value)}
                 disabled={passwordSaving}
               />
-              {passwordError && (
-                <p className={styles.errorText}>{passwordError}</p>
-              )}
+              {passwordError && <p className={styles.errorText}>{passwordError}</p>}
               <div className={styles.verifyActions}>
                 <button
                   className={styles.saveBtn}
@@ -451,21 +437,16 @@ export default function AccountPage() {
             </div>
           )}
 
-          {passwordSuccess && (
-            <p className={styles.successText}>{passwordSuccess}</p>
-          )}
+          {passwordSuccess && <p className={styles.successText}>{passwordSuccess}</p>}
 
           {loginMethod === "kakao" && (
             <div className={styles.securityRow}>
               <div className={styles.securityInfo}>
                 <span className={styles.securityLabel}>비밀번호</span>
-                <span className={styles.securityDesc}>
-                  카카오 로그인 사용 중
-                </span>
+                <span className={styles.securityDesc}>카카오 로그인 사용 중</span>
               </div>
             </div>
           )}
-
         </div>
       </main>
 

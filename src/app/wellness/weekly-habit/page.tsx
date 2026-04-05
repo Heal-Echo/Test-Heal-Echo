@@ -5,9 +5,9 @@ import React, { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
 import styles from "./weeklyHabit.module.css";
-import Header from "@/components/Header";
-import BottomTab from "@/components/BottomTab";
-import ComingSoonModal from "@/components/publicSite/ComingSoonModal";
+import Header from "@/components/header";
+import BottomTab from "@/components/bottom-tab";
+import ComingSoonModal from "@/components/publicSite/coming-soon-modal";
 
 import { isUserLoggedIn } from "@/auth/user";
 import { makeVideoUrl } from "@/config/constants";
@@ -20,10 +20,10 @@ import {
   syncProgramSelection,
   hydrateFromAWS,
   PROGRAM_START_KEY,
-} from "@/lib/programSelection";
+} from "@/lib/program-selection";
 
-import CollapsibleVideoSection from "@/components/weekly-habit/CollapsibleVideoSection";
-import PSQITest from "@/components/weekly-habit/PSQITest";
+import CollapsibleVideoSection from "@/components/weekly-habit/collapsible-video-section";
+import PSQITest from "@/components/weekly-habit/psqi-test";
 
 type HabitItem = {
   name: string;
@@ -71,10 +71,10 @@ const HABIT_DESC: Record<string, string> = {
 
 // ── 팝업 상태 타입 ──
 type PopupState =
-  | "none"           // 팝업 없음 → 콘텐츠 표시
-  | "select"         // 신규: 솔루션 선택 (2개 카드)
-  | "confirm"        // 기존: "○○○으로 계속합니다." 예/아니오
-  | "change";        // "아니오" 또는 뱃지 클릭 → 1회 변경 선택
+  | "none" // 팝업 없음 → 콘텐츠 표시
+  | "select" // 신규: 솔루션 선택 (2개 카드)
+  | "confirm" // 기존: "○○○으로 계속합니다." 예/아니오
+  | "change"; // "아니오" 또는 뱃지 클릭 → 1회 변경 선택
 
 // getSavedProgram, isProgramConfirmed, isChangeUsed → programSelection.ts 통합 함수 사용
 
@@ -256,12 +256,9 @@ export default function WeeklyHabitPage() {
       try {
         setLoading(true);
         const userToken = storage.getRaw("user_id_token");
-        const res = await fetch(
-          `/api/public/weekly-habit/${program}/${weekNumber}`,
-          {
-            headers: userToken ? { Authorization: `Bearer ${userToken}` } : {},
-          }
-        );
+        const res = await fetch(`/api/public/weekly-habit/${program}/${weekNumber}`, {
+          headers: userToken ? { Authorization: `Bearer ${userToken}` } : {},
+        });
 
         if (!res.ok) {
           setData(null);
@@ -288,12 +285,9 @@ export default function WeeklyHabitPage() {
     async function fetchSleepHabits() {
       try {
         const userToken = storage.getRaw("user_id_token");
-        const res = await fetch(
-          `/api/public/sleep-habit/${program}/${weekNumber}`,
-          {
-            headers: userToken ? { Authorization: `Bearer ${userToken}` } : {},
-          }
-        );
+        const res = await fetch(`/api/public/sleep-habit/${program}/${weekNumber}`, {
+          headers: userToken ? { Authorization: `Bearer ${userToken}` } : {},
+        });
         if (res.ok) {
           const json = await res.json();
           setAdminHabits(json.item?.habits ?? []);
@@ -347,12 +341,8 @@ export default function WeeklyHabitPage() {
         {popup === "select" && (
           <div className={styles.overlay}>
             <div className={styles.modal}>
-              <h2 className={styles.modalTitle}>
-                관심있는 웰니스 솔루션을 선택하세요.
-              </h2>
-              <p className={styles.modalSub}>
-                1주차 위클리 해빗을 무료로 체험할 수 있어요.
-              </p>
+              <h2 className={styles.modalTitle}>관심있는 웰니스 솔루션을 선택하세요.</h2>
+              <p className={styles.modalSub}>1주차 위클리 해빗을 무료로 체험할 수 있어요.</p>
 
               <div className={styles.programCards}>
                 {PROGRAMS_LIST.map((p) => (
@@ -392,21 +382,13 @@ export default function WeeklyHabitPage() {
                   className={styles.confirmImage}
                 />
               </div>
-              <h2 className={styles.modalTitle}>
-                {selectedProgramInfo.name}으로 계속합니다.
-              </h2>
+              <h2 className={styles.modalTitle}>{selectedProgramInfo.name}으로 계속합니다.</h2>
 
               <div className={styles.confirmButtons}>
-                <button
-                  className={styles.confirmBtnYes}
-                  onClick={handleConfirmYes}
-                >
+                <button className={styles.confirmBtnYes} onClick={handleConfirmYes}>
                   예
                 </button>
-                <button
-                  className={styles.confirmBtnNo}
-                  onClick={handleConfirmNo}
-                >
+                <button className={styles.confirmBtnNo} onClick={handleConfirmNo}>
                   아니오
                 </button>
               </div>
@@ -418,12 +400,8 @@ export default function WeeklyHabitPage() {
         {popup === "change" && (
           <div className={styles.overlay}>
             <div className={styles.modal}>
-              <h2 className={styles.modalTitle}>
-                솔루션 변경은 1회 가능합니다.
-              </h2>
-              <p className={styles.modalSub}>
-                변경할 솔루션을 선택하세요.
-              </p>
+              <h2 className={styles.modalTitle}>솔루션 변경은 1회 가능합니다.</h2>
+              <p className={styles.modalSub}>변경할 솔루션을 선택하세요.</p>
 
               <div className={styles.programCards}>
                 {PROGRAMS_LIST.map((p) => (
@@ -445,11 +423,11 @@ export default function WeeklyHabitPage() {
                       />
                     </div>
                     <span className={styles.programName}>{p.name}</span>
-                    {p.id === program && (
-                      <span className={styles.currentLabel}>현재 선택</span>
-                    )}
+                    {p.id === program && <span className={styles.currentLabel}>현재 선택</span>}
                     {p.id !== program && (
-                      <span className={styles.programDesc}>{HABIT_DESC[p.id] || p.description}</span>
+                      <span className={styles.programDesc}>
+                        {HABIT_DESC[p.id] || p.description}
+                      </span>
                     )}
                   </button>
                 ))}
@@ -492,15 +470,11 @@ export default function WeeklyHabitPage() {
                   onClick={handleChangeProgram}
                 >
                   {selectedProgramInfo?.name ?? program}
-                  {!changeUsed && (
-                    <span className={styles.programBadgeArrow}>&#8250;</span>
-                  )}
+                  {!changeUsed && <span className={styles.programBadgeArrow}>&#8250;</span>}
                 </button>
 
                 {/* 주차 배지 + 제목 */}
-                <span className={styles.weekBadge}>
-                  {data.weekNumber}주차 무료 체험
-                </span>
+                <span className={styles.weekBadge}>{data.weekNumber}주차 무료 체험</span>
                 <h1 className={styles.title}>{data.habitTitle}</h1>
 
                 {/* 본문: PSQI 수면 품질 자가 진단 */}
@@ -510,12 +484,25 @@ export default function WeeklyHabitPage() {
                       /* PSQI 미완료 + "나중에 하기" 선택한 사용자 */
                       <div className={styles.psqiSkippedCard}>
                         <div className={styles.psqiSkippedIcon}>
-                          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" stroke="#6366f1" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"/>
+                          <svg
+                            width="28"
+                            height="28"
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            xmlns="http://www.w3.org/2000/svg"
+                          >
+                            <path
+                              d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"
+                              stroke="#6366f1"
+                              strokeWidth="1.8"
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                            />
                           </svg>
                         </div>
                         <p className={styles.psqiSkippedText}>
-                          수면의 질 검사를 완료하면<br />
+                          수면의 질 검사를 완료하면
+                          <br />
                           맞춤 수면 습관을 시작할 수 있어요.
                         </p>
                         <button
@@ -523,8 +510,21 @@ export default function WeeklyHabitPage() {
                           onClick={() => router.push("/wellness/psqi")}
                         >
                           지금 수면의 질 검사하기
-                          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" style={{ marginLeft: 6 }}>
-                            <path d="M5 12h14M12 5l7 7-7 7" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                          <svg
+                            width="16"
+                            height="16"
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            xmlns="http://www.w3.org/2000/svg"
+                            style={{ marginLeft: 6 }}
+                          >
+                            <path
+                              d="M5 12h14M12 5l7 7-7 7"
+                              stroke="currentColor"
+                              strokeWidth="2"
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                            />
                           </svg>
                         </button>
                       </div>
@@ -562,10 +562,7 @@ export default function WeeklyHabitPage() {
       <BottomTab />
 
       {/* 우먼즈 컨디션 케어 Coming Soon 팝업 */}
-      <ComingSoonModal
-        open={showComingSoon}
-        onClose={handleComingSoonClose}
-      />
+      <ComingSoonModal open={showComingSoon} onClose={handleComingSoonClose} />
     </div>
   );
 }

@@ -5,12 +5,12 @@
 
 /** 고객 유형 (6가지) */
 export type SubscriptionType =
-  | "browser"           // 둘러보기 (프로그램 미선택)
-  | "browser_selected"  // 둘러보기 (프로그램 선택)
-  | "free_trial"        // 무료 체험 (7일 무료 체험, 카드 등록 완료)
-  | "paid"              // 유료 (유료 전환 후 프로그램 참가 중)
-  | "paid_stopped"      // 유료 후 중단
-  | "free_stopped";     // 무료 체험 후 유료 미전환
+  | "browser" // 둘러보기 (프로그램 미선택)
+  | "browser_selected" // 둘러보기 (프로그램 선택)
+  | "free_trial" // 무료 체험 (7일 무료 체험, 카드 등록 완료)
+  | "paid" // 유료 (유료 전환 후 프로그램 참가 중)
+  | "paid_stopped" // 유료 후 중단
+  | "free_stopped"; // 무료 체험 후 유료 미전환
 
 /** 구독 상태 */
 export type SubscriptionStatus = "active" | "paused" | "expired" | "cancelled";
@@ -30,11 +30,11 @@ export type UserSubscription = {
   userId: string;
   programId: string;
   subscriptionType: SubscriptionType;
-  startDate: string | null;       // ISO date (프로그램 시작일)
-  currentWeek: number;            // 현재 주차 (1부터 시작)
+  startDate: string | null; // ISO date (프로그램 시작일)
+  currentWeek: number; // 현재 주차 (1부터 시작)
   status: SubscriptionStatus;
-  pausedAt: string | null;        // 일시 정지 시각
-  trialEndDate: string | null;    // 무료 체험 종료일
+  pausedAt: string | null; // 일시 정지 시각
+  trialEndDate: string | null; // 무료 체험 종료일
 };
 
 /** 영상 시청 기록 */
@@ -42,20 +42,20 @@ export type WatchRecord = {
   userId: string;
   programId: string;
   weekNumber: number;
-  watchDate: string;              // YYYY-MM-DD
-  watchDurationSeconds: number;   // 누적 시청 시간(초)
-  isCompleted: boolean;           // 10분(600초) 이상 여부
+  watchDate: string; // YYYY-MM-DD
+  watchDurationSeconds: number; // 누적 시청 시간(초)
+  isCompleted: boolean; // 10분(600초) 이상 여부
 };
 
 /** 선물 사이클 진행도 */
 export type GiftCycle = {
   userId: string;
   programId: string;
-  cycleNumber: number;            // 1, 2, 3... (몇 번째 사이클)
-  qualifiedWeeks: number;         // 달성 주간 수 (0~4)
-  giftUnlockedAt: string | null;  // 선물 해금 시각
-  giftExpiresAt: string | null;   // 선물 만료 시각 (해금 후 7일)
-  giftVideoId: string | null;     // 해당 사이클의 선물 영상 ID
+  cycleNumber: number; // 1, 2, 3... (몇 번째 사이클)
+  qualifiedWeeks: number; // 달성 주간 수 (0~4)
+  giftUnlockedAt: string | null; // 선물 해금 시각
+  giftExpiresAt: string | null; // 선물 만료 시각 (해금 후 7일)
+  giftVideoId: string | null; // 해당 사이클의 선물 영상 ID
 };
 
 /** Balance 페이지에서 사용하는 통합 고객 상태 */

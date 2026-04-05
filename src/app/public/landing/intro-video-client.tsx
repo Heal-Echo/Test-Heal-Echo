@@ -2,6 +2,7 @@
 
 import React, { useEffect, useRef, useState } from "react";
 import Image from "next/image";
+import shared from "./shared.module.css";
 import styles from "./intro-video.module.css";
 
 import { makeVideoUrl, makeThumbnailUrl } from "@/config/constants";
@@ -13,11 +14,7 @@ type IntroVideoProps = {
   error: string | null;
 };
 
-export default function IntroVideoClient({
-  videoKey,
-  thumbnailKey,
-  error,
-}: IntroVideoProps) {
+export default function IntroVideoClient({ videoKey, thumbnailKey, error }: IntroVideoProps) {
   // ▶ 플레이 버튼 & 재생 제어용 ref
   const videoRef = useRef<HTMLVideoElement | null>(null);
 
@@ -62,10 +59,8 @@ export default function IntroVideoClient({
 
   return (
     <section id="introduction" className={styles.introSection}>
-      <div className={styles.container}>
-        <h2 className={styles.introTitle}>
-          10년의 여정이 만든, 하루 15분의 변화
-        </h2>
+      <div className={shared.container}>
+        <h2 className={styles.introTitle}>10년의 여정이 만든, 하루 15분의 변화</h2>
         <div className={styles.introVideo}>
           {/* 에러 */}
           {error && (
@@ -111,7 +106,7 @@ export default function IntroVideoClient({
                   </p>
                   <button
                     type="button"
-                    className={styles.btnPrimary}
+                    className={shared.btnPrimary}
                     onClick={handleOverlayPlay}
                     style={{ marginTop: "16px" }}
                   >
@@ -132,10 +127,7 @@ export default function IntroVideoClient({
                     onError={handleVideoError}
                     onEnded={() => setIsVideoEnded(true)}
                   >
-                    <source
-                      src={makeVideoUrl(videoKey)}
-                      type="video/mp4"
-                    />
+                    <source src={makeVideoUrl(videoKey)} type="video/mp4" />
                     브라우저가 HTML5 비디오를 지원하지 않습니다.
                   </video>
 

@@ -64,11 +64,7 @@ if (!(globalThis as any).__authCodeCleanupTimer__) {
  * @param provider   - 로그인 제공자 ("kakao" | "naver" | "google" | "apple")
  * @returns 일회용 교환 코드 (UUID)
  */
-export function createAuthCode(
-  idToken: string,
-  accessToken: string,
-  provider: string
-): string {
+export function createAuthCode(idToken: string, accessToken: string, provider: string): string {
   const code = crypto.randomUUID();
 
   tokenStore.set(code, {

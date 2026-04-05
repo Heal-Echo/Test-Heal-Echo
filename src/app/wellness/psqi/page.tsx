@@ -4,9 +4,9 @@
 import React, { useEffect, useState, Suspense } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import styles from "./psqi.module.css";
-import Header from "@/components/Header";
-import BottomTab from "@/components/BottomTab";
-import PSQITest from "@/components/weekly-habit/PSQITest";
+import Header from "@/components/header";
+import BottomTab from "@/components/bottom-tab";
+import PSQITest from "@/components/weekly-habit/psqi-test";
 import { isUserLoggedIn } from "@/auth/user";
 import * as storage from "@/lib/storage";
 
@@ -92,7 +92,9 @@ function PSQIPageContent() {
 
   // CTA 클릭: 맥락에 따라 분기
   function handleNavigateToHabit() {
-    try { storage.remove(PSQI_SKIP_KEY); } catch {}
+    try {
+      storage.remove(PSQI_SKIP_KEY);
+    } catch {}
     if (isFromSubscription) {
       // 구독 관리에서 진입: 구독 관리로 돌아가기
       router.push("/mypage/settings/subscription");
@@ -109,7 +111,9 @@ function PSQIPageContent() {
       router.push("/mypage/settings/subscription");
     } else {
       // 기본: 스킵 플래그 설정 후 위클리 해빗으로
-      try { storage.set(PSQI_SKIP_KEY, "true"); } catch {}
+      try {
+        storage.set(PSQI_SKIP_KEY, "true");
+      } catch {}
       router.push("/wellness/weekly-habit");
     }
   }
@@ -134,11 +138,7 @@ function PSQIPageContent() {
       <div className={styles.main}>
         {/* 뒤로가기 + 타이틀 */}
         <div className={styles.topBar}>
-          <button
-            className={styles.backBtn}
-            onClick={() => router.back()}
-            aria-label="뒤로가기"
-          >
+          <button className={styles.backBtn} onClick={() => router.back()} aria-label="뒤로가기">
             <svg
               width="22"
               height="22"

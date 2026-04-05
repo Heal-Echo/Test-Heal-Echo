@@ -293,9 +293,7 @@ export default function MembersPage() {
         </div>
       </div>
 
-      <p style={styles.count}>
-        {loading ? "불러오는 중..." : `${users.length}명 표시 중`}
-      </p>
+      <p style={styles.count}>{loading ? "불러오는 중..." : `${users.length}명 표시 중`}</p>
 
       {/* 테이블 */}
       <table style={styles.table}>
@@ -317,12 +315,8 @@ export default function MembersPage() {
               key={u.userId}
               style={styles.row}
               onClick={() => router.push(`/admin/members/${u.userId}`)}
-              onMouseEnter={(e) =>
-                (e.currentTarget.style.backgroundColor = "#f9fafb")
-              }
-              onMouseLeave={(e) =>
-                (e.currentTarget.style.backgroundColor = "transparent")
-              }
+              onMouseEnter={(e) => (e.currentTarget.style.backgroundColor = "#f9fafb")}
+              onMouseLeave={(e) => (e.currentTarget.style.backgroundColor = "transparent")}
             >
               <td style={styles.td}>{u.name || "-"}</td>
               <td style={styles.td}>{u.email || "-"}</td>
@@ -345,9 +339,7 @@ export default function MembersPage() {
                   {TYPE_LABEL[u.subscriptionType || "browser"] || u.subscriptionType}
                 </span>
               </td>
-              <td style={styles.td}>
-                {getProgramName(u.programId)}
-              </td>
+              <td style={styles.td}>{getProgramName(u.programId)}</td>
               <td style={styles.td}>{fmtDate(u.createdAt)}</td>
               <td style={styles.td}>{fmtDate(u.lastLoginAt)}</td>
             </tr>
@@ -358,9 +350,7 @@ export default function MembersPage() {
       {/* 빈 상태 */}
       {!loading && users.length === 0 && (
         <div style={styles.empty}>
-          {search || typeFilter
-            ? "검색 결과가 없습니다."
-            : "등록된 회원이 없습니다."}
+          {search || typeFilter ? "검색 결과가 없습니다." : "등록된 회원이 없습니다."}
         </div>
       )}
 

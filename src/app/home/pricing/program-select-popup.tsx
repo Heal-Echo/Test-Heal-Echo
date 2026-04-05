@@ -9,15 +9,9 @@ interface ProgramSelectPopupProps {
   onSelectProgram: (programId: string) => void;
 }
 
-export default function ProgramSelectPopup({
-  onClose,
-  onSelectProgram,
-}: ProgramSelectPopupProps) {
+export default function ProgramSelectPopup({ onClose, onSelectProgram }: ProgramSelectPopupProps) {
   return (
-    <div
-      className={styles.programModalOverlay}
-      onClick={onClose}
-    >
+    <div className={styles.programModalOverlay} onClick={onClose}>
       <div
         className={styles.programModalContent}
         onClick={(e) => e.stopPropagation()}
@@ -26,12 +20,8 @@ export default function ProgramSelectPopup({
         aria-label="웰니스 프로그램 선택"
       >
         <span className={styles.programModalBadge}>7일 무료 체험</span>
-        <p className={styles.programModalTitle}>
-          나에게 맞는 웰니스 솔루션을 선택하세요
-        </p>
-        <p className={styles.programModalSub}>
-          선택 즉시 카드 등록 화면으로 이동합니다
-        </p>
+        <p className={styles.programModalTitle}>나에게 맞는 웰니스 솔루션을 선택하세요</p>
+        <p className={styles.programModalSub}>선택 즉시 카드 등록 화면으로 이동합니다</p>
 
         <div className={styles.programModalCards}>
           {PROGRAMS_LIST.map((prog) => (
@@ -49,15 +39,9 @@ export default function ProgramSelectPopup({
                   className={styles.programModalImage}
                 />
               </div>
-              <span className={styles.programModalCardName}>
-                {prog.name}
-              </span>
-              <span className={styles.programModalCardDesc}>
-                {prog.description}
-              </span>
-              <span className={styles.programModalCardCta}>
-                선택하기 →
-              </span>
+              <span className={styles.programModalCardName}>{prog.name}</span>
+              <span className={styles.programModalCardDesc}>{prog.description}</span>
+              <span className={styles.programModalCardCta}>선택하기 →</span>
             </button>
           ))}
         </div>

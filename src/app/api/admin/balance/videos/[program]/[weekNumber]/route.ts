@@ -52,9 +52,7 @@ async function forwardJson(
     headers: {
       Accept: "application/json",
       Authorization: `Bearer ${token}`,
-      ...(method === "DELETE"
-        ? {}
-        : { "Content-Type": "application/json" }),
+      ...(method === "DELETE" ? {} : { "Content-Type": "application/json" }),
     },
     body: method === "DELETE" ? undefined : bodyText,
     cache: "no-store",
@@ -133,10 +131,7 @@ export async function PATCH(req: Request, { params }: Ctx) {
     );
   } catch (err) {
     console.error("[Balance Admin Video UPDATE] Unexpected error:", err);
-    return NextResponse.json(
-      { error: "Failed to update balance video" },
-      { status: 500 }
-    );
+    return NextResponse.json({ error: "Failed to update balance video" }, { status: 500 });
   }
 }
 
@@ -167,9 +162,6 @@ export async function DELETE(_req: Request, { params }: Ctx) {
     return NextResponse.json(json ?? {}, { status: res.status });
   } catch (err) {
     console.error("[Balance Admin Video DELETE] Unexpected error:", err);
-    return NextResponse.json(
-      { error: "Failed to delete balance video" },
-      { status: 500 }
-    );
+    return NextResponse.json({ error: "Failed to delete balance video" }, { status: 500 });
   }
 }

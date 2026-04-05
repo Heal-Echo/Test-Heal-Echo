@@ -64,7 +64,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  z-index: 1100;  /* AdminHeader z-index(1000)보다 높게 설정 */
+  z-index: 1100; /* AdminHeader z-index(1000)보다 높게 설정 */
 }
 
 /* -------------------------------------- */
@@ -166,7 +166,7 @@
 /* -------------------------------------- */
 
 .video-thumb-wrapper {
-  width: 112px;   /* 유튜브 작은 썸네일 (option A) */
+  width: 112px; /* 유튜브 작은 썸네일 (option A) */
   height: 64px;
   overflow: hidden;
   border-radius: 6px;
@@ -179,4 +179,3 @@
   height: 100%;
   object-fit: cover;
 }
-

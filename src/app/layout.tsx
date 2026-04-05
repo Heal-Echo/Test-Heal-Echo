@@ -16,16 +16,9 @@ export const viewport: Viewport = {
   viewportFit: "cover",
 };
 
-export default function RootLayout({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
+export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html
-      lang="ko"
-      className={`${notoSans.variable} ${playfair.variable}`}
-    >
+    <html lang="ko" className={`${notoSans.variable} ${playfair.variable}`}>
       <body className="font-noto">{children}</body>
     </html>
   );

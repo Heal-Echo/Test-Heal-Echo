@@ -39,9 +39,7 @@ async function forwardJson(
     headers: {
       Accept: "application/json",
       Authorization: `Bearer ${token}`,
-      ...(method === "GET" || method === "DELETE"
-        ? {}
-        : { "Content-Type": "application/json" }),
+      ...(method === "GET" || method === "DELETE" ? {} : { "Content-Type": "application/json" }),
     },
     body: method === "GET" || method === "DELETE" ? undefined : bodyText,
     cache: "no-store",
@@ -90,10 +88,7 @@ export async function GET(_req: Request, { params }: Ctx) {
     return NextResponse.json(json ?? {}, { status: res.status });
   } catch (err) {
     console.error("[Weekly Habit Admin GET] error:", err);
-    return NextResponse.json(
-      { error: "Failed to fetch weekly habit content" },
-      { status: 500 }
-    );
+    return NextResponse.json({ error: "Failed to fetch weekly habit content" }, { status: 500 });
   }
 }
 
@@ -123,10 +118,7 @@ export async function POST(req: Request, { params }: Ctx) {
     return NextResponse.json(json ?? {}, { status: res.status });
   } catch (err) {
     console.error("[Weekly Habit Admin POST] error:", err);
-    return NextResponse.json(
-      { error: "Failed to create weekly habit content" },
-      { status: 500 }
-    );
+    return NextResponse.json({ error: "Failed to create weekly habit content" }, { status: 500 });
   }
 }
 
@@ -156,10 +148,7 @@ export async function PUT(req: Request, { params }: Ctx) {
     return NextResponse.json(json ?? {}, { status: res.status });
   } catch (err) {
     console.error("[Weekly Habit Admin PUT] error:", err);
-    return NextResponse.json(
-      { error: "Failed to update weekly habit content" },
-      { status: 500 }
-    );
+    return NextResponse.json({ error: "Failed to update weekly habit content" }, { status: 500 });
   }
 }
 
@@ -188,9 +177,6 @@ export async function DELETE(_req: Request, { params }: Ctx) {
     return NextResponse.json(json ?? {}, { status: res.status });
   } catch (err) {
     console.error("[Weekly Habit Admin DELETE] error:", err);
-    return NextResponse.json(
-      { error: "Failed to delete weekly habit content" },
-      { status: 500 }
-    );
+    return NextResponse.json({ error: "Failed to delete weekly habit content" }, { status: 500 });
   }
 }

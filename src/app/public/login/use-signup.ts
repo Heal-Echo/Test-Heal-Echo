@@ -87,10 +87,13 @@ export function useSignup({
         signupGivenName.trim(),
         signupFamilyName.trim()
       );
-      setRaw("pending_consent", JSON.stringify({
-        termsConsent: true,
-        termsConsentAt: new Date().toISOString(),
-      }));
+      setRaw(
+        "pending_consent",
+        JSON.stringify({
+          termsConsent: true,
+          termsConsentAt: new Date().toISOString(),
+        })
+      );
       showBanner("회원가입 성공! 이메일의 인증코드를 입력해주세요.", "success");
       onSignupSuccess();
     } catch (err: unknown) {
@@ -130,18 +133,30 @@ export function useSignup({
   }, []);
 
   return {
-    signupEmail, setSignupEmail,
-    signupFamilyName, setSignupFamilyName,
-    signupGivenName, setSignupGivenName,
-    signupPassword, setSignupPassword,
-    signupPwConfirm, setSignupPwConfirm,
-    isSignupPwConfirmTouched, setIsSignupPwConfirmTouched,
-    isSignupPwShown, setIsSignupPwShown,
-    isSignupPwConfirmShown, setIsSignupPwConfirmShown,
-    isSignupPwFocused, setIsSignupPwFocused,
-    verifyCode, setVerifyCode,
-    pwRules, allPwRulesPassed,
-    isPwRulesHidden, isPwRulesFading,
+    signupEmail,
+    setSignupEmail,
+    signupFamilyName,
+    setSignupFamilyName,
+    signupGivenName,
+    setSignupGivenName,
+    signupPassword,
+    setSignupPassword,
+    signupPwConfirm,
+    setSignupPwConfirm,
+    isSignupPwConfirmTouched,
+    setIsSignupPwConfirmTouched,
+    isSignupPwShown,
+    setIsSignupPwShown,
+    isSignupPwConfirmShown,
+    setIsSignupPwConfirmShown,
+    isSignupPwFocused,
+    setIsSignupPwFocused,
+    verifyCode,
+    setVerifyCode,
+    pwRules,
+    allPwRulesPassed,
+    isPwRulesHidden,
+    isPwRulesFading,
     handleSignup,
     handleConfirmSignup,
     reset,

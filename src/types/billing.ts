@@ -9,11 +9,11 @@ export type PlanType = "monthly" | "annual";
 /** 빌링키 레코드 (PaymentsTable, SK = "billing_{programId}") */
 export type BillingRecord = {
   userId: string;
-  paymentId: string;           // "billing_{programId}"
-  billingKey: string;          // 토스 발급 빌링키
-  customerKey: string;         // 고객 고유키 (userId 기반)
-  cardLast4: string;           // 카드 마지막 4자리
-  cardCompany: string;         // 카드사명
+  paymentId: string; // "billing_{programId}"
+  billingKey: string; // 토스 발급 빌링키
+  customerKey: string; // 고객 고유키 (userId 기반)
+  cardLast4: string; // 카드 마지막 4자리
+  cardCompany: string; // 카드사명
   planType: PlanType;
   status: "active" | "cancelled";
   nextChargeDate: string | null;
@@ -24,10 +24,10 @@ export type BillingRecord = {
 /** 결제 내역 레코드 (PaymentsTable, SK = "txn_{orderId}") */
 export type TransactionRecord = {
   userId: string;
-  paymentId: string;           // "txn_{orderId}"
-  orderId: string;             // 주문 고유 ID
-  paymentKey: string;          // 토스 결제 키
-  amount: number;              // 결제 금액
+  paymentId: string; // "txn_{orderId}"
+  orderId: string; // 주문 고유 ID
+  paymentKey: string; // 토스 결제 키
+  amount: number; // 결제 금액
   status: "success" | "failed";
   chargedAt: string;
 };

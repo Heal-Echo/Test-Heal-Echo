@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
-import PublicHeader from "@/components/publicSite/PublicHeader";
+import PublicHeader from "@/components/publicSite/public-header";
 import styles from "./pricing.module.css";
 import { isUserLoggedIn } from "@/auth/user";
 import { setSession } from "@/lib/storage";
@@ -65,9 +65,7 @@ export default function PricingPage() {
 
               <hr className={styles.sectionDivider} />
 
-              <span className={styles.sectionLabel}>
-                프로그램 진행에 따라 제공
-              </span>
+              <span className={styles.sectionLabel}>프로그램 진행에 따라 제공</span>
 
               <li className={styles.featureItem}>
                 <span className={styles.featureIcon}>&#10003;</span>
@@ -79,15 +77,11 @@ export default function PricingPage() {
               </li>
               <li className={styles.featureItem}>
                 <span className={styles.featureIcon}>&#10003;</span>
-                <span>
-                  인도 아유르베다 도샤 체크를 통한 변화 분석 : 연 4회 제공
-                </span>
+                <span>인도 아유르베다 도샤 체크를 통한 변화 분석 : 연 4회 제공</span>
               </li>
               <li className={styles.featureItem}>
                 <span className={styles.featureIcon}>&#10003;</span>
-                <span>
-                  솔루션별 맞춤 자가 체크 : 연 12회 (예 : 자율신경 자가 체크)
-                </span>
+                <span>솔루션별 맞춤 자가 체크 : 연 12회 (예 : 자율신경 자가 체크)</span>
               </li>
               <li className={styles.featureItem}>
                 <span className={styles.featureIcon}>&#10003;</span>
@@ -134,13 +128,8 @@ export default function PricingPage() {
 
           {/* CTA */}
           <div className={styles.ctaSection}>
-            <button
-              className={styles.ctaBtn}
-              onClick={handleStartTrial}
-            >
-              {plan === "annual"
-                ? "연간 플랜 시작하기"
-                : "월간 플랜 시작하기"}
+            <button className={styles.ctaBtn} onClick={handleStartTrial}>
+              {plan === "annual" ? "연간 플랜 시작하기" : "월간 플랜 시작하기"}
             </button>
           </div>
         </div>
@@ -149,8 +138,8 @@ export default function PricingPage() {
         <div className={styles.dailyCost}>
           {plan === "annual" ? (
             <p>
-              <span className={styles.dailyCostAccent}>하루 1,183원</span>,
-              연간 플랜으로 시작하세요.
+              <span className={styles.dailyCostAccent}>하루 1,183원</span>, 연간 플랜으로
+              시작하세요.
             </p>
           ) : (
             <p>언제든 해지 가능</p>
@@ -159,8 +148,7 @@ export default function PricingPage() {
 
         {/* Guarantee */}
         <div className={styles.guarantee}>
-          <span className={styles.guaranteeCheck}>&#x2714;</span> 7일 무료 체험
-          중 언제든 취소 가능
+          <span className={styles.guaranteeCheck}>&#x2714;</span> 7일 무료 체험 중 언제든 취소 가능
         </div>
 
         {/* Refund Policy */}

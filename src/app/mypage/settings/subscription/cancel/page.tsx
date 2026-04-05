@@ -2,8 +2,8 @@
 
 import React, { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
-import Header from "@/components/Header";
-import BottomTab from "@/components/BottomTab";
+import Header from "@/components/header";
+import BottomTab from "@/components/bottom-tab";
 import styles from "./cancel.module.css";
 import { isUserLoggedIn, getUserName } from "@/auth/user";
 import { getSubscription } from "@/auth/subscription";
@@ -38,7 +38,8 @@ const FEEDBACK_CONFIG: Record<string, { question: string; placeholder: string }>
     placeholder: "예: 1:1 맞춤 코칭, 식단 관리 기능, 오프라인 클래스 등",
   },
   not_effective: {
-    question: "힐에코에 어떤 서비스가 개선되면 더 좋은 효과를 느낄 수 있을지 알려주시면 적극 반영하겠습니다.",
+    question:
+      "힐에코에 어떤 서비스가 개선되면 더 좋은 효과를 느낄 수 있을지 알려주시면 적극 반영하겠습니다.",
     placeholder: "예: 더 다양한 난이도, 실시간 피드백, 체형별 맞춤 동작 등",
   },
   found_alternative: {
@@ -111,8 +112,7 @@ export default function CancelPage() {
 
   // ─── Step 1 → Step 2 이동 가능 여부 ───
   const canProceedStep1 =
-    selectedReason !== null &&
-    (selectedReason !== "other" || otherText.trim().length > 0);
+    selectedReason !== null && (selectedReason !== "other" || otherText.trim().length > 0);
 
   // ─── Step 2: 피드백 입력이 필요한 사유인지 ───
   const needsFeedback = selectedReason !== null && FEEDBACK_CONFIG[selectedReason] !== undefined;
@@ -136,9 +136,7 @@ export default function CancelPage() {
           programId: "autobalance",
           cancelReason: selectedReason,
           cancelFeedback:
-            selectedReason === "other"
-              ? otherText.trim()
-              : feedbackText.trim() || undefined,
+            selectedReason === "other" ? otherText.trim() : feedbackText.trim() || undefined,
         }),
       });
 
@@ -179,7 +177,16 @@ export default function CancelPage() {
             }}
             aria-label="뒤로가기"
           >
-            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+            <svg
+              width="22"
+              height="22"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            >
               <path d="M15 18l-6-6 6-6" />
             </svg>
           </button>
@@ -205,7 +212,9 @@ export default function CancelPage() {
                         setFeedbackText("");
                       }}
                     >
-                      <div className={`${styles.reasonRadio} ${isSelected ? styles.reasonRadioSelected : ""}`}>
+                      <div
+                        className={`${styles.reasonRadio} ${isSelected ? styles.reasonRadioSelected : ""}`}
+                      >
                         {isSelected && <div className={styles.reasonRadioDot} />}
                       </div>
                       <span className={styles.reasonText}>{reason.label}</span>
@@ -238,7 +247,6 @@ export default function CancelPage() {
         {/* ══ Step 2: 사유별 맞춤 화면 ══ */}
         {step === "step2" && selectedReason && (
           <section className={styles.step2Section}>
-
             {/* ── too_expensive: 가격이 부담돼요 ── */}
             {selectedReason === "too_expensive" && (
               <>
@@ -333,9 +341,7 @@ export default function CancelPage() {
                   </div>
                 ) : (
                   <div className={styles.lossCard}>
-                    <p className={styles.lossEmpty}>
-                      아직 경험하지 못한 솔루션이 기다리고 있어요.
-                    </p>
+                    <p className={styles.lossEmpty}>아직 경험하지 못한 솔루션이 기다리고 있어요.</p>
                   </div>
                 )}
               </>
@@ -373,9 +379,7 @@ export default function CancelPage() {
                   </div>
                 ) : (
                   <div className={styles.lossCard}>
-                    <p className={styles.lossEmpty}>
-                      아직 경험하지 못한 솔루션이 기다리고 있어요.
-                    </p>
+                    <p className={styles.lossEmpty}>아직 경험하지 못한 솔루션이 기다리고 있어요.</p>
                   </div>
                 )}
               </>
@@ -408,7 +412,8 @@ export default function CancelPage() {
           <section className={styles.step3Section}>
             <div className={styles.confirmBox}>
               <p className={styles.confirmText}>
-                체험을 해지하면 <strong>{trialEndDateStr}</strong>까지 모든 콘텐츠를 이용할 수 있으며, 이후 자동 결제가 취소됩니다.
+                체험을 해지하면 <strong>{trialEndDateStr}</strong>까지 모든 콘텐츠를 이용할 수
+                있으며, 이후 자동 결제가 취소됩니다.
               </p>
             </div>
 
@@ -426,11 +431,7 @@ export default function CancelPage() {
               >
                 체험 계속하기
               </button>
-              <button
-                className={styles.dangerBtn}
-                disabled={!confirmed}
-                onClick={handleCancel}
-              >
+              <button className={styles.dangerBtn} disabled={!confirmed} onClick={handleCancel}>
                 해지 완료
               </button>
             </div>
@@ -472,10 +473,7 @@ export default function CancelPage() {
             <div className={styles.errorIcon}>!</div>
             <h2 className={styles.statusTitle}>해지 처리 실패</h2>
             <p className={styles.statusDesc}>{errorMessage}</p>
-            <button
-              className={styles.retryBtn}
-              onClick={() => setStep("step3")}
-            >
+            <button className={styles.retryBtn} onClick={() => setStep("step3")}>
               다시 시도
             </button>
           </section>

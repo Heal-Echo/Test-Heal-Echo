@@ -392,9 +392,7 @@ export default function MemberDetailPage() {
   const firstDay = new Date(calYear, calMonth, 1).getDay();
   const todayStr = `${calYear}-${String(calMonth + 1).padStart(2, "0")}-${String(now.getDate()).padStart(2, "0")}`;
 
-  const completedDates = new Set(
-    watchRecords.filter((r) => r.isCompleted).map((r) => r.watchDate)
-  );
+  const completedDates = new Set(watchRecords.filter((r) => r.isCompleted).map((r) => r.watchDate));
 
   if (loading) {
     return (
@@ -448,14 +446,30 @@ export default function MemberDetailPage() {
         <div style={s.grid}>
           <span style={s.label}>이용약관 동의</span>
           <span>
-            {user.termsConsent ? <span style={s.onBadge}>동의</span> : <span style={s.offBadge}>미동의</span>}
-            {user.termsConsentAt && <span style={{ fontSize: 11, color: "#9ca3af", marginLeft: 6 }}>{fmtDate(user.termsConsentAt)}</span>}
+            {user.termsConsent ? (
+              <span style={s.onBadge}>동의</span>
+            ) : (
+              <span style={s.offBadge}>미동의</span>
+            )}
+            {user.termsConsentAt && (
+              <span style={{ fontSize: 11, color: "#9ca3af", marginLeft: 6 }}>
+                {fmtDate(user.termsConsentAt)}
+              </span>
+            )}
           </span>
 
           <span style={s.label}>마케팅 동의</span>
           <span>
-            {user.marketingConsent ? <span style={s.onBadge}>동의</span> : <span style={s.offBadge}>미동의</span>}
-            {user.marketingConsentAt && <span style={{ fontSize: 11, color: "#9ca3af", marginLeft: 6 }}>{fmtDate(user.marketingConsentAt)}</span>}
+            {user.marketingConsent ? (
+              <span style={s.onBadge}>동의</span>
+            ) : (
+              <span style={s.offBadge}>미동의</span>
+            )}
+            {user.marketingConsentAt && (
+              <span style={{ fontSize: 11, color: "#9ca3af", marginLeft: 6 }}>
+                {fmtDate(user.marketingConsentAt)}
+              </span>
+            )}
           </span>
         </div>
       </div>
@@ -482,9 +496,7 @@ export default function MemberDetailPage() {
             <span style={s.value}>{user.nickname || "-"}</span>
 
             <span style={s.label}>식습관</span>
-            <span style={s.value}>
-              {DIET_LABEL[user.dietHabit || ""] || user.dietHabit || "-"}
-            </span>
+            <span style={s.value}>{DIET_LABEL[user.dietHabit || ""] || user.dietHabit || "-"}</span>
 
             <span style={s.label}>수면습관</span>
             <span style={s.value}>
@@ -497,9 +509,7 @@ export default function MemberDetailPage() {
             </span>
 
             <span style={s.label}>성별</span>
-            <span style={s.value}>
-              {GENDER_LABEL[user.gender || ""] || user.gender || "-"}
-            </span>
+            <span style={s.value}>{GENDER_LABEL[user.gender || ""] || user.gender || "-"}</span>
 
             <span style={s.label}>생년월일</span>
             <span style={s.value}>{user.birthDate || "-"}</span>
@@ -508,16 +518,25 @@ export default function MemberDetailPage() {
             <span style={s.value}>{fmtDate(user.profileUpdatedAt)}</span>
 
             <span style={s.label}>푸시 알림</span>
-            <span>{user.pushNotification ? <span style={s.onBadge}>ON</span> : <span style={s.offBadge}>OFF</span>}</span>
+            <span>
+              {user.pushNotification ? (
+                <span style={s.onBadge}>ON</span>
+              ) : (
+                <span style={s.offBadge}>OFF</span>
+              )}
+            </span>
 
             <span style={s.label}>이메일 알림</span>
-            <span>{user.emailNotification ? <span style={s.onBadge}>ON</span> : <span style={s.offBadge}>OFF</span>}</span>
-
+            <span>
+              {user.emailNotification ? (
+                <span style={s.onBadge}>ON</span>
+              ) : (
+                <span style={s.offBadge}>OFF</span>
+              )}
+            </span>
           </div>
         ) : (
-          <p style={{ color: "#9ca3af", fontSize: 14 }}>
-            아직 프로필 설정을 완료하지 않았습니다.
-          </p>
+          <p style={{ color: "#9ca3af", fontSize: 14 }}>아직 프로필 설정을 완료하지 않았습니다.</p>
         )}
       </div>
 
@@ -526,11 +545,7 @@ export default function MemberDetailPage() {
         <h2 style={s.sectionTitle}>구독 관리</h2>
         <div style={s.grid}>
           <span style={s.label}>고객 유형</span>
-          <select
-            style={s.select}
-            value={editType}
-            onChange={(e) => setEditType(e.target.value)}
-          >
+          <select style={s.select} value={editType} onChange={(e) => setEditType(e.target.value)}>
             {TYPE_OPTIONS.map((o) => (
               <option key={o.value} value={o.value}>
                 {o.label}
@@ -552,7 +567,9 @@ export default function MemberDetailPage() {
           </select>
 
           <span style={s.label}>선택한 솔루션</span>
-          <span style={{ ...s.value, fontWeight: 600, color: user.programId ? "#4338ca" : "#9ca3af" }}>
+          <span
+            style={{ ...s.value, fontWeight: 600, color: user.programId ? "#4338ca" : "#9ca3af" }}
+          >
             {user.programId ? getProgramName(user.programId) : "미선택"}
             {user.programConfirmed && (
               <span style={{ ...s.onBadge, marginLeft: 8, fontSize: 11 }}>확정</span>
@@ -633,9 +650,7 @@ export default function MemberDetailPage() {
           <strong style={{ color: "#111" }}>
             {
               Array.from(completedDates).filter((d) =>
-                d.startsWith(
-                  `${calYear}-${String(calMonth + 1).padStart(2, "0")}`
-                )
+                d.startsWith(`${calYear}-${String(calMonth + 1).padStart(2, "0")}`)
               ).length
             }
             일
@@ -649,9 +664,7 @@ export default function MemberDetailPage() {
         <h2 style={s.sectionTitle}>최근 시청 기록 (90일)</h2>
 
         {watchRecords.length === 0 ? (
-          <p style={{ color: "#9ca3af", fontSize: 14 }}>
-            시청 기록이 없습니다.
-          </p>
+          <p style={{ color: "#9ca3af", fontSize: 14 }}>시청 기록이 없습니다.</p>
         ) : (
           <table style={s.recordTable}>
             <thead>
@@ -686,8 +699,8 @@ export default function MemberDetailPage() {
       <div style={{ ...s.section, borderColor: "#fecaca" }}>
         <h2 style={{ ...s.sectionTitle, color: "#dc2626" }}>위험 영역</h2>
         <p style={{ fontSize: 14, color: "#6b7280", marginBottom: 16 }}>
-          회원을 삭제하면 Cognito 계정이 즉시 삭제되고, DynamoDB의 개인정보가 익명화 처리됩니다.
-          이 작업은 되돌릴 수 없습니다.
+          회원을 삭제하면 Cognito 계정이 즉시 삭제되고, DynamoDB의 개인정보가 익명화 처리됩니다. 이
+          작업은 되돌릴 수 없습니다.
         </p>
         <button
           style={{
@@ -738,7 +751,15 @@ export default function MemberDetailPage() {
               <strong style={{ color: "#111" }}>{user.name || user.email || userId}</strong> 회원의
               다음 데이터가 처리됩니다:
             </p>
-            <ul style={{ fontSize: 13, color: "#6b7280", lineHeight: 1.8, paddingLeft: 20, marginBottom: 20 }}>
+            <ul
+              style={{
+                fontSize: 13,
+                color: "#6b7280",
+                lineHeight: 1.8,
+                paddingLeft: 20,
+                marginBottom: 20,
+              }}
+            >
               <li>Cognito 계정 즉시 삭제</li>
               <li>DynamoDB 8개 테이블 익명화</li>
               <li>개인정보(이름, 이메일, 전화번호 등) 영구 삭제</li>

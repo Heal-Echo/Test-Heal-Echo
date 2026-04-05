@@ -1,10 +1,5 @@
 import styles from "../login.module.css";
-import {
-  NaverSymbol,
-  GoogleSymbol,
-  AppleSymbol,
-  KakaoSymbol,
-} from "@/components/icons";
+import { NaverSymbol, GoogleSymbol, AppleSymbol, KakaoSymbol } from "@/components/icons";
 
 interface ForgotSocialInfo {
   message: string;
@@ -50,11 +45,7 @@ export default function ForgotStep1View({
 
       <div className={styles.subtitleFrame}>
         <span className={styles.subtitleLeft}>이메일을 입력해 주세요</span>
-        <button
-          type="button"
-          className={styles.subtitleRight}
-          onClick={() => switchView("login")}
-        >
+        <button type="button" className={styles.subtitleRight} onClick={() => switchView("login")}>
           로그인으로 돌아가기
         </button>
       </div>
@@ -67,7 +58,10 @@ export default function ForgotStep1View({
           aria-label="이메일 주소"
           className={`${styles.emailInput} ${forgotSocialInfo ? styles.inputError : ""}`}
           value={forgotEmail}
-          onChange={(e) => { setForgotEmail(e.target.value); setForgotSocialInfo(null); }}
+          onChange={(e) => {
+            setForgotEmail(e.target.value);
+            setForgotSocialInfo(null);
+          }}
         />
 
         {/* 소셜 가입자 인라인 안내 */}
@@ -85,25 +79,41 @@ export default function ForgotStep1View({
             {/* 해당 소셜 로그인 버튼 */}
             <div className={styles.forgotSocialButtons}>
               {forgotSocialInfo.method === "kakao" && (
-                <button type="button" className={`${styles.socialLoginBtn} ${styles.socialLoginKakao}`} onClick={handleKakaoLogin}>
+                <button
+                  type="button"
+                  className={`${styles.socialLoginBtn} ${styles.socialLoginKakao}`}
+                  onClick={handleKakaoLogin}
+                >
                   <KakaoSymbol />
                   <span>카카오로 로그인</span>
                 </button>
               )}
               {forgotSocialInfo.method === "naver" && (
-                <button type="button" className={`${styles.socialLoginBtn} ${styles.socialLoginNaver}`} onClick={handleNaverLogin}>
+                <button
+                  type="button"
+                  className={`${styles.socialLoginBtn} ${styles.socialLoginNaver}`}
+                  onClick={handleNaverLogin}
+                >
                   <NaverSymbol />
                   <span>네이버로 로그인</span>
                 </button>
               )}
               {forgotSocialInfo.method === "google" && (
-                <button type="button" className={`${styles.socialLoginBtn} ${styles.socialLoginGoogle}`} onClick={handleGoogleLogin}>
+                <button
+                  type="button"
+                  className={`${styles.socialLoginBtn} ${styles.socialLoginGoogle}`}
+                  onClick={handleGoogleLogin}
+                >
                   <GoogleSymbol />
                   <span>구글로 로그인</span>
                 </button>
               )}
               {forgotSocialInfo.method === "apple" && (
-                <button type="button" className={`${styles.socialLoginBtn} ${styles.socialLoginApple}`} onClick={handleAppleLogin}>
+                <button
+                  type="button"
+                  className={`${styles.socialLoginBtn} ${styles.socialLoginApple}`}
+                  onClick={handleAppleLogin}
+                >
                   <AppleSymbol />
                   <span>애플로 로그인</span>
                 </button>
@@ -111,16 +121,36 @@ export default function ForgotStep1View({
               {/* method가 null이면 가입 경로 미상 → 전체 소셜 버튼 */}
               {forgotSocialInfo.method === null && (
                 <div className={styles.socialIcons}>
-                  <button type="button" className={`${styles.socialIconBtn} ${styles.socialKakao}`} aria-label="카카오 로그인" onClick={handleKakaoLogin}>
+                  <button
+                    type="button"
+                    className={`${styles.socialIconBtn} ${styles.socialKakao}`}
+                    aria-label="카카오 로그인"
+                    onClick={handleKakaoLogin}
+                  >
                     <KakaoSymbol />
                   </button>
-                  <button type="button" className={`${styles.socialIconBtn} ${styles.socialNaver}`} aria-label="네이버 로그인" onClick={handleNaverLogin}>
+                  <button
+                    type="button"
+                    className={`${styles.socialIconBtn} ${styles.socialNaver}`}
+                    aria-label="네이버 로그인"
+                    onClick={handleNaverLogin}
+                  >
                     <NaverSymbol />
                   </button>
-                  <button type="button" className={`${styles.socialIconBtn} ${styles.socialGoogle}`} aria-label="구글 로그인" onClick={handleGoogleLogin}>
+                  <button
+                    type="button"
+                    className={`${styles.socialIconBtn} ${styles.socialGoogle}`}
+                    aria-label="구글 로그인"
+                    onClick={handleGoogleLogin}
+                  >
                     <GoogleSymbol />
                   </button>
-                  <button type="button" className={`${styles.socialIconBtn} ${styles.socialApple}`} aria-label="애플 로그인" onClick={handleAppleLogin}>
+                  <button
+                    type="button"
+                    className={`${styles.socialIconBtn} ${styles.socialApple}`}
+                    aria-label="애플 로그인"
+                    onClick={handleAppleLogin}
+                  >
                     <AppleSymbol />
                   </button>
                 </div>

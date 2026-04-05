@@ -67,10 +67,7 @@ export async function POST(req: Request) {
     const hasSecret = !!CLIENT_SECRET;
 
     if (!email) {
-      return NextResponse.json(
-        { error: "이메일이 필요합니다." },
-        { status: 400 }
-      );
+      return NextResponse.json({ error: "이메일이 필요합니다." }, { status: 400 });
     }
 
     const cognitoUrl = `https://cognito-idp.${REGION}.amazonaws.com/`;
@@ -80,10 +77,7 @@ export async function POST(req: Request) {
     // ─────────────────────────────
     if (step === "init") {
       if (!password) {
-        return NextResponse.json(
-          { error: "비밀번호가 필요합니다." },
-          { status: 400 }
-        );
+        return NextResponse.json({ error: "비밀번호가 필요합니다." }, { status: 400 });
       }
 
       // AuthParameters 구성
@@ -126,18 +120,12 @@ export async function POST(req: Request) {
 
       const idToken = data.AuthenticationResult?.IdToken;
       if (!idToken) {
-        return NextResponse.json(
-          { error: "로그인에 실패했습니다." },
-          { status: 401 }
-        );
+        return NextResponse.json({ error: "로그인에 실패했습니다." }, { status: 401 });
       }
 
       // ── admin 그룹 검증
       if (!isAdminUser(idToken)) {
-        return NextResponse.json(
-          { error: "관리자 권한이 없습니다." },
-          { status: 403 }
-        );
+        return NextResponse.json({ error: "관리자 권한이 없습니다." }, { status: 403 });
       }
 
       const res = NextResponse.json({ success: true });
@@ -157,10 +145,7 @@ export async function POST(req: Request) {
     // ─────────────────────────────
     if (step === "completeNewPassword") {
       if (!newPassword || !session) {
-        return NextResponse.json(
-          { error: "새 비밀번호/세션이 필요합니다." },
-          { status: 400 }
-        );
+        return NextResponse.json({ error: "새 비밀번호/세션이 필요합니다." }, { status: 400 });
       }
 
       const challengeParams: Record<string, string> = {
@@ -179,8 +164,7 @@ export async function POST(req: Request) {
       const challengeRes = await fetch(cognitoUrl, {
         method: "POST",
         headers: {
-          "X-Amz-Target":
-            "AWSCognitoIdentityProviderService.RespondToAuthChallenge",
+          "X-Amz-Target": "AWSCognitoIdentityProviderService.RespondToAuthChallenge",
           "Content-Type": "application/x-amz-json-1.1",
         },
         body: JSON.stringify({
@@ -196,18 +180,12 @@ export async function POST(req: Request) {
 
       const idToken = data.AuthenticationResult?.IdToken;
       if (!idToken) {
-        return NextResponse.json(
-          { error: "로그인 토큰이 없습니다." },
-          { status: 401 }
-        );
+        return NextResponse.json({ error: "로그인 토큰이 없습니다." }, { status: 401 });
       }
 
       // ── admin 그룹 검증
       if (!isAdminUser(idToken)) {
-        return NextResponse.json(
-          { error: "관리자 권한이 없습니다." },
-          { status: 403 }
-        );
+        return NextResponse.json({ error: "관리자 권한이 없습니다." }, { status: 403 });
       }
 
       const res = NextResponse.json({ success: true });
@@ -222,15 +200,9 @@ export async function POST(req: Request) {
       return res;
     }
 
-    return NextResponse.json(
-      { error: "잘못된 요청입니다." },
-      { status: 400 }
-    );
+    return NextResponse.json({ error: "잘못된 요청입니다." }, { status: 400 });
   } catch (err) {
     console.error("[LOGIN ERROR]", err);
-    return NextResponse.json(
-      { error: "서버 오류가 발생했습니다." },
-      { status: 500 }
-    );
+    return NextResponse.json({ error: "서버 오류가 발생했습니다." }, { status: 500 });
   }
 }

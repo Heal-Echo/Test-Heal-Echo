@@ -60,10 +60,7 @@ export async function POST(request: NextRequest) {
     const { code } = body;
 
     if (!code || typeof code !== "string") {
-      return NextResponse.json(
-        { error: "교환 코드가 필요합니다." },
-        { status: 400 }
-      );
+      return NextResponse.json({ error: "교환 코드가 필요합니다." }, { status: 400 });
     }
 
     // 저장소에서 조회
@@ -79,10 +76,7 @@ export async function POST(request: NextRequest) {
     // TTL 확인
     if (Date.now() - stored.createdAt > CODE_TTL_MS) {
       tokenStore.delete(code);
-      return NextResponse.json(
-        { error: "교환 코드가 만료되었습니다." },
-        { status: 410 }
-      );
+      return NextResponse.json({ error: "교환 코드가 만료되었습니다." }, { status: 410 });
     }
 
     // 1회용: 즉시 삭제
@@ -95,9 +89,6 @@ export async function POST(request: NextRequest) {
       provider: stored.provider,
     });
   } catch {
-    return NextResponse.json(
-      { error: "요청 처리 중 오류가 발생했습니다." },
-      { status: 500 }
-    );
+    return NextResponse.json({ error: "요청 처리 중 오류가 발생했습니다." }, { status: 500 });
   }
 }

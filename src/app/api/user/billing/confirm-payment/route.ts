@@ -70,8 +70,7 @@ export async function POST(req: Request) {
     // ── 토스 빌링키 결제 승인 API 호출 ──
     // POST https://api.tosspayments.com/v1/billing/{billingKey}
     // Authorization: Basic {base64(secretKey:)}
-    const authHeaderValue =
-      "Basic " + Buffer.from(secretKey + ":").toString("base64");
+    const authHeaderValue = "Basic " + Buffer.from(secretKey + ":").toString("base64");
 
     console.log("[ConfirmPayment] Charging with billing key:", {
       billingKey: billingKey.slice(0, 8) + "...",
@@ -81,22 +80,19 @@ export async function POST(req: Request) {
       planType,
     });
 
-    const tossRes = await fetch(
-      `https://api.tosspayments.com/v1/billing/${billingKey}`,
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: authHeaderValue,
-        },
-        body: JSON.stringify({
-          customerKey,
-          amount,
-          orderId,
-          orderName,
-        }),
-      }
-    );
+    const tossRes = await fetch(`https://api.tosspayments.com/v1/billing/${billingKey}`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: authHeaderValue,
+      },
+      body: JSON.stringify({
+        customerKey,
+        amount,
+        orderId,
+        orderName,
+      }),
+    });
 
     const tossData = await tossRes.json();
 
@@ -149,7 +145,10 @@ export async function POST(req: Request) {
   } catch (err) {
     console.error("[ConfirmPayment] error:", err);
     return NextResponse.json(
-      { ok: false, error: "결제 승인 처리 중 오류가 발생했습니다." } satisfies BillingChargeResponse,
+      {
+        ok: false,
+        error: "결제 승인 처리 중 오류가 발생했습니다.",
+      } satisfies BillingChargeResponse,
       { status: 500 }
     );
   }

@@ -6,18 +6,16 @@
 // ✅ Phase 9: storage 추상화 레이어
 import * as storage from "@/lib/storage";
 import { AUTH_KEYS } from "./constants";
+import { KAKAO_REST_API_KEY, KAKAO_REDIRECT_URI } from "@/config/constants";
+import { KAKAO_REST_API_KEY_SERVER, KAKAO_CLIENT_SECRET } from "@/config/server-constants";
 
 // =======================================================
 // 카카오 OAuth 설정
 // =======================================================
-const KAKAO_REST_API_KEY =
-  process.env.NEXT_PUBLIC_KAKAO_REST_API_KEY || "";
 // 콜백 경로 (origin은 런타임에 동적 결정)
 const KAKAO_CALLBACK_PATH = "/api/public/auth/kakao/callback";
 // 서버 사이드 폴백용 (exchangeKakaoCode 등)
-const KAKAO_REDIRECT_URI_FALLBACK =
-  process.env.NEXT_PUBLIC_KAKAO_REDIRECT_URI ||
-  "http://localhost:3000/api/public/auth/kakao/callback";
+const KAKAO_REDIRECT_URI_FALLBACK = KAKAO_REDIRECT_URI;
 
 /** 현재 origin 기반 카카오 redirect URI (클라이언트) 또는 환경 변수 폴백 (서버) */
 function getKakaoRedirectUri(): string {
@@ -50,8 +48,8 @@ export function getKakaoLoginUrl(state?: string): string {
     client_id: KAKAO_REST_API_KEY,
     redirect_uri: getKakaoRedirectUri(),
     response_type: "code",
-    scope: "account_email",   // 카카오계정 이메일 수집 (비즈니스 인증 필요)
-    prompt: "login",          // 매번 카카오 로그인 확인 화면 표시
+    scope: "account_email", // 카카오계정 이메일 수집 (비즈니스 인증 필요)
+    prompt: "login", // 매번 카카오 로그인 확인 화면 표시
   });
   if (state) params.set("state", state);
 
@@ -62,14 +60,16 @@ export function getKakaoLoginUrl(state?: string): string {
 // 2) 카카오 인증 코드 → 토큰 교환 (서버 사이드 전용, 직접 카카오 호출)
 //    ※ Cognito 연동 시에는 사용되지 않음 (하위 호환용 보존)
 // =======================================================
-export async function exchangeKakaoCode(code: string, serverOrigin?: string): Promise<{
+export async function exchangeKakaoCode(
+  code: string,
+  serverOrigin?: string
+): Promise<{
   access_token: string;
   token_type: string;
   refresh_token: string;
   expires_in: number;
 }> {
-  const serverRestApiKey =
-    process.env.KAKAO_REST_API_KEY || KAKAO_REST_API_KEY;
+  const serverRestApiKey = KAKAO_REST_API_KEY_SERVER || KAKAO_REST_API_KEY;
 
   // 서버에서 호출 시 origin을 전달받아 동적 redirect URI 구성
   const redirectUri = serverOrigin
@@ -84,7 +84,7 @@ export async function exchangeKakaoCode(code: string, serverOrigin?: string): Pr
     body: new URLSearchParams({
       grant_type: "authorization_code",
       client_id: serverRestApiKey,
-      client_secret: process.env.KAKAO_CLIENT_SECRET || "",
+      client_secret: KAKAO_CLIENT_SECRET,
       redirect_uri: redirectUri,
       code,
     }).toString(),
@@ -92,9 +92,7 @@ export async function exchangeKakaoCode(code: string, serverOrigin?: string): Pr
 
   if (!res.ok) {
     const errorData = await res.json().catch(() => ({}));
-    throw new Error(
-      errorData.error_description || "카카오 토큰 교환 실패"
-    );
+    throw new Error(errorData.error_description || "카카오 토큰 교환 실패");
   }
 
   return res.json();
@@ -111,9 +109,7 @@ export interface KakaoUserProfile {
   email: string | null;
 }
 
-export async function getKakaoUserProfile(
-  accessToken: string
-): Promise<KakaoUserProfile> {
+export async function getKakaoUserProfile(accessToken: string): Promise<KakaoUserProfile> {
   const res = await fetch("https://kapi.kakao.com/v2/user/me", {
     headers: {
       Authorization: `Bearer ${accessToken}`,
@@ -129,14 +125,9 @@ export async function getKakaoUserProfile(
 
   return {
     id: data.id,
-    nickname:
-      data.kakao_account?.profile?.nickname ||
-      data.properties?.nickname ||
-      "",
+    nickname: data.kakao_account?.profile?.nickname || data.properties?.nickname || "",
     profileImage:
-      data.kakao_account?.profile?.profile_image_url ||
-      data.properties?.profile_image ||
-      null,
+      data.kakao_account?.profile?.profile_image_url || data.properties?.profile_image || null,
     email: data.kakao_account?.email || null,
   };
 }
@@ -154,15 +145,9 @@ export function saveCognitoKakaoSession(idToken: string, accessToken: string) {
 
   // Cognito JWT에서 사용자 정보 추출
   try {
-    const payload = JSON.parse(
-      atob(idToken.split(".")[1].replace(/-/g, "+").replace(/_/g, "/"))
-    );
+    const payload = JSON.parse(atob(idToken.split(".")[1].replace(/-/g, "+").replace(/_/g, "/")));
 
-    const nickname =
-      payload.nickname ||
-      payload["cognito:username"] ||
-      payload.name ||
-      "";
+    const nickname = payload.nickname || payload["cognito:username"] || payload.name || "";
     const email = payload.email || "";
     const sub = payload.sub || "";
 

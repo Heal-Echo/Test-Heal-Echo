@@ -28,10 +28,7 @@ export async function OPTIONS() {
 
 export async function POST(req: Request) {
   if (!gatewayBase) {
-    return NextResponse.json(
-      { error: "ADMIN_API_GATEWAY_URL not configured" },
-      { status: 500 }
-    );
+    return NextResponse.json({ error: "ADMIN_API_GATEWAY_URL not configured" }, { status: 500 });
   }
 
   const token = cookies().get(cookieName)?.value;

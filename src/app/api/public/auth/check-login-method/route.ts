@@ -49,9 +49,7 @@ function isRateLimited(ip: string): boolean {
 
 const REGION = process.env.NEXT_PUBLIC_COGNITO_REGION || "ap-northeast-2";
 const USER_POOL_ID =
-  process.env.COGNITO_ADMIN_USER_POOL_ID ||
-  process.env.NEXT_PUBLIC_COGNITO_USER_POOL_ID ||
-  "";
+  process.env.COGNITO_ADMIN_USER_POOL_ID || process.env.NEXT_PUBLIC_COGNITO_USER_POOL_ID || "";
 
 const cognitoClient = new CognitoIdentityProviderClient({ region: REGION });
 
@@ -66,9 +64,10 @@ const METHOD_LABELS: Record<string, string> = {
 
 export async function POST(request: NextRequest) {
   // Rate limit check
-  const ip = request.headers.get("x-forwarded-for")?.split(",")[0]?.trim()
-    || request.headers.get("x-real-ip")
-    || "unknown";
+  const ip =
+    request.headers.get("x-forwarded-for")?.split(",")[0]?.trim() ||
+    request.headers.get("x-real-ip") ||
+    "unknown";
   if (isRateLimited(ip)) {
     return NextResponse.json(
       { error: "Too many requests. Please try again later." },
@@ -98,9 +97,7 @@ export async function POST(request: NextRequest) {
     const attrs = user.UserAttributes || [];
 
     // 1차: custom:signup_method 속성으로 판별 (정확)
-    const signupMethodAttr = attrs.find(
-      (a) => a.Name === "custom:signup_method"
-    );
+    const signupMethodAttr = attrs.find((a) => a.Name === "custom:signup_method");
     const signupMethod = signupMethodAttr?.Value || null;
 
     if (signupMethod) {
@@ -115,12 +112,8 @@ export async function POST(request: NextRequest) {
     }
 
     // 2차: 기존 가입자 (custom:signup_method 미설정) → 속성 기반 추론
-    const hasGivenName = attrs.some(
-      (a) => a.Name === "given_name" && a.Value
-    );
-    const hasNickname = attrs.some(
-      (a) => a.Name === "nickname" && a.Value
-    );
+    const hasGivenName = attrs.some((a) => a.Name === "given_name" && a.Value);
+    const hasNickname = attrs.some((a) => a.Name === "nickname" && a.Value);
 
     // 소셜 가입 사용자: nickname O, given_name X
     const isSocialUser = hasNickname && !hasGivenName;

@@ -1,7 +1,7 @@
 "use client";
 
 import styles from "./profile-setup.module.css";
-import Header from "@/components/Header";
+import Header from "@/components/header";
 import { useProfileSetup, STEP_LABELS } from "./use-profile-setup";
 import ProfileStepSelect from "./profile-step-select";
 import ProfileStepFinal from "./profile-step-final";
@@ -69,7 +69,10 @@ export default function ProfileSetupPage() {
         </p>
         <div className={styles.progressBar}>
           {[1, 2, 3, 4, 5].map((s) => (
-            <div key={s} className={`${styles.progressStep} ${s <= step ? styles.progressStepDone : ""}`}>
+            <div
+              key={s}
+              className={`${styles.progressStep} ${s <= step ? styles.progressStepDone : ""}`}
+            >
               <div
                 className={`${styles.progressDot} ${
                   s === step ? styles.progressDotActive : ""
@@ -77,9 +80,11 @@ export default function ProfileSetupPage() {
               >
                 {s < step ? "✓" : s}
               </div>
-              <span className={`${styles.progressLabel} ${
-                s === step ? styles.progressLabelActive : ""
-              }`}>
+              <span
+                className={`${styles.progressLabel} ${
+                  s === step ? styles.progressLabelActive : ""
+                }`}
+              >
                 {STEP_LABELS[s - 1]}
               </span>
             </div>

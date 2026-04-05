@@ -5,8 +5,8 @@ import { useRouter } from "next/navigation";
 import styles from "./balance.module.css";
 import Image from "next/image";
 import Link from "next/link";
-import Header from "@/components/Header";
-import BottomTab from "@/components/BottomTab";
+import Header from "@/components/header";
+import BottomTab from "@/components/bottom-tab";
 
 import { isUserLoggedIn } from "@/auth/user";
 import { getProgramName, PROGRAM_ID } from "@/config/programs";
@@ -43,9 +43,7 @@ export default function BalancePage() {
       <Header />
 
       <main className={styles.main}>
-        <h1 className={styles.title}>
-          {getProgramName(PROGRAM_ID.AUTOBALANCE)}
-        </h1>
+        <h1 className={styles.title}>{getProgramName(PROGRAM_ID.AUTOBALANCE)}</h1>
 
         {/* ── 웰니스 솔루션 구분자 ── */}
         <div className={styles.divider}>
@@ -60,7 +58,11 @@ export default function BalancePage() {
           <section className={styles.hubSection}>
             <h2 className={styles.hubSectionTitle}>위클리 솔루션</h2>
 
-            <Link href="/wellness/solution" className={styles.wideCard} aria-label="위클리 솔루션 — 하루 15분, 나를 위한 맞춤 요가 클래스">
+            <Link
+              href="/wellness/solution"
+              className={styles.wideCard}
+              aria-label="위클리 솔루션 — 하루 15분, 나를 위한 맞춤 요가 클래스"
+            >
               <Image
                 src="/assets/images/webp/solutions.webp"
                 alt="위클리 솔루션"
@@ -79,7 +81,11 @@ export default function BalancePage() {
           <section className={styles.hubSection}>
             <h2 className={styles.hubSectionTitle}>위클리 해빗</h2>
 
-            <Link href="/wellness/weekly-habit" className={styles.wideCard} aria-label="위클리 해빗 — 쉽게 실천 가능한 수면 습관과 식습관">
+            <Link
+              href="/wellness/weekly-habit"
+              className={styles.wideCard}
+              aria-label="위클리 해빗 — 쉽게 실천 가능한 수면 습관과 식습관"
+            >
               <Image
                 src="/assets/images/webp/healing_recipe_square.webp"
                 alt="위클리 해빗"
@@ -98,7 +104,11 @@ export default function BalancePage() {
           <section className={`${styles.hubSection} ${styles.hubSectionFull}`}>
             <h2 className={styles.hubSectionTitle}>이해의 바다</h2>
 
-            <Link href="/understanding" className={styles.wideCard} aria-label="이해의 바다 — 조건없이 나를 이해하는 시간">
+            <Link
+              href="/understanding"
+              className={styles.wideCard}
+              aria-label="이해의 바다 — 조건없이 나를 이해하는 시간"
+            >
               <Image
                 src="/assets/images/webp/Ocean_of_Understanding_crop1.webp"
                 alt="이해의 바다"
