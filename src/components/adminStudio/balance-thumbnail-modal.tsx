@@ -1,8 +1,8 @@
 "use client";
 
 import { useState } from "react";
-import type { BalanceVideo } from "@/api/client";
-import { completeBalanceUpload } from "@/api/client";
+import type { BalanceVideo } from "@/api/admin-client";
+import { completeBalanceUpload } from "@/api/admin-client";
 import { makeThumbnailUrl } from "@/config/constants";
 
 type UploadedPart = { PartNumber: number; ETag: string };

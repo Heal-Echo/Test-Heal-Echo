@@ -1,6 +1,25 @@
-// src/api/client.ts
+// src/api/admin-client.ts
 import axios from "axios";
-import type { ApiListResponse, UploadInitResponse, Video, VideoMetaUpdate } from "@/types/video";
+import type { ApiListResponse, Video } from "@/types/video";
+
+// ========================================================================
+// Admin-only types (moved from src/types/video.ts)
+// ========================================================================
+
+/** presign-upload 응답 */
+export type UploadInitResponse = {
+  uploadUrl: string; // 단일 파일 업로드용 presigned URL
+  uploadId: string; // multipart 업로드 ID
+  key: string; // S3 Key
+  contentType: string; // 업로드 파일의 MIME 타입
+};
+
+/** 영상 메타 수정 패치 */
+export type VideoMetaUpdate = {
+  title?: string;
+  description?: string;
+  thumbnailKey?: string | null;
+};
 
 // ========================================================================
 // Axios instances
@@ -16,11 +35,6 @@ const balanceAdminApi = axios.create({
   baseURL: "/api/admin/balance",
   headers: { "Content-Type": "application/json" },
   withCredentials: true,
-});
-
-const publicApi = axios.create({
-  baseURL: "/api/public",
-  headers: { "Content-Type": "application/json" },
 });
 
 // ========================================================================
@@ -258,14 +272,5 @@ export async function saveSleepHabitContent(
 
 export async function deleteSleepHabitContent(program: string, weekNumber: number) {
   const { data } = await sleepHabitAdminApi.delete(`/${program}/${weekNumber}`);
-  return data;
-}
-
-// ========================================================================
-// Public
-// ========================================================================
-
-export async function listPublicVideos(): Promise<ApiListResponse<Video>> {
-  const { data } = await publicApi.get("/videos");
   return data;
 }

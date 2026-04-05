@@ -64,7 +64,13 @@ export default function SolutionPage() {
   const router = useRouter();
 
   // 통합 함수에서 선택된 프로그램 확인 (현재는 autobalance만 활성)
-  const program = getSelectedProgram() || "autobalance";
+  // state로 관리하여 SSR/CSR hydration 불일치 방지
+  const [program, setProgram] = useState("autobalance");
+
+  useEffect(() => {
+    const selected = getSelectedProgram();
+    if (selected) setProgram(selected);
+  }, []);
 
   const [showSelfCheck, setShowSelfCheck] = useState(false);
   const [selfCheckSkipIntro, setSelfCheckSkipIntro] = useState(false);

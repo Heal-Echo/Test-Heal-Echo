@@ -2,7 +2,7 @@
 
 import React, { useState } from "react";
 import axios from "axios";
-import { initiateUpload, completeUpload, updateVideo, listVideos } from "@/api/client";
+import { initiateUpload, completeUpload, updateVideo, listVideos } from "@/api/admin-client";
 import "./intro.css";
 
 export default function IntroModal({

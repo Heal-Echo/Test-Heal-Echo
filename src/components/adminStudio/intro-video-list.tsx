@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { listVideos } from "@/api/client";
+import { listVideos } from "@/api/admin-client";
 import type { Video } from "@/types/video";
 import { makeVideoUrl } from "@/config/constants";
 import "./intro.css";

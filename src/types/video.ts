@@ -3,7 +3,7 @@
 // 영상 관련 공유 타입 정의
 // =======================================================
 
-// ─── 관리자 API 공통 타입 ───
+// ─── 공용 타입 ───
 
 /** API 목록 응답 (페이지네이션 포함) */
 export type ApiListResponse<T> = {
@@ -21,21 +21,6 @@ export type Video = {
   createdAt?: string;
   updatedAt?: string;
   userId?: string;
-};
-
-/** presign-upload 응답 */
-export type UploadInitResponse = {
-  uploadUrl: string; // 단일 파일 업로드용 presigned URL
-  uploadId: string; // multipart 업로드 ID
-  key: string; // S3 Key
-  contentType: string; // 업로드 파일의 MIME 타입
-};
-
-/** 영상 메타 수정 패치 */
-export type VideoMetaUpdate = {
-  title?: string;
-  description?: string;
-  thumbnailKey?: string | null;
 };
 
 // ─── Player 전용 타입 ───

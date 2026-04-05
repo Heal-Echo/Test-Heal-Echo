@@ -24,17 +24,6 @@ export function makeThumbnailUrl(key?: string | null): string {
 
 /**
  * ================================
- *  Cognito 설정 (관리자)
- * ================================
- */
-export const ADMIN_USER_POOL_ID = process.env.NEXT_PUBLIC_ADMIN_USER_POOL_ID ?? "";
-
-export const ADMIN_CLIENT_ID = process.env.NEXT_PUBLIC_ADMIN_CLIENT_ID ?? "";
-
-export const ADMIN_REGION = process.env.NEXT_PUBLIC_ADMIN_REGION ?? "ap-northeast-2";
-
-/**
- * ================================
  *  Server-only: Intro Video Upstream
  *  (서버 컴포넌트에서만 사용 — 클라이언트에 노출되지 않음)
  * ================================
@@ -120,23 +109,3 @@ export const USER_API = {
   SUBSCRIPTION: "/api/user/subscription",
   PREFERENCES: "/api/user/preferences",
 } as const;
-
-/**
- * ================================
- * LocalStorage key prefix
- * ================================
- */
-export const SESSION_STORAGE_KEY = "video-admin-session";
-
-// Debug logging — only in development
-if (process.env.NODE_ENV === "development") {
-  console.log(
-    "[HealEcho Admin Auth Config]",
-    "ADMIN_POOL:",
-    ADMIN_USER_POOL_ID,
-    "ADMIN_CLIENT:",
-    ADMIN_CLIENT_ID,
-    "REGION:",
-    ADMIN_REGION
-  );
-}

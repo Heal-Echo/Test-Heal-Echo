@@ -2,8 +2,8 @@
 "use client";
 
 import { useMemo, useState } from "react";
-import type { BalanceVideo } from "@/api/client";
-import { completeBalanceUpload } from "@/api/client";
+import type { BalanceVideo } from "@/api/admin-client";
+import { completeBalanceUpload } from "@/api/admin-client";
 import { makeThumbnailUrl, makeVideoUrl } from "@/config/constants";
 import BalanceThumbnailModal from "@/components/adminStudio/balance-thumbnail-modal";
 import "@/components/adminStudio/intro.css";

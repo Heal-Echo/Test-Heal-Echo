@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { updateVideo, deleteVideo } from "@/api/client";
+import { updateVideo, deleteVideo } from "@/api/admin-client";
 import { makeVideoUrl, makeThumbnailUrl } from "@/config/constants";
 import type { Video } from "@/types/video";
 import ThumbnailModal from "./thumbnail-modal";

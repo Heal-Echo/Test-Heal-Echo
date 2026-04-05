@@ -3,7 +3,7 @@
 import { useMemo, useState } from "react";
 import axios from "axios";
 import type { Video } from "@/types/video";
-import { updateVideo, initiateUpload, completeUpload } from "@/api/client";
+import { updateVideo, initiateUpload, completeUpload } from "@/api/admin-client";
 import { makeVideoUrl, makeThumbnailUrl } from "@/config/constants";
 import ThumbnailModal from "./thumbnail-modal";
 import "./intro.css";

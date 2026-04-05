@@ -8,7 +8,7 @@ import {
   updateWeeklyHabitContent,
   deleteWeeklyHabitContent,
   type WeeklyHabitContent,
-} from "@/api/client";
+} from "@/api/admin-client";
 import { makeThumbnailUrl, makeVideoUrl } from "@/config/constants";
 import "@/components/adminStudio/intro.css";
 

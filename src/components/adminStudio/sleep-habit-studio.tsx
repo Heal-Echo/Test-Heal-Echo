@@ -7,7 +7,7 @@ import {
   getSleepHabitContent,
   saveSleepHabitContent,
   deleteSleepHabitContent,
-} from "@/api/client";
+} from "@/api/admin-client";
 import "@/components/adminStudio/intro.css";
 
 type Row = {
