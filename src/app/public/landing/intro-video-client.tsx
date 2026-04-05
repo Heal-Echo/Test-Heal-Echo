@@ -31,7 +31,13 @@ export default function IntroVideoClient({ videoKey, thumbnailKey, error }: Intr
   const handleOverlayPlay = () => {
     setHasPlaybackError(false);
     setIsVideoEnded(false);
-    setIsVideoActivated(true);
+    // 이미 활성화 상태면 false→true로 리셋하여 video 태그 재마운트
+    if (isVideoActivated) {
+      setIsVideoActivated(false);
+      requestAnimationFrame(() => setIsVideoActivated(true));
+    } else {
+      setIsVideoActivated(true);
+    }
   };
 
   // ▶ 다시 보기 — 영상을 처음으로 되돌려 재생
@@ -128,6 +134,7 @@ export default function IntroVideoClient({ videoKey, thumbnailKey, error }: Intr
                     onEnded={() => setIsVideoEnded(true)}
                   >
                     <source src={makeVideoUrl(videoKey)} type="video/mp4" />
+                    <track kind="captions" default />
                     브라우저가 HTML5 비디오를 지원하지 않습니다.
                   </video>
 

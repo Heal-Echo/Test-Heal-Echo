@@ -1,0 +1,170 @@
+/* ===========================
+   Research Evidence
+=========================== */
+.evidenceSection {
+  padding: clamp(48px, 7vw, 80px) 0;
+  background: linear-gradient(135deg, rgba(0, 214, 245, 0.06) 0%, rgba(138, 43, 226, 0.04) 100%);
+}
+
+.evidenceTitle {
+  margin: 0 0 48px;
+  font-family: var(--font-serif);
+  font-weight: 900;
+  font-size: clamp(22px, 3vw, 32px);
+  line-height: 1.35;
+  text-align: center;
+}
+
+.evidenceList {
+  display: flex;
+  flex-direction: column;
+  gap: 36px;
+  max-width: 720px;
+  margin: 0 auto;
+}
+
+.evidenceItem {
+  display: flex;
+  align-items: center;
+  gap: 28px;
+}
+
+.evidenceNumber {
+  flex-shrink: 0;
+  font-family: var(--font-serif);
+  font-weight: 900;
+  font-size: clamp(48px, 6vw, 72px);
+  line-height: 1.2;
+  padding-bottom: 4px;
+  color: #8a2be2;
+}
+
+.evidenceNumberUnit {
+  font-size: 0.5em;
+}
+
+.evidenceBody {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding-top: 8px;
+}
+
+.evidenceDesc {
+  margin: 0;
+  font-size: clamp(15px, 1.6vw, 18px);
+  font-weight: 600;
+  line-height: 1.6;
+  color: var(--color-text);
+}
+
+.evidenceSource {
+  margin: 4px 0 0;
+  font-family: "PlayfairDisplay", serif;
+  font-style: italic;
+  font-size: clamp(11px, 1.1vw, 13px);
+  color: #767676;
+  letter-spacing: 0.02em;
+  opacity: 0;
+  max-height: 0;
+  overflow: hidden;
+  transition:
+    opacity 0.3s ease,
+    max-height 0.3s ease;
+}
+
+.evidenceItem:hover .evidenceSource {
+  opacity: 1;
+  max-height: 40px;
+}
+
+.evidenceLink {
+  margin: 4px 0 0;
+  font-size: clamp(12px, 1.3vw, 14px);
+  font-weight: 600;
+  color: #8a2be2;
+  letter-spacing: 0.01em;
+}
+
+/* 반응형 */
+@media (max-width: 768px) {
+  .evidenceSource {
+    opacity: 1;
+    max-height: none;
+  }
+}
+
+@media (max-width: 480px) {
+  .evidenceItem {
+    flex-direction: column;
+    gap: 8px;
+    align-items: flex-start;
+  }
+  .evidenceNumber {
+    font-size: clamp(40px, 12vw, 56px);
+  }
+  .evidenceList {
+    gap: 40px;
+  }
+}
+
+/* 반응형: 태블릿 (641px ~ 1024px) */
+@media (min-width: 641px) and (max-width: 1024px) {
+  .evidenceSection {
+    padding: clamp(56px, 8vw, 88px) 0;
+  }
+
+  .evidenceItem {
+    gap: 24px;
+  }
+}
+
+/* 반응형: 대형 모바일 (481px ~ 640px) */
+@media (min-width: 481px) and (max-width: 640px) {
+  .evidenceItem {
+    gap: 20px;
+  }
+}
+
+/* 반응형: 초소형 모바일 (≤ 360px) */
+@media (max-width: 360px) {
+  .evidenceNumber {
+    font-size: clamp(36px, 10vw, 48px);
+  }
+
+  .evidenceDesc {
+    font-size: 14px;
+  }
+
+  .evidenceLink {
+    font-size: 12px;
+  }
+
+  .evidenceList {
+    gap: 32px;
+  }
+}
+
+/* 가로 모드 (Landscape) 최적화 */
+@media (orientation: landscape) and (max-height: 500px) {
+  .evidenceSection {
+    padding: 40px 0;
+  }
+}
+
+/* 터치 기기 — hover 끈적임 방지 */
+@media (hover: none) {
+  .evidenceSource {
+    opacity: 1;
+    max-height: none;
+  }
+}
+
+/* 접근성: 움직임 줄이기 */
+@media (prefers-reduced-motion: reduce) {
+  .evidenceSource {
+    transition: none;
+    opacity: 1;
+    max-height: none;
+  }
+}

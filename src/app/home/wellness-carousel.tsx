@@ -29,7 +29,11 @@ const WELLNESS_SLIDES = [
   },
 ];
 
-export default function WellnessCarousel() {
+interface WellnessCarouselProps {
+  onCardClick?: (href: string) => void;
+}
+
+export default function WellnessCarousel({ onCardClick }: WellnessCarouselProps = {}) {
   const [activeSlide, setActiveSlide] = useState(0);
   const carouselRef = useRef<HTMLDivElement>(null);
   const lastSlideRef = useRef(0);
@@ -114,30 +118,66 @@ export default function WellnessCarousel() {
         onMouseUp={handleMouseUp}
         onMouseLeave={handleMouseUp}
       >
-        {WELLNESS_SLIDES.map((slide) => (
-          <Link
-            key={slide.href}
-            href={slide.href}
-            className={styles.carouselCard}
-            onClick={handleCardClick}
-            draggable={false}
-          >
-            <div className={styles.carouselImageWrap}>
-              <Image
-                src={slide.image}
-                alt={slide.alt}
-                width={320}
-                height={320}
-                sizes="(max-width: 480px) 40vw, (max-width: 768px) 38vw, 280px"
-                className={styles.carouselImage}
-              />
-              <div className={styles.carouselOverlay}>
-                <p className={styles.carouselDesc}>{slide.desc}</p>
+        {WELLNESS_SLIDES.map((slide) =>
+          onCardClick ? (
+            <div
+              key={slide.href}
+              className={styles.carouselCard}
+              onClick={(e) => {
+                if (dragMoved.current) {
+                  e.preventDefault();
+                  e.stopPropagation();
+                  return;
+                }
+                onCardClick(slide.href);
+              }}
+              role="button"
+              tabIndex={0}
+              onKeyDown={(e) => {
+                if (e.key === "Enter") onCardClick(slide.href);
+              }}
+              draggable={false}
+            >
+              <div className={styles.carouselImageWrap}>
+                <Image
+                  src={slide.image}
+                  alt={slide.alt}
+                  width={320}
+                  height={320}
+                  sizes="(max-width: 480px) 40vw, (max-width: 768px) 38vw, 280px"
+                  className={styles.carouselImage}
+                />
+                <div className={styles.carouselOverlay}>
+                  <p className={styles.carouselDesc}>{slide.desc}</p>
+                </div>
               </div>
+              <p className={styles.carouselLabel}>{slide.label}</p>
             </div>
-            <p className={styles.carouselLabel}>{slide.label}</p>
-          </Link>
-        ))}
+          ) : (
+            <Link
+              key={slide.href}
+              href={slide.href}
+              className={styles.carouselCard}
+              onClick={handleCardClick}
+              draggable={false}
+            >
+              <div className={styles.carouselImageWrap}>
+                <Image
+                  src={slide.image}
+                  alt={slide.alt}
+                  width={320}
+                  height={320}
+                  sizes="(max-width: 480px) 40vw, (max-width: 768px) 38vw, 280px"
+                  className={styles.carouselImage}
+                />
+                <div className={styles.carouselOverlay}>
+                  <p className={styles.carouselDesc}>{slide.desc}</p>
+                </div>
+              </div>
+              <p className={styles.carouselLabel}>{slide.label}</p>
+            </Link>
+          )
+        )}
       </div>
 
       {/* Dot indicator */}

@@ -8,6 +8,8 @@ import Header from "@/components/header";
 import WellnessCarousel from "./wellness-carousel";
 import WellnessSection from "./wellness-section";
 import MySolutionSection from "./my-solution-section";
+import FloatingTrialCta from "./floating-trial-cta";
+import TrialConfirmModal from "./trial-confirm-modal";
 import { getUserName } from "@/auth/user";
 import { useHomeInit } from "./use-home-init";
 import { useHomeSubscription } from "./use-home-subscription";
@@ -29,18 +31,27 @@ function HomeContent() {
   const {
     isModalOpen,
     isHighlightWellness,
+    isAccordionOpen,
+    isTrialConfirmOpen,
     showComingSoon,
     setShowComingSoon,
     handleOpenModal,
     handleCloseModal,
     closeModal,
     handleAutobalanceClick,
+    handleTrialStart,
+    requestTrialStart,
+    confirmTrialStart,
+    cancelTrialStart,
   } = useHomeNavigation();
 
   useEffect(() => {
     const name = getUserName();
     setUserName(name);
   }, []);
+
+  // 프로그램 미선택 상태: 맞춤 웰니스 3세트 숨김
+  const isPreTrial = confirmedProgram === null && subscribedProgram === null;
 
   return (
     <div className={styles.container}>
@@ -57,26 +68,37 @@ function HomeContent() {
 
         <WellnessSection
           isHighlightWellness={isHighlightWellness}
+          isAccordionOpen={isAccordionOpen}
           onAutobalanceClick={handleAutobalanceClick}
           onShowComingSoon={() => setShowComingSoon(true)}
+          onTrialStart={handleTrialStart}
+          onRequestTrial={requestTrialStart}
         />
 
         <MySolutionSection
           isSubLoaded={isSubLoaded}
           subscribedProgram={subscribedProgram}
           confirmedProgram={confirmedProgram}
+          isAccordionOpen={isAccordionOpen}
           onShowComingSoon={() => setShowComingSoon(true)}
           onOpenModal={handleOpenModal}
+          onTrialStart={handleTrialStart}
         />
 
-        <div className={styles.divider}>
-          <span className={styles.dividerLine} />
-          <span className={styles.dividerLabel}>맞춤 웰니스 3세트</span>
-          <span className={styles.dividerLine} />
-        </div>
+        {!isPreTrial && (
+          <>
+            <div className={styles.divider}>
+              <span className={styles.dividerLine} />
+              <span className={styles.dividerLabel}>맞춤 웰니스 3세트</span>
+              <span className={styles.dividerLine} />
+            </div>
 
-        <WellnessCarousel />
+            <WellnessCarousel />
+          </>
+        )}
       </main>
+
+      <FloatingTrialCta visible={isAccordionOpen} onStart={handleTrialStart} />
 
       <div className={styles.tabPadding}></div>
 
@@ -92,6 +114,11 @@ function HomeContent() {
         />
       )}
       <ComingSoonModal open={showComingSoon} onClose={() => setShowComingSoon(false)} />
+      <TrialConfirmModal
+        open={isTrialConfirmOpen}
+        onConfirm={confirmTrialStart}
+        onCancel={cancelTrialStart}
+      />
     </div>
   );
 }

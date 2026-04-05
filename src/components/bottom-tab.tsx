@@ -19,7 +19,6 @@ export default function BottomTab() {
   const router = useRouter();
   const [showModal, setShowModal] = useState(false);
   const [showComingSoon, setShowComingSoon] = useState(false);
-
   // 탭 순서: home → yoga → wellness → meditation → mypage
   const tabs = [
     { href: "/home", icon: "/assets/images/home.png", name: "home" },
@@ -30,7 +29,7 @@ export default function BottomTab() {
   ];
 
   /** yoga 탭 클릭 핸들러
-   * 1. 솔루션 미선택 → 팝업 표시
+   * 1. 솔루션 미선택 → 프로그램 선택 모달
    * 2. 솔루션 선택 + balance 경유 이력 있음 → /wellness/solution
    * 3. 솔루션 선택 + balance 경유 이력 없음 → /wellness/balance (다음부터 solution)
    */
@@ -40,13 +39,11 @@ export default function BottomTab() {
     const program = getSelectedProgram();
     const confirmed = isSelectionConfirmed();
 
-    // 솔루션을 선택한 적 없는 고객 → 프로그램 선택 모달
     if (!program || !confirmed) {
       setShowModal(true);
       return;
     }
 
-    // 솔루션 선택 완료 고객 → balance 경유 여부로 분기 (세션 단위)
     const hasVisitedBalance = storage.getSession("balance_hub_visited") === "true";
 
     if (hasVisitedBalance) {
@@ -89,7 +86,6 @@ export default function BottomTab() {
               ? pathname.startsWith("/wellness/weekly-habit")
               : pathname.startsWith(tab.href);
 
-          // yoga, wellness 탭은 Link 대신 버튼으로 처리 (선택 여부 체크)
           if (isYoga || isWellness) {
             const handleClick = isYoga ? handleYogaClick : handleWellnessClick;
             return (
@@ -119,7 +115,6 @@ export default function BottomTab() {
         })}
       </div>
 
-      {/* 솔루션 미선택 고객 → Home과 동일한 프로그램 선택 모달 */}
       {showModal && (
         <ProgramSelectModal
           onClose={() => setShowModal(false)}
