@@ -6,7 +6,7 @@ export const dynamic = "force-dynamic";
 export const revalidate = 0;
 
 import type { ReactNode } from "react";
-import AdminShell from "@/components/admin/AdminShell";
+import AdminShell from "@/components/admin/admin-shell";
 import "../../globals.css";
 
 type AdminShellLayoutProps = {

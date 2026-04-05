@@ -10,8 +10,12 @@
 }
 
 @keyframes fadeIn {
-  from { opacity: 0; }
-  to { opacity: 1; }
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
 }
 
 /* ── 하단 시트 공통 ── */
@@ -127,8 +131,12 @@
 }
 
 @keyframes slideUp {
-  from { opacity: 0; }
-  to { opacity: 1; }
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
 }
 
 .videoWrap {
@@ -244,7 +252,9 @@
   box-shadow: 0 8px 32px rgba(0, 0, 0, 0.25);
   max-width: 360px;
   width: max-content;
-  transition: opacity 0.35s ease, transform 0.35s ease;
+  transition:
+    opacity 0.35s ease,
+    transform 0.35s ease;
 }
 
 .toastVisible {

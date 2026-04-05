@@ -56,7 +56,6 @@ export default function AdminLoginPage() {
       <div className={styles.mainContent}>
         <div className={styles.rightFrame}>
           <div className={styles.rightFrameContainer}>
-
             {/* 🔥 로고 (원형 + 텍스트 수정) */}
             <div className={styles.logoRow}>
               <Image
@@ -64,7 +63,7 @@ export default function AdminLoginPage() {
                 alt="Heal Echo Logo"
                 width={40}
                 height={40}
-                className={styles.logoImage}   // ← 추가된 클래스
+                className={styles.logoImage} // ← 추가된 클래스
               />
               <span className={styles.logoText}>Heal Echo</span>
             </div>
@@ -86,19 +85,12 @@ export default function AdminLoginPage() {
                 onChange={(e) => setPassword(e.target.value)}
               />
 
-              {errorMessage && (
-                <p className={styles.errorMessage}>{errorMessage}</p>
-              )}
+              {errorMessage && <p className={styles.errorMessage}>{errorMessage}</p>}
 
-              <button
-                type="submit"
-                disabled={isLoading}
-                className={styles.continueButton}
-              >
+              <button type="submit" disabled={isLoading} className={styles.continueButton}>
                 {isLoading ? "로그인 중..." : "관리자 로그인"}
               </button>
             </form>
-
           </div>
         </div>
       </div>

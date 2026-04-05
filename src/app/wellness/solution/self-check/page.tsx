@@ -4,13 +4,13 @@
 import React, { Suspense, useEffect, useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import styles from "./selfcheck.module.css";
-import Header from "@/components/Header";
-import BottomTab from "@/components/BottomTab";
+import Header from "@/components/header";
+import BottomTab from "@/components/bottom-tab";
 import SelfCheckSurvey, {
   hasSelfCheckResult,
   fetchAndHydrateSelfCheckResult,
   retryPendingSelfCheckSync,
-} from "@/components/self-check/SelfCheckSurvey";
+} from "@/components/self-check/self-check-survey";
 import { isUserLoggedIn } from "@/auth/user";
 
 function SelfCheckPageContent() {

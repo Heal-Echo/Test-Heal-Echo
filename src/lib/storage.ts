@@ -451,9 +451,7 @@ export function clearSession(): void {
 export function getCookie(name: string): string | null {
   if (!isBrowser() || typeof document === "undefined") return null;
   try {
-    const match = document.cookie.match(
-      new RegExp(`(^| )${name}=([^;]+)`)
-    );
+    const match = document.cookie.match(new RegExp(`(^| )${name}=([^;]+)`));
     return match ? decodeURIComponent(match[2]) : null;
   } catch {
     return null;

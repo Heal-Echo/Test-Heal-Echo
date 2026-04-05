@@ -6,15 +6,7 @@
 // ✅ Phase 9: storage 추상화 레이어
 import * as storage from "@/lib/storage";
 import { AUTH_KEYS } from "./constants";
-
-// =======================================================
-// 애플 OAuth 설정
-// =======================================================
-const APPLE_SERVICE_ID =
-  process.env.NEXT_PUBLIC_APPLE_SERVICE_ID || "";
-const APPLE_REDIRECT_URI =
-  process.env.NEXT_PUBLIC_APPLE_REDIRECT_URI ||
-  "https://localhost:3000/api/public/auth/apple/callback";
+import { APPLE_SERVICE_ID, APPLE_REDIRECT_URI } from "@/config/constants";
 
 // localStorage keys (constants.ts에서 중앙 관리)
 const KEY_APPLE_ID = AUTH_KEYS.APPLE_ID;
@@ -60,15 +52,9 @@ export function saveCognitoAppleSession(idToken: string, accessToken: string) {
 
   // Cognito JWT에서 사용자 정보 추출
   try {
-    const payload = JSON.parse(
-      atob(idToken.split(".")[1].replace(/-/g, "+").replace(/_/g, "/"))
-    );
+    const payload = JSON.parse(atob(idToken.split(".")[1].replace(/-/g, "+").replace(/_/g, "/")));
 
-    const nickname =
-      payload.nickname ||
-      payload["cognito:username"] ||
-      payload.name ||
-      "";
+    const nickname = payload.nickname || payload["cognito:username"] || payload.name || "";
     const email = payload.email || "";
     const sub = payload.sub || "";
 

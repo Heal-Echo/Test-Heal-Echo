@@ -1,7 +1,7 @@
 "use client";
 import { Suspense } from "react";
 import Image from "next/image";
-import PublicHeader from "@/components/publicSite/PublicHeader";
+import PublicHeader from "@/components/publicSite/public-header";
 import styles from "./login-page.module.css";
 import { useLoginPage } from "./use-login-page";
 import LoginView from "./components/login-view";
@@ -71,7 +71,8 @@ function LoginPageInner() {
               />
               <h2 className={styles.leftBrand}>Heal Echo</h2>
               <p className={styles.leftSlogan}>
-                하루 15분,<br />
+                하루 15분,
+                <br />
                 당신을 위한 맞춤 웰니스 솔루션
               </p>
               <div className={styles.leftAccent} />

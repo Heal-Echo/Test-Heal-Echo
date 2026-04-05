@@ -2,7 +2,7 @@
 
 import React, { useRef, useCallback, useEffect, useState } from "react";
 import Image from "next/image";
-import PublicHeader from "@/components/publicSite/PublicHeader";
+import PublicHeader from "@/components/publicSite/public-header";
 import { getProgramName } from "@/config/programs";
 import styles from "./miraclereset.module.css";
 
@@ -15,7 +15,7 @@ const slides = [
     kpi: "스트레스 지수 ↓ 12.5%",
     desc: "피로했던 몸과 마음을 이완하고 호흡을 편안하게.",
     source:
-      'Miyoshi Y. (2019). Restorative yoga for occupational stress among Japanese female nurses working night shift: randomized crossover trial.',
+      "Miyoshi Y. (2019). Restorative yoga for occupational stress among Japanese female nurses working night shift: randomized crossover trial.",
   },
   {
     img: "/assets/images/sleep_after.png",
@@ -23,8 +23,7 @@ const slides = [
     title: "깊고 안정적인 수면",
     kpi: "PSQI(수면의 질) ↑ 평균 65%",
     desc: "밤새 여러 번 깨던 패턴에서 벗어나 숙면을 돕습니다.",
-    source:
-      'Turmel et al. (2022). Tailored individual yoga practice improves sleep quality.',
+    source: "Turmel et al. (2022). Tailored individual yoga practice improves sleep quality.",
   },
   {
     img: "/assets/images/frog_after.png",
@@ -32,8 +31,7 @@ const slides = [
     title: "맑은 집중력",
     kpi: "주의·속도 ↑ 18.72%",
     desc: "브레인 포그를 줄이고 선명도를 높입니다.",
-    source:
-      'Innes KE, et al. J Alzheimers Dis (2017). 12분/일, 12주.',
+    source: "Innes KE, et al. J Alzheimers Dis (2017). 12분/일, 12주.",
   },
   {
     img: "/assets/images/gastric_after.png",
@@ -42,7 +40,7 @@ const slides = [
     kpi: "소화불량 ↓ 37.03%",
     desc: "더부룩함을 줄여 편안한 소화를 돕습니다.",
     source:
-      'Adjuvant yoga therapy for symptom management of functional dyspepsia: A case series. J Family Med Prim Care (2023).',
+      "Adjuvant yoga therapy for symptom management of functional dyspepsia: A case series. J Family Med Prim Care (2023).",
   },
 ];
 
@@ -68,16 +66,13 @@ export default function MiracleResetPage() {
     return idx;
   }, []);
 
-  const goTo = useCallback(
-    (i: number) => {
-      const track = trackRef.current;
-      if (!track) return;
-      const children = Array.from(track.children) as HTMLElement[];
-      const n = Math.max(0, Math.min(i, children.length - 1));
-      track.scrollTo({ left: children[n].offsetLeft, behavior: "smooth" });
-    },
-    []
-  );
+  const goTo = useCallback((i: number) => {
+    const track = trackRef.current;
+    if (!track) return;
+    const children = Array.from(track.children) as HTMLElement[];
+    const n = Math.max(0, Math.min(i, children.length - 1));
+    track.scrollTo({ left: children[n].offsetLeft, behavior: "smooth" });
+  }, []);
 
   const goPrev = useCallback(() => goTo(currentIndex() - 1), [goTo, currentIndex]);
   const goNext = useCallback(() => goTo(currentIndex() + 1), [goTo, currentIndex]);
@@ -165,8 +160,7 @@ export default function MiracleResetPage() {
             </div>
 
             <p className={styles.note}>
-              위 항목 중 하나라도 해당한다면 지금 &lsquo;기적의 오토 밸런스&rsquo;를
-              시작하세요.
+              위 항목 중 하나라도 해당한다면 지금 &lsquo;기적의 오토 밸런스&rsquo;를 시작하세요.
             </p>
           </div>
         </section>
@@ -200,12 +194,7 @@ export default function MiracleResetPage() {
                   <article key={i} className={styles.slide}>
                     <div className={styles.resultCard}>
                       <div className={styles.resultMedia}>
-                        <Image
-                          src={s.img}
-                          alt={s.alt}
-                          width={540}
-                          height={304}
-                        />
+                        <Image src={s.img} alt={s.alt} width={540} height={304} />
                       </div>
                       <div className={styles.resultBody}>
                         <h3 className={styles.resultTitle}>{s.title}</h3>
@@ -214,9 +203,7 @@ export default function MiracleResetPage() {
                         <div className={styles.detailToggle}>
                           <button
                             className={styles.detailBtn}
-                            onClick={() =>
-                              setOpenDetail(openDetail === i ? null : i)
-                            }
+                            onClick={() => setOpenDetail(openDetail === i ? null : i)}
                           >
                             {openDetail === i ? "접기" : "자세히 보기"}
                           </button>

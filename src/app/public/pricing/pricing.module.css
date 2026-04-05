@@ -184,8 +184,13 @@
 }
 
 @keyframes pulse {
-  0%, 100% { box-shadow: 0 2px 8px rgba(138, 43, 226, 0.2); }
-  50% { box-shadow: 0 2px 14px rgba(138, 43, 226, 0.45); }
+  0%,
+  100% {
+    box-shadow: 0 2px 8px rgba(138, 43, 226, 0.2);
+  }
+  50% {
+    box-shadow: 0 2px 14px rgba(138, 43, 226, 0.45);
+  }
 }
 
 /* === Recommend Badge === */

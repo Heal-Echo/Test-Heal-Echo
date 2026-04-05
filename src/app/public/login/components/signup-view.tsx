@@ -101,11 +101,7 @@ export default function SignupView({
 
       <div className={styles.subtitleFrame}>
         <span className={styles.subtitleLeft}>이미 회원이신가요?</span>
-        <button
-          type="button"
-          className={styles.subtitleRight}
-          onClick={() => switchView("login")}
-        >
+        <button type="button" className={styles.subtitleRight} onClick={() => switchView("login")}>
           로그인
         </button>
       </div>
@@ -165,13 +161,14 @@ export default function SignupView({
 
         {/* 비밀번호 유효성 실시간 체크 */}
         {(isSignupPwFocused || signupPassword.length > 0) && !isPwRulesHidden && (
-          <div id="signup-pw-rules" className={`${styles.pwRules} ${isPwRulesFading ? styles.pwRulesFadeOut : ""}`}>
+          <div
+            id="signup-pw-rules"
+            className={`${styles.pwRules} ${isPwRulesFading ? styles.pwRulesFadeOut : ""}`}
+          >
             {pwRules.map((rule) => (
               <div
                 key={rule.label}
-                className={`${styles.pwRule} ${
-                  rule.pass ? styles.pwRulePass : styles.pwRuleFail
-                }`}
+                className={`${styles.pwRule} ${rule.pass ? styles.pwRulePass : styles.pwRuleFail}`}
               >
                 {rule.pass ? <CheckCircleIcon /> : <CircleIcon />}
                 <span>{rule.label}</span>
@@ -188,7 +185,9 @@ export default function SignupView({
             required
             aria-label="비밀번호 확인"
             className={`${styles.emailInput} ${
-              isSignupPwConfirmTouched && signupPwConfirm.length > 0 && signupPassword !== signupPwConfirm
+              isSignupPwConfirmTouched &&
+              signupPwConfirm.length > 0 &&
+              signupPassword !== signupPwConfirm
                 ? styles.inputMismatch
                 : ""
             }`}
@@ -208,9 +207,11 @@ export default function SignupView({
             {isSignupPwConfirmShown ? <EyeOffIcon /> : <EyeIcon />}
           </button>
         </div>
-        {isSignupPwConfirmTouched && signupPwConfirm.length > 0 && signupPassword !== signupPwConfirm && (
-          <p className={styles.pwMismatch}>비밀번호가 일치하지 않습니다</p>
-        )}
+        {isSignupPwConfirmTouched &&
+          signupPwConfirm.length > 0 &&
+          signupPassword !== signupPwConfirm && (
+            <p className={styles.pwMismatch}>비밀번호가 일치하지 않습니다</p>
+          )}
 
         {/* 약관 동의 체크박스 */}
         <TermsConsentCheckbox
@@ -236,16 +237,36 @@ export default function SignupView({
       </div>
 
       <div className={styles.socialIcons}>
-        <button type="button" className={`${styles.socialIconBtn} ${styles.socialKakao}`} aria-label="카카오 회원가��" onClick={handleKakaoLogin}>
+        <button
+          type="button"
+          className={`${styles.socialIconBtn} ${styles.socialKakao}`}
+          aria-label="카카오 회원가��"
+          onClick={handleKakaoLogin}
+        >
           <KakaoSymbol />
         </button>
-        <button type="button" className={`${styles.socialIconBtn} ${styles.socialNaver}`} aria-label="��이버 회원가입" onClick={handleNaverLogin}>
+        <button
+          type="button"
+          className={`${styles.socialIconBtn} ${styles.socialNaver}`}
+          aria-label="��이버 회원가입"
+          onClick={handleNaverLogin}
+        >
           <NaverSymbol />
         </button>
-        <button type="button" className={`${styles.socialIconBtn} ${styles.socialGoogle}`} aria-label="구글 회원가입" onClick={handleGoogleLogin}>
+        <button
+          type="button"
+          className={`${styles.socialIconBtn} ${styles.socialGoogle}`}
+          aria-label="구글 회원가입"
+          onClick={handleGoogleLogin}
+        >
           <GoogleSymbol />
         </button>
-        <button type="button" className={`${styles.socialIconBtn} ${styles.socialApple}`} aria-label="애플 회원가입" onClick={handleAppleLogin}>
+        <button
+          type="button"
+          className={`${styles.socialIconBtn} ${styles.socialApple}`}
+          aria-label="애플 회원가입"
+          onClick={handleAppleLogin}
+        >
           <AppleSymbol />
         </button>
       </div>

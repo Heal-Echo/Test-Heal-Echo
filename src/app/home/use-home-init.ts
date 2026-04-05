@@ -7,8 +7,8 @@ import { retryPendingSubscriptionSync } from "@/auth/subscription";
 import { USER_API } from "@/config/constants";
 import type { ProfileResponse } from "@/types/profile";
 import * as storage from "@/lib/storage";
-import { onAppResume, onNetworkRestore } from "@/lib/appLifecycle";
-import { hydrateFromAWS, retryPendingProgramSync } from "@/lib/programSelection";
+import { onAppResume, onNetworkRestore } from "@/lib/app-lifecycle";
+import { hydrateFromAWS, retryPendingProgramSync } from "@/lib/program-selection";
 
 // =======================================================
 // 프로필 AWS 재전송 함수 (모듈 레벨 — 중복 실행 방지)

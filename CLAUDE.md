@@ -49,6 +49,7 @@ A wellness solution providing:
 - **요청한 것만 변경**: 요청하지 않은 UI, 가드, 리다이렉트를 추가/삭제하지 않는다.
 - **DB 데이터 확인 우선**: 코드만 읽고 추측하지 말고, 실제 DynamoDB에 어떤 필드가 존재하는지 확인한다.
 - **되돌릴 수 없는 변경 금지**: `profileSetupDone=false`처럼 기존 데이터를 파괴적으로 변경하는 코드를 작성하지 않는다. 복원이 불가능한 변경은 반드시 사전 확인을 받는다.
+- **No unauthorized text modifications**: Do not modify existing text, labels, descriptions, or UI copy without explicit request. Even if a typo or wording improvement seems needed, always get confirmation before changing any text content.
 - **가드 추가 전 체크리스트**: 새로운 가드/리다이렉트를 추가할 때 반드시 다음을 확인한다:
   1. 이 조건을 충족하지 못하는 기존 사용자가 있는가?
   2. AWS에 데이터가 있지만 로컬 스토리지에 없는 사용자는 어떻게 되는가?

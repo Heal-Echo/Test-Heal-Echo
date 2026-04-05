@@ -28,8 +28,8 @@ export default function TermsConsentCheckbox({
           onChange={(e) => onChange(e.target.checked)}
         />
         <span className={styles.consentText}>
-          <span className={styles.consentBadge}>(필수)</span>{" "}
-          이용약관 및 개인정보 수집·이용에 동의합니다.{" "}
+          <span className={styles.consentBadge}>(필수)</span> 이용약관 및 개인정보 수집·이용에
+          동의합니다.{" "}
           <a
             href="/public/terms"
             target="_blank"

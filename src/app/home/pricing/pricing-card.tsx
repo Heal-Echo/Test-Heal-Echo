@@ -39,9 +39,7 @@ export default function PricingCard({
 
         <hr className={styles.sectionDivider} />
 
-        <span className={styles.sectionLabel}>
-          프로그램 진행에 따라 제공
-        </span>
+        <span className={styles.sectionLabel}>프로그램 진행에 따라 제공</span>
         <ul className={styles.featureList}>
           <li className={styles.featureItem}>
             <span className={styles.featureIcon}>&#10003;</span>
@@ -53,15 +51,11 @@ export default function PricingCard({
           </li>
           <li className={styles.featureItem}>
             <span className={styles.featureIcon}>&#10003;</span>
-            <span>
-              인도 아유르베다 도샤 체크를 통한 변화 분석 : 연 4회 제공
-            </span>
+            <span>인도 아유르베다 도샤 체크를 통한 변화 분석 : 연 4회 제공</span>
           </li>
           <li className={styles.featureItem}>
             <span className={styles.featureIcon}>&#10003;</span>
-            <span>
-              솔루션별 맞춤 자가 체크 : 연 12회 (예 : 자율신경 자가 체크)
-            </span>
+            <span>솔루션별 맞춤 자가 체크 : 연 12회 (예 : 자율신경 자가 체크)</span>
           </li>
           <li className={styles.featureItem}>
             <span className={styles.featureIcon}>&#10003;</span>
@@ -79,7 +73,9 @@ export default function PricingCard({
           onClick={() => setPlan("monthly")}
           role="button"
           tabIndex={0}
-          onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") setPlan("monthly"); }}
+          onKeyDown={(e) => {
+            if (e.key === "Enter" || e.key === " ") setPlan("monthly");
+          }}
           aria-pressed={plan === "monthly"}
         >
           <div className={styles.optionLabel}>월간</div>
@@ -92,13 +88,13 @@ export default function PricingCard({
         </div>
 
         <div
-          className={`${styles.priceOption} ${
-            plan === "annual" ? styles.priceOptionSelected : ""
-          }`}
+          className={`${styles.priceOption} ${plan === "annual" ? styles.priceOptionSelected : ""}`}
           onClick={() => setPlan("annual")}
           role="button"
           tabIndex={0}
-          onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") setPlan("annual"); }}
+          onKeyDown={(e) => {
+            if (e.key === "Enter" || e.key === " ") setPlan("annual");
+          }}
           aria-pressed={plan === "annual"}
         >
           <span className={styles.recommendBadge}>추천</span>
@@ -114,11 +110,7 @@ export default function PricingCard({
 
       {/* CTA */}
       <div className={styles.ctaSection}>
-        <button
-          className={styles.ctaBtn}
-          onClick={onCtaClick}
-          disabled={isLoading}
-        >
+        <button className={styles.ctaBtn} onClick={onCtaClick} disabled={isLoading}>
           {isLoading
             ? "처리 중..."
             : plan === "annual"

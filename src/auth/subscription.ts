@@ -35,7 +35,7 @@ async function getAuthToken(): Promise<string | null> {
   if (!isBrowser()) return null;
 
   try {
-    const { ensureValidToken } = await import("./tokenManager");
+    const { ensureValidToken } = await import("./token-manager");
     const tokens = await ensureValidToken();
     return tokens?.idToken ?? null;
   } catch {
@@ -99,10 +99,7 @@ function getSubscriptionFromCache(programId: string): UserSubscription {
 /** storage 캐시에 구독 정보 저장 */
 function saveSubscriptionToCache(sub: UserSubscription): void {
   if (!isBrowser()) return;
-  storage.set(
-    `${KEY_SUBSCRIPTION}_${sub.programId}`,
-    JSON.stringify(sub)
-  );
+  storage.set(`${KEY_SUBSCRIPTION}_${sub.programId}`, JSON.stringify(sub));
 }
 
 /**
@@ -123,16 +120,13 @@ export async function getSubscription(programId: string): Promise<UserSubscripti
   }
 
   try {
-    const res = await fetch(
-      `/api/user/subscription?programId=${encodeURIComponent(programId)}`,
-      {
-        method: "GET",
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-        cache: "no-store",
-      }
-    );
+    const res = await fetch(`/api/user/subscription?programId=${encodeURIComponent(programId)}`, {
+      method: "GET",
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+      cache: "no-store",
+    });
 
     if (!res.ok) {
       console.warn("[getSubscription] API failed, using cache:", res.status);
@@ -170,9 +164,7 @@ export function getSubscriptionSync(programId: string): UserSubscription {
 export async function prefetchSubscriptions(): Promise<void> {
   try {
     const { PROGRAMS_LIST } = await import("@/config/programs");
-    await Promise.all(
-      PROGRAMS_LIST.map((prog) => getSubscription(prog.id))
-    );
+    await Promise.all(PROGRAMS_LIST.map((prog) => getSubscription(prog.id)));
   } catch {
     // 실패해도 무시 — 홈에서 다시 조회됨
   }
@@ -361,10 +353,7 @@ export function getWatchRecords(programId: string): WatchRecord[] {
 /** localStorage 캐시에 시청 기록 배열 저장 */
 function saveWatchRecordsToCache(programId: string, records: WatchRecord[]): void {
   if (!isBrowser()) return;
-  storage.set(
-    `${KEY_WATCH_RECORDS}_${programId}`,
-    JSON.stringify(records)
-  );
+  storage.set(`${KEY_WATCH_RECORDS}_${programId}`, JSON.stringify(records));
 }
 
 /**
@@ -381,16 +370,13 @@ export async function fetchWatchRecordsFromServer(programId: string): Promise<Wa
   }
 
   try {
-    const res = await fetch(
-      `/api/user/watch-records?programId=${encodeURIComponent(programId)}`,
-      {
-        method: "GET",
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-        cache: "no-store",
-      }
-    );
+    const res = await fetch(`/api/user/watch-records?programId=${encodeURIComponent(programId)}`, {
+      method: "GET",
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+      cache: "no-store",
+    });
 
     if (!res.ok) {
       console.warn("[fetchWatchRecords] API failed, using cache:", res.status);
@@ -403,13 +389,9 @@ export async function fetchWatchRecordsFromServer(programId: string): Promise<Wa
     // ── 로컬↔서버 병합: 로컬에만 있는 레코드를 서버에 업로드 ──
     // 오프라인 시청 후 다시 접속했을 때 유실 방지
     const localItems = getWatchRecords(programId);
-    const serverKeys = new Set(
-      serverItems.map((r) => `${r.weekNumber}#${r.watchDate}`)
-    );
+    const serverKeys = new Set(serverItems.map((r) => `${r.weekNumber}#${r.watchDate}`));
 
-    const localOnly = localItems.filter(
-      (r) => !serverKeys.has(`${r.weekNumber}#${r.watchDate}`)
-    );
+    const localOnly = localItems.filter((r) => !serverKeys.has(`${r.weekNumber}#${r.watchDate}`));
 
     // 로컬에만 있는 레코드를 서버에 비동기 업로드 (fire-and-forget)
     if (localOnly.length > 0) {
@@ -572,10 +554,7 @@ export function getGiftCycle(programId: string): GiftCycle {
 /** localStorage 캐시에 선물 사이클 저장 */
 function saveGiftCycleToCache(cycle: GiftCycle): void {
   if (!isBrowser()) return;
-  storage.set(
-    `${KEY_GIFT_CYCLE}_${cycle.programId}`,
-    JSON.stringify(cycle)
-  );
+  storage.set(`${KEY_GIFT_CYCLE}_${cycle.programId}`, JSON.stringify(cycle));
 }
 
 /**
@@ -592,16 +571,13 @@ export async function fetchGiftCycleFromServer(programId: string): Promise<GiftC
   }
 
   try {
-    const res = await fetch(
-      `/api/user/gift-cycles?programId=${encodeURIComponent(programId)}`,
-      {
-        method: "GET",
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-        cache: "no-store",
-      }
-    );
+    const res = await fetch(`/api/user/gift-cycles?programId=${encodeURIComponent(programId)}`, {
+      method: "GET",
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+      cache: "no-store",
+    });
 
     if (!res.ok) {
       console.warn("[fetchGiftCycle] API failed, using cache:", res.status);
@@ -680,10 +656,7 @@ export function isGiftAccessible(cycle: GiftCycle): boolean {
 }
 
 /** 선물 진행도 메시지 생성 */
-export function getGiftProgressMessage(
-  cycle: GiftCycle,
-  userName?: string | null
-): string | null {
+export function getGiftProgressMessage(cycle: GiftCycle, userName?: string | null): string | null {
   if (cycle.qualifiedWeeks >= 4) {
     if (isGiftAccessible(cycle)) {
       return "축하합니다! 🎁 선물 영상이 도착했어요!";
@@ -735,9 +708,7 @@ export function countQualifyingWeeksRolling(programId: string): number {
 
   // 현재 주차 계산 (몇 주차까지 검사해야 하는지)
   const now = new Date();
-  const totalWeeks = Math.ceil(
-    (now.getTime() - startDate.getTime()) / (7 * 24 * 60 * 60 * 1000)
-  );
+  const totalWeeks = Math.ceil((now.getTime() - startDate.getTime()) / (7 * 24 * 60 * 60 * 1000));
 
   let qualifiedWeeks = 0;
 
@@ -836,10 +807,7 @@ export function getEncouragementMessage(
 }
 
 /** 선물 예상 수령일 계산 (롤링 달성 주수 기반) */
-export function getExpectedGiftDate(
-  cycle: GiftCycle,
-  qualifiedWeeksRolling?: number
-): Date | null {
+export function getExpectedGiftDate(cycle: GiftCycle, qualifiedWeeksRolling?: number): Date | null {
   const qw = qualifiedWeeksRolling ?? cycle.qualifiedWeeks;
 
   // 이미 선물 수령 가능하면 null
@@ -1010,7 +978,8 @@ export async function getBalanceUserState(programId: string): Promise<BalanceUse
   const daysInRecentWindow = getDaysInRecentWindow(programId, 7);
 
   // 선물 해금 여부 (누적 4N주 기준: 4주=1번째, 8주=2번째, 12주=3번째...)
-  const isGiftWeek = qualifiedWeeksRolling >= 4 * giftCycle.cycleNumber && isGiftAccessible(giftCycle);
+  const isGiftWeek =
+    qualifiedWeeksRolling >= 4 * giftCycle.cycleNumber && isGiftAccessible(giftCycle);
 
   return {
     subscription,

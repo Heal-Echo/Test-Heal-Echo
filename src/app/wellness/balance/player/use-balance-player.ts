@@ -94,9 +94,7 @@ export function useBalancePlayer() {
 
         if (!res.ok) {
           console.error("[Balance Player] public balance API error:", data);
-          throw new Error(
-            `Balance 영상 목록을 불러오지 못했습니다. (status: ${res.status})`
-          );
+          throw new Error(`Balance 영상 목록을 불러오지 못했습니다. (status: ${res.status})`);
         }
 
         const found = extractBalanceVideoByWeek(data, weekNumber);

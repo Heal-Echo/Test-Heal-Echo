@@ -36,9 +36,24 @@ const SLEEP_OPTIONS = [
 
 // 경험 수준 옵션
 const EXPERIENCE_OPTIONS = [
-  { value: "beginner", emoji: "🌱", label: "처음이에요", description: "요가나 명상을 해본 적이 없어요" },
-  { value: "casual", emoji: "🌿", label: "가끔 해봤어요", description: "몇 번 시도해 본 적이 있어요" },
-  { value: "regular", emoji: "🌳", label: "꾸준히 하고 있어요", description: "정기적으로 요가나 명상을 하고 있어요" },
+  {
+    value: "beginner",
+    emoji: "🌱",
+    label: "처음이에요",
+    description: "요가나 명상을 해본 적이 없어요",
+  },
+  {
+    value: "casual",
+    emoji: "🌿",
+    label: "가끔 해봤어요",
+    description: "몇 번 시도해 본 적이 있어요",
+  },
+  {
+    value: "regular",
+    emoji: "🌳",
+    label: "꾸준히 하고 있어요",
+    description: "정기적으로 요가나 명상을 하고 있어요",
+  },
 ];
 
 interface ProfileStepSelectProps {
@@ -110,11 +125,7 @@ export default function ProfileStepSelect({
           ))}
         </div>
 
-        <button
-          type="button"
-          className={styles.backButtonStandalone}
-          onClick={onBack}
-        >
+        <button type="button" className={styles.backButtonStandalone} onClick={onBack}>
           이전
         </button>
       </div>
@@ -140,11 +151,7 @@ export default function ProfileStepSelect({
           ))}
         </div>
 
-        <button
-          type="button"
-          className={styles.backButtonStandalone}
-          onClick={onBack}
-        >
+        <button type="button" className={styles.backButtonStandalone} onClick={onBack}>
           이전
         </button>
       </div>
@@ -173,11 +180,7 @@ export default function ProfileStepSelect({
           ))}
         </div>
 
-        <button
-          type="button"
-          className={styles.backButtonStandalone}
-          onClick={onBack}
-        >
+        <button type="button" className={styles.backButtonStandalone} onClick={onBack}>
           이전
         </button>
       </div>

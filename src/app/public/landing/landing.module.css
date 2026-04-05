@@ -8,32 +8,8 @@
   font-family: var(--font-sans);
 }
 
-/* 반응형 줄바꿈 — 모바일에서만 줄바꿈 */
-.blockOnMobile {
-  display: inline;
-}
-
-@media (max-width: 480px) {
-  .blockOnMobile {
-    display: block;
-  }
-}
-
-/* 공통 컨테이너 */
-.container {
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 0 max(var(--container-padding, 16px), env(safe-area-inset-right, 0px)) 0 max(var(--container-padding, 16px), env(safe-area-inset-left, 0px));
-}
-
-/* 섹션 타이틀 */
-.sectionTitle {
-  font-family: var(--font-serif);
-  font-weight: 900;
-  font-size: clamp(22px, 3vw, 32px);
-  text-align: center;
-  margin-bottom: 0;
-}
+/* 공통 스타일(.container, .blockOnMobile, .sectionTitle, .btnPrimary)은
+   shared.module.css로 분리됨 */
 
 /* 아이브로우 (핑크) */
 .eyebrowPink {
@@ -51,7 +27,9 @@
   border: 1px solid rgba(0, 0, 0, 0.1);
   text-decoration: none;
   color: var(--color-text);
-  transition: border-color 0.2s ease, background 0.2s ease;
+  transition:
+    border-color 0.2s ease,
+    background 0.2s ease;
 }
 
 .btnGhost:hover {
@@ -140,7 +118,9 @@
   opacity: 0;
   max-height: 0;
   overflow: hidden;
-  transition: opacity 0.3s ease, max-height 0.3s ease;
+  transition:
+    opacity 0.3s ease,
+    max-height 0.3s ease;
 }
 
 .evidenceItem:hover .evidenceSource {
@@ -299,7 +279,9 @@
   border-radius: 14px;
   text-decoration: none;
   box-shadow: 0 6px 20px rgba(0, 214, 245, 0.3);
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
 }
 
 .whyCardCta:hover {
@@ -402,7 +384,10 @@
   border-radius: 20px;
   background: var(--color-bg, #fff);
   box-shadow: 0 8px 24px rgba(0, 0, 0, 0.05);
-  transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
+  transition:
+    transform 0.25s ease,
+    box-shadow 0.25s ease,
+    border-color 0.25s ease;
   overflow: hidden;
 }
 
@@ -516,17 +501,35 @@
 }
 
 /* 카드 각각 다른 악센트 색상 */
-.benefitCard:nth-child(1) .benefitIcon { background: #00b4d8; }
-.benefitCard:nth-child(2) .benefitIcon { background: #8a2be2; }
-.benefitCard:nth-child(3) .benefitIcon { background: #ff69b4; }
+.benefitCard:nth-child(1) .benefitIcon {
+  background: #00b4d8;
+}
+.benefitCard:nth-child(2) .benefitIcon {
+  background: #8a2be2;
+}
+.benefitCard:nth-child(3) .benefitIcon {
+  background: #ff69b4;
+}
 
-.benefitCard:nth-child(1)::before { background: #00b4d8; }
-.benefitCard:nth-child(2)::before { background: #8a2be2; }
-.benefitCard:nth-child(3)::before { background: #ff69b4; }
+.benefitCard:nth-child(1)::before {
+  background: #00b4d8;
+}
+.benefitCard:nth-child(2)::before {
+  background: #8a2be2;
+}
+.benefitCard:nth-child(3)::before {
+  background: #ff69b4;
+}
 
-.benefitCard:nth-child(1) .benefitNumber { color: #00b4d8; }
-.benefitCard:nth-child(2) .benefitNumber { color: #8a2be2; }
-.benefitCard:nth-child(3) .benefitNumber { color: #ff69b4; }
+.benefitCard:nth-child(1) .benefitNumber {
+  color: #00b4d8;
+}
+.benefitCard:nth-child(2) .benefitNumber {
+  color: #8a2be2;
+}
+.benefitCard:nth-child(3) .benefitNumber {
+  color: #ff69b4;
+}
 
 /* 태블릿+모바일: 가로 캐러셀 (Home 스타일) */
 @media (max-width: 768px) {
@@ -622,7 +625,9 @@
   padding: clamp(28px, 4vw, 44px);
   background: #fafafa;
   box-shadow: 0 12px 40px rgba(0, 0, 0, 0.06);
-  transition: box-shadow 0.3s ease, border-color 0.3s ease;
+  transition:
+    box-shadow 0.3s ease,
+    border-color 0.3s ease;
 }
 
 .bellaCard:hover {
@@ -835,7 +840,9 @@
   overflow: hidden;
   padding: 3px;
   box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08);
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  transition:
+    transform 0.3s ease,
+    box-shadow 0.3s ease;
 }
 
 .empathyAvatar:hover {
@@ -909,7 +916,9 @@
   font-size: 15px;
   text-decoration: none;
   box-shadow: 0 4px 16px rgba(0, 214, 245, 0.3);
-  transition: box-shadow 0.25s ease, transform 0.2s ease;
+  transition:
+    box-shadow 0.25s ease,
+    transform 0.2s ease;
 }
 
 .empathyCta:hover {
@@ -1096,11 +1105,6 @@
    반응형: 태블릿 (641px ~ 1024px)
 =========================== */
 @media (min-width: 641px) and (max-width: 1024px) {
-  .container {
-    max-width: var(--container-max-width-tablet, 960px);
-    padding: 0 max(var(--container-padding, 24px), env(safe-area-inset-right, 0px)) 0 max(var(--container-padding, 24px), env(safe-area-inset-left, 0px));
-  }
-
   .benefitCards {
     grid-template-columns: repeat(3, 1fr);
     gap: 16px;
@@ -1133,10 +1137,6 @@
    반응형: 대형 모바일 (481px ~ 640px)
 =========================== */
 @media (min-width: 481px) and (max-width: 640px) {
-  .container {
-    padding: 0 max(var(--container-padding, 20px), env(safe-area-inset-right, 0px)) 0 max(var(--container-padding, 20px), env(safe-area-inset-left, 0px));
-  }
-
   .benefitCardWrap {
     flex: 0 0 calc((100% - 20px) / 2.2);
   }
@@ -1162,16 +1162,8 @@
    반응형: 초소형 모바일 (≤ 360px)
 =========================== */
 @media (max-width: 360px) {
-  .container {
-    padding: 0 max(var(--container-padding, 12px), env(safe-area-inset-right, 0px)) 0 max(var(--container-padding, 12px), env(safe-area-inset-left, 0px));
-  }
-
-  .sectionTitle {
-    font-size: clamp(18px, 5vw, 22px);
-  }
-
   .benefitCardWrap {
-    flex: 0 0 calc((100% - 12px) / 2.0);
+    flex: 0 0 calc((100% - 12px) / 2);
   }
 
   .benefitTitle {

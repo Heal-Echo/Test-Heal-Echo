@@ -38,10 +38,7 @@ export async function GET(
   try {
     const base = resolveUpstreamBase();
     if (!base) {
-      return NextResponse.json(
-        { error: "Upstream base URL is not configured." },
-        { status: 500 }
-      );
+      return NextResponse.json({ error: "Upstream base URL is not configured." }, { status: 500 });
     }
 
     const { program, weekNumber } = params;
@@ -78,9 +75,6 @@ export async function GET(
     return NextResponse.json(data ?? {}, { status: res.status });
   } catch (err: any) {
     console.error("[Public Sleep Habit] Unexpected error:", err);
-    return NextResponse.json(
-      { error: "Failed to fetch sleep habit content" },
-      { status: 500 }
-    );
+    return NextResponse.json({ error: "Failed to fetch sleep habit content" }, { status: 500 });
   }
 }

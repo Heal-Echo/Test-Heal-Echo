@@ -28,18 +28,13 @@ function resolveAdminApiBase(): string | null {
   return candidates[0].replace(/\/$/, "");
 }
 
-export async function GET(
-  _req: Request,
-  { params }: { params: { program: string } }
-) {
+export async function GET(_req: Request, { params }: { params: { program: string } }) {
   try {
     const { program } = params;
 
     const base = resolveAdminApiBase();
     if (!base) {
-      console.error(
-        "[Balance Admin Videos] Upstream base URL not configured."
-      );
+      console.error("[Balance Admin Videos] Upstream base URL not configured.");
       return NextResponse.json(
         { error: "Admin API upstream base URL is not configured." },
         { status: 500 }
@@ -47,8 +42,7 @@ export async function GET(
     }
 
     // ✅ 핵심 수정: App Router 표준 방식으로 쿠키 읽기
-    const token =
-      cookies().get(process.env.ADMIN_AUTH_COOKIE || "heal_admin_auth")?.value;
+    const token = cookies().get(process.env.ADMIN_AUTH_COOKIE || "heal_admin_auth")?.value;
 
     if (!token) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
@@ -77,9 +71,6 @@ export async function GET(
     }
   } catch (err) {
     console.error("[Balance Admin Videos] Unexpected error:", err);
-    return NextResponse.json(
-      { error: "Failed to fetch balance videos" },
-      { status: 500 }
-    );
+    return NextResponse.json({ error: "Failed to fetch balance videos" }, { status: 500 });
   }
 }

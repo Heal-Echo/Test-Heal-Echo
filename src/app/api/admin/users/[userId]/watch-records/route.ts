@@ -18,10 +18,7 @@ function resolveAdminApiBase(): string | null {
   return candidates[0].replace(/\/$/, "");
 }
 
-export async function GET(
-  req: Request,
-  { params }: { params: { userId: string } }
-) {
+export async function GET(req: Request, { params }: { params: { userId: string } }) {
   try {
     const base = resolveAdminApiBase();
     if (!base) {
@@ -31,8 +28,7 @@ export async function GET(
       );
     }
 
-    const token =
-      cookies().get(process.env.ADMIN_AUTH_COOKIE || "heal_admin_auth")?.value;
+    const token = cookies().get(process.env.ADMIN_AUTH_COOKIE || "heal_admin_auth")?.value;
 
     if (!token) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
@@ -61,9 +57,6 @@ export async function GET(
     }
   } catch (err) {
     console.error("[Admin WatchRecords] Unexpected error:", err);
-    return NextResponse.json(
-      { error: "Failed to fetch watch records" },
-      { status: 500 }
-    );
+    return NextResponse.json({ error: "Failed to fetch watch records" }, { status: 500 });
   }
 }

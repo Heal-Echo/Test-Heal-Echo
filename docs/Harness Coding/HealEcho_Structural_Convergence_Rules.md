@@ -56,6 +56,9 @@
 ┌──────────────────────────────────────────────────────────┐
 │  LAYER 1: CLIENT (Browser)                               │
 │  Next.js 14 App Router + React 18 + TypeScript           │
+│  + Tailwind CSS                                          │
+│  주요 라이브러리: Axios, Zod, js-cookie                    │
+│  결제 연동: Toss Payments SDK                              │
 │  ├── /src/app/          → Pages (Route Handlers)         │
 │  ├── /src/components/   → Reusable UI Components         │
 │  ├── /src/auth/         → Authentication Logic           │
@@ -74,6 +77,11 @@
 └────────────────┬─────────────────────────────────────────┘
                  │ HTTP/REST (Bearer Token)
 ┌────────────────▼─────────────────────────────────────────┐
+│  LAYER 2.5: API GATEWAY V2 (HTTP API)                    │
+│  AWS API Gateway V2 — Lambda 함수 라우팅 및 인증 중계      │
+└────────────────┬─────────────────────────────────────────┘
+                 │
+┌────────────────▼─────────────────────────────────────────┐
 │  LAYER 3: BUSINESS LOGIC (AWS Lambda)                    │
 │  /healecho-infra/lambda/                                 │
 │  ├── user-*.ts     → 사용자 도메인 함수                    │
@@ -87,7 +95,9 @@
 │  ├── DynamoDB    → NoSQL 데이터 저장                      │
 │  ├── Cognito     → 인증 및 사용자 관리                    │
 │  ├── S3          → 파일(영상, 이미지) 저장                 │
-│  └── CloudFront  → CDN 배포                               │
+│  ├── CloudFront  → CDN 배포                               │
+│  ├── EventBridge → 이벤트 기반 스케줄링/트리거              │
+│  └── AWS Backup  → 데이터 백업 관리                        │
 └──────────────────────────────────────────────────────────┘
 ```
 

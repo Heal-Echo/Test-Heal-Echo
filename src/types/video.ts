@@ -3,7 +3,7 @@
 // 영상 관련 공유 타입 정의
 // =======================================================
 
-// ─── 관리자 API 공통 타입 ───
+// ─── 공용 타입 ───
 
 /** API 목록 응답 (페이지네이션 포함) */
 export type ApiListResponse<T> = {
@@ -15,27 +15,12 @@ export type ApiListResponse<T> = {
 export type Video = {
   id: string;
   title: string;
-  key: string;              // S3 Key (예: "videos/featured/Introduction.mp4")
+  key: string; // S3 Key (예: "videos/featured/Introduction.mp4")
   thumbnailKey?: string;
   description?: string;
   createdAt?: string;
   updatedAt?: string;
   userId?: string;
-};
-
-/** presign-upload 응답 */
-export type UploadInitResponse = {
-  uploadUrl: string;         // 단일 파일 업로드용 presigned URL
-  uploadId: string;          // multipart 업로드 ID
-  key: string;               // S3 Key
-  contentType: string;       // 업로드 파일의 MIME 타입
-};
-
-/** 영상 메타 수정 패치 */
-export type VideoMetaUpdate = {
-  title?: string;
-  description?: string;
-  thumbnailKey?: string | null;
 };
 
 // ─── Player 전용 타입 ───
@@ -45,9 +30,9 @@ export type VideoMetaUpdate = {
  * - 공개 API 응답 기준으로 key/title/thumbnailKey를 중심으로 사용
  */
 export type PlayerVideo = {
-  id: string;              // API의 id (예: "featured", "autobalance-week-1")
+  id: string; // API의 id (예: "featured", "autobalance-week-1")
   title: string;
-  key: string;             // S3 Key (예: "videos/featured/Introduction.mp4")
+  key: string; // S3 Key (예: "videos/featured/Introduction.mp4")
   thumbnailKey?: string;
   description?: string;
   createdAt?: string;
@@ -96,10 +81,7 @@ export function normalizeToPlayerVideo(raw: any): PlayerVideo | null {
  * - id 우선 매칭
  * - videoId 필드가 존재하는 경우도 대비
  */
-export function extractPlayerVideoById(
-  apiResponse: any,
-  targetId: string
-): PlayerVideo | null {
+export function extractPlayerVideoById(apiResponse: any, targetId: string): PlayerVideo | null {
   if (!apiResponse || !targetId) return null;
 
   const items = getItems(apiResponse);

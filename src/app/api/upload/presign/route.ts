@@ -10,10 +10,7 @@ const cookieName = process.env.ADMIN_AUTH_COOKIE || "heal_admin_auth";
 
 export async function POST(req: Request) {
   if (!gatewayBase) {
-    return NextResponse.json(
-      { error: "ADMIN_API_GATEWAY_URL not configured" },
-      { status: 500 }
-    );
+    return NextResponse.json({ error: "ADMIN_API_GATEWAY_URL not configured" }, { status: 500 });
   }
 
   // 🔐 관리자 인증 (기존과 동일)

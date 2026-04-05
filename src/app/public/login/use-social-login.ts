@@ -1,22 +1,10 @@
 import { useState, useEffect, useCallback } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 
-import {
-  getKakaoLoginUrl,
-  saveCognitoKakaoSession,
-} from "@/auth/kakao";
-import {
-  getNaverLoginUrl,
-  saveCognitoNaverSession,
-} from "@/auth/naver";
-import {
-  getGoogleLoginUrl,
-  saveCognitoGoogleSession,
-} from "@/auth/google";
-import {
-  getAppleLoginUrl,
-  saveCognitoAppleSession,
-} from "@/auth/apple";
+import { getKakaoLoginUrl, saveCognitoKakaoSession } from "@/auth/kakao";
+import { getNaverLoginUrl, saveCognitoNaverSession } from "@/auth/naver";
+import { getGoogleLoginUrl, saveCognitoGoogleSession } from "@/auth/google";
+import { getAppleLoginUrl, saveCognitoAppleSession } from "@/auth/apple";
 
 import { setRaw } from "@/lib/storage";
 import { AUTH_API } from "@/config/constants";
@@ -69,11 +57,20 @@ export function useSocialLogin({
         const { idToken, accessToken }: TokenExchangeResponse = await res.json();
 
         switch (authProvider) {
-          case "kakao": saveCognitoKakaoSession(idToken, accessToken); break;
-          case "naver": saveCognitoNaverSession(idToken, accessToken); break;
-          case "google": saveCognitoGoogleSession(idToken, accessToken); break;
-          case "apple": saveCognitoAppleSession(idToken, accessToken); break;
-          default: throw new Error(`알 수 없는 로그인 제공자: ${authProvider}`);
+          case "kakao":
+            saveCognitoKakaoSession(idToken, accessToken);
+            break;
+          case "naver":
+            saveCognitoNaverSession(idToken, accessToken);
+            break;
+          case "google":
+            saveCognitoGoogleSession(idToken, accessToken);
+            break;
+          case "apple":
+            saveCognitoAppleSession(idToken, accessToken);
+            break;
+          default:
+            throw new Error(`알 수 없는 로그인 제공자: ${authProvider}`);
         }
 
         recordLogin(idToken);
@@ -102,10 +99,13 @@ export function useSocialLogin({
   }
 
   function saveSocialConsent() {
-    setRaw("pending_consent", JSON.stringify({
-      termsConsent: true,
-      termsConsentAt: new Date().toISOString(),
-    }));
+    setRaw(
+      "pending_consent",
+      JSON.stringify({
+        termsConsent: true,
+        termsConsentAt: new Date().toISOString(),
+      })
+    );
   }
 
   const socialLoginUrlMap: Record<string, (state: string) => string> = {
@@ -122,22 +122,25 @@ export function useSocialLogin({
     apple: "애플",
   };
 
-  const handleSocialLogin = useCallback(async (provider: string) => {
-    if (!hasTermsConsent) {
-      showConsentToast();
-      return;
-    }
-    try {
-      saveSocialConsent();
-      const state = await fetchOAuthState(provider);
-      const getLoginUrl = socialLoginUrlMap[provider];
-      if (!getLoginUrl) throw new Error(`Unknown provider: ${provider}`);
-      window.location.href = getLoginUrl(state);
-    } catch {
-      const label = socialProviderLabel[provider] || provider;
-      showBanner(`${label} 로그인 준비 중 오류가 발생했습니다.`, "error");
-    }
-  }, [hasTermsConsent, showConsentToast, showBanner]);
+  const handleSocialLogin = useCallback(
+    async (provider: string) => {
+      if (!hasTermsConsent) {
+        showConsentToast();
+        return;
+      }
+      try {
+        saveSocialConsent();
+        const state = await fetchOAuthState(provider);
+        const getLoginUrl = socialLoginUrlMap[provider];
+        if (!getLoginUrl) throw new Error(`Unknown provider: ${provider}`);
+        window.location.href = getLoginUrl(state);
+      } catch {
+        const label = socialProviderLabel[provider] || provider;
+        showBanner(`${label} 로그인 준비 중 오류가 발생했습니다.`, "error");
+      }
+    },
+    [hasTermsConsent, showConsentToast, showBanner]
+  );
 
   const handleKakaoLogin = useCallback(() => handleSocialLogin("kakao"), [handleSocialLogin]);
   const handleNaverLogin = useCallback(() => handleSocialLogin("naver"), [handleSocialLogin]);

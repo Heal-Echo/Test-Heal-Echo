@@ -12,13 +12,14 @@ import {
 import * as storage from "@/lib/storage";
 import { cognitoStorageAdapter } from "@/lib/storage";
 import { AUTH_KEYS } from "./constants";
+import { COGNITO_REGION, COGNITO_USER_POOL_ID, COGNITO_CLIENT_ID } from "@/config/constants";
 
 // =======================================================
-// Cognito Pool 설정 (이미 값이 있다면 그대로 유지)
+// Cognito Pool 설정
 // =======================================================
-const REGION = process.env.NEXT_PUBLIC_COGNITO_REGION || "ap-northeast-2";
-const USER_POOL_ID = process.env.NEXT_PUBLIC_COGNITO_USER_POOL_ID || "";
-const APP_CLIENT_ID = process.env.NEXT_PUBLIC_COGNITO_CLIENT_ID || "";
+const REGION = COGNITO_REGION;
+const USER_POOL_ID = COGNITO_USER_POOL_ID;
+const APP_CLIENT_ID = COGNITO_CLIENT_ID;
 
 // 로그인 성공 후 이동시키고 싶은 경로
 const REDIRECT_AFTER_LOGIN = "/home";
@@ -48,12 +49,7 @@ function isBrowser() {
 // =======================================================
 // 1) 회원가입
 // =======================================================
-export function userSignup(
-  email: string,
-  password: string,
-  givenName: string,
-  familyName: string
-) {
+export function userSignup(email: string, password: string, givenName: string, familyName: string) {
   return new Promise((resolve, reject) => {
     const attrList = [
       new CognitoUserAttribute({ Name: "email", Value: email }),
@@ -162,11 +158,7 @@ export function userForgotPassword(email: string) {
 // =======================================================
 // 5) 비밀번호 재설정 - Step2
 // =======================================================
-export function userConfirmPassword(
-  email: string,
-  code: string,
-  newPassword: string
-) {
+export function userConfirmPassword(email: string, code: string, newPassword: string) {
   const cognitoUser = new CognitoUser({
     Username: email,
     Pool: userPool,
@@ -198,7 +190,10 @@ export function updateUserName(newName: string): Promise<boolean> {
 
     // 세션 복원
     cognitoUser.getSession(
-      (err: Error | null, session: import("amazon-cognito-identity-js").CognitoUserSession | null) => {
+      (
+        err: Error | null,
+        session: import("amazon-cognito-identity-js").CognitoUserSession | null
+      ) => {
         if (err || !session || !session.isValid()) {
           return reject(new Error("세션이 만료되었습니다. 다시 로그인해 주세요."));
         }
@@ -215,7 +210,10 @@ export function updateUserName(newName: string): Promise<boolean> {
           // 토큰 갱신 — 새 ID 토큰에 변경된 이름 반영
           cognitoUser.refreshSession(
             session.getRefreshToken(),
-            (refreshErr: Error | null, newSession: import("amazon-cognito-identity-js").CognitoUserSession | null) => {
+            (
+              refreshErr: Error | null,
+              newSession: import("amazon-cognito-identity-js").CognitoUserSession | null
+            ) => {
               if (refreshErr || !newSession) {
                 // 속성은 업데이트됐지만 토큰 갱신 실패 → 재로그인 필요
                 console.warn("토큰 갱신 실패, 다음 로그인 시 반영됩니다.", refreshErr);
@@ -248,14 +246,15 @@ export function updateUserEmail(newEmail: string): Promise<boolean> {
     }
 
     cognitoUser.getSession(
-      (err: Error | null, session: import("amazon-cognito-identity-js").CognitoUserSession | null) => {
+      (
+        err: Error | null,
+        session: import("amazon-cognito-identity-js").CognitoUserSession | null
+      ) => {
         if (err || !session || !session.isValid()) {
           return reject(new Error("세션이 만료되었습니다. 다시 로그인해 주세요."));
         }
 
-        const attributes = [
-          new CognitoUserAttribute({ Name: "email", Value: newEmail }),
-        ];
+        const attributes = [new CognitoUserAttribute({ Name: "email", Value: newEmail })];
 
         cognitoUser.updateAttributes(attributes, (err, result) => {
           if (err) return reject(err);
@@ -280,7 +279,10 @@ export function verifyUserEmail(code: string): Promise<boolean> {
     }
 
     cognitoUser.getSession(
-      (err: Error | null, session: import("amazon-cognito-identity-js").CognitoUserSession | null) => {
+      (
+        err: Error | null,
+        session: import("amazon-cognito-identity-js").CognitoUserSession | null
+      ) => {
         if (err || !session || !session.isValid()) {
           return reject(new Error("세션이 만료되었습니다. 다시 로그인해 주세요."));
         }
@@ -290,7 +292,10 @@ export function verifyUserEmail(code: string): Promise<boolean> {
             // 토큰 갱신 — 새 이메일이 반영된 ID 토큰 발급
             cognitoUser.refreshSession(
               session.getRefreshToken(),
-              (refreshErr: Error | null, newSession: import("amazon-cognito-identity-js").CognitoUserSession | null) => {
+              (
+                refreshErr: Error | null,
+                newSession: import("amazon-cognito-identity-js").CognitoUserSession | null
+              ) => {
                 if (refreshErr || !newSession) {
                   console.warn("토큰 갱신 실패, 다음 로그인 시 반영됩니다.", refreshErr);
                   resolve(true);
@@ -327,10 +332,7 @@ export function verifyUserEmail(code: string): Promise<boolean> {
 // =======================================================
 // 9) 비밀번호 변경 (현재 비밀번호 검증 후 변경)
 // =======================================================
-export function changeUserPassword(
-  currentPassword: string,
-  newPassword: string
-): Promise<boolean> {
+export function changeUserPassword(currentPassword: string, newPassword: string): Promise<boolean> {
   return new Promise((resolve, reject) => {
     if (!isBrowser()) return reject(new Error("브라우저 환경이 아닙니다."));
 
@@ -340,7 +342,10 @@ export function changeUserPassword(
     }
 
     cognitoUser.getSession(
-      (err: Error | null, session: import("amazon-cognito-identity-js").CognitoUserSession | null) => {
+      (
+        err: Error | null,
+        session: import("amazon-cognito-identity-js").CognitoUserSession | null
+      ) => {
         if (err || !session || !session.isValid()) {
           return reject(new Error("세션이 만료되었습니다. 다시 로그인해 주세요."));
         }
@@ -459,7 +464,7 @@ export async function getValidUserInfo(): Promise<{
   accessToken: string;
   email: string | null;
 } | null> {
-  const { ensureValidToken } = await import("./tokenManager");
+  const { ensureValidToken } = await import("./token-manager");
   const tokens = await ensureValidToken();
   if (!tokens) return null;
 

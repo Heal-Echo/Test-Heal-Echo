@@ -68,10 +68,11 @@ export default function ProfileStepFinal({
 }: ProfileStepFinalProps) {
   return (
     <div className={styles.stepContent}>
-
       {/* 닉네임 카드 */}
       <div className={styles.card}>
-        <label htmlFor="profile-nickname" className={styles.cardLabel}>힐에코에서 어떻게 불러드릴까요?</label>
+        <label htmlFor="profile-nickname" className={styles.cardLabel}>
+          힐에코에서 어떻게 불러드릴까요?
+        </label>
         <div className={styles.inputWithButton}>
           <input
             id="profile-nickname"
@@ -89,13 +90,35 @@ export default function ProfileStepFinal({
             onClick={() => setIsNicknameEditing(!isNicknameEditing)}
             aria-label={isNicknameEditing ? "확인" : "수정"}
           >
-            {isNicknameEditing ? "확인" : (
+            {isNicknameEditing ? (
+              "확인"
+            ) : (
               <svg width="22" height="22" viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg">
-                <polygon points="14,50 50,14 56,20 20,56" fill="#FFD93D" stroke="#E6B800" strokeWidth="1.5" />
-                <polygon points="50,14 56,20 62,8 56,2" fill="#C19A6B" stroke="#A67B5B" strokeWidth="1" />
+                <polygon
+                  points="14,50 50,14 56,20 20,56"
+                  fill="#FFD93D"
+                  stroke="#E6B800"
+                  strokeWidth="1.5"
+                />
+                <polygon
+                  points="50,14 56,20 62,8 56,2"
+                  fill="#C19A6B"
+                  stroke="#A67B5B"
+                  strokeWidth="1"
+                />
                 <polygon points="56,2 62,8 63,5 60,2" fill="#4A4A4A" />
-                <polygon points="14,50 20,56 16,60 10,54" fill="#C0C0C0" stroke="#A0A0A0" strokeWidth="1" />
-                <polygon points="10,54 16,60 12,64 6,58" fill="#FF9FAB" stroke="#E88894" strokeWidth="1" />
+                <polygon
+                  points="14,50 20,56 16,60 10,54"
+                  fill="#C0C0C0"
+                  stroke="#A0A0A0"
+                  strokeWidth="1"
+                />
+                <polygon
+                  points="10,54 16,60 12,64 6,58"
+                  fill="#FF9FAB"
+                  stroke="#E88894"
+                  strokeWidth="1"
+                />
               </svg>
             )}
           </button>
@@ -104,7 +127,9 @@ export default function ProfileStepFinal({
 
       {/* 이메일 카드 */}
       <div className={styles.card}>
-        <label htmlFor="profile-email" className={styles.cardLabel}>주간 웰니스 리포트 수신 이메일</label>
+        <label htmlFor="profile-email" className={styles.cardLabel}>
+          주간 웰니스 리포트 수신 이메일
+        </label>
         <input
           id="profile-email"
           type="email"
@@ -113,7 +138,8 @@ export default function ProfileStepFinal({
           disabled
         />
         <p className={styles.emailHint}>
-          가입 이메일로 주간 ���니스 리포트가 발송됩니다. 변경이 필요하면 계정 설정에서 이메일을 수정해 주세��.
+          가입 이메일로 주간 ���니스 리포트가 발송됩니다. 변경이 필요하면 계정 설정에서 이메일을
+          수정해 주세��.
         </p>
       </div>
 
@@ -130,7 +156,9 @@ export default function ProfileStepFinal({
             >
               <option value="">년</option>
               {yearOptions.map((y) => (
-                <option key={y} value={y}>{y}</option>
+                <option key={y} value={y}>
+                  {y}
+                </option>
               ))}
             </select>
           </div>
@@ -143,7 +171,9 @@ export default function ProfileStepFinal({
             >
               <option value="">월</option>
               {monthOptions.map((m) => (
-                <option key={m} value={m}>{m}</option>
+                <option key={m} value={m}>
+                  {m}
+                </option>
               ))}
             </select>
           </div>
@@ -156,7 +186,9 @@ export default function ProfileStepFinal({
             >
               <option value="">일</option>
               {dayOptions.map((d) => (
-                <option key={d} value={d}>{d}</option>
+                <option key={d} value={d}>
+                  {d}
+                </option>
               ))}
             </select>
           </div>
@@ -170,9 +202,7 @@ export default function ProfileStepFinal({
             <button
               key={opt.value}
               type="button"
-              className={`${styles.chip} ${
-                gender === opt.value ? styles.chipSelected : ""
-              }`}
+              className={`${styles.chip} ${gender === opt.value ? styles.chipSelected : ""}`}
               onClick={() => setGender(opt.value)}
             >
               {opt.label}
@@ -232,11 +262,7 @@ export default function ProfileStepFinal({
       </div>
 
       <div className={styles.buttonRow}>
-        <button
-          type="button"
-          className={styles.backButton}
-          onClick={onBack}
-        >
+        <button type="button" className={styles.backButton} onClick={onBack}>
           이전
         </button>
         <button

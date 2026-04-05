@@ -2,8 +2,8 @@
 
 import React, { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
-import Header from "@/components/Header";
-import BottomTab from "@/components/BottomTab";
+import Header from "@/components/header";
+import BottomTab from "@/components/bottom-tab";
 import styles from "./pricing.module.css";
 import { isUserLoggedIn } from "@/auth/user";
 import { setSession } from "@/lib/storage";
@@ -56,8 +56,8 @@ export default function HomePricingPage() {
         <div className={styles.dailyCost}>
           {plan === "annual" ? (
             <p>
-              <span className={styles.dailyCostAccent}>하루 1,183원</span>,
-              연간 플랜으로 시작하세요.
+              <span className={styles.dailyCostAccent}>하루 1,183원</span>, 연간 플랜으로
+              시작하세요.
             </p>
           ) : (
             <p>언제든 해지 가능</p>
@@ -65,8 +65,7 @@ export default function HomePricingPage() {
         </div>
 
         <div className={styles.guarantee}>
-          <span className={styles.guaranteeCheck}>&#x2714;</span> 7일 무료 체험
-          중 언제든 취소 가능
+          <span className={styles.guaranteeCheck}>&#x2714;</span> 7일 무료 체험 중 언제든 취소 가능
         </div>
 
         <div className={styles.refundSection}>

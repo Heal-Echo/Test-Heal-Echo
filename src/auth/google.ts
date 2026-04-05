@@ -6,15 +6,8 @@
 // ✅ Phase 9: storage 추상화 레이어
 import * as storage from "@/lib/storage";
 import { AUTH_KEYS } from "./constants";
-
-// =======================================================
-// 구글 OAuth 설정
-// =======================================================
-const GOOGLE_CLIENT_ID =
-  process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID || "";
-const GOOGLE_REDIRECT_URI =
-  process.env.NEXT_PUBLIC_GOOGLE_REDIRECT_URI ||
-  "http://localhost:3000/api/public/auth/google/callback";
+import { GOOGLE_CLIENT_ID, GOOGLE_REDIRECT_URI } from "@/config/constants";
+import { GOOGLE_CLIENT_SECRET } from "@/config/server-constants";
 
 // localStorage keys (constants.ts에서 중앙 관리)
 const KEY_GOOGLE_ID = AUTH_KEYS.GOOGLE_ID;
@@ -59,9 +52,8 @@ export async function exchangeGoogleCode(code: string): Promise<{
   token_type: string;
   expires_in: number;
 }> {
-  const clientId =
-    process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID || GOOGLE_CLIENT_ID;
-  const clientSecret = process.env.GOOGLE_CLIENT_SECRET || "";
+  const clientId = GOOGLE_CLIENT_ID;
+  const clientSecret = GOOGLE_CLIENT_SECRET;
 
   const res = await fetch("https://oauth2.googleapis.com/token", {
     method: "POST",
@@ -79,9 +71,7 @@ export async function exchangeGoogleCode(code: string): Promise<{
 
   if (!res.ok) {
     const errorData = await res.json().catch(() => ({}));
-    throw new Error(
-      errorData.error_description || "구글 토큰 교환 실패"
-    );
+    throw new Error(errorData.error_description || "구글 토큰 교환 실패");
   }
 
   const data = await res.json();
@@ -104,9 +94,7 @@ export interface GoogleUserProfile {
   name: string | null;
 }
 
-export async function getGoogleUserProfile(
-  accessToken: string
-): Promise<GoogleUserProfile> {
+export async function getGoogleUserProfile(accessToken: string): Promise<GoogleUserProfile> {
   const res = await fetch("https://www.googleapis.com/oauth2/v2/userinfo", {
     headers: {
       Authorization: `Bearer ${accessToken}`,
@@ -141,15 +129,9 @@ export function saveCognitoGoogleSession(idToken: string, accessToken: string) {
 
   // Cognito JWT에서 사용자 정보 추출
   try {
-    const payload = JSON.parse(
-      atob(idToken.split(".")[1].replace(/-/g, "+").replace(/_/g, "/"))
-    );
+    const payload = JSON.parse(atob(idToken.split(".")[1].replace(/-/g, "+").replace(/_/g, "/")));
 
-    const nickname =
-      payload.nickname ||
-      payload["cognito:username"] ||
-      payload.name ||
-      "";
+    const nickname = payload.nickname || payload["cognito:username"] || payload.name || "";
     const email = payload.email || "";
     const sub = payload.sub || "";
 

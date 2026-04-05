@@ -2,8 +2,8 @@
 
 import React, { Suspense } from "react";
 import { useRouter } from "next/navigation";
-import Header from "@/components/Header";
-import BottomTab from "@/components/BottomTab";
+import Header from "@/components/header";
+import BottomTab from "@/components/bottom-tab";
 import styles from "./player.module.css";
 
 import { makeVideoUrl, makeThumbnailUrl } from "@/config/constants";
@@ -28,7 +28,8 @@ const DENIAL_CONFIG: Record<
   },
   expired: {
     title: "구독이 만료되었습니다",
-    description: "구독 기간이 종료되어 영상을 시청할 수 없습니다.\n다시 구독하면 이어서 시청할 수 있습니다.",
+    description:
+      "구독 기간이 종료되어 영상을 시청할 수 없습니다.\n다시 구독하면 이어서 시청할 수 있습니다.",
     primaryLabel: "다시 구독하기",
     primaryHref: "/public/pricing",
   },
@@ -39,10 +40,19 @@ function DenialOverlay({ reason }: { reason: DenialReason }) {
   const config = DENIAL_CONFIG[reason];
 
   return (
-    <div className={styles.paywallOverlay} role="dialog" aria-labelledby="denial-title" aria-describedby="denial-desc">
+    <div
+      className={styles.paywallOverlay}
+      role="dialog"
+      aria-labelledby="denial-title"
+      aria-describedby="denial-desc"
+    >
       <div className={styles.paywallCard}>
-        <p className={styles.paywallTitle} id="denial-title">{config.title}</p>
-        <p className={styles.paywallDesc} id="denial-desc">{config.description}</p>
+        <p className={styles.paywallTitle} id="denial-title">
+          {config.title}
+        </p>
+        <p className={styles.paywallDesc} id="denial-desc">
+          {config.description}
+        </p>
         <button
           className={styles.paywallPrimaryBtn}
           onClick={() => router.push(config.primaryHref)}
@@ -71,15 +81,15 @@ function BalancePlayerPageContent() {
       <Header />
 
       <main className={styles.main}>
-        {isLoading && <p className={styles.message} role="status">영상 불러오는 중...</p>}
+        {isLoading && (
+          <p className={styles.message} role="status">
+            영상 불러오는 중...
+          </p>
+        )}
         {error && (
           <div role="alert">
             <p className={styles.error}>{error}</p>
-            <button
-              className={styles.retryBtn}
-              onClick={retry}
-              aria-label="다시 시도"
-            >
+            <button className={styles.retryBtn} onClick={retry} aria-label="다시 시도">
               다시 시도
             </button>
           </div>
@@ -89,9 +99,7 @@ function BalancePlayerPageContent() {
 
         {!isLoading && !error && !denialReason && video && (
           <>
-            <h1 className={styles.title}>
-              {video.title ?? `${weekParam}주차 영상`}
-            </h1>
+            <h1 className={styles.title}>{video.title ?? `${weekParam}주차 영상`}</h1>
 
             <div className={styles.videoWrapper}>
               <video
@@ -103,11 +111,7 @@ function BalancePlayerPageContent() {
                 className={styles.video}
                 controlsList="nodownload"
                 aria-label={video.title ?? `${weekParam}주차 영상`}
-                poster={
-                  video.thumbnailKey
-                    ? makeThumbnailUrl(video.thumbnailKey)
-                    : undefined
-                }
+                poster={video.thumbnailKey ? makeThumbnailUrl(video.thumbnailKey) : undefined}
                 onPlay={handlePlay}
               >
                 <source src={makeVideoUrl(video.key)} type="video/mp4" />

@@ -44,10 +44,14 @@ export function useEmailLogin({ setIsLoading, clearBanner }: UseEmailLoginDeps) 
   }, []);
 
   return {
-    loginEmail, setLoginEmail,
-    loginPassword, setLoginPassword,
-    loginError, setLoginError,
-    isLoginPwShown, setIsLoginPwShown,
+    loginEmail,
+    setLoginEmail,
+    loginPassword,
+    setLoginPassword,
+    loginError,
+    setLoginError,
+    isLoginPwShown,
+    setIsLoginPwShown,
     handleLogin,
     reset,
   };

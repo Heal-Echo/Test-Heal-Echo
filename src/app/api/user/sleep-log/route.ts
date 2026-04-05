@@ -34,10 +34,7 @@ export async function POST(req: Request) {
   try {
     const base = resolveUpstreamBase();
     if (!base) {
-      return NextResponse.json(
-        { error: "Upstream base URL is not configured." },
-        { status: 500 }
-      );
+      return NextResponse.json({ error: "Upstream base URL is not configured." }, { status: 500 });
     }
 
     const token = getUserToken(req);
@@ -69,10 +66,7 @@ export async function POST(req: Request) {
     }
   } catch (err) {
     console.error("[User Sleep Log POST] error:", err);
-    return NextResponse.json(
-      { error: "Failed to save sleep log" },
-      { status: 500 }
-    );
+    return NextResponse.json({ error: "Failed to save sleep log" }, { status: 500 });
   }
 }
 
@@ -80,10 +74,7 @@ export async function GET(req: Request) {
   try {
     const base = resolveUpstreamBase();
     if (!base) {
-      return NextResponse.json(
-        { error: "Upstream base URL is not configured." },
-        { status: 500 }
-      );
+      return NextResponse.json({ error: "Upstream base URL is not configured." }, { status: 500 });
     }
 
     const token = getUserToken(req);
@@ -119,9 +110,6 @@ export async function GET(req: Request) {
     }
   } catch (err) {
     console.error("[User Sleep Log GET] error:", err);
-    return NextResponse.json(
-      { error: "Failed to load sleep logs" },
-      { status: 500 }
-    );
+    return NextResponse.json({ error: "Failed to load sleep logs" }, { status: 500 });
   }
 }

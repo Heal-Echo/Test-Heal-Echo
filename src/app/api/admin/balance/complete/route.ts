@@ -16,17 +16,11 @@ export async function POST(req: NextRequest) {
 
     // 필수 값 검증
     if (!program || !weekNumber) {
-      return NextResponse.json(
-        { message: "program and weekNumber are required" },
-        { status: 400 }
-      );
+      return NextResponse.json({ message: "program and weekNumber are required" }, { status: 400 });
     }
 
     if (!API_BASE) {
-      return NextResponse.json(
-        { message: "API base URL not configured" },
-        { status: 500 }
-      );
+      return NextResponse.json({ message: "API base URL not configured" }, { status: 500 });
     }
 
     // 🔥 여기서는 인증을 전혀 검사하지 않음
@@ -46,15 +40,9 @@ export async function POST(req: NextRequest) {
 
     const text = await res.text();
 
-    return NextResponse.json(
-      text ? JSON.parse(text) : {},
-      { status: res.status }
-    );
+    return NextResponse.json(text ? JSON.parse(text) : {}, { status: res.status });
   } catch (err) {
     console.error("[Balance Complete Route] error:", err);
-    return NextResponse.json(
-      { message: "Internal server error" },
-      { status: 500 }
-    );
+    return NextResponse.json({ message: "Internal server error" }, { status: 500 });
   }
 }

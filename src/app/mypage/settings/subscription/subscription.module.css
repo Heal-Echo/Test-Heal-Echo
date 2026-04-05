@@ -160,7 +160,7 @@
 }
 
 .benefitName {
-  color: #00D6F5;
+  color: #00d6f5;
   font-weight: 700;
 }
 
@@ -224,7 +224,7 @@
 }
 
 .motivationName {
-  color: #00D6F5;
+  color: #00d6f5;
   font-weight: 700;
 }
 
@@ -290,8 +290,13 @@
 }
 
 @keyframes ftPulse {
-  0%, 100% { opacity: 1; }
-  50% { opacity: 0.4; }
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.4;
+  }
 }
 
 .ftProgramName {
@@ -610,7 +615,7 @@
 }
 
 .ftActivityName {
-  color: #00D6F5;
+  color: #00d6f5;
   font-weight: 700;
 }
 

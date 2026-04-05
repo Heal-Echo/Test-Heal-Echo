@@ -41,8 +41,7 @@ export function middleware(req: NextRequest) {
 
   // 관리자 토큰(쿠키) + admin 그룹 검증
   const adminToken = req.cookies.get(ADMIN_COOKIE)?.value || null;
-  const isAdminAuthed =
-    adminToken && adminToken.length > 20 && isAdminToken(adminToken);
+  const isAdminAuthed = adminToken && adminToken.length > 20 && isAdminToken(adminToken);
 
   // ▼ 2. 관리자 경로가 아닌 경우: 전부 통과
   if (!isAdminPath) {

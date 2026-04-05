@@ -62,7 +62,7 @@
   right: 50%;
   width: 100%;
   height: 2px;
-  background: #E5E7EB;
+  background: #e5e7eb;
   z-index: 0;
 }
 
@@ -78,8 +78,8 @@
   width: 32px;
   height: 32px;
   border-radius: 50%;
-  background: #E5E7EB;
-  color: #9CA3AF;
+  background: #e5e7eb;
+  color: #9ca3af;
   font-size: 14px;
   font-weight: 700;
   display: flex;
@@ -104,7 +104,7 @@
 
 .progressLabel {
   font-size: 11px;
-  color: #9CA3AF;
+  color: #9ca3af;
   font-weight: 500;
   white-space: nowrap;
   transition: color 0.3s ease;
@@ -176,14 +176,14 @@
 
 .cardDivider {
   height: 1px;
-  background: #F3F4F6;
+  background: #f3f4f6;
   margin: 6px 0;
 }
 
 .optionalTag {
   font-size: 12px;
   font-weight: 400;
-  color: #9CA3AF;
+  color: #9ca3af;
   margin-left: 4px;
 }
 
@@ -194,14 +194,17 @@
   width: 100%;
   height: 48px;
   padding: 0 16px;
-  border: 1.5px solid #E5E7EB;
+  border: 1.5px solid #e5e7eb;
   border-radius: 12px;
   font-size: 15px;
   color: #1a1a1a;
-  background: #FAFAFA;
+  background: #fafafa;
   box-sizing: border-box;
   outline: none;
-  transition: border-color 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
+  transition:
+    border-color 0.2s ease,
+    box-shadow 0.2s ease,
+    background 0.2s ease;
 }
 
 .textInput:focus {
@@ -211,19 +214,19 @@
 }
 
 .textInput::placeholder {
-  color: #B0B0B0;
+  color: #b0b0b0;
 }
 
 .textInputDisabled {
-  background: #F3F4F6;
-  color: #6B7280;
-  border-color: #E5E7EB;
+  background: #f3f4f6;
+  color: #6b7280;
+  border-color: #e5e7eb;
   cursor: default;
 }
 
 .emailHint {
   font-size: 12px;
-  color: #9CA3AF;
+  color: #9ca3af;
   line-height: 1.5;
   margin: -2px 0 0;
   padding-left: 2px;
@@ -247,9 +250,9 @@
   width: 48px;
   height: 48px;
   padding: 0;
-  border: 1.5px solid #E5E7EB;
+  border: 1.5px solid #e5e7eb;
   border-radius: 12px;
-  background: #FAFAFA;
+  background: #fafafa;
   font-size: 14px;
   font-weight: 600;
   color: #6366f1;
@@ -263,8 +266,8 @@
 
 @media (hover: hover) {
   .editButton:hover {
-    background: #FFF8E1;
-    border-color: #E6B800;
+    background: #fff8e1;
+    border-color: #e6b800;
   }
 }
 
@@ -313,7 +316,7 @@
 
 .checkboxText {
   font-size: 13px;
-  color: #6B7280;
+  color: #6b7280;
   line-height: 1.5;
 }
 
@@ -333,11 +336,11 @@
   width: 100%;
   height: 48px;
   padding: 0 12px;
-  border: 1.5px solid #E5E7EB;
+  border: 1.5px solid #e5e7eb;
   border-radius: 12px;
   font-size: 15px;
   color: #1a1a1a;
-  background: #FAFAFA;
+  background: #fafafa;
   box-sizing: border-box;
   outline: none;
   cursor: pointer;
@@ -367,11 +370,11 @@
 
 .chip {
   padding: 10px 20px;
-  border: 1.5px solid #E5E7EB;
+  border: 1.5px solid #e5e7eb;
   border-radius: 24px;
-  background: #FAFAFA;
+  background: #fafafa;
   font-size: 14px;
-  color: #4B5563;
+  color: #4b5563;
   cursor: pointer;
   transition: all 0.2s ease;
 }
@@ -400,7 +403,6 @@
   }
 }
 
-
 /* =========================================================
    습관 카드 — 식습관 / 수면습관 (Step 2, 3)
 ========================================================= */
@@ -413,7 +415,7 @@
 .habitCard {
   width: 100%;
   padding: 18px 20px;
-  border: 2px solid #E5E7EB;
+  border: 2px solid #e5e7eb;
   border-radius: 14px;
   background: #fff;
   cursor: pointer;
@@ -464,11 +466,11 @@
   align-self: center;
   padding: 8px 24px;
   border-radius: 12px;
-  border: 1.5px solid #D4D4D8;
+  border: 1.5px solid #d4d4d8;
   background: #fff;
   font-size: 14px;
   font-weight: 600;
-  color: #9CA3AF;
+  color: #9ca3af;
   cursor: pointer;
   transition: all 0.2s ease;
   margin-top: 8px;
@@ -476,9 +478,9 @@
 
 @media (hover: hover) {
   .backButtonStandalone:hover {
-    border-color: #9CA3AF;
-    color: #6B7280;
-    background: #F9FAFB;
+    border-color: #9ca3af;
+    color: #6b7280;
+    background: #f9fafb;
   }
 }
 
@@ -494,7 +496,7 @@
 .goalCard {
   width: 100%;
   padding: 20px;
-  border: 2px solid #E5E7EB;
+  border: 2px solid #e5e7eb;
   border-radius: 16px;
   background: #fff;
   cursor: pointer;
@@ -547,7 +549,7 @@
 
 .goalSubtitle {
   font-size: 13px;
-  color: #9CA3AF;
+  color: #9ca3af;
   font-weight: 500;
 }
 
@@ -571,7 +573,7 @@
 .experienceCard {
   width: 100%;
   padding: 16px 18px;
-  border: 2px solid #E5E7EB;
+  border: 2px solid #e5e7eb;
   border-radius: 14px;
   background: #fff;
   cursor: pointer;
@@ -619,7 +621,7 @@
 
 .experienceDesc {
   font-size: 13px;
-  color: #9CA3AF;
+  color: #9ca3af;
 }
 
 .experienceCardSelected .experienceLabel {
@@ -654,7 +656,7 @@
   grid-column: 1;
   grid-row: 2;
   font-size: 12px;
-  color: #9CA3AF;
+  color: #9ca3af;
 }
 
 .toggle {
@@ -664,7 +666,7 @@
   height: 26px;
   border-radius: 13px;
   border: none;
-  background: #D4D4D8;
+  background: #d4d4d8;
   cursor: pointer;
   position: relative;
   transition: background 0.25s ease;
@@ -695,7 +697,7 @@
 
 .marketingHint {
   font-size: 12px;
-  color: #9CA3AF;
+  color: #9ca3af;
   margin: -2px 0 0;
   line-height: 1.4;
 }
@@ -730,8 +732,8 @@
 }
 
 .nextButton:disabled {
-  background: #E5E7EB;
-  color: #9CA3AF;
+  background: #e5e7eb;
+  color: #9ca3af;
   cursor: not-allowed;
   box-shadow: none;
 }
@@ -741,20 +743,20 @@
   padding: 0 24px;
   height: 52px;
   border-radius: 14px;
-  border: 1.5px solid #D4D4D8;
+  border: 1.5px solid #d4d4d8;
   background: #fff;
   font-size: 15px;
   font-weight: 600;
-  color: #6B7280;
+  color: #6b7280;
   cursor: pointer;
   transition: all 0.2s ease;
 }
 
 @media (hover: hover) {
   .backButton:hover {
-    border-color: #9CA3AF;
+    border-color: #9ca3af;
     color: #374151;
-    background: #F9FAFB;
+    background: #f9fafb;
   }
 }
 
@@ -771,7 +773,7 @@
   background: none;
   border: none;
   font-size: 14px;
-  color: #9CA3AF;
+  color: #9ca3af;
   cursor: pointer;
   transition: color 0.2s ease;
   margin-top: -2px;
@@ -781,7 +783,7 @@
 
 @media (hover: hover) {
   .skipButton:hover {
-    color: #6B7280;
+    color: #6b7280;
   }
 }
 
@@ -1118,4 +1120,3 @@
     padding: 6px 20px;
   }
 }
-

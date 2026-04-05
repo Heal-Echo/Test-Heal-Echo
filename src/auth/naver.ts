@@ -6,18 +6,16 @@
 // ✅ Phase 9: storage 추상화 레이어
 import * as storage from "@/lib/storage";
 import { AUTH_KEYS } from "./constants";
+import { NAVER_CLIENT_ID, NAVER_REDIRECT_URI } from "@/config/constants";
+import { NAVER_CLIENT_SECRET } from "@/config/server-constants";
 
 // =======================================================
 // 네이버 OAuth 설정
 // =======================================================
-const NAVER_CLIENT_ID =
-  process.env.NEXT_PUBLIC_NAVER_CLIENT_ID || "";
 // Callback path (origin is determined dynamically at runtime)
 const NAVER_CALLBACK_PATH = "/api/public/auth/naver/callback";
 // Server-side fallback (used in exchangeNaverCode, etc.)
-const NAVER_REDIRECT_URI_FALLBACK =
-  process.env.NEXT_PUBLIC_NAVER_REDIRECT_URI ||
-  "http://localhost:3000/api/public/auth/naver/callback";
+const NAVER_REDIRECT_URI_FALLBACK = NAVER_REDIRECT_URI;
 
 /** Current origin-based Naver redirect URI (client) or env fallback (server) */
 function getNaverRedirectUri(): string {
@@ -52,7 +50,7 @@ export function getNaverLoginUrl(state: string): string {
     redirect_uri: getNaverRedirectUri(),
     response_type: "code",
     state,
-    auth_type: "reprompt",    // 매번 네이버 로그인 확인 화면 표시
+    auth_type: "reprompt", // 매번 네이버 로그인 확인 화면 표시
   });
 
   return `https://nid.naver.com/oauth2.0/authorize?${params.toString()}`;
@@ -70,9 +68,8 @@ export async function exchangeNaverCode(
   token_type: string;
   expires_in: number;
 }> {
-  const clientId =
-    process.env.NEXT_PUBLIC_NAVER_CLIENT_ID || NAVER_CLIENT_ID;
-  const clientSecret = process.env.NAVER_CLIENT_SECRET || "";
+  const clientId = NAVER_CLIENT_ID;
+  const clientSecret = NAVER_CLIENT_SECRET;
 
   const res = await fetch("https://nid.naver.com/oauth2.0/token", {
     method: "POST",
@@ -90,9 +87,7 @@ export async function exchangeNaverCode(
 
   if (!res.ok) {
     const errorData = await res.json().catch(() => ({}));
-    throw new Error(
-      errorData.error_description || "네이버 토큰 교환 실패"
-    );
+    throw new Error(errorData.error_description || "네이버 토큰 교환 실패");
   }
 
   const data = await res.json();
@@ -116,9 +111,7 @@ export interface NaverUserProfile {
   name: string | null;
 }
 
-export async function getNaverUserProfile(
-  accessToken: string
-): Promise<NaverUserProfile> {
+export async function getNaverUserProfile(accessToken: string): Promise<NaverUserProfile> {
   const res = await fetch("https://openapi.naver.com/v1/nid/me", {
     headers: {
       Authorization: `Bearer ${accessToken}`,
@@ -159,15 +152,9 @@ export function saveCognitoNaverSession(idToken: string, accessToken: string) {
 
   // Cognito JWT에서 사용자 정보 추출
   try {
-    const payload = JSON.parse(
-      atob(idToken.split(".")[1].replace(/-/g, "+").replace(/_/g, "/"))
-    );
+    const payload = JSON.parse(atob(idToken.split(".")[1].replace(/-/g, "+").replace(/_/g, "/")));
 
-    const nickname =
-      payload.nickname ||
-      payload["cognito:username"] ||
-      payload.name ||
-      "";
+    const nickname = payload.nickname || payload["cognito:username"] || payload.name || "";
     const email = payload.email || "";
     const sub = payload.sub || "";
 

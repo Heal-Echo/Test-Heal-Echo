@@ -2,22 +2,23 @@
 
 import React, { useEffect, useState, useRef, Suspense } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
-import Header from "@/components/Header";
-import BottomTab from "@/components/BottomTab";
+import Header from "@/components/header";
+import BottomTab from "@/components/bottom-tab";
 import styles from "./change-payment.module.css";
 import { isUserLoggedIn, getValidUserInfo } from "@/auth/user";
 // ✅ Phase 9: storage 추상화 레이어
 import * as storage from "@/lib/storage";
+import { TOSS_CLIENT_KEY } from "@/config/constants";
 
 // ─────────────────────────────────────────
 // 페이지 상태
 // ─────────────────────────────────────────
 type PageState =
-  | "idle"          // 초기 — 현재 카드 정보 표시 + "새 카드 등록" 버튼
-  | "loading"       // 토스 SDK 로딩 중
-  | "processing"    // 콜백 처리 중 (authKey → issue-key API)
-  | "success"       // 변경 완료
-  | "error";        // 오류
+  | "idle" // 초기 — 현재 카드 정보 표시 + "새 카드 등록" 버튼
+  | "loading" // 토스 SDK 로딩 중
+  | "processing" // 콜백 처리 중 (authKey → issue-key API)
+  | "success" // 변경 완료
+  | "error"; // 오류
 
 function ChangePaymentPageContent() {
   const router = useRouter();
@@ -140,9 +141,7 @@ function ChangePaymentPageContent() {
       }
 
       const email = validInfo.email || "guest";
-      const customerKey = email
-        .replace(/[^a-zA-Z0-9@._-]/g, "")
-        .slice(0, 50);
+      const customerKey = email.replace(/[^a-zA-Z0-9@._-]/g, "").slice(0, 50);
 
       const callbackBase = `${window.location.origin}/mypage/settings/subscription/change-payment`;
       const successParams = new URLSearchParams({
@@ -154,12 +153,8 @@ function ChangePaymentPageContent() {
         programId: "autobalance",
       });
 
-      const { loadTossPayments } = await import(
-        "@tosspayments/tosspayments-sdk"
-      );
-      const tossPayments = await loadTossPayments(
-        process.env.NEXT_PUBLIC_TOSS_CLIENT_KEY || ""
-      );
+      const { loadTossPayments } = await import("@tosspayments/tosspayments-sdk");
+      const tossPayments = await loadTossPayments(TOSS_CLIENT_KEY);
       const payment = tossPayments.payment({ customerKey });
       await payment.requestBillingAuth({
         method: "CARD",
@@ -181,11 +176,7 @@ function ChangePaymentPageContent() {
       <main className={styles.main}>
         {/* 뒤로가기 + 타이틀 */}
         <div className={styles.topBar}>
-          <button
-            className={styles.backBtn}
-            onClick={() => router.back()}
-            aria-label="뒤로가기"
-          >
+          <button className={styles.backBtn} onClick={() => router.back()} aria-label="뒤로가기">
             <svg
               width="22"
               height="22"
@@ -213,9 +204,7 @@ function ChangePaymentPageContent() {
                   {currentCard.cardCompany} **** {currentCard.cardLast4}
                 </span>
               ) : (
-                <span className={styles.currentCardEmpty}>
-                  등록된 카드가 없습니다
-                </span>
+                <span className={styles.currentCardEmpty}>등록된 카드가 없습니다</span>
               )}
             </div>
 
@@ -225,17 +214,11 @@ function ChangePaymentPageContent() {
               다음 결제일부터 새 카드로 결제가 진행됩니다.
             </p>
 
-            <button
-              className={styles.changeBtn}
-              onClick={handleChangeCard}
-            >
+            <button className={styles.changeBtn} onClick={handleChangeCard}>
               새 카드 등록하기
             </button>
 
-            <button
-              className={styles.cancelBtn}
-              onClick={() => router.back()}
-            >
+            <button className={styles.cancelBtn} onClick={() => router.back()}>
               취소
             </button>
           </section>
@@ -264,9 +247,7 @@ function ChangePaymentPageContent() {
           <section className={styles.statusSection}>
             <div className={styles.successIcon}>✓</div>
             <h2 className={styles.statusTitle}>결제 수단이 변경되었습니다</h2>
-            <p className={styles.statusDesc}>
-              다음 결제일부터 새 카드로 결제가 진행됩니다.
-            </p>
+            <p className={styles.statusDesc}>다음 결제일부터 새 카드로 결제가 진행됩니다.</p>
             <p className={styles.redirect}>구독 관리 페이지로 이동합니다...</p>
           </section>
         )}

@@ -30,7 +30,9 @@ export default function WellnessSection({
           onClick={onAutobalanceClick}
           role="button"
           tabIndex={0}
-          onKeyDown={(e) => { if (e.key === "Enter") onAutobalanceClick(); }}
+          onKeyDown={(e) => {
+            if (e.key === "Enter") onAutobalanceClick();
+          }}
         >
           <div className={styles.wellnessImageWrap}>
             <Image
@@ -44,7 +46,8 @@ export default function WellnessSection({
             />
             <div className={styles.wellnessOverlay}>
               <p className={styles.wellnessSubText}>
-                전 세계 82만 명이<br />
+                전 세계 82만 명이
+                <br />
                 아무도 모르게 앓고 있는 불균형
               </p>
               <span className={styles.wellnessAlert}>혹시 나도?</span>
@@ -60,7 +63,9 @@ export default function WellnessSection({
           onClick={onShowComingSoon}
           role="button"
           tabIndex={0}
-          onKeyDown={(e) => { if (e.key === "Enter") onShowComingSoon(); }}
+          onKeyDown={(e) => {
+            if (e.key === "Enter") onShowComingSoon();
+          }}
         >
           <div className={styles.wellnessImageWrap}>
             <Image
@@ -73,14 +78,10 @@ export default function WellnessSection({
               className={styles.wellnessImage}
             />
             <div className={styles.wellnessOverlay}>
-              <p className={styles.wellnessSubText}>
-                당신의 자궁은 안녕한가요?
-              </p>
+              <p className={styles.wellnessSubText}>당신의 자궁은 안녕한가요?</p>
             </div>
           </div>
-          <p className={styles.wellnessText}>
-            {getProgramName("womans-whisper")}
-          </p>
+          <p className={styles.wellnessText}>{getProgramName("womans-whisper")}</p>
         </div>
       </div>
     </section>

@@ -10,9 +10,7 @@ import { NextResponse } from "next/server";
 import { cookies } from "next/headers";
 
 function resolveUpstreamBase(): string | null {
-  const base =
-    process.env.ADMIN_API_GATEWAY_URL ||
-    process.env.NEXT_PUBLIC_ADMIN_API_GATEWAY_URL;
+  const base = process.env.ADMIN_API_GATEWAY_URL || process.env.NEXT_PUBLIC_ADMIN_API_GATEWAY_URL;
 
   if (!base) return null;
   return base.replace(/\/$/, "");
@@ -27,10 +25,7 @@ export async function GET() {
   try {
     const base = resolveUpstreamBase();
     if (!base) {
-      return NextResponse.json(
-        { error: "Upstream base URL is not configured." },
-        { status: 500 }
-      );
+      return NextResponse.json({ error: "Upstream base URL is not configured." }, { status: 500 });
     }
 
     const token = getAdminToken();
@@ -59,9 +54,6 @@ export async function GET() {
     }
   } catch (err) {
     console.error("[Dashboard Stats GET] error:", err);
-    return NextResponse.json(
-      { error: "Failed to load dashboard stats" },
-      { status: 500 }
-    );
+    return NextResponse.json({ error: "Failed to load dashboard stats" }, { status: 500 });
   }
 }

@@ -3,8 +3,8 @@
 import React, { useEffect, useState, useCallback } from "react";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
-import Header from "@/components/Header";
-import BottomTab from "@/components/BottomTab";
+import Header from "@/components/header";
+import BottomTab from "@/components/bottom-tab";
 import styles from "./mypage.module.css";
 
 // 사용자 인증 모듈
@@ -23,7 +23,7 @@ const PRACTICE_MIGRATED_KEY = "practice_records_migrated";
 // ─────────────────────────────────────────
 type PSQIResult = {
   testDate: string; // "YYYY-MM-DD" 또는 ISO string
-  total: number;    // 0~21
+  total: number; // 0~21
   components: Record<string, number>;
   efficiency: number;
 };
@@ -80,9 +80,7 @@ function getSignalIntensity(categories: { percent: number }[]): number {
   const affected = categories.filter((c) => c.percent > 0);
   if (affected.length === 0) return 0;
   const avg = affected.reduce((s, c) => s + c.percent, 0) / affected.length;
-  const spreadBonus = affected.length >= 3
-    ? Math.min(15, (affected.length - 2) * 5)
-    : 0;
+  const spreadBonus = affected.length >= 3 ? Math.min(15, (affected.length - 2) * 5) : 0;
   return Math.min(100, Math.round(avg + spreadBonus));
 }
 
@@ -94,16 +92,46 @@ function getSignalGrade(intensity: number): {
   color: string;
 } {
   if (intensity === 0)
-    return { grade: "S", label: "신호 없음", shortLabel: "균형이 잘 유지되고 있어요", color: "#059669" };
+    return {
+      grade: "S",
+      label: "신호 없음",
+      shortLabel: "균형이 잘 유지되고 있어요",
+      color: "#059669",
+    };
   if (intensity <= 20)
-    return { grade: "A", label: "약한 신호", shortLabel: "가벼운 신호가 감지되고 있어요", color: "#10b981" };
+    return {
+      grade: "A",
+      label: "약한 신호",
+      shortLabel: "가벼운 신호가 감지되고 있어요",
+      color: "#10b981",
+    };
   if (intensity <= 40)
-    return { grade: "B", label: "보통 신호", shortLabel: "몸이 보내는 신호에 귀 기울여 주세요", color: "#f59e0b" };
+    return {
+      grade: "B",
+      label: "보통 신호",
+      shortLabel: "몸이 보내는 신호에 귀 기울여 주세요",
+      color: "#f59e0b",
+    };
   if (intensity <= 60)
-    return { grade: "C", label: "주의 신호", shortLabel: "자율신경이 균형을 잃어가고 있어요", color: "#f97316" };
+    return {
+      grade: "C",
+      label: "주의 신호",
+      shortLabel: "자율신경이 균형을 잃어가고 있어요",
+      color: "#f97316",
+    };
   if (intensity <= 80)
-    return { grade: "D", label: "강한 신호", shortLabel: "적극적인 균형 회복이 필요해요", color: "#ef4444" };
-  return { grade: "F", label: "매우 강한 신호", shortLabel: "지금 바로 시작하는 게 중요해요", color: "#dc2626" };
+    return {
+      grade: "D",
+      label: "강한 신호",
+      shortLabel: "적극적인 균형 회복이 필요해요",
+      color: "#ef4444",
+    };
+  return {
+    grade: "F",
+    label: "매우 강한 신호",
+    shortLabel: "지금 바로 시작하는 게 중요해요",
+    color: "#dc2626",
+  };
 }
 
 // ─────────────────────────────────────────
@@ -127,7 +155,7 @@ function toDateStr(y: number, m: number, d: number) {
 async function migrateLocalStorageToAWS(
   awsSolution: Set<string>,
   awsHabit: Set<string>,
-  awsUnderstanding: Set<string>,
+  awsUnderstanding: Set<string>
 ) {
   // ✅ Phase 9: 기존 non-scoped 플래그를 userId 키로 이전 + storage 레이어로 전환
   storage.migrateKey(PRACTICE_MIGRATED_KEY);
@@ -181,9 +209,7 @@ async function migrateLocalStorageToAWS(
   );
 
   // 안전장치: 모든 요청이 성공(fulfilled + response.ok)한 경우에만 완료 처리
-  const allSucceeded = results.every(
-    (r) => r.status === "fulfilled" && r.value.ok
-  );
+  const allSucceeded = results.every((r) => r.status === "fulfilled" && r.value.ok);
 
   if (allSucceeded) {
     // 마이그레이션 완료 표시 + localStorage 실천 기록 삭제
@@ -320,13 +346,9 @@ export default function MyPage() {
         if (res.ok) {
           const data = await res.json();
           // API 응답이 배열이면 직접 사용, 아니면 items 또는 results 키 확인
-          const items: PSQIResult[] = Array.isArray(data)
-            ? data
-            : data.items || data.results || [];
+          const items: PSQIResult[] = Array.isArray(data) ? data : data.items || data.results || [];
           // testDate 오름차순 정렬 (오래된 것 → 최신)
-          items.sort((a: PSQIResult, b: PSQIResult) =>
-            a.testDate.localeCompare(b.testDate)
-          );
+          items.sort((a: PSQIResult, b: PSQIResult) => a.testDate.localeCompare(b.testDate));
           setPsqiResults(items);
         }
       } catch (err) {
@@ -402,9 +424,7 @@ export default function MyPage() {
   const habitCountThisMonth = Array.from(habitDates).filter((d) =>
     d.startsWith(monthPrefix)
   ).length;
-  const playCountThisMonth = Array.from(playDates).filter((d) =>
-    d.startsWith(monthPrefix)
-  ).length;
+  const playCountThisMonth = Array.from(playDates).filter((d) => d.startsWith(monthPrefix)).length;
 
   // ─────────────────────────────────────────
   // PSQI 트렌드 계산
@@ -439,12 +459,14 @@ export default function MyPage() {
     intensity: getSignalIntensity(r.categories),
   }));
 
-  const latestSC = selfCheckWithIntensity.length > 0
-    ? selfCheckWithIntensity[selfCheckWithIntensity.length - 1]
-    : null;
-  const prevSC = selfCheckWithIntensity.length > 1
-    ? selfCheckWithIntensity[selfCheckWithIntensity.length - 2]
-    : null;
+  const latestSC =
+    selfCheckWithIntensity.length > 0
+      ? selfCheckWithIntensity[selfCheckWithIntensity.length - 1]
+      : null;
+  const prevSC =
+    selfCheckWithIntensity.length > 1
+      ? selfCheckWithIntensity[selfCheckWithIntensity.length - 2]
+      : null;
 
   let scTrendDirection: "improved" | "same" | "worsened" | null = null;
   if (latestSC && prevSC) {
@@ -550,10 +572,7 @@ export default function MyPage() {
               return (
                 <div key={day} className={styles.dayCell}>
                   <div
-                    className={[
-                      styles.dayNumber,
-                      isToday ? styles.dayToday : "",
-                    ]
+                    className={[styles.dayNumber, isToday ? styles.dayToday : ""]
                       .filter(Boolean)
                       .join(" ")}
                   >
@@ -575,21 +594,15 @@ export default function MyPage() {
           <div className={styles.calendarLegend}>
             <div className={styles.legendItem}>
               <span className={styles.legendDotWellness} />
-              <span className={styles.legendText}>
-                웰니스 솔루션 {wellnessCountThisMonth}일
-              </span>
+              <span className={styles.legendText}>웰니스 솔루션 {wellnessCountThisMonth}일</span>
             </div>
             <div className={styles.legendItem}>
               <span className={styles.legendDotHabit} />
-              <span className={styles.legendText}>
-                위클리 해빗 {habitCountThisMonth}일
-              </span>
+              <span className={styles.legendText}>위클리 해빗 {habitCountThisMonth}일</span>
             </div>
             <div className={styles.legendItem}>
               <span className={styles.legendDotPlay} />
-              <span className={styles.legendText}>
-                이해의 바다 {playCountThisMonth}일
-              </span>
+              <span className={styles.legendText}>이해의 바다 {playCountThisMonth}일</span>
             </div>
           </div>
         </section>
@@ -608,9 +621,7 @@ export default function MyPage() {
           ) : selfCheckResults.length === 0 ? (
             <div className={styles.scEmpty}>
               <p className={styles.scEmptyIcon}>🔍</p>
-              <p className={styles.scEmptyText}>
-                아직 자율신경 자가 체크 기록이 없습니다.
-              </p>
+              <p className={styles.scEmptyText}>아직 자율신경 자가 체크 기록이 없습니다.</p>
               <p className={styles.scEmptyHint}>
                 웰니스 솔루션에서 자가 체크를 완료하면 여기에 결과가 표시됩니다.
               </p>
@@ -618,92 +629,90 @@ export default function MyPage() {
           ) : (
             <>
               {/* 최신 신호 강도 카드 */}
-              {latestSC && (() => {
-                const gradeInfo = getSignalGrade(latestSC.intensity);
-                return (
-                  <div className={styles.scLatest}>
-                    <div className={styles.scScoreWrap}>
-                      <div
-                        className={styles.scScoreCircle}
-                        style={{ borderColor: gradeInfo.color }}
-                      >
-                        <span
-                          className={styles.scScoreNum}
-                          style={{ color: gradeInfo.color }}
+              {latestSC &&
+                (() => {
+                  const gradeInfo = getSignalGrade(latestSC.intensity);
+                  return (
+                    <div className={styles.scLatest}>
+                      <div className={styles.scScoreWrap}>
+                        <div
+                          className={styles.scScoreCircle}
+                          style={{ borderColor: gradeInfo.color }}
                         >
-                          {latestSC.intensity}
-                        </span>
-                        <span className={styles.scScoreMax}>%</span>
-                      </div>
-                      <div className={styles.scGradeRow}>
-                        <span
-                          className={styles.scGradeBadge}
-                          style={{ background: gradeInfo.color }}
-                        >
-                          {gradeInfo.grade}
-                        </span>
-                        <span
-                          className={styles.scQualityBadge}
-                          style={{ background: gradeInfo.color }}
-                        >
-                          {gradeInfo.label}
-                        </span>
-                      </div>
-                    </div>
-
-                    <div className={styles.scLatestInfo}>
-                      <span className={styles.scLatestDate}>
-                        최근 체크: {formatShortDate(latestSC.testDate)}
-                      </span>
-                      <span className={styles.scShortLabel} style={{ color: gradeInfo.color }}>
-                        {gradeInfo.shortLabel}
-                      </span>
-                      {scTrendDirection && prevSC && (
-                        <div className={styles.scTrend}>
+                          <span className={styles.scScoreNum} style={{ color: gradeInfo.color }}>
+                            {latestSC.intensity}
+                          </span>
+                          <span className={styles.scScoreMax}>%</span>
+                        </div>
+                        <div className={styles.scGradeRow}>
                           <span
-                            className={styles.scTrendArrow}
-                            style={{
-                              color:
-                                scTrendDirection === "improved"
-                                  ? "#10b981"
-                                  : scTrendDirection === "worsened"
-                                  ? "#ef4444"
-                                  : "#9ca3af",
-                            }}
+                            className={styles.scGradeBadge}
+                            style={{ background: gradeInfo.color }}
                           >
-                            {/* 신호 강도: 낮을수록 좋음 → 감소=개선=▲, 증가=악화=▼ */}
-                            {scTrendDirection === "improved"
-                              ? "▲"
-                              : scTrendDirection === "worsened"
-                              ? "▼"
-                              : "─"}
+                            {gradeInfo.grade}
                           </span>
                           <span
-                            className={styles.scTrendText}
-                            style={{
-                              color:
-                                scTrendDirection === "improved"
-                                  ? "#10b981"
-                                  : scTrendDirection === "worsened"
-                                  ? "#ef4444"
-                                  : "#9ca3af",
-                            }}
+                            className={styles.scQualityBadge}
+                            style={{ background: gradeInfo.color }}
                           >
-                            {(() => {
-                              const diff = Math.abs(latestSC.intensity - prevSC.intensity);
-                              return scTrendDirection === "improved"
-                                ? `${diff}%p 개선`
-                                : scTrendDirection === "worsened"
-                                ? `${diff}%p 상승`
-                                : "변화 없음";
-                            })()}
+                            {gradeInfo.label}
                           </span>
                         </div>
-                      )}
+                      </div>
+
+                      <div className={styles.scLatestInfo}>
+                        <span className={styles.scLatestDate}>
+                          최근 체크: {formatShortDate(latestSC.testDate)}
+                        </span>
+                        <span className={styles.scShortLabel} style={{ color: gradeInfo.color }}>
+                          {gradeInfo.shortLabel}
+                        </span>
+                        {scTrendDirection && prevSC && (
+                          <div className={styles.scTrend}>
+                            <span
+                              className={styles.scTrendArrow}
+                              style={{
+                                color:
+                                  scTrendDirection === "improved"
+                                    ? "#10b981"
+                                    : scTrendDirection === "worsened"
+                                      ? "#ef4444"
+                                      : "#9ca3af",
+                              }}
+                            >
+                              {/* 신호 강도: 낮을수록 좋음 → 감소=개선=▲, 증가=악화=▼ */}
+                              {scTrendDirection === "improved"
+                                ? "▲"
+                                : scTrendDirection === "worsened"
+                                  ? "▼"
+                                  : "─"}
+                            </span>
+                            <span
+                              className={styles.scTrendText}
+                              style={{
+                                color:
+                                  scTrendDirection === "improved"
+                                    ? "#10b981"
+                                    : scTrendDirection === "worsened"
+                                      ? "#ef4444"
+                                      : "#9ca3af",
+                              }}
+                            >
+                              {(() => {
+                                const diff = Math.abs(latestSC.intensity - prevSC.intensity);
+                                return scTrendDirection === "improved"
+                                  ? `${diff}%p 개선`
+                                  : scTrendDirection === "worsened"
+                                    ? `${diff}%p 상승`
+                                    : "변화 없음";
+                              })()}
+                            </span>
+                          </div>
+                        )}
+                      </div>
                     </div>
-                  </div>
-                );
-              })()}
+                  );
+                })()}
 
               {/* 트렌드 차트 (2개 이상일 때) */}
               {scChartData.length >= 2 && (
@@ -759,8 +768,7 @@ export default function MyPage() {
                             (scChartData.length === 1
                               ? scInnerW / 2
                               : (i / (scChartData.length - 1)) * scInnerW);
-                          const y =
-                            scChartPadY + (r.intensity / 100) * scInnerH;
+                          const y = scChartPadY + (r.intensity / 100) * scInnerH;
                           return `${x},${y}`;
                         })
                         .join(" ")}
@@ -778,8 +786,7 @@ export default function MyPage() {
                         (scChartData.length === 1
                           ? scInnerW / 2
                           : (i / (scChartData.length - 1)) * scInnerW);
-                      const y =
-                        scChartPadY + (r.intensity / 100) * scInnerH;
+                      const y = scChartPadY + (r.intensity / 100) * scInnerH;
                       const gradeInfo = getSignalGrade(r.intensity);
                       return (
                         <g key={r.testDate}>
@@ -850,9 +857,7 @@ export default function MyPage() {
           ) : psqiResults.length === 0 ? (
             <div className={styles.psqiEmpty}>
               <p className={styles.psqiEmptyIcon}>😴</p>
-              <p className={styles.psqiEmptyText}>
-                아직 수면 품질 검사 기록이 없습니다.
-              </p>
+              <p className={styles.psqiEmptyText}>아직 수면 품질 검사 기록이 없습니다.</p>
               <p className={styles.psqiEmptyHint}>
                 위클리 해빗에서 PSQI 검사를 완료하면 여기에 결과가 표시됩니다.
               </p>
@@ -899,7 +904,10 @@ export default function MyPage() {
                     <span className={styles.psqiLatestDate}>
                       최근 검사: {formatShortDate(latestPSQI.testDate)}
                     </span>
-                    <span className={styles.psqiGapText} style={{ color: getPSQIQualityLabel(latestPSQI.total).color }}>
+                    <span
+                      className={styles.psqiGapText}
+                      style={{ color: getPSQIQualityLabel(latestPSQI.total).color }}
+                    >
                       목표까지 {getGapScore(latestPSQI.total)}점
                     </span>
                     {trendDirection && (
@@ -911,15 +919,15 @@ export default function MyPage() {
                               trendDirection === "improved"
                                 ? "#10b981"
                                 : trendDirection === "worsened"
-                                ? "#ef4444"
-                                : "#9ca3af",
+                                  ? "#ef4444"
+                                  : "#9ca3af",
                           }}
                         >
                           {trendDirection === "improved"
                             ? "▲"
                             : trendDirection === "worsened"
-                            ? "▼"
-                            : "─"}
+                              ? "▼"
+                              : "─"}
                         </span>
                         <span
                           className={styles.psqiTrendText}
@@ -928,17 +936,21 @@ export default function MyPage() {
                               trendDirection === "improved"
                                 ? "#10b981"
                                 : trendDirection === "worsened"
-                                ? "#ef4444"
-                                : "#9ca3af",
+                                  ? "#ef4444"
+                                  : "#9ca3af",
                           }}
                         >
                           {(() => {
-                            const scoreDiff = Math.abs(Math.round((toScore10(latestPSQI!.total) - toScore10(prevPSQI!.total)) * 10) / 10);
+                            const scoreDiff = Math.abs(
+                              Math.round(
+                                (toScore10(latestPSQI!.total) - toScore10(prevPSQI!.total)) * 10
+                              ) / 10
+                            );
                             return trendDirection === "improved"
                               ? `${scoreDiff}점 개선`
                               : trendDirection === "worsened"
-                              ? `${scoreDiff}점 하락`
-                              : "변화 없음";
+                                ? `${scoreDiff}점 하락`
+                                : "변화 없음";
                           })()}
                         </span>
                       </div>
@@ -998,8 +1010,7 @@ export default function MyPage() {
                             (chartData.length === 1
                               ? innerW / 2
                               : (i / (chartData.length - 1)) * innerW);
-                          const y =
-                            chartPadY + (r.total / 21) * innerH;
+                          const y = chartPadY + (r.total / 21) * innerH;
                           return `${x},${y}`;
                         })
                         .join(" ")}
@@ -1017,8 +1028,7 @@ export default function MyPage() {
                         (chartData.length === 1
                           ? innerW / 2
                           : (i / (chartData.length - 1)) * innerW);
-                      const y =
-                        chartPadY + (r.total / 21) * innerH;
+                      const y = chartPadY + (r.total / 21) * innerH;
                       const quality = getPSQIQualityLabel(r.total);
                       return (
                         <g key={r.testDate}>
@@ -1081,9 +1091,7 @@ export default function MyPage() {
             className={styles.wellnessRecordBtn}
             onClick={() => router.push("/mypage/wellness-record")}
           >
-            <span className={styles.wellnessRecordBtnText}>
-              나의 웰니스 기록 보기
-            </span>
+            <span className={styles.wellnessRecordBtnText}>나의 웰니스 기록 보기</span>
             <svg
               width="16"
               height="16"
@@ -1099,7 +1107,6 @@ export default function MyPage() {
             </svg>
           </button>
         </section>
-
       </main>
 
       <div className={styles.tabPadding}></div>

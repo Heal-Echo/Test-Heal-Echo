@@ -31,13 +31,9 @@ import {
 // ─── Cognito 설정 (카카오/네이버와 동일한 User Pool 사용) ───
 const REGION = process.env.NEXT_PUBLIC_COGNITO_REGION || "ap-northeast-2";
 const USER_POOL_ID =
-  process.env.COGNITO_ADMIN_USER_POOL_ID ||
-  process.env.NEXT_PUBLIC_COGNITO_USER_POOL_ID ||
-  "";
+  process.env.COGNITO_ADMIN_USER_POOL_ID || process.env.NEXT_PUBLIC_COGNITO_USER_POOL_ID || "";
 const CLIENT_ID =
-  process.env.COGNITO_ADMIN_CLIENT_ID ||
-  process.env.NEXT_PUBLIC_COGNITO_CLIENT_ID ||
-  "";
+  process.env.COGNITO_ADMIN_CLIENT_ID || process.env.NEXT_PUBLIC_COGNITO_CLIENT_ID || "";
 
 const cognitoClient = new CognitoIdentityProviderClient({ region: REGION });
 
@@ -46,8 +42,11 @@ const SOCIAL_SALT = process.env.SOCIAL_PASSWORD_SALT || "";
 
 function googlePassword(googleId: string): string {
   if (!SOCIAL_SALT) return googlePasswordLegacy(googleId);
-  const hash = crypto.createHmac("sha256", SOCIAL_SALT)
-    .update(`google:${googleId}`).digest("hex").substring(0, 20);
+  const hash = crypto
+    .createHmac("sha256", SOCIAL_SALT)
+    .update(`google:${googleId}`)
+    .digest("hex")
+    .substring(0, 20);
   return `Gg!${hash}_HE`;
 }
 
@@ -84,11 +83,11 @@ async function createCognitoUser(params: {
   await cognitoClient.send(
     new AdminCreateUserCommand({
       UserPoolId: USER_POOL_ID,
-      Username: params.email,           // 실제 구글 이메일 = Username
+      Username: params.email, // 실제 구글 이메일 = Username
       TemporaryPassword: password,
-      MessageAction: "SUPPRESS",        // 이메일 발송 안 함
+      MessageAction: "SUPPRESS", // 이메일 발송 안 함
       UserAttributes: [
-        { Name: "email", Value: params.email },         // Username과 동일
+        { Name: "email", Value: params.email }, // Username과 동일
         { Name: "email_verified", Value: "true" },
         { Name: "nickname", Value: params.nickname || "구글사용자" },
         { Name: "custom:signup_method", Value: "google" },
@@ -197,24 +196,18 @@ export async function GET(request: NextRequest) {
 
   // 사용자가 구글 로그인을 취소한 경우
   if (error) {
-    return NextResponse.redirect(
-      new URL("/public/login?google_error=cancelled", origin)
-    );
+    return NextResponse.redirect(new URL("/public/login?google_error=cancelled", origin));
   }
 
   // 인증 코드가 없는 경우
   if (!code || !state) {
-    return NextResponse.redirect(
-      new URL("/public/login?google_error=no_code", origin)
-    );
+    return NextResponse.redirect(new URL("/public/login?google_error=no_code", origin));
   }
 
   // CSRF 방지: 서버에 저장된 state와 대조 검증
   const stateProvider = verifyOAuthState(state);
   if (stateProvider !== "google") {
-    return NextResponse.redirect(
-      new URL("/public/login?google_error=invalid_state", origin)
-    );
+    return NextResponse.redirect(new URL("/public/login?google_error=invalid_state", origin));
   }
 
   try {
@@ -228,7 +221,9 @@ export async function GET(request: NextRequest) {
 
     // 이메일 필수 확인
     if (!realEmail) {
-      throw new Error("구글 계정에서 이메일을 받지 못했습니다. 구글 로그인 시 이메일 제공에 동의해주세요.");
+      throw new Error(
+        "구글 계정에서 이메일을 받지 못했습니다. 구글 로그인 시 이메일 제공에 동의해주세요."
+      );
     }
 
     // Step 3: Cognito 사용자 확인/생성 + 토큰 발급
@@ -275,11 +270,7 @@ export async function GET(request: NextRequest) {
     // Step 5: 프론트엔드에 Cognito 토큰 전달 (일회용 교환 코드)
     // 쿠키 대신 서버 메모리에 토큰 저장 → 교환 코드를 URL 파라미터로 전달
     // 인앱 브라우저에서도 안전하게 작동
-    const authCode = createAuthCode(
-      cognitoTokens.IdToken,
-      cognitoTokens.AccessToken,
-      "google"
-    );
+    const authCode = createAuthCode(cognitoTokens.IdToken, cognitoTokens.AccessToken, "google");
 
     const loginPageUrl = new URL("/public/login", origin);
     loginPageUrl.searchParams.set("auth_code", authCode);

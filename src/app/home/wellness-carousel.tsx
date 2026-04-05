@@ -39,14 +39,9 @@ export default function WellnessCarousel() {
     const el = carouselRef.current;
     if (!el) return;
     const scrollLeft = el.scrollLeft;
-    const cardWidth = el.firstElementChild
-      ? (el.firstElementChild as HTMLElement).offsetWidth
-      : 1;
+    const cardWidth = el.firstElementChild ? (el.firstElementChild as HTMLElement).offsetWidth : 1;
     const gap = 10;
-    const index = Math.min(
-      Math.round(scrollLeft / (cardWidth + gap)),
-      WELLNESS_SLIDES.length - 1
-    );
+    const index = Math.min(Math.round(scrollLeft / (cardWidth + gap)), WELLNESS_SLIDES.length - 1);
     if (index !== lastSlideRef.current) {
       lastSlideRef.current = index;
       setActiveSlide(index);
@@ -150,9 +145,7 @@ export default function WellnessCarousel() {
         {WELLNESS_SLIDES.map((_, i) => (
           <button
             key={i}
-            className={`${styles.dot} ${
-              activeSlide === i ? styles.dotActive : ""
-            }`}
+            className={`${styles.dot} ${activeSlide === i ? styles.dotActive : ""}`}
             onClick={() => scrollToSlide(i)}
             aria-label={`슬라이드 ${i + 1}`}
           />

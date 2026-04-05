@@ -4,16 +4,16 @@
 import React, { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import styles from "./selfcheckResult.module.css";
-import Header from "@/components/Header";
-import BottomTab from "@/components/BottomTab";
+import Header from "@/components/header";
+import BottomTab from "@/components/bottom-tab";
 import { isUserLoggedIn } from "@/auth/user";
 import {
   getSavedSelfCheckResult,
   fetchAndHydrateSelfCheckResult,
   getSignalIntensity,
   getSignalGrade,
-} from "@/components/self-check/SelfCheckSurvey";
-import type { SelfCheckResult } from "@/components/self-check/SelfCheckSurvey";
+} from "@/components/self-check/self-check-survey";
+import type { SelfCheckResult } from "@/components/self-check/self-check-survey";
 
 export default function SelfCheckResultPage() {
   const router = useRouter();
@@ -110,11 +110,7 @@ export default function SelfCheckResultPage() {
       <div className={styles.main}>
         {/* 뒤로가기 + 타이틀 */}
         <div className={styles.topBar}>
-          <button
-            className={styles.backBtn}
-            onClick={() => router.back()}
-            aria-label="뒤로가기"
-          >
+          <button className={styles.backBtn} onClick={() => router.back()} aria-label="뒤로가기">
             <svg
               width="22"
               height="22"
@@ -139,7 +135,9 @@ export default function SelfCheckResultPage() {
             <span className={styles.scoreCircleNum} style={{ color: gradeInfo.color }}>
               {intensity}
             </span>
-            <span className={styles.scoreCircleUnit} style={{ color: gradeInfo.color }}>%</span>
+            <span className={styles.scoreCircleUnit} style={{ color: gradeInfo.color }}>
+              %
+            </span>
           </div>
           <div className={styles.gradeRow}>
             <span className={styles.gradeBadge} style={{ background: gradeInfo.color }}>
@@ -150,15 +148,15 @@ export default function SelfCheckResultPage() {
             </span>
           </div>
           <p className={styles.motivation}>
-            {intensity === 0
-              ? "최상의 자율신경 균형을 유지하고 있어요!"
-              : (
-                <>
-                  {intensity}점만 좋아지면 최상의 균형이에요.
-                  <br />
-                  하루 15분 요가로 회복할 수 있어요.
-                </>
-              )}
+            {intensity === 0 ? (
+              "최상의 자율신경 균형을 유지하고 있어요!"
+            ) : (
+              <>
+                {intensity}점만 좋아지면 최상의 균형이에요.
+                <br />
+                하루 15분 요가로 회복할 수 있어요.
+              </>
+            )}
           </p>
         </div>
 
@@ -182,38 +180,30 @@ export default function SelfCheckResultPage() {
               </div>
             ))}
           </div>
-          <p className={styles.barNote}>
-            {affectedCount}개 영역에서 불균형 신호가 감지되었어요.
-          </p>
+          <p className={styles.barNote}>{affectedCount}개 영역에서 불균형 신호가 감지되었어요.</p>
         </div>
 
         {/* 당신의 자율신경은 이런 신호를 보내고 있어요 섹션 */}
         <div className={styles.barSection}>
-          <p className={styles.iconIntro}>
-            당신의 자율신경은 이런 신호를 보내고 있어요.
-          </p>
+          <p className={styles.iconIntro}>당신의 자율신경은 이런 신호를 보내고 있어요.</p>
           <div className={styles.iconGrid}>
             {result.categories.map((cat) => {
-              const tier = cat.percent <= 20
-                ? { label: "안정", className: styles.tierStable }
-                : cat.percent <= 50
-                ? { label: "관심 필요", className: styles.tierCaution }
-                : { label: "회복 필요", className: styles.tierRecover };
+              const tier =
+                cat.percent <= 20
+                  ? { label: "안정", className: styles.tierStable }
+                  : cat.percent <= 50
+                    ? { label: "관심 필요", className: styles.tierCaution }
+                    : { label: "회복 필요", className: styles.tierRecover };
               return (
                 <div key={cat.id} className={styles.iconItem}>
                   <span className={styles.iconEmoji}>{cat.icon}</span>
                   <span className={styles.iconName}>{cat.title}</span>
-                  <span className={`${styles.iconStatus} ${tier.className}`}>
-                    {tier.label}
-                  </span>
+                  <span className={`${styles.iconStatus} ${tier.className}`}>{tier.label}</span>
                 </div>
               );
             })}
           </div>
-          <button
-            className={styles.startBtn}
-            onClick={() => router.push("/wellness/solution")}
-          >
+          <button className={styles.startBtn} onClick={() => router.push("/wellness/solution")}>
             하루 15분 요가, 지금 시작하기
           </button>
         </div>
@@ -232,10 +222,7 @@ export default function SelfCheckResultPage() {
 
         {/* 확인 버튼 */}
         <div className={styles.ctaSection}>
-          <button
-            className={styles.closeBtn}
-            onClick={() => router.back()}
-          >
+          <button className={styles.closeBtn} onClick={() => router.back()}>
             확인
           </button>
         </div>

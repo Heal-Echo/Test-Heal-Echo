@@ -60,7 +60,9 @@
   font-weight: 600;
   cursor: pointer;
   min-height: 44px;
-  transition: background 0.15s ease, color 0.15s ease;
+  transition:
+    background 0.15s ease,
+    color 0.15s ease;
 }
 
 @media (hover: hover) and (pointer: fine) {

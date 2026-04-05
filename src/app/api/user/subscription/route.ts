@@ -8,16 +8,13 @@ export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
 
 import { NextResponse } from "next/server";
-import { resolveUpstreamBase, extractToken, validatePutBody } from "@/lib/apiProxy";
+import { resolveUpstreamBase, extractToken, validatePutBody } from "@/lib/api-proxy";
 
 export async function GET(req: Request) {
   try {
     const base = resolveUpstreamBase();
     if (!base) {
-      return NextResponse.json(
-        { error: "Upstream base URL is not configured." },
-        { status: 500 }
-      );
+      return NextResponse.json({ error: "Upstream base URL is not configured." }, { status: 500 });
     }
 
     const token = extractToken(req);
@@ -49,10 +46,7 @@ export async function GET(req: Request) {
     }
   } catch (err) {
     console.error("[User Subscription GET] error:", err);
-    return NextResponse.json(
-      { error: "Failed to load subscription" },
-      { status: 500 }
-    );
+    return NextResponse.json({ error: "Failed to load subscription" }, { status: 500 });
   }
 }
 
@@ -60,10 +54,7 @@ export async function PUT(req: Request) {
   try {
     const base = resolveUpstreamBase();
     if (!base) {
-      return NextResponse.json(
-        { error: "Upstream base URL is not configured." },
-        { status: 500 }
-      );
+      return NextResponse.json({ error: "Upstream base URL is not configured." }, { status: 500 });
     }
 
     const token = extractToken(req);
@@ -97,9 +88,6 @@ export async function PUT(req: Request) {
     }
   } catch (err) {
     console.error("[User Subscription PUT] error:", err);
-    return NextResponse.json(
-      { error: "Failed to save subscription" },
-      { status: 500 }
-    );
+    return NextResponse.json({ error: "Failed to save subscription" }, { status: 500 });
   }
 }

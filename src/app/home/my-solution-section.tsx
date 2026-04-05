@@ -120,11 +120,7 @@ export default function MySolutionSection({
         <div className={styles.mySolutionCard}>
           <span className={styles.mySolutionBadge}>7일 무료 체험</span>
           <p className={styles.mySolutionDesc}>나에게 맞는 맞춤 웰니스를 시작해 보세요</p>
-          <button
-            type="button"
-            className={styles.programCtaButton}
-            onClick={onOpenModal}
-          >
+          <button type="button" className={styles.programCtaButton} onClick={onOpenModal}>
             Heal Echo 무료 체험 시작하기
             <span className={styles.ctaArrow}>→</span>
           </button>

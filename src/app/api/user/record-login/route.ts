@@ -30,10 +30,7 @@ export async function POST(req: Request) {
   try {
     const base = resolveUpstreamBase();
     if (!base) {
-      return NextResponse.json(
-        { error: "Upstream base URL is not configured." },
-        { status: 500 }
-      );
+      return NextResponse.json({ error: "Upstream base URL is not configured." }, { status: 500 });
     }
 
     const token = extractToken(req);
@@ -59,9 +56,6 @@ export async function POST(req: Request) {
     });
   } catch (err: any) {
     console.error("[record-login proxy] error:", err);
-    return NextResponse.json(
-      { error: "Internal server error" },
-      { status: 500 }
-    );
+    return NextResponse.json({ error: "Internal server error" }, { status: 500 });
   }
 }

@@ -1,0 +1,8 @@
+node_modules/
+.next/
+out/
+healecho-infra/
+*.config.js
+*.config.ts
+*.config.mjs
+next-env.d.ts

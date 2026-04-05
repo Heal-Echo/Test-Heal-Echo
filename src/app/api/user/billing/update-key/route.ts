@@ -46,10 +46,7 @@ export async function POST(req: Request) {
 
     const token = extractToken(req);
     if (!token) {
-      return NextResponse.json(
-        { ok: false, error: "Unauthorized" },
-        { status: 401 }
-      );
+      return NextResponse.json({ ok: false, error: "Unauthorized" }, { status: 401 });
     }
 
     const rawBody = await req.text();

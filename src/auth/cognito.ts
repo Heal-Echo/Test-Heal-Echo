@@ -25,9 +25,7 @@ export const isLoggedIn = (): boolean => {
  * 로그인은 반드시 /api/admin/login 라우트를 통해 수행한다.
  */
 export const adminLogin = async (): Promise<never> => {
-  throw new Error(
-    "adminLogin() is removed. Use /api/admin/login API to authenticate."
-  );
+  throw new Error("adminLogin() is removed. Use /api/admin/login API to authenticate.");
 };
 
 /**
