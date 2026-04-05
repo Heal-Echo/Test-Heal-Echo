@@ -1,0 +1,215 @@
+/* ===========================
+   효과 캐러셀 (아코디언 내부)
+   — 카드 크기·슬라이드 동작은 웰니스 3세트와 동일
+=========================== */
+.effectSection {
+  margin-top: 24px;
+}
+
+.effectHeader {
+  text-align: center;
+  margin-bottom: 16px;
+}
+
+.effectHeaderTitle {
+  font-size: 18px;
+  font-weight: 800;
+  color: #1a1a1a;
+  margin: 0 0 4px;
+}
+
+.effectHeaderDesc {
+  font-size: 13px;
+  color: #767676;
+  margin: 0;
+}
+
+/* 트랙: 웰니스 3세트 carouselTrack과 동일 */
+.carousel {
+  display: flex;
+  gap: 10px;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  -webkit-overflow-scrolling: touch;
+  scroll-padding-left: 0;
+  padding-bottom: 4px;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+  cursor: grab;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+.carousel::-webkit-scrollbar {
+  display: none;
+}
+
+/* 카드: 웰니스 3세트 carouselCard와 동일 크기 */
+.card {
+  flex: 0 0 calc((100% - 20px) / 2.35);
+  scroll-snap-align: start;
+  text-decoration: none;
+  color: #1a1a1a;
+  transition: transform 0.2s ease;
+  -webkit-user-drag: none;
+}
+
+.card:active {
+  transform: scale(0.97);
+}
+
+.cardImageWrap {
+  position: relative;
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+  border: 1px solid rgba(0, 0, 0, 0.04);
+}
+
+.cardImage {
+  width: 100%;
+  height: auto;
+  display: block;
+  object-fit: cover;
+  aspect-ratio: 1 / 1;
+  border-radius: 14px;
+  pointer-events: none;
+  -webkit-user-drag: none;
+}
+
+.cardOverlay {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: 12px;
+  background: linear-gradient(to top, rgba(0, 0, 0, 0.6) 0%, transparent 100%);
+}
+
+.cardKpi {
+  display: inline-block;
+  margin: 0 0 4px;
+  padding: 4px 8px;
+  border-radius: 6px;
+  background: #00d6f5;
+  font-size: 12px;
+  font-weight: 800;
+  color: #000;
+}
+
+.cardDesc {
+  margin: 0;
+  font-size: 12px;
+  color: #fff;
+  line-height: 1.4;
+}
+
+.cardLabel {
+  margin: 8px 0 0;
+  font-size: 13px;
+  font-weight: 700;
+  color: #1a1a1a;
+  letter-spacing: -0.01em;
+  text-align: left;
+}
+
+.disclaimer {
+  text-align: center;
+  font-size: 11px;
+  color: #999;
+  margin-top: 10px;
+}
+
+/* Dot indicators: 웰니스 3세트와 동일 */
+.dots {
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+  margin-top: 14px;
+}
+
+.dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  border: none;
+  padding: 18px;
+  background: #d1d1d6;
+  background-clip: content-box;
+  cursor: pointer;
+  transition: all 0.25s ease;
+  box-sizing: content-box;
+}
+
+.dotActive {
+  background: #8a2be2;
+  background-clip: content-box;
+  width: 20px;
+  border-radius: 4px;
+}
+
+/* ===========================
+   반응형 — 웰니스 3세트 브레이크포인트와 동일
+=========================== */
+@media (min-width: 641px) and (max-width: 1024px) {
+  .card {
+    flex: 0 0 calc((100% - 24px) / 2.5);
+  }
+
+  .cardDesc {
+    font-size: 12px;
+  }
+
+  .cardLabel {
+    font-size: 14px;
+  }
+}
+
+@media (min-width: 481px) and (max-width: 640px) {
+  .card {
+    flex: 0 0 calc((100% - 18px) / 2.3);
+  }
+}
+
+@media (max-width: 480px) {
+  .card {
+    flex: 0 0 calc((100% - 16px) / 2.25);
+  }
+
+  .cardDesc {
+    font-size: 11px;
+  }
+
+  .cardLabel {
+    font-size: 12px;
+  }
+}
+
+@media (max-width: 360px) {
+  .card {
+    flex: 0 0 calc((100% - 12px) / 2.1);
+  }
+
+  .cardDesc {
+    font-size: 10px;
+  }
+
+  .cardLabel {
+    font-size: 11px;
+  }
+
+  .dots {
+    gap: 6px;
+    margin-top: 10px;
+  }
+
+  .dot {
+    width: 6px;
+    height: 6px;
+    padding: 14px;
+  }
+
+  .dotActive {
+    width: 16px;
+  }
+}
